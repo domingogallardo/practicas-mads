@@ -1,0 +1,949 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copiar al portapapeles">
+      
+        <meta name="lang:clipboard.copied" content="Copiado al portapapeles">
+      
+        <meta name="lang:search.language" content="es">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No se encontraron documentos">
+      
+        <meta name="lang:search.result.one" content="1 documento encontrado">
+      
+        <meta name="lang:search.result.other" content="# documentos encontrados">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.4">
+    
+    
+      
+        <title>Práctica 4 - Prácticas MADS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="ingigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../../#practica-4-sprint-de-scrum" tabindex="1" class="md-skip">
+        Saltar a contenido
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Prácticas MADS" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Prácticas MADS
+              </span>
+              <span class="md-header-nav__topic">
+                Práctica 4
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Teclee para comenzar búsqueda
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Prácticas MADS" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Prácticas MADS
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Práctica 1
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Práctica 1
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../01-introduccion-play/intro-play-teoria/" title="Introducción a Play para MADS" class="md-nav__link">
+      Introducción a Play para MADS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../01-introduccion-play/comandos-git/" title="Comandos Git" class="md-nav__link">
+      Comandos Git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../01-introduccion-play/introduccion-play/" title="Enunciado práctica 1" class="md-nav__link">
+      Enunciado práctica 1
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../02-pruebas-tdd/integration-tdd/" title="Práctica 2" class="md-nav__link">
+      Práctica 2
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../03-gitflow-despliegue/gitflow-despliegue/" title="Práctica 3" class="md-nav__link">
+      Práctica 3
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Práctica 4
+      </label>
+    
+    <a href="./" title="Práctica 4" class="md-nav__link md-nav__link--active">
+      Práctica 4
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Tabla de contenidos</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-y-resumen-de-la-practica" title="Objetivos y resumen de la práctica" class="md-nav__link">
+    Objetivos y resumen de la práctica
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planificacion-del-sprint" title="Planificación del sprint" class="md-nav__link">
+    Planificación del sprint
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#artefactos-del-sprint" title="Artefactos del sprint" class="md-nav__link">
+    Artefactos del sprint
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablero-trello" title="Tablero Trello" class="md-nav__link">
+    Tablero Trello
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wiki" title="Wiki" class="md-nav__link">
+    Wiki
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tablero" title="Tablero" class="md-nav__link">
+    Tablero
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seleccion-del-backlog" title="Selección del backlog" class="md-nav__link">
+    Selección del backlog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#responsables-de-historia-de-usuario" title="Responsables de historia de usuario" class="md-nav__link">
+    Responsables de historia de usuario
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desarrollo-del-sprint" title="Desarrollo del sprint" class="md-nav__link">
+    Desarrollo del sprint
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablero-kanban" title="Tablero Kanban" class="md-nav__link">
+    Tablero Kanban
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desarrollo-de-los-issues" title="Desarrollo de los issues" class="md-nav__link">
+    Desarrollo de los issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publicacion-de-nueva-version" title="Publicación de nueva versión" class="md-nav__link">
+    Publicación de nueva versión
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentacion-del-desarrollo" title="Documentación del desarrollo" class="md-nav__link">
+    Documentación del desarrollo
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entrega-y-evaluacion" title="Entrega y evaluación" class="md-nav__link">
+    Entrega y evaluación
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Tabla de contenidos</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivos-y-resumen-de-la-practica" title="Objetivos y resumen de la práctica" class="md-nav__link">
+    Objetivos y resumen de la práctica
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planificacion-del-sprint" title="Planificación del sprint" class="md-nav__link">
+    Planificación del sprint
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#artefactos-del-sprint" title="Artefactos del sprint" class="md-nav__link">
+    Artefactos del sprint
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablero-trello" title="Tablero Trello" class="md-nav__link">
+    Tablero Trello
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wiki" title="Wiki" class="md-nav__link">
+    Wiki
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tablero" title="Tablero" class="md-nav__link">
+    Tablero
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seleccion-del-backlog" title="Selección del backlog" class="md-nav__link">
+    Selección del backlog
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#responsables-de-historia-de-usuario" title="Responsables de historia de usuario" class="md-nav__link">
+    Responsables de historia de usuario
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desarrollo-del-sprint" title="Desarrollo del sprint" class="md-nav__link">
+    Desarrollo del sprint
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tablero-kanban" title="Tablero Kanban" class="md-nav__link">
+    Tablero Kanban
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desarrollo-de-los-issues" title="Desarrollo de los issues" class="md-nav__link">
+    Desarrollo de los issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#publicacion-de-nueva-version" title="Publicación de nueva versión" class="md-nav__link">
+    Publicación de nueva versión
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentacion-del-desarrollo" title="Documentación del desarrollo" class="md-nav__link">
+    Documentación del desarrollo
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entrega-y-evaluacion" title="Entrega y evaluación" class="md-nav__link">
+    Entrega y evaluación
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="practica-4-sprint-de-scrum">Práctica 4: Sprint de Scrum<a class="headerlink" href="#practica-4-sprint-de-scrum" title="Permanent link">&para;</a></h1>
+<h2 id="objetivos-y-resumen-de-la-practica">Objetivos y resumen de la práctica<a class="headerlink" href="#objetivos-y-resumen-de-la-practica" title="Permanent link">&para;</a></h2>
+<p>En esta práctica seguiremos trabajando con los mismos equipos y
+proyecto que en la práctica 3.</p>
+<p>Durante las 4 semanas de la práctica el equipo realizará una iteración
+para desarrollar un incremento de la aplicación
+<code>todolist</code>. Usaremos el mismo flujo de trabajo de la práctica 3 para
+desarrollar sobre la rama <code>develop</code>:</p>
+<ul>
+<li>Una página en la Wiki de GitHub para cada historia de usuario. La
+  historia de usuario se puede descomponer en mas de un issue, o
+  seguir como hasta ahora haciendo un issue por historia de usuario.</li>
+<li>Cada issue se resuelve en una rama y se integra en <code>develop</code> con un
+  pull request.</li>
+<li>En el tablero en GitHub se representan el estado de los issues y
+  pull requests</li>
+<li>El repositorio está conectado a Travis que comprueba de forma
+  automática los tests en las integraciones de los pull requests en
+  <code>develop</code> y sube una imagen docker a Docker Hub cuando se realiza la
+  integración.</li>
+<li>En Docker Hub se tienen numerados todos los builds exitosos de
+  <code>develop</code>, y está etiquetada como <code>latest</code> la última versión de la
+  imagen.</li>
+</ul>
+<p>Al final de la práctica se lanzará una nueva versión (<code>1.4.0</code>), usando
+el mismo flujo de trabajo que la práctica anterior.</p>
+<p>Además, aplicaremos algunos elementos de Scrum y prácticas de XP:</p>
+<ul>
+<li>Planificación del sprint</li>
+<li>Reuniones de <em>scrum diario</em></li>
+<li>Revisión del sprint (se hará el último día de clases de la asignatura)</li>
+<li>Retrospectiva del sprint</li>
+<li>Al menos dos sesiones de <em>pair programming</em> en las que participen
+  todos los miembros del equipo.</li>
+</ul>
+<h2 id="planificacion-del-sprint">Planificación del sprint<a class="headerlink" href="#planificacion-del-sprint" title="Permanent link">&para;</a></h2>
+<p>En la reunión de planificación del sprint se seleccionarán las
+historias de usuario a realizar en el sprint y se completarán sus
+condiciones de satisfacción.</p>
+<h3 id="artefactos-del-sprint">Artefactos del sprint<a class="headerlink" href="#artefactos-del-sprint" title="Permanent link">&para;</a></h3>
+<p>El equipo utilizará un tablero Trello, la wiki y el tablero de GitHub
+para documentar el backlog del producto y el backlog del sprint.</p>
+<h4 id="tablero-trello">Tablero Trello<a class="headerlink" href="#tablero-trello" title="Permanent link">&para;</a></h4>
+<p>Cada equipo creará un tablero Trello compartido en el que se anotarán
+en forma de tarjeta las historias de usuario candidatas para realizar en el
+sprint.</p>
+<p>El tablero Trello servirá para trabajar con estas historias de usuario
+en formato de tarjeta, escribirlas rápidamente, estimarlas y ordenarlas.</p>
+<h4 id="wiki">Wiki<a class="headerlink" href="#wiki" title="Permanent link">&para;</a></h4>
+<p>La wiki del proyecto deberá contener los detalles de las historias de
+usuario escogidas para realizar en el sprint.</p>
+<p>Como hasta ahora, se definirá una página de la wiki para cada historia
+de usuario. En la página se escribirá el título de la historia, su
+descripción y sus condiciones de satisfacción.</p>
+<p>También se deberá incluir en cada historia de usuario un borrador del
+aspecto de la interfaz de usuario resultante (<a href="https://help.github.com/articles/adding-images-to-wikis/">cómo añadir imágenes a
+la wiki en
+GitHub</a>). Debe
+ser un borrador hecho a mano y fotografiado o escaneado. </p>
+<p>También se actualizará la página <em>home</em> y el índice lateral para
+incluir las nuevas historias de usuario.</p>
+<h4 id="tablero">Tablero<a class="headerlink" href="#tablero" title="Permanent link">&para;</a></h4>
+<p>La primera columna del tablero será el backlog del sprint en el que se
+añadirán los issues correspondientes a historias de usuario y bugs.</p>
+<p>Podría darse el caso en el que una historia de usuario se divida en
+más de un issue. En ese caso indicaremos en el título del issue y
+en su descripción a qué historia de usuario se corresponde.</p>
+<p>El resto de columnas las utilizaremos como un tablero Kanban. Como
+hasta ahora, los issues/<em>pull requests</em> se irán moviendo por ellas
+según se vayan desarrollando.</p>
+<p>Tendremos las siguientes columnas:</p>
+<ul>
+<li>
+<p><strong>Sprint backlog</strong>: Issues que implementan las historias de usuario
+  (o subtareas de las mismas) y los bugs a terminar en el sprint.</p>
+</li>
+<li>
+<p><strong>In progress</strong>: Historias de usuario y bugs que se están
+  desarrollando.</p>
+<p>Para pasar un issue que corresponde a una historia de
+usuario a esta columna, debe estar terminada su página en la wiki
+y debe tener un responsable.</p>
+</li>
+<li>
+<p><strong>In pull request</strong>: issues que tienen un pull request abierto (se
+  archivará la tarjeta del issue y se dejará sólo la tarjeta del
+  pull request).</p>
+</li>
+<li>
+<p><strong>QA</strong>: Historias de usuario a las que se les está realizando
+  pruebas funcionales y de rendimiento. </p>
+<p>Cuando todos los pull requests (correspondientes a issues y
+bugs) de una historia de usuario se han integrado, se anota en la
+página de la wiki el enlace al build en DockerHub y se prueba la
+imagen en un entorno de stage, realizándose pruebas funcionales y
+de rendimiento relacionadas con esa historia de usuario. Si se
+detectan nuevos bugs, se abren nuevos issues en GitHub para
+resolverlos, y la historia queda detenida en QA.</p>
+</li>
+<li>
+<p><strong>Done</strong>: pull requests que se han probado satisfactoriamente.</p>
+</li>
+</ul>
+<h3 id="seleccion-del-backlog">Selección del backlog<a class="headerlink" href="#seleccion-del-backlog" title="Permanent link">&para;</a></h3>
+<p>Al comienzo de la práctica el equipo seleccionará las posibles
+historias de usuario a realizar en la iteración y estimará su
+tamaño. Las anotarán en un tablero Trello compartido con el equipo y
+con el profesor. El profesor validará la selección y la estimación de
+tamaños.</p>
+<p>Podrán escogerse cualquiera de las historias definidas en el taller de
+<em>mapping</em> de historias de usuario realizado en clase, o idear alguna
+nueva.</p>
+<p>El resultado del taller de <em>mapping</em> de historias de usuario está
+recogido en los siguientes tableros:</p>
+<ul>
+<li><a href="https://trello.com/b/KbUefDdN/mapa-1-todolist">https://trello.com/b/KbUefDdN/mapa-1-todolist</a></li>
+<li><a href="https://trello.com/b/OyMQTu3W/mapa-2-todolist">https://trello.com/b/OyMQTu3W/mapa-2-todolist</a></li>
+<li><a href="https://trello.com/b/MdxWoXPZ/mapa-3-todolist">https://trello.com/b/MdxWoXPZ/mapa-3-todolist</a></li>
+<li><a href="https://trello.com/b/ZnK1Kq5R/mapa-4-todolist">https://trello.com/b/ZnK1Kq5R/mapa-4-todolist</a></li>
+<li><a href="https://trello.com/b/kHml8CjF/mapa-5-todolist">https://trello.com/b/kHml8CjF/mapa-5-todolist</a></li>
+</ul>
+<p>Todos los miembros deberán tomar el papel <em>product owner</em> y aportar
+ideas y sugerencias para definir las historias de usuario. </p>
+<p>En el tablero Trello se definirá una única columna <strong>Backlog</strong> en la
+que se incluirán las historias. Cada historia se analizará,
+especificando claramente su descripción y su alcance. Para la
+descripción se recomienda usar el formato que vimos en clase:</p>
+<ul>
+<li>Como <em>ROL</em> quiero <em>ACCIÓN</em> para <em>RESULTADO</em> u <em>OBJETIVO</em>.</li>
+</ul>
+<p>También se enumerarán brevemente una serie de condiciones de
+satisfacción (COS) que deben cumplirse para dar la historia como
+terminada. Estas condiciones de satisfacción son esenciales a la hora
+de determinar el alcance de la historia.</p>
+<p>Al incluir la historia se realizará un <em>planning pocker</em> para volver a
+consensuar su tamaño (considerad el tamaño previo de la historia como
+una indicación, pero podéis modificarlo). El tamaño será un número del
+1 al 4.</p>
+<p>Se deben incluir en el sprint historias por un tamaño total 4 puntos x
+número de personas del equipo:</p>
+<ul>
+<li>Equipo de 3 personas: 12 puntos</li>
+<li>Equipo de 4 personas: 16 puntos</li>
+</ul>
+<p>El profesor no participará en el <em>planning pocker</em>, pero podrá pedir
+aclaraciones sobre el tamaño de las historias.</p>
+<p>En la tarjeta de Trello se escribirá el título, el tamaño (etiqueta) y
+la descripción de la historia. </p>
+<h3 id="responsables-de-historia-de-usuario">Responsables de historia de usuario<a class="headerlink" href="#responsables-de-historia-de-usuario" title="Permanent link">&para;</a></h3>
+<p>Una vez seleccionadas todas las historias los miembros del equipo
+elegirán responsables para cada historia, se creará el issue (o
+issues) correspondiente a la historia de usuario y se añadirá el
+responsable al issue.</p>
+<p>El responsable de la historia creará su página en la wiki de GitHub,
+detallará allí las condiciones de satisfacción y añadirá el borrador
+de la interfaz de usuario.</p>
+<p>Todos los miembros del equipo deberán realizar un trabajo equitativo,
+y se repartirán las historias de forma que queden también equilibrados
+los tamaños totales de las historias asignadas a cada uno.</p>
+<h2 id="desarrollo-del-sprint">Desarrollo del sprint<a class="headerlink" href="#desarrollo-del-sprint" title="Permanent link">&para;</a></h2>
+<p>Se deberán realizar los siguientes eventos definidos por Scrum y XP,
+tomando nota y redactando un informe con la fecha de la reunión, su
+duración y su desarrollo:</p>
+<ol>
+<li>Scrum diario (al menos simular 2 reuniones: la segunda y tercera
+   semana). En nuestro "tiempo simulado" en las prácticas, una semana
+   es como un día de trabajo completo en una empresa.</li>
+<li>Retrospectiva del sprint.</li>
+<li>2 sesiones de pair programming con turnos de 20 minutos (en cada
+   sesión se deben hacer 4 turnos). Se podrán hacer estas sesiones en
+   clase de prácticas.</li>
+</ol>
+<h3 id="tablero-kanban">Tablero Kanban<a class="headerlink" href="#tablero-kanban" title="Permanent link">&para;</a></h3>
+<p>Debemos modificar el tablero del proyecto para acercarlo a un
+tablero Kanban real.</p>
+<ul>
+<li>
+<p>Límite de <em>Work In Progress</em> (WIP): Estimar un número de límite de
+  WIP para las columnas <code>In progress</code>, <code>In pull request</code> y <code>QA</code>. No se
+  podrá incluir en esas columnas más tarjetas que las definidas en el
+  número límite de WIP (las tarjetas en las columna <code>In progress -
+  Done</code> se suman a las que hay en la columna <code>In progress</code>, y lo mismo
+  con las columnas <code>In pull request - Done</code> y <code>In pull request</code>).</p>
+<p>Estimar el límite WIP para conseguir un flujo de trabajo
+correcto. Si se define un límite WIP demasiado bajo habrá personas
+ociosas, mientras que si se define un límite WIP demasiado alto
+habrá acumulación de tareas sin terminar.</p>
+</li>
+<li>
+<p>Añadimos las columnas de <em>buffer</em> en el tablero de issues GitHub
+  para adaptarlo mejor a Kanban:</p>
+<ul>
+<li><strong>In progress - Done</strong> - Se ha terminado el desarrollo y los
+  tests unitarios y no se puede crear el PR porque la columna de <code>In pull
+  request</code> ha alcanzado su límite WIP.</li>
+<li><strong>In pull request - Done</strong> - Se ha aprobado el pull request, se ha
+  realizado la integración <code>master</code> y Travis da el OK. No se puede
+  pasar a <code>QA</code> porque la columna ha alcanzado su límite WIP.</li>
+</ul>
+</li>
+</ul>
+<h3 id="desarrollo-de-los-issues">Desarrollo de los issues<a class="headerlink" href="#desarrollo-de-los-issues" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Cada miembro del equipo selecciona el issue a desarrollar. Lo normal
+  es que cada miembro desarrolle un único issue de forma concurrente,
+  aunque podría darse el caso de ser más (por ejemplo, si algún issue
+  no puede terminarse por estar bloqueado por otro).</p>
+</li>
+<li>
+<p>Se deben crear ramas para los issues y pull requests con revisión de
+  código para integrar los pull requests en master. Es suficiente con
+  que haya una única aprobación para integrar el pull request.</p>
+</li>
+<li>
+<p>Cada issue debe contener <strong>tests automáticos</strong> que prueben los
+  cambios. También se debe especificar en la wiki de la historia de
+  usuario del issue <strong>los tests manuales que habría que hacer</strong>
+  (asociados a las condiciones de satisfacción).</p>
+</li>
+<li>
+<p>Seguimos usando Travis para la integración continua.</p>
+</li>
+</ul>
+<h3 id="publicacion-de-nueva-version">Publicación de nueva versión<a class="headerlink" href="#publicacion-de-nueva-version" title="Permanent link">&para;</a></h3>
+<p>Al final del desarrollo se deberá lanzar una nueva release (1.4.0) en
+la rama <code>master</code>, y subir a DockerHub la imagen resultante con la
+etiqueta <code>1.4.0</code>.</p>
+<h3 id="documentacion-del-desarrollo">Documentación del desarrollo<a class="headerlink" href="#documentacion-del-desarrollo" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Documentar los dailys, para incluir un informe en el documento.</li>
+<li>Documentar las sesiones de pair programming.</li>
+<li>Documentar la evolución del tablero GitHub y alguna métrica del
+  desarrollo (pull requests por semana, velocidad de la semana,
+  gráfica de burndown, etc.).</li>
+</ul>
+<h2 id="entrega-y-evaluacion">Entrega y evaluación<a class="headerlink" href="#entrega-y-evaluacion" title="Permanent link">&para;</a></h2>
+<p>La práctica tiene una duración de 4 semanas.</p>
+<ul>
+<li>
+<p>Se realizará una <strong>revisión del sprint</strong> de 20 minutos en las
+  <strong>clases de teoría y práctica del 19 de diciembre</strong>. La revisión
+  constará de:</p>
+<ul>
+<li>Presentación con diapositivas en la que se explicará la
+  <strong>metodología seguida</strong> en el sprint y las <strong>nuevas funcionalidades</strong> introducidas.</li>
+<li>Demostración de las nuevas funcionalidades utilizando la última
+  imagen docker subida a Docker Hub.</li>
+</ul>
+</li>
+<li>
+<p>La fecha de entrega de la práctica será el <strong>domingo 23 de
+  diciembre</strong>. En esa fecha se deberá tener disponible:</p>
+<ul>
+<li>Entrega en Moodle la última versión del proyecto subida a
+  GitHub (comprimida, sin el directorio <code>target</code> con los binarios
+  y ejecutables). Deberá contener:<ul>
+<li>Directorio <code>doc</code> en el repositorio del proyecto en el que se
+  incluirá un documento PDF o Markdown con la memoria de la
+  práctica y un PDF con las diapositivas presentadas en la
+  demo. En la memoria de la práctica se incluirá:<ul>
+<li>Sprint Backlog: historias de usuario escogidas para el
+  sprint (copiar la descripción, las condiciones de
+  satisfacción y el borrador de interfaz de usuario tal y
+  como aparecen en la Wiki).</li>
+<li>Funcionalidades implementadas (breve descripción para el
+  usuario y breve descripción técnica).</li>
+<li>Informe sobre la metodología seguida (ejemplos de
+  evolución del tablero, alguna métrica del desarrollo
+  realizado en el sprint, etc.)</li>
+<li>Informes sobre las reuniones de Scrum (planificación del
+  sprint, scrum diario, revisión) y sobre las sesiones de
+  pair programming.</li>
+<li>Resultado de la retrospectiva: qué ha ido bien y qué se
+  podría mejorar.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Versión 1.4.0 de la máquina Docker en Docker Hub (es la máquina
+  que voy a usar para revisar la ejecución de la práctica).</li>
+<li>El repositorio GitHub deberá incluir el tablero de issues/PR
+  completados y la Wiki con las historias de usuario que se debían
+  implementar en el sprint..</li>
+</ul>
+</li>
+</ul>
+<p>La calificación de la práctica tiene un peso de un 15% en la nota
+final de la asignatura.</p>
+<p>Para la evaluación se tendrá en cuenta:</p>
+<ul>
+<li>Desarrollo continuo de los issues</li>
+<li>Corrección del código</li>
+<li>Correcto funcionamiento</li>
+<li>Informe de la práctica</li>
+<li>Si el trabajo de algún miembro del equipo es significativamente de
+  menor calidad y/o cantidad que el del resto, se penalizará su
+  calificación</li>
+</ul>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../03-gitflow-despliegue/gitflow-despliegue/" title="Práctica 3" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Anterior
+                </span>
+                Práctica 3
+              </span>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.583bbe55.js"></script>
+      
+        
+        
+          
+          <script src="../../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+              
+                <script src="../../assets/javascripts/lunr/lunr.es.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>

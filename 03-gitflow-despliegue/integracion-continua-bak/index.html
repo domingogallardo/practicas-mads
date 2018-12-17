@@ -1,0 +1,1193 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copiar al portapapeles">
+      
+        <meta name="lang:clipboard.copied" content="Copiado al portapapeles">
+      
+        <meta name="lang:search.language" content="es">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No se encontraron documentos">
+      
+        <meta name="lang:search.result.one" content="1 documento encontrado">
+      
+        <meta name="lang:search.result.other" content="# documentos encontrados">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.4">
+    
+    
+      
+        <title>Práctica 3: Integración continua y trabajo en equipo - Prácticas MADS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.451f80e5.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#3f51b5">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="ingigo">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../../#practica-3-integracion-continua-y-trabajo-en-equipo" tabindex="1" class="md-skip">
+        Saltar a contenido
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="Prácticas MADS" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Prácticas MADS
+              </span>
+              <span class="md-header-nav__topic">
+                Práctica 3: Integración continua y trabajo en equipo
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Teclee para comenzar búsqueda
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="Prácticas MADS" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Prácticas MADS
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Práctica 1
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Práctica 1
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../01-introduccion-play/intro-play-teoria/" title="Introducción a Play para MADS" class="md-nav__link">
+      Introducción a Play para MADS
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../01-introduccion-play/comandos-git/" title="Comandos Git" class="md-nav__link">
+      Comandos Git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../01-introduccion-play/introduccion-play/" title="Enunciado práctica 1" class="md-nav__link">
+      Enunciado práctica 1
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../02-pruebas-tdd/integration-tdd/" title="Práctica 2" class="md-nav__link">
+      Práctica 2
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../gitflow-despliegue/" title="Práctica 3" class="md-nav__link">
+      Práctica 3
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../04-iteracion-scrum/iteracion-scrum/" title="Práctica 4" class="md-nav__link">
+      Práctica 4
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Tabla de contenidos</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-objetivos-y-resumen-de-la-practica" title="1. Objetivos y resumen de la práctica" class="md-nav__link">
+    1. Objetivos y resumen de la práctica
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-formacion-de-equipos" title="2. Formación de equipos" class="md-nav__link">
+    2. Formación de equipos
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-configuracion-maquina-docker" title="3. Configuración máquina Docker" class="md-nav__link">
+    3. Configuración máquina Docker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-conectar-el-proyecto-mads-todolist-con-travis" title="4. Conectar el proyecto mads-todolist con Travis" class="md-nav__link">
+    4. Conectar el proyecto mads-todolist con Travis
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-como-darse-de-alta-en-travis-y-conectar-el-repositorio" title="4.1. Cómo darse de alta en Travis y conectar el repositorio" class="md-nav__link">
+    4.1. Cómo darse de alta en Travis y conectar el repositorio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-como-configurar-el-build-en-travis" title="4.2. Cómo configurar el build en Travis" class="md-nav__link">
+    4.2. Cómo configurar el build en Travis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-modificacion-del-fichero-travisyml-y-pull-request" title="4.3. Modificación del fichero .travis.yml y pull request" class="md-nav__link">
+    4.3. Modificación del fichero .travis.yml y pull request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-modificacion-del-readme-del-proyecto" title="4.4. Modificación del README del proyecto" class="md-nav__link">
+    4.4. Modificación del README del proyecto
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-nuevo-flujo-de-trabajo-en-github" title="5. Nuevo flujo de trabajo en GitHub" class="md-nav__link">
+    5. Nuevo flujo de trabajo en GitHub
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-comandos-git-para-el-trabajo-en-equipo" title="5.1. Comandos Git para el trabajo en equipo" class="md-nav__link">
+    5.1. Comandos Git para el trabajo en equipo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-desarrollo-de-una-pagina-acerca-de" title="5.2. Desarrollo de una página "Acerca de"" class="md-nav__link">
+    5.2. Desarrollo de una página "Acerca de"
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-configuracion-de-la-rama-production-y-publicacion-de-v10" title="5.3. Configuración de la rama production y publicación de v1.0" class="md-nav__link">
+    5.3. Configuración de la rama production y publicación de v1.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ramas-de-largo-recorrido" title="Ramas de largo recorrido" class="md-nav__link">
+    Ramas de largo recorrido
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ramas-de-feature" title="Ramas de feature" class="md-nav__link">
+    Ramas de feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuracion-paso-a-paso" title="Configuración paso a paso" class="md-nav__link">
+    Configuración paso a paso
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-publicacion-automatica-de-nuevas-versiones" title="5.4. Publicación automática de nuevas versiones" class="md-nav__link">
+    5.4. Publicación automática de nuevas versiones
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-desarrollo-de-caracteristicas-adicionales-en-equipo" title="6. Desarrollo de características adicionales en equipo" class="md-nav__link">
+    6. Desarrollo de características adicionales en equipo
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-funcionalidades-adicionales" title="6.1. Funcionalidades adicionales" class="md-nav__link">
+    6.1. Funcionalidades adicionales
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-publicacion-de-la-version-11" title="6.2. Publicación de la versión 1.1" class="md-nav__link">
+    6.2. Publicación de la versión 1.1
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-entrega-y-evaluacion" title="7. Entrega y evaluación" class="md-nav__link">
+    7. Entrega y evaluación
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="practica-3-integracion-continua-y-trabajo-en-equipo">Práctica 3: Integración continua y trabajo en equipo<a class="headerlink" href="#practica-3-integracion-continua-y-trabajo-en-equipo" title="Permanent link">&para;</a></h1>
+<ul>
+<li><a href="#1-objetivos-y-resumen-de-la-práctica">1. Objetivos y resumen de la práctica</a></li>
+<li><a href="#2-formación-de-equipos">2. Formación de equipos</a></li>
+<li><a href="#3-configuración-máquina-docker">3. Configuración máquina Docker</a></li>
+<li><a href="#4-conectar-el-proyecto-mads-todolist-con-travis">4. Conectar el proyecto mads-todolist con Travis</a><ul>
+<li><a href="#41-cómo-darse-de-alta-en-travis-y-conectar-el-repositorio">4.1. Cómo darse de alta en Travis y conectar el repositorio</a></li>
+<li><a href="#42-cómo-configurar-el-build-en-travis">4.2. Cómo configurar el build en Travis</a></li>
+<li><a href="#43-modificación-del-fichero-travisyml-y-pull-request">4.3. Modificación del fichero .travys.yml y pull request</a></li>
+<li><a href="#44-modificación-del-readme-del-proyecto">4.4. Modificación del README del proyecto</a></li>
+</ul>
+</li>
+<li><a href="#5-nuevo-flujo-de-trabajo-en-github">5. Nuevo flujo de trabajo en GitHub</a><ul>
+<li><a href="#51-comandos-git-para-el-trabajo-en-equipo">5.1. Comandos git para el trabajo en equipo</a></li>
+<li><a href="#52-desarrollo-de-una-página-acerca-de">5.2. Desarrollo de una página Acerca de</a></li>
+<li><a href="#53-configuración-de-la-rama-production-y-publicación-de-v10">5.3. Configuración de la rama production y publicación de v1.0</a></li>
+<li><a href="#54-publicación-automática-de-nuevas-versiones">5.4. Publicación automática de nuevas versiones</a></li>
+</ul>
+</li>
+<li><a href="#6-desarrollo-de-caracter%C3%ADsticas-adicionales-en-equipo">6. Desarrollo de características adicionales en equipo</a><ul>
+<li><a href="#61-funcionalidades-adicionales">6.1. Funcionalidades adicionales</a></li>
+<li><a href="#62-publicación-de-la-versión-11">6.2. Publicación de la versión 1.1</a></li>
+</ul>
+</li>
+<li><a href="#7-entrega-y-evaluación">7. Entrega y evaluación</a></li>
+</ul>
+<h2 id="1-objetivos-y-resumen-de-la-practica">1. Objetivos y resumen de la práctica<a class="headerlink" href="#1-objetivos-y-resumen-de-la-practica" title="Permanent link">&para;</a></h2>
+<p>En esta práctica se pretende conseguir:</p>
+<ol>
+<li>Formar equipos de trabajo y configurar GitHub para el trabajo
+   conjunto.</li>
+<li>Crear una máquina Docker con nuestra aplicación que sea capaz tanto
+   de ejecutar todo tipo de tests (unitarios y de integración) como de
+   poner en marcha la aplicación para las pruebas funcionales.</li>
+<li>
+<p>Conectar el repositorio GitHub con Travis, un servicio de
+   integración continua que cada vez que se suba un cambio a una rama
+   (o se active un pull request) realice las siguientes tareas:</p>
+</li>
+<li>
+<p>Construir la máquina Docker con la aplicación</p>
+</li>
+<li>Lanzar tests unitarios</li>
+<li>Lanzar tests de integración</li>
+<li>
+<p>Si todo funciona correctamente, publicar la nueva versión de la
+     aplicación a DockerHub</p>
+</li>
+<li>
+<p>Adaptar el flujo de trabajo en Git y GitHub al trabajo en equipo.</p>
+</li>
+<li>Desarrollar características adicionales en el proyecto siguiendo el
+   nuevo flujo de trabajo.</li>
+</ol>
+<h2 id="2-formacion-de-equipos">2. Formación de equipos<a class="headerlink" href="#2-formacion-de-equipos" title="Permanent link">&para;</a></h2>
+<p>Debéis formar equipos de <strong>3 personas</strong>. Utilizad el enlace de GitHub
+Classroom que enviaré al foro de Moodle para crear un equipo nuevo o
+escoger un equipo ya existente. El equipo trabajará con un repositorio
+creado por GitHub Classroom con el nombre
+<code>todolistgrupo-2017-NOMBRE-GRUPO</code>. También se creará un equipo en el
+grupo <code>mads-ua</code>.</p>
+<p>Una vez creado el repositorio debéis crear en él un tablero para
+gestionar las tarjetas con los <em>issues</em> y los pull requests. Creadlos
+con las mismas columnas que en las prácticas 1 y 2.</p>
+<p>Escoged el proyecto que vais a usar en estas dos últimas prácticas de
+entre los proyectos de los miembros del equipo. Intentad que se un
+proyecto con código limpio y fácilmente ampliable.</p>
+<p>Subidlo al nuevo repositorio, cambiando la URL del <code>origin</code> del
+repositorio local y haciendo un push:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git remote set-url origin https://github.com/mads-ua/todolistgrupo-2017-NOMBRE-EQUIPO.git
+$ git push -u origin master
+</pre></div>
+</td></tr></table>
+
+<p>Por último, los otros miembros del equipo deberán clonar el
+repositorio para que los tres podáis trabajar con él en local.</p>
+<h2 id="3-configuracion-maquina-docker">3. Configuración máquina Docker<a class="headerlink" href="#3-configuracion-maquina-docker" title="Permanent link">&para;</a></h2>
+<p>El objetivo de este apartado es crear una máquina Docker con vuestra
+aplicación que sea capaz tanto de ejecutar todo tipo de tests
+(unitarios y de integración) como de poner en marcha la aplicación
+para las pruebas funcionales.</p>
+<p>Debéis hacer lo siguiente:</p>
+<ul>
+<li>Crear un nuevo <em>issue</em> denominado <code>Configuración máquina Docker</code>,
+con el objetivo de construir un fichero <code>Dockerfile</code> con el que se
+pueda crear la máquina Docker con nuestra aplicación. Uno de los
+miembros del equipo deberá ser el responsable de su implementación.</li>
+</ul>
+<p>Consultar cómo definir el <code>Dockerfile</code> en los apuntes de la sesión de
+teoría sobre <a href="https://github.com/domingogallardo/apuntes-mads/blob/master/sesiones/08-integracion-entrega-continua/integracion-entrega-continua.md">integración
+continua</a>.</p>
+<ul>
+<li>Crear una rama para resolver el <em>issue</em>, como hacíamos en las
+primeras prácticas. Cuando el <code>Dockerfile</code> esté terminado, hacer un
+commit, un push de la rama y crear el pull request.</li>
+</ul>
+<p>Añadir como revisores a los otros dos miembros del equipo, que
+  deberán probar en su repositorio local que el <code>Dockerfile</code> funciona
+  correctamente. </p>
+<p>Para actualizar el repositorio local con las nuevas ramas que se
+  suban al repositorio remoto:</p>
+<p>```
+  $ git fetch</p>
+<p># Vemos las referencias a las ramas remotas con el nombre origin/RAMA-REMOTA
+  $ git branch -vva</p>
+<p># Creamos la rama local que hace tracking de la rama remota y nos
+  # movemos a ella
+  $ git checkout RAMA-REMOTA
+  ```</p>
+<p>Debe probarse que la máquina docker es capaz de ejecutarse
+  correctamente trabajando con las siguientes configuraciones:</p>
+<ul>
+<li>Ejecución de tests trabajando con base de datos en memoria.</li>
+<li>Ejecución de tests de integración, lanzando los tests con una base
+  de datos MySQL.</li>
+<li>
+<p>Lanzamiento de una ejecución de la aplicación, trabajando con una
+    configuración de stage.</p>
+</li>
+<li>
+<p>Una vez comprobado que la máquina Docker funciona, se aceptará el
+  pull request y se integrará con master.</p>
+</li>
+<li>
+<p>Por último, debéis crear una cuenta en <a href="https://hub.docker.com">Docker
+  Hub</a> y subir a ella la máquina con el nombre
+  <code>DOCKER-ID/mads-todolist-2017</code> y el número de versión 0.2.</p>
+</li>
+</ul>
+<p>Poner en la Wiki del proyecto un enlace a la URL de la máquina
+  subida a Docker Hub, en una página llamada <code>Integración continua</code>.</p>
+<h2 id="4-conectar-el-proyecto-mads-todolist-con-travis">4. Conectar el proyecto <code>mads-todolist</code> con Travis<a class="headerlink" href="#4-conectar-el-proyecto-mads-todolist-con-travis" title="Permanent link">&para;</a></h2>
+<p>Travis es un servicio de integración continua que se integra
+fácilmente con GitHub. Tiene una versión gratuita para proyectos
+abiertos y una versión de pago para proyectos privados
+(<a href="https://travis-ci.com">travis-ci.com</a>). La cuenta educativa de
+GitHub nos da permisos para trabajar en la versión de pago de forma
+gratuita.</p>
+<p>Travis se conecta con GitHub y lanza un proceso de <em>build</em> síncrono
+que descarga, compila y prueba la rama del repositorio en la que se ha
+subido un nuevo commit.</p>
+<p>Una vez hecha la integración con Travis se podrá comprobar en cada
+commit de GitHub si han pasado los tests correctamente:</p>
+<p><img src="imagenes/build-commits.png" width="600px"></p>
+<p>A su vez, en Travis, podrás acceder y consultar los detalles de cada
+build:</p>
+<p><img src="imagenes/build-travis.png" width="600px"></p>
+<p>Comienza abriendo un nuevo <em>issue</em> llamado <code>Integración con Travis</code> en
+el que desarrollarás esta integración.</p>
+<h3 id="41-como-darse-de-alta-en-travis-y-conectar-el-repositorio">4.1. Cómo darse de alta en Travis y conectar el repositorio<a class="headerlink" href="#41-como-darse-de-alta-en-travis-y-conectar-el-repositorio" title="Permanent link">&para;</a></h3>
+<p>Para darte de alta en Travis debes acceder a
+<a href="https://travis-ci.com">travis-ci.com</a> autentificándote con tu cuenta
+de GitHub.</p>
+<p>Debes seguir las instrucciones que aparecerán para conectar el
+repositorio de la práctica 3 con Travis. </p>
+<p><img src="imagenes/travis-settings.png" width="700px"></p>
+<p>Comprueba en los ajustes que el repositorio se ha conectado
+correctamente con Travis:</p>
+<p><img src="imagenes/repository-settings.png" width="700px"></p>
+<h3 id="42-como-configurar-el-build-en-travis">4.2. Cómo configurar el build en Travis<a class="headerlink" href="#42-como-configurar-el-build-en-travis" title="Permanent link">&para;</a></h3>
+<p>El build en Travis se configura con el fichero <code>.travis.yml</code> que debe
+estar en la raíz del repositorio. En este fichero se incluye las
+instrucciones para compilar y ejecutar los tests del proyecto.</p>
+<p>Crea un nuevo <em>issue</em> llamado <code>Integración con Travis</code> y una rama
+nueva en el repositorio local. Añade el siguiente fichero de
+configuración <code>.travis.yml</code> y sube la rama al repo remoto en GitHub.</p>
+<p><strong>Fichero <code>.travis.yml</code></strong>: </p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>sudo: required
+
+language: bash
+
+branches:
+  only:
+  - master
+  - production
+
+services:
+  - docker
+
+before_install:
+   - docker build -t DOCKER-ID/mads-todolist-2017:0.2 .
+
+script:
+   - docker run --rm DOCKER-ID/mads-todolist-2017:0.2 /bin/bash -c &quot;sbt test&quot;
+</pre></div>
+</td></tr></table>
+
+<p>Podéis ver que el fichero de configuración de Travis construye la
+máquina Docker y después la ejecuta, lanzando los tests en memoria. Si
+pasan todos los tests Travis marcará como correcto el build.</p>
+<p>Una vez hecho el push, Travis detectará automáticamente el cambio en
+la rama y realizará el build. Podremos ver en tiempo real la ejecución
+de los tests, en el frontal de Travis y en
+<code>https://travis-ci.com/USUARIO/REPOSITORIO</code>.</p>
+<p>Cuando pasen correctamente los tests podréis ver el tick en el commit
+de GitHub.</p>
+<h3 id="43-modificacion-del-fichero-travisyml-y-pull-request">4.3. Modificación del fichero .travis.yml y pull request<a class="headerlink" href="#43-modificacion-del-fichero-travisyml-y-pull-request" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>Modifica el fichero <code>.travis.yml</code> para incluir como último paso la
+ejecución también de los tests de integración ejecutándose contra una
+máquina docker MySQL.</p>
+</li>
+<li>
+<p>Una vez comprobado que funciona correctamente, crea un pull request en
+GitHub para cerrar el issue. </p>
+</li>
+</ul>
+<p>Travis lanzará una ejecución del build del pull request, en el que
+  mezclará la rama del PR con la rama master. </p>
+<p><img src="imagenes/travis-build-pr.png" width="700px"></p>
+<p>GitHub nos informará también si los tests pasan correctamente y si
+  podemos hacer la integración del pull request sin problemas.</p>
+<p><img src="imagenes/github-travis-pr.png" width="700px"></p>
+<ul>
+<li>Realizad el pull request y actualizad los repositorio locales.</li>
+</ul>
+<h3 id="44-modificacion-del-readme-del-proyecto">4.4. Modificación del README del proyecto<a class="headerlink" href="#44-modificacion-del-readme-del-proyecto" title="Permanent link">&para;</a></h3>
+<p>Por último, subid un commit a <code>master</code> con un cambio en el <code>README.md</code>
+para incluir en él una imagen que muestre el estado del último build
+realizado en Travis. Lo debe hacer un miembro distinto del que ha
+hecho el issue anterior. No hace falta crear un <em>issue</em> para esta
+modificación.</p>
+<p>La imagen final del <code>README.md</code> deberá ser similar a la siguiente:</p>
+<p><img src="imagenes/readme.png" width="500px"></p>
+<p>Puedes consultar cómo embeber esta imagen en la página de
+documentación de Travis
+<a href="https://docs.travis-ci.com/user/status-images/">Embedding Status
+Images</a>. Cuidado con
+indicar correctamente en la URL la rama de la que se va a obtener el
+estado (debe ser <code>master</code>).</p>
+<p>Comprueba que funciona correctamente subiendo un commit a master con
+un fallo en algún test. Y sube después otro commit arreglándolo.</p>
+<h2 id="5-nuevo-flujo-de-trabajo-en-github">5. Nuevo flujo de trabajo en GitHub<a class="headerlink" href="#5-nuevo-flujo-de-trabajo-en-github" title="Permanent link">&para;</a></h2>
+<p>Como ya tenemos equipos de trabajo, debemos adaptar el flujo de
+trabajo tanto en GitHub a más de una persona.</p>
+<p>Cambiaremos lo siguiente:</p>
+<ul>
+<li><strong>Selección del <em>issue</em></strong>: Al pasar un <em>issue</em> de "Seleccionado" a "En
+  marcha" se debe asignar un responsable.</li>
+<li><strong>Nueva rama con el <em>issue</em></strong>: El responsable será el que abra una
+  rama nueva para el desarrollo del ticket y la subirá a
+  GitHub.</li>
+<li><strong>Desarrollo</strong>: Se trabaja en la rama. Cualquier compañero puede
+  unirse al ticket y trabajar junto con el responsable.</li>
+<li><strong>Pull request</strong>: Cuando el ticket se ha terminado, el responsable
+  abre un pull request en GitHub y pone la tarjeta en la columna
+  <code>En PR</code>.</li>
+<li><strong>Revisión de código</strong>: Los miembros del equipo revisan el código en
+  el pull request (consultar documentación en GitHub: <a href="https://help.github.com/articles/reviewing-proposed-changes-in-a-pull-request/">Reviewing
+  proposed changes in a pull
+  request</a>). Al
+  final, todos los miembros del equipo deben dar el OK, añadiendo una
+  reacción.</li>
+<li><strong>Integración del pull request</strong>: Cuando todos dan el OK, el
+  responsable de la tarea integra el pull request en <code>master</code>.</li>
+<li><strong>Actualización de los repositorios locales</strong>: Todos hacen un <code>pull</code>
+  en <code>master</code> para actualizar los cambios del pull request. Y se borra
+  la rama local ya integrada.</li>
+</ul>
+<p>A continuación explicamos con más detalle algunos aspectos del flujo
+de trabajo.</p>
+<h3 id="51-comandos-git-para-el-trabajo-en-equipo">5.1. Comandos Git para el trabajo en equipo<a class="headerlink" href="#51-comandos-git-para-el-trabajo-en-equipo" title="Permanent link">&para;</a></h3>
+<p>Veamos algunos comandos de Git relacionados con el trabajo compartido
+con repositorios remotos.</p>
+<ul>
+<li>
+<p>Subir una rama al repositorio remoto:</p>
+<p><code>$ git checkout -b nueva-rama
+$ git push -u origin nueva-rama</code></p>
+</li>
+<li>
+<p>Descargar una rama del repositorio remoto:</p>
+<p><code>$ git fetch 
+$ git checkout -b nueva-rama origin/nueva-rama</code></p>
+<p>El comando <code>git fetch</code> se descarga todos los cambios pero no los
+mezcla con las ramas locales. Los deja en ramas cacheadas a las
+que les da el nombre del servidor y la rama
+(<code>origin/nueva-rama</code>). </p>
+<p>En el caso del comando anterior, una vez cacheada la rama
+<code>origin/nueva-rama</code> se crea la <code>nueva-rama</code> local con todos sus
+commits.</p>
+</li>
+<li>
+<p>Actualizar una rama con cambios que otros compañeros han subido al
+  repositorio remoto:</p>
+<p><code>$ git checkout nueva-rama
+$ git pull</code></p>
+<p>El comando <code>git pull</code> es equivalente a un <code>git fetch</code> seguido de
+un <code>git merge</code>. Algunos recomiendan no usar <code>git pull</code>, sino hacer
+siempre el merge manual. Por ejemplo:</p>
+<p><code>$ git checkout nueva-rama
+$ git fetch
+$ git merge origin/nueva-rama</code></p>
+</li>
+<li>
+<p>Subir cambios de la rama actual:</p>
+<p><code>(estando en la rama que queremos subir)
+$ git push</code></p>
+<p>El comando <code>git push</code> funcionará correctamente sin más parámetros
+si previamente hemos subido la rama con un <code>git push -u</code>.</p>
+</li>
+<li>
+<p>Comprobar el estado de las ramas locales y remotas:</p>
+<p><code>$ git branch -vv</code></p>
+<p>Este comando no accede directamente al servidor, sino que muestra
+la información de la última vez que se accedió a él. Si queremos
+la información actualizada podemos hacer un <code>git fetch --all</code>
+antes:</p>
+<p><code>$ git fetch --all
+$ git branch -vv</code></p>
+<p>Es importante recordar que <code>git fetch</code> (a diferencia de <code>git
+pull</code>) no modifica los repositorios locales, sino que baja las
+ramas remotas cachés locales.</p>
+</li>
+<li>
+<p>Información de los repositorios remotos:</p>
+<p><code>$ git remote show origin</code></p>
+<p>Proporciona información del repositorio remoto, todas sus ramas,
+del local y de la conexión entre ambos.</p>
+<p><code>git remote -v update</code></p>
+<p>Proporciona información del estado de las ramas remotas y locales
+(si están actualizadas o hay cambios en algunas no bajadas o
+subidas).</p>
+</li>
+<li>
+<p>Borrado de ramas remotas desde el terminar:</p>
+<p><code>$ git push origin --delete nueva-rama
+$ git remote prune origin</code></p>
+</li>
+</ul>
+<h3 id="52-desarrollo-de-una-pagina-acerca-de">5.2. Desarrollo de una página "Acerca de"<a class="headerlink" href="#52-desarrollo-de-una-pagina-acerca-de" title="Permanent link">&para;</a></h3>
+<p>Probar todos los comandos anteriores en una rama en la que se
+implemente la página "Acerca de" en la que se muestre una con los
+miembros del equipo y el número de versión de la aplicación
+(0.3-SNAPSHOT).</p>
+<p>Crear un <em>issue</em> en el que participen todos los miembros del
+equipo. Crear una rama en la que desarrollar los cambios. Cada miembro
+del equipo deberá realizar un commit en el que se añade su nombre a la lista.</p>
+<p>Crear el pull request en GitHub, revisar el código y aceptarlo.</p>
+<h3 id="53-configuracion-de-la-rama-production-y-publicacion-de-v10">5.3. Configuración de la rama production y publicación de v1.0<a class="headerlink" href="#53-configuracion-de-la-rama-production-y-publicacion-de-v10" title="Permanent link">&para;</a></h3>
+<p>El flujo de trabajo Git que vamos a seguir es muy similar al flujo de
+trabajo GitFlow (recordad la <a href="https://github.com/domingogallardo/apuntes-mads/blob/master/sesiones/07-git-workflows/git-workflows.md">clase de
+teoría</a>). Pero
+vamos a introducir alguna variante en la nomenclatura de las ramas.</p>
+<h4 id="ramas-de-largo-recorrido">Ramas de largo recorrido<a class="headerlink" href="#ramas-de-largo-recorrido" title="Permanent link">&para;</a></h4>
+<p>En la versión original de GitFlow se publican las distintas versiones
+del proyecto en la rama <em>long-lived</em> <code>master</code> y se hace el desarrollo en
+la rama <code>develop</code>. Nosotros vamos a adoptar esta idea, pero cambiando
+el nombre de las ramas. La rama de desarrollo será la rama
+<strong><code>master</code></strong> en la que hemos trabajado desde el principio, y la rama
+con las versiones lanzadas la llamaremos <strong><code>production</code></strong>.</p>
+<h4 id="ramas-de-feature">Ramas de feature<a class="headerlink" href="#ramas-de-feature" title="Permanent link">&para;</a></h4>
+<p>Desde el comienzo de trabajo con Git en las prácticas 1 y 2 estamos
+haciendo un desarrollo basado en ramas de corto recorrido,
+equivalentes a las ramas de <em>features</em> de GitFlow. </p>
+<p>La diferencia es que en GitFlow estas ramas se integran con la rama de
+desarrollo manualmente haciendo <code>merge</code>, mientras que nosotros las
+integramos haciendo un pull request.</p>
+<h4 id="configuracion-paso-a-paso">Configuración paso a paso<a class="headerlink" href="#configuracion-paso-a-paso" title="Permanent link">&para;</a></h4>
+<p>El equipo elegirá un responsable de integración que se encargue de
+crear la rama <strong><code>production</code></strong> y publicar en ella la primera versión
+<strong>v1.0</strong> del proyecto. </p>
+<p>Cread un <em>issue</em> con la tarea <code>Lanzar release v1.0</code> que tendrá como
+responsable esta persona escogida.</p>
+<p>Una vez que se ha integrado en <code>master</code> el pull request con la página
+"Acerca de" que contiene la lista de desarrolladores del proyecto y el
+número de versión "Versión 0.3-SNAPSHOT", el responsable de
+integración deberá publicar la nueva versión siguiendo los pasos de GitFlow:</p>
+<ul>
+<li>Crear la rama <code>production</code> y publicarla en GitHub.</li>
+<li>Crear la rama local <code>release-v1.0</code> a partir de <code>master</code>.</li>
+<li>Realizar en esta rama los cambios específicos de la versión. En
+  nuestro caso:</li>
+<li>Cambiar en la página "Acerca de" "Versión 0.3-SNAPSHOT" por
+    "Versión 1.0"</li>
+<li>Añadir en la página la fecha de publicación de la versión.</li>
+<li>Cambiar la versión en el <code>build.sbt</code> a <code>1.0</code>.</li>
+<li>Publicar la rama <code>release-v1.0</code> en GitHub y hacer un pull request
+  sobre <code>production</code>.</li>
+<li>Mezclar también la rama de release con <code>master</code>.</li>
+<li>Por último, hacer un commit en <code>master</code> cambiando el número  de
+  versión a <code>1.1-SNAPSHOT</code> (en el "Acerca de" y en el <code>build.sbt</code>).</li>
+</ul>
+<p>Una vez hecho esto ya se puede borrar la rama <code>release-v1.0</code> y las
+ramas <code>production</code> y <code>master</code> estarán actualizadas a las nuevas
+versiones.</p>
+<p>La rama <code>production</code> también será integrada por Travis. Debemos
+comprobar que pasan todos los tests.</p>
+<h3 id="54-publicacion-automatica-de-nuevas-versiones">5.4. Publicación automática de nuevas versiones<a class="headerlink" href="#54-publicacion-automatica-de-nuevas-versiones" title="Permanent link">&para;</a></h3>
+<p>Implementad en <code>master</code> un nuevo <em>issue</em> en el que hagáis lo siguiente:</p>
+<ul>
+<li>Modificar el fichero de configuración de Travis para que la
+     versión de la máquina docker sea la definida por el número de
+     build de Travis (en la variable de entorno
+     <code>TRAVIS_BUILD_NUMBER</code>).</li>
+<li>Añadir en la configuración de Travis la publicación de la máquina
+     docker en Docker Hub cada vez que se realice un build en la rama
+     <code>master</code> (consultar en la página de información de Travis <a href="https://docs.travis-ci.com/user/docker/">Using
+     Docker in
+     Builds</a>). Deberéis
+     publicar dos versiones de la máquina: la versión con el último
+     número de build y la versión <code>latest</code>. De esta forma, en Docker
+     Hub estará siempre actualizada la versión <code>latest</code> a última
+     versión compilada en <code>master</code> y también se tendrá un histórico de
+     todas las versiones compilads.</li>
+</ul>
+<h2 id="6-desarrollo-de-caracteristicas-adicionales-en-equipo">6. Desarrollo de características adicionales en equipo<a class="headerlink" href="#6-desarrollo-de-caracteristicas-adicionales-en-equipo" title="Permanent link">&para;</a></h2>
+<p>En esta parte desarrollaréis tres características (historias de
+usuario) adicionales en el proyecto. </p>
+<p>Debéis definir una página en la wiki para cada una de ellas, y crear
+la página principal de la wiki con el título <strong>Versión 1.1</strong> y con dos
+tablas (<em>pendientes</em> y <em>terminadas</em>) que contenga los títulos, enlaces
+y una breve descripción de cada una de las características (como hemos
+hecho en la wiki en las prácticas 1 y 2).</p>
+<p>También igual que en las prácticas 1 y 2, se creará una etiqueta para
+cada una de las historias de usuario y se marcarán con ella los
+<em>issues</em> que las conforman. Una de historia de usuario puede contener
+varios <em>issues</em> o sólo uno.</p>
+<p>También se marcarán los issues/pull requests con el <code>milestone 1.1</code>, que
+será el número de versión definitiva de la aplicación cuando se
+termine esta práctica 3.</p>
+<p>Cada historia de usuario deberá tener un responsable distinto, que
+será se encargará de realizar la formulación de la historia en
+la página wiki, descomponerla en issues y de probar que se cumplen las
+condiciones de satisfacción antes de darla por terminada. Escribid el
+responsable de la historia en su página.</p>
+<p>Aunque lo normal es que los issues en los que se descompone una
+historia tengan el mismo responsable que la historia, también se
+pueden definir otros responsables (por ejemplo, si es un <em>issue</em>
+orientado a crear las vistas y en el equipo hay una persona que domina
+Bootstrap y el diseño de interfaces de usuario).</p>
+<h3 id="61-funcionalidades-adicionales">6.1. Funcionalidades adicionales<a class="headerlink" href="#61-funcionalidades-adicionales" title="Permanent link">&para;</a></h3>
+<p>Proponemos tres historias de usuario pequeñas, que se pueden
+desarrollar todas en una semana. Para las historias 2 y 3 se deben
+realizar tests, como hemos venido haciendo en las prácticas 1
+y 2. Aunque no es obligatorio, puedes desarrollarlas usando TDD.</p>
+<ol>
+<li>
+<p>Arreglo de la interfaz de usuario de tareas y tableros, definiendo
+   una <a href="https://bootstrapdocs.com/v3.3.6/docs/components/#navbar">barra de
+   navegación</a>
+   de Bootstrap con las opciones: <code>TodoList</code> (título de la aplicación), <code>Mis tareas</code>
+   (enlace a la página de tareas), <code>Mis tableros</code> (enlace a la página de
+   tableros) y a la derecha un desplegable con el nombre del usuario y
+   las opciones <code>Perfil</code> (enlace al perfil, si está implementado) y
+   <code>Salir</code> (salir y enlace a login).</p>
+</li>
+<li>
+<p>Añadir los siguientes campos adicionales a la tarea :
+   <code>fechaCreacion</code>. Poner como fecha de creación la fecha y hora en la
+   que se crea la tarea (hacerlo de forma automática, sin pedírselo al
+   usuario, ni que el usuario pueda modificarlo). Y dejar que el
+   usuario introduzca opcionalmente la fecha límite en la página de
+   creación/edición de una tarea.</p>
+</li>
+</ol>
+<p>En la tabla con el listado de tareas no mostrar la fecha de
+   creación (es un atributo interno, que por ahora no mostramos) pero
+   sí la fecha límite.</p>
+<ol>
+<li>Añadir un campo adicional de <code>terminado</code> a las tareas. Añadir una
+   acción en el listado de tareas para terminar una tarea. En el
+   listado de tareas aparecerán solo las tareas que no se hayan
+   terminado. Pon un enlace <code>Terminadas</code> para mostrar las tareas terminadas.</li>
+</ol>
+<p>Si queréis incluir alguna funcionalidad opcional que hayáis
+implementado, podéis hacerlo además de lo anterior. Debéis añadir la
+página correspondiente con la funcionalidad en la wiki.</p>
+<h3 id="62-publicacion-de-la-version-11">6.2. Publicación de la versión 1.1<a class="headerlink" href="#62-publicacion-de-la-version-11" title="Permanent link">&para;</a></h3>
+<p>Una vez terminadas y probadas todas las historias de usuario, se
+deberá crear una rama para la versión 1.1 e integrarla en la rama
+<code>production</code> tal y como se ha hecho con la versión 1.0. </p>
+<p>Realizar en la rama de versión los commits necesarios para el cambio
+de versión (en el fichero <code>build.sbt</code> y en la página <code>Acerca de</code>) y
+para actualizar los ficheros relacionados con el esquema de datos (el
+fichero <code>schema.sql</code> y <code>upgradeXX.sql</code>).</p>
+<p>Igual que se hizo con la versión 1.0, terminar integrando esta rama
+también en <code>master</code> y modificando el número de versión a <code>1.2-SNAPSHOT</code>.</p>
+<h2 id="7-entrega-y-evaluacion">7. Entrega y evaluación<a class="headerlink" href="#7-entrega-y-evaluacion" title="Permanent link">&para;</a></h2>
+<ul>
+<li>La práctica tiene una duración de 2 semanas y debe estar terminada
+  el martes 21 de noviembre.</li>
+<li>La calificación de la práctica tiene un peso de un 7% en la nota
+  final de la asignatura.</li>
+<li>Para realizar la entrega uno de los miembros del equipo debe subir a
+  Moodle un ZIP que contenga todo el proyecto, incluyendo la historia
+  Git. Para ello comprime el directorio local del proyecto <strong>después
+  de haber hecho un <code>clean</code></strong>. Debes dejar también en Moodle la URL
+  del repositorio en GitHub.</li>
+</ul>
+<p>Para la evaluación se tendrá en cuenta:</p>
+<ul>
+<li>Desarrollo continuo (los <em>commits</em> deben realizarse a lo largo de
+  las 2 semanas y no dejar todo para la última semana).</li>
+<li>Correcto desarrollo de la metodología.</li>
+<li>Corrección del código.</li>
+</ul>
+<!--
+
+## 5. Representación de _features_ en Trello
+
+Una _feature_ (funcionalidad) va a agrupar varios tickets. Vamos a
+guardar las _features_ en el mismo tablero, pero usando **etiquetas**
+para poder visualizarlas y filtrarlas fácilmente. También utilizaremos
+una nomenclatura especial para numerarlas.
+
+Cada funcionalidad en desarrollo tendrá una etiqueta específica, que
+pondremos en todos los tickets de esa funcionalidad. De esta forma
+podemos filtrar por esa etiqueta y observar rápidamente todos los
+tickets asociados.
+
+Todas las funcionalidades (en cualquier estado: en espera, desarrollo
+o terminadas) tendrán una etiqueta especial denominada `Feature`
+(color amarillo). Sólo se debe asignar esa etiqueta a las
+funcionalidades, no a los tickets asociadas. De esta forma podremos
+filtrar por esa etiqueta y observar sólo las funcionalidades que hay
+en el tablero.
+
+En cuanto a la **nomenclatura**, precederemos el nombre de la
+funcionalidad con el prefijo "FT-1", "FT-2", ... (de _FeaTure_). Y los
+tickets asociados a cada funcionalidad los numeraremos con dos
+números: primero el correspondiente a la funcionalidad y después un
+número correlativo correspondiente al número de ticket. Por ejemplo:
+"TIC-1.1", "TIC-1.2".
+
+Por ejemplo, podríamos definir la funcionalidad "FT-1 Gestión
+básica de tareas" con la descripción:
+
+
+wzxhzdk:2
+
+
+Y esta funcionalidad podría tener los siguientes tickets: "TIC-1.1
+Entidad tarea", "TIC-1.2 Añadir tarea por usuario", "TIC-1.3 Listar
+tareas de un usuario", ...
+
+Las siguientes imágenes muestran un ejemplo.
+
+Suponemos que se ha definido una funcionalidad llamada "FT-1 CRUD
+Tareas" y que hemos creado 4 tickets: 
+
+- "TIC-1.1 Listar tareas de usuario" (terminado)
+- "TIC-1.2 Añadir tarea a usuario" (en pull request)
+- "TIC-1.3 Borrar tarea de un usuario" (en pull request)
+- "TIC-1.4 Editar tarea de usuario" (en marcha). 
+
+El tablero se vería de la siguiente forma:
+
+<img src="imagenes/tablero-features.png" width="800px">
+
+Las etiquetas creadas son las siguientes:
+
+<img src="imagenes/etiquetas.png" width="250px">
+
+Las etiquetas son muy útiles para filtrar las tarjetas. Por ejemplo,
+podemos definir un filtro para mostrar únicamente la etiqueta "CRUD
+Tareas" (y sus tickets):
+
+<img src="imagenes/filtro-feature-1.png" width="800px">
+
+El filtro es el siguiente:
+
+<img src="imagenes/filtro-feature.png" width="250px">
+
+También podríamos ver sólo las tarjetas de tipo _Feature_:
+
+<img src="imagenes/filtro-features.png" width="700px">
+
+## 6. Desarrollo de 2 features en equipo
+
+Utilizando el flujo de trabajo visto, tenéis que implementar y
+documentar dos funcionalidades nuevas.
+
+Junto con cada _feature_ se debe incluir una documentación técnica y
+de usuario que explica brevemente los cambios introducidos por la
+funcionalidad. En la documentación técnica se debe explicar los
+cambios añadidos en cada una de las capas de la aplicación. Y en la
+documentación de usuario una breve explicación de la funcionalidad con
+alguna imagen explicativa de las pantallas y elementos de interacción
+que intervienen.
+
+### 6.1. Feature 1: Login, registro y tamaño estimado de tareas
+
+Tamaño: pequeño.
+
+**Funcionalidad**: Un usuario podrá utilizar la aplicación para
+logearse, gestionar sus tareas y sus datos y salir. Se puede asignar
+un tamaño estimado a cada tarea. El tamaño puede tener uno de los
+siguientes valores: pequeño, mediano o grande.
+
+Las pantallas deben estar organizadas de forma que la navegación por
+las distintas opciones sea sencilla y lógica. No gestionaremos la
+seguridad (proteger las URLs para que sólo un usuario puede acceder a
+sus datos), eso lo dejamos para el futuro.
+
+### 6.2. Feature 2: Proyectos 
+
+Tamaño: mediano.
+
+**Funcionalidad**: Un usuario podrá agrupar las tareas por proyectos
+para organizarlas mejor. En principio, un proyecto tendrá únicamente
+un nombre.
+
+El usuario podrá crear, cambiar el nombre y borrar proyectos. Deberá
+poder asignar tareas a proyectos y presentar de forma organizada las
+tareas, ordenadas por proyectos.
+
+### 7. Publicación de la versión 1.1
+
+**Una vez terminada la documentación** (la documentación debe estar
+incluida en la release) el responsable de integración abrirá la nueva
+rama `release-v1.1`, hará allí los cambios propios de la release (el
+número de versión y la fecha de publicación) y realizará el pull
+request para publicar la versión en `production`.
+
+
+## 8. Entrega y evaluación
+
+- La práctica tiene una duración de 3 semanas y debe estar terminada
+  el **martes 15 de noviembre**.
+- La calificación de la práctica tiene un peso de un 5% en la nota
+  final de la asignatura.
+- Durante el desarrollo se debe añadir el código en el repositorio en
+  GitHub `mads-todolist` compartido con el profesor, y los tickets en
+  el tablero Trello compartido con el profesor.
+- En la fecha de la entrega se debe subir a Moodle un ZIP que contenga
+  todo el proyecto y dejar la URL del repositorio en GitHub
+
+Para la evaluación se tendrá en cuenta:
+
+- Desarrollo contínuo (commits realizados a lo largo de las 3 semanas)
+- Buen desarrollo y descripción de los cambios (commits bien
+  documentados, ordenados, ramas de características visibles en la
+  historia de commits)
+- Tablero Trello bien ordenado
+- Correcto desarrollo de las funcionalidades de la práctica
+- Cuidado en el aspecto de la aplicación, la terminación, control de
+  errores
+- Características adicionales desarrolladas
+- Para cada funcionalidad se debe realizar un documento técnico y un
+  pequeño manual de usuario. Escribir una página `.md` para cada
+  funcionalidad nueva.
+
+
+-->
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.583bbe55.js"></script>
+      
+        
+        
+          
+          <script src="../../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          
+            
+              
+              
+                <script src="../../assets/javascripts/lunr/lunr.es.js"></script>
+              
+            
+          
+          
+        
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
