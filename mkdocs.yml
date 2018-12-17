@@ -1,0 +1,26 @@
+site_name: Prácticas MADS
+
+nav:
+- 'Práctica 1':
+   - 'Introducción a Play para MADS': '01-introduccion-play/intro-play-teoria.md'
+   - 'Comandos Git': '01-introduccion-play/comandos-git.md'
+   - 'Enunciado práctica 1': '01-introduccion-play/introduccion-play.md'
+- 'Práctica 2': '02-pruebas-tdd/integration-tdd.md'
+- 'Práctica 3': '03-gitflow-despliegue/gitflow-despliegue.md'
+- 'Práctica 4': '04-iteracion-scrum/iteracion-scrum.md'
+
+theme:
+    language: es
+    name: 'material'
+    palette:
+        primary: 'indigo'
+        accent: 'ingigo'
+       
+markdown_extensions:
+    - admonition
+    - codehilite(guess_lang=false):
+        linenums: true
+    - footnotes
+    - meta
+    - toc(permalink=true)
+
