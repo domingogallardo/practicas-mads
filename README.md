@@ -14,6 +14,5 @@ Para hacer cualquier cambio hay que realizar los cambios en esa rama
 `practicas` y hacer:
 
 ```
-$ git fetch upstream
-$ git merge upstream
+$ git pull upstream/practicas
 ```
