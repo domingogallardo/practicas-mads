@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es" class="no-js">
   <head>
     
@@ -17,7 +17,7 @@
       
         <meta name="lang:clipboard.copied" content="Copiado al portapapeles">
       
-        <meta name="lang:search.language" content="es">
+        <meta name="lang:search.language" content="en">
       
         <meta name="lang:search.pipeline.stopwords" content="True">
       
@@ -31,27 +31,27 @@
       
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
-      <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.0.4">
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.1.1">
     
     
       
-        <title>Introducción a Play para MADS - Prácticas MADS</title>
+        <title>Introducción a Play Framework para las prácticas de MADS # - Prácticas MADS</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.451f80e5.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.3020aac5.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.22915126.css">
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.224b79ff.css">
       
       
         
         
-        <meta name="theme-color" content="#3f51b5">
+        <meta name="theme-color" content="#009688">
       
     
     
-      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../assets/javascripts/modernizr.01ccdecf.js"></script>
     
     
       
@@ -60,14 +60,18 @@
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
-    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
     
     
   </head>
   
     
     
-    <body dir="ltr" data-md-color-primary="indigo" data-md-color-accent="ingigo">
+    <body dir="ltr" data-md-color-primary="teal" data-md-color-accent="teal">
   
     <svg class="md-svg">
       <defs>
@@ -79,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="../../#introduccion-a-play-framework-para-las-practicas-de-mads" tabindex="1" class="md-skip">
+      <a href="#introduccion-a-play-framework-para-las-practicas-de-mads" tabindex="1" class="md-skip">
         Saltar a contenido
       </a>
     
@@ -88,9 +92,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../.." title="Prácticas MADS" class="md-header-nav__button md-logo">
+        <a href=".." title="Prácticas MADS" class="md-header-nav__button md-logo">
           
-            <i class="md-icon"></i>
+            <img src="../imagenes/logo.png" width="24" height="24">
           
         </a>
       </div>
@@ -100,22 +104,19 @@
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           
-            
-              <span class="md-header-nav__topic">
-                Prácticas MADS
-              </span>
-              <span class="md-header-nav__topic">
-                Introducción a Play para MADS
-              </span>
-            
+            <span class="md-header-nav__topic">
+              Prácticas MADS
+            </span>
+            <span class="md-header-nav__topic">
+              Introducción a Play Framework para las prácticas de MADS #
+            </span>
           
         </div>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
         
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
           
-            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
-            
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
@@ -138,7 +139,6 @@
     </div>
   </div>
 </div>
-          
         
       </div>
       
@@ -160,9 +160,9 @@
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../.." title="Prácticas MADS" class="md-nav__button md-logo">
+    <a href=".." title="Prácticas MADS" class="md-nav__button md-logo">
       
-        <i class="md-icon"></i>
+        <img src="../imagenes/logo.png" width="48" height="48">
       
     </a>
     Prácticas MADS
@@ -174,19 +174,17 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
     
     <label class="md-nav__link" for="nav-1">
-      Práctica 1
+      Introducción a Spring Boot
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-1">
-        Práctica 1
+        Introducción a Spring Boot
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -195,397 +193,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Introducción a Play para MADS
-      </label>
-    
-    <a href="./" title="Introducción a Play para MADS" class="md-nav__link md-nav__link--active">
-      Introducción a Play para MADS
+  <li class="md-nav__item">
+    <a href="../01-intro-spring-boot/intro-spring-boot.html" title="Introducción a Sprign Boot para MADS" class="md-nav__link">
+      Introducción a Sprign Boot para MADS
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Tabla de contenidos</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#aplicacion-play-proyecto-inicial" title="Aplicación play-proyecto-inicial" class="md-nav__link">
-    Aplicación play-proyecto-inicial
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#descarga-de-la-aplicacion" title="Descarga de la aplicación" class="md-nav__link">
-    Descarga de la aplicación
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#uso-de-intellij-para-trabajar-con-la-aplicacion-play" title="Uso de IntelliJ para trabajar con la aplicación Play" class="md-nav__link">
-    Uso de IntelliJ para trabajar con la aplicación Play
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#uso-de-visual-studio-code-para-trabajar-con-la-aplicacion-play" title="Uso de Visual Studio Code para trabajar con la aplicación Play" class="md-nav__link">
-    Uso de Visual Studio Code para trabajar con la aplicación Play
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#lanzar-la-aplicacion-play" title="Lanzar la aplicación Play" class="md-nav__link">
-    Lanzar la aplicación Play
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#maquina-docker" title="Máquina Docker" class="md-nav__link">
-    Máquina Docker
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shell-sbt-de-intellij" title="Shell sbt de IntelliJ" class="md-nav__link">
-    Shell sbt de IntelliJ
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuracion-de-ejecucion-de-intellij" title="Configuración de ejecución de IntelliJ" class="md-nav__link">
-    Configuración de ejecución de IntelliJ
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fichero-routes" title="Fichero routes" class="md-nav__link">
-    Fichero routes
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#controllers" title="Controllers" class="md-nav__link">
-    Controllers
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#vistas" title="Vistas" class="md-nav__link">
-    Vistas
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#inyeccion-de-dependencias" title="Inyección de dependencias" class="md-nav__link">
-    Inyección de dependencias
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tests" title="Tests" class="md-nav__link">
-    Tests
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#lanzamiento-de-los-tests-desde-sbt" title="Lanzamiento de los tests desde sbt" class="md-nav__link">
-    Lanzamiento de los tests desde sbt
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#lanzamiento-de-los-tests-de-intellij" title="Lanzamiento de los tests de IntelliJ" class="md-nav__link">
-    Lanzamiento de los tests de IntelliJ
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#aplicacion-mads-todolist-inicial" title="Aplicación mads-todolist-inicial" class="md-nav__link">
-    Aplicación mads-todolist-inicial
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#descarga-de-la-aplicacion-mads-todolist-inicial" title="Descarga de la aplicación mads-todolist-inicial" class="md-nav__link">
-    Descarga de la aplicación mads-todolist-inicial
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#importacion-en-intellj-idea" title="Importación en IntellJ IDEA" class="md-nav__link">
-    Importación en IntellJ IDEA
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ejecucion-de-la-aplicacion-usando-la-base-de-datos-en-memoria" title="Ejecución de la aplicación usando la base de datos en memoria" class="md-nav__link">
-    Ejecución de la aplicación usando la base de datos en memoria
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#base-de-datos-mysql-con-docker" title="Base de datos MySQL con Docker" class="md-nav__link">
-    Base de datos MySQL con Docker
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ejecucion-de-la-aplicacion-usando-la-base-de-datos-mysql" title="Ejecución de la aplicación usando la base de datos MySQL" class="md-nav__link">
-    Ejecución de la aplicación usando la base de datos MySQL
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#desde-docker" title="Desde Docker" class="md-nav__link">
-    Desde Docker
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#desde-el-rundebug-de-intellij" title="Desde el run/debug de IntelliJ" class="md-nav__link">
-    Desde el run/debug de IntelliJ
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#panel-database-de-intellij" title="Panel Database de IntelliJ" class="md-nav__link">
-    Panel Database de IntelliJ
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuracion-de-la-aplicacion" title="Configuración de la aplicación" class="md-nav__link">
-    Configuración de la aplicación
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#configuracion-por-defecto" title="Configuración por defecto" class="md-nav__link">
-    Configuración por defecto
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#otras-configuraciones" title="Otras configuraciones" class="md-nav__link">
-    Otras configuraciones
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gestion-de-persistencia-con-jpa" title="Gestión de persistencia con JPA" class="md-nav__link">
-    Gestión de persistencia con JPA
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#definicion-del-modelo-de-datos" title="Definición del modelo de datos" class="md-nav__link">
-    Definición del modelo de datos
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fichero-de-configuracion-de-jpa" title="Fichero de configuración de JPA" class="md-nav__link">
-    Fichero de configuración de JPA
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#actualizacion-de-los-datos" title="Actualización de los datos" class="md-nav__link">
-    Actualización de los datos
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#recuperacion-eager-y-lazy-de-las-colecciones" title="Recuperación eager y lazy de las colecciones" class="md-nav__link">
-    Recuperación eager y lazy de las colecciones
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#servicios" title="Servicios" class="md-nav__link">
-    Servicios
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#controllers_1" title="Controllers" class="md-nav__link">
-    Controllers
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#vistas_1" title="Vistas" class="md-nav__link">
-    Vistas
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tests_1" title="Tests" class="md-nav__link">
-    Tests
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tests-con-la-base-de-datos-de-memoria-h2" title="Tests con la base de datos de memoria H2" class="md-nav__link">
-    Tests con la base de datos de memoria H2
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tests-con-la-base-de-datos-mysql" title="Tests con la base de datos MySQL" class="md-nav__link">
-    Tests con la base de datos MySQL
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ejemplos-de-tests-de-la-aplicacion" title="Ejemplos de tests de la aplicación" class="md-nav__link">
-    Ejemplos de tests de la aplicación
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tecnologias-usadas" title="Tecnologías usadas" class="md-nav__link">
-    Tecnologías usadas
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#play-framework" title="Play Framework" class="md-nav__link">
-    Play Framework
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#java-persistence-api-jpa" title="Java Persistence API (JPA)" class="md-nav__link">
-    Java Persistence API (JPA)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bootstrap" title="Bootstrap" class="md-nav__link">
-    Bootstrap
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -595,7 +207,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../comandos-git/" title="Comandos Git" class="md-nav__link">
+    <a href="comandos-git.html" title="Comandos Git" class="md-nav__link">
       Comandos Git
     </a>
   </li>
@@ -607,8 +219,20 @@
 
 
   <li class="md-nav__item">
-    <a href="../introduccion-play/" title="Enunciado práctica 1" class="md-nav__link">
-      Enunciado práctica 1
+    <a href="../01-intro-spring-boot/practica0.html" title="Práctica 0" class="md-nav__link">
+      Práctica 0
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Práctica 1" class="md-nav__link">
+      Práctica 1
     </a>
   </li>
 
@@ -624,7 +248,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../02-pruebas-tdd/integration-tdd/" title="Práctica 2" class="md-nav__link">
+    <a href="../02-pruebas-tdd/integration-tdd.html" title="Práctica 2" class="md-nav__link">
       Práctica 2
     </a>
   </li>
@@ -636,7 +260,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../03-gitflow-despliegue/gitflow-despliegue/" title="Práctica 3" class="md-nav__link">
+    <a href="../03-gitflow-despliegue/gitflow-despliegue.html" title="Práctica 3" class="md-nav__link">
       Práctica 3
     </a>
   </li>
@@ -648,7 +272,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../04-iteracion-scrum/iteracion-scrum/" title="Práctica 4" class="md-nav__link">
+    <a href="../04-iteracion-scrum/iteracion-scrum.html" title="Práctica 4" class="md-nav__link">
       Práctica 4
     </a>
   </li>
@@ -708,33 +332,6 @@
     Lanzar la aplicación Play
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#maquina-docker" title="Máquina Docker" class="md-nav__link">
-    Máquina Docker
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shell-sbt-de-intellij" title="Shell sbt de IntelliJ" class="md-nav__link">
-    Shell sbt de IntelliJ
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuracion-de-ejecucion-de-intellij" title="Configuración de ejecución de IntelliJ" class="md-nav__link">
-    Configuración de ejecución de IntelliJ
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
           <li class="md-nav__item">
@@ -769,26 +366,6 @@
   <a href="#tests" title="Tests" class="md-nav__link">
     Tests
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#lanzamiento-de-los-tests-desde-sbt" title="Lanzamiento de los tests desde sbt" class="md-nav__link">
-    Lanzamiento de los tests desde sbt
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#lanzamiento-de-los-tests-de-intellij" title="Lanzamiento de los tests de IntelliJ" class="md-nav__link">
-    Lanzamiento de los tests de IntelliJ
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -838,26 +415,6 @@
     Ejecución de la aplicación usando la base de datos MySQL
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#desde-docker" title="Desde Docker" class="md-nav__link">
-    Desde Docker
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#desde-el-rundebug-de-intellij" title="Desde el run/debug de IntelliJ" class="md-nav__link">
-    Desde el run/debug de IntelliJ
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
           <li class="md-nav__item">
@@ -872,66 +429,12 @@
     Configuración de la aplicación
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#configuracion-por-defecto" title="Configuración por defecto" class="md-nav__link">
-    Configuración por defecto
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#otras-configuraciones" title="Otras configuraciones" class="md-nav__link">
-    Otras configuraciones
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
           <li class="md-nav__item">
   <a href="#gestion-de-persistencia-con-jpa" title="Gestión de persistencia con JPA" class="md-nav__link">
     Gestión de persistencia con JPA
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#definicion-del-modelo-de-datos" title="Definición del modelo de datos" class="md-nav__link">
-    Definición del modelo de datos
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fichero-de-configuracion-de-jpa" title="Fichero de configuración de JPA" class="md-nav__link">
-    Fichero de configuración de JPA
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#actualizacion-de-los-datos" title="Actualización de los datos" class="md-nav__link">
-    Actualización de los datos
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#recuperacion-eager-y-lazy-de-las-colecciones" title="Recuperación eager y lazy de las colecciones" class="md-nav__link">
-    Recuperación eager y lazy de las colecciones
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -960,33 +463,6 @@
   <a href="#tests_1" title="Tests" class="md-nav__link">
     Tests
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tests-con-la-base-de-datos-de-memoria-h2" title="Tests con la base de datos de memoria H2" class="md-nav__link">
-    Tests con la base de datos de memoria H2
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tests-con-la-base-de-datos-mysql" title="Tests con la base de datos MySQL" class="md-nav__link">
-    Tests con la base de datos MySQL
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ejemplos-de-tests-de-la-aplicacion" title="Ejemplos de tests de la aplicación" class="md-nav__link">
-    Ejemplos de tests de la aplicación
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1058,7 +534,7 @@ código que vamos a utilizar en las prácticas de la asignatura.</p>
 esqueleto de aplicación Play con ejemplos básicos del funcionamiento
 del framework.</p>
 <p>Puedes descargarla usando el comando <code>git clone</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$  git clone https://github.com/domingogallardo/play-proyecto-inicial.git
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$  git clone https://github.com/domingogallardo/play-proyecto-inicial.git
 </pre></div>
 </td></tr></table>
 
@@ -1113,7 +589,7 @@ tres a lo largo de las prácticas.</p>
 <li>Usando el <code>sbt shell</code> que proporciona IntelliJ.</li>
 <li>Usando la configuración de ejecución de IntelliJ.</li>
 </ul>
-<h4 id="maquina-docker">Máquina Docker<a class="headerlink" href="#maquina-docker" title="Permanent link">&para;</a></h4>
+<h4>Máquina Docker</h4>
 <p>La máquina docker <code>domingogallardo/playframework</code> contiene todo el
 software y librerías para ejecutar aplicaciones Play 2.5.18. La
 ventaja de utilizar la máquina Docker es que Una vez
@@ -1123,7 +599,7 @@ adicionales. Está instalada en los laboratorios de la EPS.</p>
 lanzamos el comando <code>docker run</code> para ejecutar la máquina sobre el
 directorio actual conectando el puerto 9000 en el mismo puerto de
 nuestra máquina:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ cd play-proyecto-inicial
 $ docker run --rm  -it -v &quot;${PWD}:/code&quot; -p 9000:9000 domingogallardo/playframework
@@ -1139,13 +615,13 @@ marcha la aplicación. Haciendo <code>test</code> se lanzan los tests incluidos 
 la aplicación.</p>
 <p>Con <code>exit</code> se sale del prompt de sbt y automáticamente se para el
 contenedor y se elimina el contenedor de Docker.</p>
-<h4 id="shell-sbt-de-intellij">Shell sbt de IntelliJ<a class="headerlink" href="#shell-sbt-de-intellij" title="Permanent link">&para;</a></h4>
+<h4>Shell sbt de IntelliJ</h4>
 <p>También es posible arrancar el shell de <code>sbt</code> en un panel propio que
 proporciona IntelliJ.</p>
 <p><img src="https://raw.githubusercontent.com/domingogallardo/apuntes-mads/master/practicas/01-introduccion-play/imagenes/sbt-shell.png" width="400px"/></p>
 <p>Cuando lo ejecutamos por primera vez se descargan todas las librerías
 necesarias. </p>
-<h4 id="configuracion-de-ejecucion-de-intellij">Configuración de ejecución de IntelliJ<a class="headerlink" href="#configuracion-de-ejecucion-de-intellij" title="Permanent link">&para;</a></h4>
+<h4>Configuración de ejecución de IntelliJ</h4>
 <p>También podemos crear una configuración de ejecución de IntelliJ con
 la que podremos ejecutar y depurar los proyectos con la opción <em>Run &gt;
 Edit Configurations..</em>.</p>
@@ -1158,7 +634,7 @@ correspondientes en la parte superior de la ventana de IntelliJ.</p>
 <p>El <code>routes</code>, situado en el directorio <code>conf</code>, especifica el código a
 ejecutar como respuesta a una petición HTTP.</p>
 <p><strong>Fichero <code>conf/routes</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1199,7 +675,7 @@ métodos de clases que heredan de <code>Controller</code>. Se suelen colocar en 
 <p>Por ejemplo, en la clase <code>controllers.HomeController</code> se define el
 método <code>index</code>.</p>
 <p><strong>Fichero <code>app/controllers/HomeController.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1239,7 +715,7 @@ pueden pasar parámetros cuyos valores se utilizan en la propia vista.</p>
 <p>Por ejemplo, la vista anterior <code>index</code> se define en el fichero
 <code>index.scala.html</code> situado en el directorio <code>views</code>.</p>
 <p><strong>Fichero <code>views/index.scala.html</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1288,7 +764,7 @@ plantillas. Por ejemplo, en la vista anterior se llama a la plantilla
 parámetro el código HTML generado por la plantilla <code>welcome</code>, definida
 en el fichero <code>welcome.scala.html</code>.</p>
 <p><strong>Fichero <code>views/main.scala.html</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1337,7 +813,7 @@ en el fichero <code>welcome.scala.html</code>.</p>
 </td></tr></table>
 
 <p><strong>Fichero <code>views/welcome.scala.html</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1407,7 +883,7 @@ asignárselo a una variable que se utiliza en un bloque de código. En
 el caso anterior se utiliza para obtener la versión de Play. Otro
 ejemplo de su utilización es el que aparece en la documentación de
 Play sobre plantillas:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>@defining(user.getFirstName() + &quot; &quot; + user.getLastName()) { fullName =&gt;
   <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>Hello @fullName<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
@@ -1426,7 +902,7 @@ anotación en la variable o en el constructor de la clase. </p>
 implementar un contador que se incrementa en cada petición a la acción
 <code>count</code>. En el controller se inyecta el componente <code>counter</code>:</p>
 <p><strong>Fichero <code>controllers/CountController.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1487,7 +963,7 @@ implementar un contador que se incrementa en cada petición a la acción
 <p>El contador se define con una interfaz y una implementación
 concreta. </p>
 <p><strong>Fichero <code>services/Counter.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1516,7 +992,7 @@ concreta. </p>
 </td></tr></table>
 
 <p><strong>Fichero <code>services/AtomicCounter.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1574,7 +1050,7 @@ concreta. </p>
 método <code>configure()</code> de una clase llamada <code>Module</code> que debe extender
 <code>AbstractModule</code> y estar situada en el paquete raíz.</p>
 <p><strong>Fichero <code>Module.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1629,10 +1105,10 @@ método <code>configure()</code> de una clase llamada <code>Module</code> que de
 como framework de testing.</p>
 <p>Desde los tests se puede comprobar los distintos componentes de la
 aplicación, incluyendo plantillas y peticiones a controllers.</p>
-<h4 id="lanzamiento-de-los-tests-desde-sbt">Lanzamiento de los tests desde sbt<a class="headerlink" href="#lanzamiento-de-los-tests-desde-sbt" title="Permanent link">&para;</a></h4>
+<h4>Lanzamiento de los tests desde sbt</h4>
 <p>Para lanzar los tests desde la consola <code>sbt</code> se debe usar el comando
 <code>test</code>. </p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1671,7 +1147,7 @@ aplicación, incluyendo plantillas y peticiones a controllers.</p>
 <p>Podemos lanzar una parte de los tests con el comando <code>testOnly</code>
 seguido del nombre completo de la clase (incluyendo el paquete en el
 que esté incluida):</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
@@ -1689,7 +1165,7 @@ que esté incluida):</p>
 </pre></div>
 </td></tr></table>
 
-<h4 id="lanzamiento-de-los-tests-de-intellij">Lanzamiento de los tests de IntelliJ<a class="headerlink" href="#lanzamiento-de-los-tests-de-intellij" title="Permanent link">&para;</a></h4>
+<h4>Lanzamiento de los tests de IntelliJ</h4>
 <p>También es posible lanzar los tests desde el entorno IntelliJ pulsando
 con el botón derecho la opción <code>Run</code> sobre la clase de test
 seleccionada.</p>
@@ -1747,7 +1223,7 @@ anteriormente. Entre otros, tiene los siguientes elementos:</p>
 <p>Se encuentra en GitHub:
 <a href="https://github.com/domingogallardo/mads-todolist-inicial">https://github.com/domingogallardo/mads-todolist-inicial</a>. </p>
 <p>Puedes descargarla con el comando <code>git clone</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git clone https://github.com/domingogallardo/mads-todolist-inicial.git
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git clone https://github.com/domingogallardo/mads-todolist-inicial.git
 </pre></div>
 </td></tr></table>
 
@@ -1763,7 +1239,7 @@ fichero <code>persistence.xml</code> que nos muestra la ventana de diálogo.</p>
 <p>Si ejecutamos la aplicación usando el comando <code>docker run</code> ya visto se
 utilizará la base de datos H2 en memoria. Los datos almacenados en
 ella sólo durarán mientras que está en marcha el contenedor.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run --rm  -it -v &quot;${PWD}:/code&quot; -p 9000:9000 domingogallardo/playframework
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run --rm  -it -v &quot;${PWD}:/code&quot; -p 9000:9000 domingogallardo/playframework
 </pre></div>
 </td></tr></table>
 
@@ -1775,7 +1251,7 @@ pero también puede ser útil para realizar pruebas manuales en
 desarrollo.</p>
 <p>Podemos utilizar Docker para poner en marcha un servidor MySQL con el
 siguiente comando:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run -d -p 3316:3306 --name db-mysql -e MYSQL_ROOT_PASSWORD=mads -e MYSQL_DATABASE=mads mysql:5
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run -d -p 3316:3306 --name db-mysql -e MYSQL_ROOT_PASSWORD=mads -e MYSQL_DATABASE=mads mysql:5
 </pre></div>
 </td></tr></table>
 
@@ -1794,7 +1270,7 @@ comando docker, escribiendo <code>mysql:5.7.18</code>.</p>
 </div>
 <p>Podemos comprobar que el contenedor está funcionando con el comando
 <code>docker container ls</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker container ls
 CONTAINER ID  IMAGE  COMMAND                  CREATED         STATUS         PORTS                  NAMES
@@ -1808,7 +1284,7 @@ los comandos <code>docker stop &lt;container-id&gt;</code> y <code>docker start
 mientras que el contenedor no se borre. El comando <code>docker container
 ls</code> lista los contenedores en marcha, y con la opción <code>-a</code> también los
 parados.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1833,23 +1309,23 @@ bd057639b6ac        mysql:5              32 minutes ago      Up 5 seconds       
 </td></tr></table>
 
 <p>Podemos usar el identificador o el nombre del contenedor para pararlo:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker container stop db-mysql
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker container stop db-mysql
 </pre></div>
 </td></tr></table>
 
 <p>Para borrar un contenedor debe estar parado y debemos usar el comando</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>docker container rm &lt;container-id&gt; o &lt;container-name&gt;
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>docker container rm &lt;container-id&gt; o &lt;container-name&gt;
 </pre></div>
 </td></tr></table>
 
 <h3 id="ejecucion-de-la-aplicacion-usando-la-base-de-datos-mysql">Ejecución de la aplicación usando la base de datos MySQL<a class="headerlink" href="#ejecucion-de-la-aplicacion-usando-la-base-de-datos-mysql" title="Permanent link">&para;</a></h3>
-<h4 id="desde-docker">Desde Docker<a class="headerlink" href="#desde-docker" title="Permanent link">&para;</a></h4>
+<h4>Desde Docker</h4>
 <p>Lanzamos la aplicación con Docker, definiendo en variables de entorno
 la URL, el usuario y la contraseña con la que debe conectarse la
 aplicación a la base de datos. Usamos la opción <code>link</code> de docker para
 definir el nombre lógico del contenedor al que debe conectarse la
 aplicación.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run --link db-mysql --rm -it -p 9000:9000 -e \
 DB_URL=&quot;jdbc:mysql://db-mysql:3306/mads&quot; -e DB_USER_NAME=&quot;root&quot; -e \
@@ -1860,13 +1336,13 @@ DB_USER_PASSWD=&quot;mads&quot; -v &quot;${PWD}:/code&quot; domingogallardo/play
 <p>Y desde la consola sbt modificamos la preferencia <code>config.file</code> para
 que la aplicación utilice la configuración definida en el fichero
 <code>conf/develop-mysql.conf</code> (lo explicamos más adelante).</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>[mads-todolist-2018] $ set javaOptions += &quot;-Dconfig.file=conf/develop-mysql.conf&quot;
 [mads-todolist-2018] $ run
 </pre></div>
 </td></tr></table>
 
-<h4 id="desde-el-rundebug-de-intellij">Desde el run/debug de IntelliJ<a class="headerlink" href="#desde-el-rundebug-de-intellij" title="Permanent link">&para;</a></h4>
+<h4>Desde el run/debug de IntelliJ</h4>
 <p>También es posible definir una configuración de run/debug en IntelliJ
 en la que se inicialice la preferencia <code>config.file</code> y las variables
 de entorno para conectarse con la base de datos, en el puerto del host
@@ -1902,12 +1378,12 @@ aparece en la consola de docker al arrancar. </p>
 <h3 id="configuracion-de-la-aplicacion">Configuración de la aplicación<a class="headerlink" href="#configuracion-de-la-aplicacion" title="Permanent link">&para;</a></h3>
 <p>Los distintos parámetros de la aplicación Play se configuran en
 un fichero de propiedades. </p>
-<h4 id="configuracion-por-defecto">Configuración por defecto<a class="headerlink" href="#configuracion-por-defecto" title="Permanent link">&para;</a></h4>
+<h4>Configuración por defecto</h4>
 <p>El fichero de configuración que carga la
 aplicación por defecto es <code>conf/application.conf</code>.</p>
 <p>Por ejemplo, las propiedades relacionadas con la definición de la base
 de datos que se definen en el fichero son las siguientes:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -1960,7 +1436,7 @@ datos que usa por defecto la aplicación). Se definen las siguientes propiedades
 <li><code>db.default.logSql</code>: Si se descomenta se mostrará en la consola el log de todas las
   operaciones sobre la base de datos.</li>
 </ul>
-<h4 id="otras-configuraciones">Otras configuraciones<a class="headerlink" href="#otras-configuraciones" title="Permanent link">&para;</a></h4>
+<h4>Otras configuraciones</h4>
 <p>Como ya hemos visto, modificando la propiedad del sistema Java
 <code>config.file</code> podemos definir un fichero de configuración distinto.</p>
 <p>Se definen también los siguientes ficheros adicionales que se usarán
@@ -1975,7 +1451,7 @@ para lanzar la aplicación en distintas configuraciones:</p>
   validado para que se corresponda con las entidades de la aplicación.</li>
 </ul>
 <p><strong>Fichero <code>conf/develop-mysql.conf</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
@@ -1990,7 +1466,7 @@ db.default.password=${?DB_USER_PASSWD}
 </td></tr></table>
 
 <p><strong>Fichero <code>conf/production.conf</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2020,7 +1496,7 @@ valores de los parámetros de configuración de la base de datos <code>url</code
 <p>Para la gestión de la persistencia de los datos en una aplicación Play
 usaremos JPA (<em>Java Persistence API</em>), en concreto la implementación
 5.2.5 de Hibernate.</p>
-<h4 id="definicion-del-modelo-de-datos">Definición del modelo de datos<a class="headerlink" href="#definicion-del-modelo-de-datos" title="Permanent link">&para;</a></h4>
+<h4>Definición del modelo de datos</h4>
 <p>El framework JPA permite definir el esquema de la base de datos usando
 anotaciones en las clases denominadas de entidad. Para cada clase de
 entidad se define una tabla en la base de datos, con columnas que se
@@ -2040,7 +1516,7 @@ nueva clave primaria.</p>
 atributos obligatorios para definir un usuario, unos <em>getters</em> y
 <em>setters</em> y los métodos <code>equals</code> y <code>hashCode</code> para comparar usuarios.</p>
 <p><strong>Fichero <code>models/Usuario.java</code>:</strong></p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2210,7 +1686,7 @@ que la definición de esa tabla se encuentra en el atributo <code>usuario</code>
 de la entidad <code>Equipo</code>.</p>
 <p>Las definiciones de <code>Tarea</code> y <code>Equipo</code> son las siguientes:</p>
 <p><strong>Fichero <code>models/Tarea.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2251,7 +1727,7 @@ de la entidad <code>Equipo</code>.</p>
 </td></tr></table>
 
 <p><strong>Fichero <code>models/Equipo.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2315,7 +1791,7 @@ de la entidad <code>Equipo</code>.</p>
 </pre></div>
 </td></tr></table>
 
-<h4 id="fichero-de-configuracion-de-jpa">Fichero de configuración de JPA<a class="headerlink" href="#fichero-de-configuracion-de-jpa" title="Permanent link">&para;</a></h4>
+<h4>Fichero de configuración de JPA</h4>
 <p>El fichero <code>conf/META-INF/persistence.xml</code> es necesario para que JPA
 funcione correctamente. Es el fichero de configuración en el que se
 definen distintos elementos necesarios para la configuración de JPA.</p>
@@ -2343,7 +1819,7 @@ definen distintos elementos necesarios para la configuración de JPA.</p>
 denominada <code>production</code>. La única diferencia entre ellas es el valor
 de la propiedad <code>hibernate.hbm2ddl.auto</code>.</p>
 <p><strong>Fichero <code>conf/META-INF/persistence.xml</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2411,12 +1887,12 @@ de la propiedad <code>hibernate.hbm2ddl.auto</code>.</p>
 </pre></div>
 </td></tr></table>
 
-<h4 id="actualizacion-de-los-datos">Actualización de los datos<a class="headerlink" href="#actualizacion-de-los-datos" title="Permanent link">&para;</a></h4>
+<h4>Actualización de los datos</h4>
 <p>Se definen clases <em>repository</em> que definen métodos para actualizar las
 entidades y realizar <em>queries</em> sobre ellas. Para dejar abierta la
 posibilidad de cambiar la implementación, se definen con interfaces.</p>
 <p><strong>Fichero <code>models/UsuarioRepository.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
@@ -2433,7 +1909,7 @@ posibilidad de cambiar la implementación, se definen con interfaces.</p>
 </td></tr></table>
 
 <p><strong>Fichero <code>models/TareaRepository.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
@@ -2452,7 +1928,7 @@ posibilidad de cambiar la implementación, se definen con interfaces.</p>
 </td></tr></table>
 
 <p><strong>Fichero <code>models/EquipoRepository.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2491,7 +1967,7 @@ cerrar transacciones.</p>
 <code>EquipoRepository</code> que trata de la actualización de la entidad en la
 base de datos es la siguiente:</p>
 <p><strong>Fichero <code>models/JPAEquipoRepository.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2604,7 +2080,7 @@ JPA que gestiona las actualizaciones y <em>queries</em> sobre la base de
 datos.</p>
 <p>Y las <em>queries</em> se implementan de la siguiente manera:</p>
 <p><strong>Fichero <code>models/JPAEquipoRepository.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2690,7 +2166,7 @@ datos.</p>
 </pre></div>
 </td></tr></table>
 
-<h4 id="recuperacion-eager-y-lazy-de-las-colecciones">Recuperación <em>eager</em> y <em>lazy</em> de las colecciones<a class="headerlink" href="#recuperacion-eager-y-lazy-de-las-colecciones" title="Permanent link">&para;</a></h4>
+<h4>Recuperación <em>eager</em> y <em>lazy</em> de las colecciones</h4>
 <p>En la aplicación se definen relaciones <em>a-muchos</em> entre las
 entidades:</p>
 <ul>
@@ -2699,7 +2175,7 @@ entidades:</p>
   muchos usuarios y un usuario participa en varios equipos.</li>
 </ul>
 <p>En las entidades estas relaciones se definen de la siguiente forma:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2774,7 +2250,7 @@ consultan. Por ejemplo, en el caso de equipos y usuarios, la lista de
 usuarios de un equipo es un atributo <em>lazy</em>. Veamos el método
 <code>findById</code> de un equipo que devuelve una entidad <code>Equipo</code> a partir de
 su identificador:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
@@ -2797,7 +2273,7 @@ del <em>entity manager</em> se producirá un error porque no se puede
 inicializar esa colección. Por ejemplo, el siguiente test produce un
 error cuando se llama al método <code>size()</code> y se intenta contar los
 elementos de la conexión <em>lazy</em>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2826,7 +2302,7 @@ una colección <em>lazy</em> <strong>estando en un <em>entity manager</em>
 abierto</strong>. </p>
 <p>Por ejemplo, podemos hacer un método específico que devuelve la
 colección de usuarios de un equipo:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
@@ -2852,7 +2328,7 @@ datos. Por ello la colección de usuarios que se devuelve ya contiene
 todos los usuarios del equipo.</p>
 <p>Otra forma de recuperar colecciones <em>lazy</em> es haciendo directamente
 una query:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2915,7 +2391,7 @@ de servicio.</p>
 estas clases de servicios también podrán ser fácilmente testeadas. La
 mayoría de los tests automáticos los haremos sobre ellas.</p>
 <p><strong>Fichero <code>services/UsuarioService.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -2990,7 +2466,7 @@ mayoría de los tests automáticos los haremos sobre ellas.</p>
 </td></tr></table>
 
 <p><strong>Fichero <code>services/UsuarioServiceException.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
@@ -3034,7 +2510,7 @@ un formulario y un objeto Java usando un objeto <code>Form</code>. En el
 y <code>Registro</code>. En este caso es posible definir restricciones en los
 atributos y realizar una validación en el servidor.</p>
 <p><strong>Fichero <code>controllers/EquipoController.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -3132,7 +2608,7 @@ atributos y realizar una validación en el servidor.</p>
 
 <p>La clase <code>UsuarioController</code> se encarga de las acciones de registro y login.</p>
 <p><strong>Fichero <code>controllers/UsuarioController.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -3307,7 +2783,7 @@ atributos y realizar una validación en el servidor.</p>
 <p>Para mapear los datos de los formularios se usan las clases <code>Login</code> y
 <code>Registro</code>.</p>
 <p><strong>Fichero <code>controllers/Login.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -3362,7 +2838,7 @@ atributos y realizar una validación en el servidor.</p>
 </td></tr></table>
 
 <p><strong>Fichero <code>controllers/Registro.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -3472,7 +2948,7 @@ que se guardan los recursos estáticos sin afectar a la aplicación.</p>
 JavaScript (por defecto vacío) y un contenido HTML que se inserta en
 el cuerpo principal.</p>
 <p><strong>Fichero <code>views/main.scala.html</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -3542,7 +3018,7 @@ datos). </li>
   definidas por rutas inversas.</li>
 </ul>
 <p><strong>Fichero <code>views/listaTareas.scala.html</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -3656,9 +3132,9 @@ modelo <code>Equipo</code> y el <code>EquipoRepository</code>.</p>
 fichero de configuración. En el fichero de configuración por defecto
 (<code>conf/application.conf</code>) se define la base de datos de memoria
 <code>H2</code>. </p>
-<h4 id="tests-con-la-base-de-datos-de-memoria-h2">Tests con la base de datos de memoria <code>H2</code><a class="headerlink" href="#tests-con-la-base-de-datos-de-memoria-h2" title="Permanent link">&para;</a></h4>
+<h4>Tests con la base de datos de memoria <code>H2</code></h4>
 <p>Ejemplo de ejecución de los tests sobre la base de datos de memoria:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
@@ -3673,7 +3149,7 @@ fichero de configuración. En el fichero de configuración por defecto
 </td></tr></table>
 
 <p>Podemos lanzar una clase de test en concreto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
@@ -3685,7 +3161,7 @@ fichero de configuración. En el fichero de configuración por defecto
 </pre></div>
 </td></tr></table>
 
-<h4 id="tests-con-la-base-de-datos-mysql">Tests con la base de datos MySQL<a class="headerlink" href="#tests-con-la-base-de-datos-mysql" title="Permanent link">&para;</a></h4>
+<h4>Tests con la base de datos MySQL</h4>
 <p>La otra configuración que vamos a usar en los tests es
 <code>conf/develop-mysql.conf</code>, en la que se utiliza una base de datos
 MySQL. Como ya vimos anteriormente, para utilizar esta configuración
@@ -3693,7 +3169,7 @@ hay que lanzar el servicio de MySQL usando docker y definir en la
 ejecución del contenedor de Play las variables de entorno <code>DB_URL</code>,
 <code>DB_USER_NAME</code> y <code>DB_USER_PASSWD</code> con los datos correctos para acceder
 a la base de datos MySQL.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
@@ -3713,7 +3189,7 @@ DB_USER_PASSWD=&quot;mads&quot; -v &quot;${PWD}:/code&quot; domingogallardo/play
 </pre></div>
 </td></tr></table>
 
-<h4 id="ejemplos-de-tests-de-la-aplicacion">Ejemplos de tests de la aplicación<a class="headerlink" href="#ejemplos-de-tests-de-la-aplicacion" title="Permanent link">&para;</a></h4>
+<h4>Ejemplos de tests de la aplicación</h4>
 <p>En la aplicación se definen tests sobre los modelos (clases entidad y
 clases repositorio) y sobre los servicios. Como hemos mencionado antes
 se tratan de unos tests de integración que se prueban directamente
@@ -3736,7 +3212,7 @@ borrar una tabla si hay claves ajenas que referencian a algunos de sus
 elementos. Para esto hay que considerar que DBUnit inserta los datos
 de arriba a abajo y los borra de abajo a arriba.</p>
 <p><strong>Fichero <code>test/resources/test_dataset.xml</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -3787,7 +3263,7 @@ puntos.</p>
   lanzan excepciones si hay algún error.</li>
 </ul>
 <p><strong>Fichero <code>test/Models/EquipoTest.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>  1
   2
   3
   4
@@ -4026,7 +3502,7 @@ puntos.</p>
 </td></tr></table>
 
 <p><strong>Fichero <code>test/services/EquipoService.java</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
  4
@@ -4256,27 +3732,6 @@ tener a mano su documentación, en concreto la lista de componentes:</p>
         
 <footer class="md-footer">
   
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-        
-          <a href="../comandos-git/" title="Comandos Git" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Siguiente
-                </span>
-                Comandos Git
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
-  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
@@ -4288,35 +3743,15 @@ tener a mano su documentación, en concreto la lista de componentes:</p>
           Material for MkDocs</a>
       </div>
       
-        
-      
     </div>
   </div>
 </footer>
       
     </div>
     
-      <script src="../../assets/javascripts/application.583bbe55.js"></script>
+      <script src="../assets/javascripts/application.dc02f8ce.js"></script>
       
-        
-        
-          
-          <script src="../../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
-          
-            
-              
-              
-                <script src="../../assets/javascripts/lunr/lunr.es.js"></script>
-              
-            
-          
-          
-        
-      
-      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
-      
-    
-    
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
     
   </body>
