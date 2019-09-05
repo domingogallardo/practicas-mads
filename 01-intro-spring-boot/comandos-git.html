@@ -36,7 +36,7 @@
     
     
       
-        <title>Comandos git - Prácticas MADS</title>
+        <title>Comandos Git - Prácticas MADS</title>
       
     
     
@@ -108,7 +108,7 @@
               Prácticas MADS
             </span>
             <span class="md-header-nav__topic">
-              Comandos git
+              Comandos Git
             </span>
           
         </div>
@@ -174,10 +174,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
     
     <label class="md-nav__link" for="nav-1">
       Práctica 0
@@ -195,7 +197,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../01-intro-spring-boot/intro-spring-boot.html" title="Introducción a Sprign Boot para MADS" class="md-nav__link">
+    <a href="intro-spring-boot.html" title="Introducción a Sprign Boot para MADS" class="md-nav__link">
       Introducción a Sprign Boot para MADS
     </a>
   </li>
@@ -205,11 +207,79 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../01-intro-spring-boot/comandos-git.html" title="Comandos Git" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Comandos Git
+      </label>
+    
+    <a href="comandos-git.html" title="Comandos Git" class="md-nav__link md-nav__link--active">
       Comandos Git
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Tabla de contenidos</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#resumen-de-comandos-git" title="Resumen de comandos Git" class="md-nav__link">
+    Resumen de comandos Git
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comandos-basicos" title="Comandos básicos" class="md-nav__link">
+    Comandos básicos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ramas" title="Ramas" class="md-nav__link">
+    Ramas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modificar-la-historia" title="Modificar la historia" class="md-nav__link">
+    Modificar la historia
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mas-informacion" title="Más información" class="md-nav__link">
+    Más información
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -219,7 +289,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../01-intro-spring-boot/practica0.html" title="Práctica 0" class="md-nav__link">
+    <a href="practica0.html" title="Práctica 0" class="md-nav__link">
       Práctica 0
     </a>
   </li>
@@ -306,7 +376,7 @@
               
                 
                 
-                  <h1>Comandos git</h1>
+                  <h1>Comandos Git</h1>
                 
                 <h2 id="resumen-de-comandos-git">Resumen de comandos Git<a class="headerlink" href="#resumen-de-comandos-git" title="Permanent link">&para;</a></h2>
 <p>Comandos principales para trabajar con Git de forma individual. Los
@@ -384,7 +454,7 @@ que se crea al inicializar el repositorio local).</p>
 <p>El área de <em>stage</em> también se llama el <em>index</em>. Es muy importante
 entender su funcionamiento para trabajar con Git. El siguiente
 dibujo muestra su funcionamiento:</p>
-<p><img src="https://raw.githubusercontent.com/domingogallardo/apuntes-mads/master/practicas/01-introduccion-play/imagenes/staging-area.png" width="400px"/></p>
+<p><img src="imagenes/staging-area.png" width="400px"/></p>
 </li>
 <li>
 <p>Hacer un commit de los ficheros en el <em>stage</em>:</p>
@@ -457,7 +527,7 @@ identificado por <hash-previo> y hasta el <hash-nuevo>.</p>
 móviles. La rama en la que estamos se actualiza de posición cada vez
 que hacemos un nuevo commit. Git mantiene en la referencia <code>HEAD</code> la
 rama actual.</p>
-<p><img src="https://raw.githubusercontent.com/domingogallardo/apuntes-mads/master/practicas/01-introduccion-play/imagenes/ramas.png" width="500px"/></p>
+<p><img src="imagenes/ramas.png" width="500px"/></p>
 <ul>
 <li>
 <p>Crear una rama nueva:</p>
@@ -572,7 +642,7 @@ Applying: Corregido bug2
 </pre></div>
 </td></tr></table>
 
-<p><img src="https://raw.githubusercontent.com/domingogallardo/apuntes-mads/master/practicas/01-introduccion-play/imagenes/rebase.png" width="600px"></p>
+<p><img src="imagenes/rebase.png" width="600px"></p>
 <p>El comando cambia la historia de la rama: primero la mueve al
 final de la rama master (<em>rewind head</em>) y a partir de ahí aplica
 los cambios propios de la rama.</p>
@@ -792,6 +862,41 @@ $ git checkout master
       
         
 <footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="intro-spring-boot.html" title="Introducción a Sprign Boot para MADS" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Anterior
+                </span>
+                Introducción a Sprign Boot para MADS
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="practica0.html" title="Práctica 0" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Siguiente
+                </span>
+                Práctica 0
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
