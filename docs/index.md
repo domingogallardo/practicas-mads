@@ -3,13 +3,11 @@ Prácticas de la asignatura Metodologías Ágiles de Desarrollo de
 Software de la Universidad de Alicante.
 
 
-- Práctica 1
-    - [Introducción a Play para  MADS](01-introduccion-play/intro-play-teoria.md)
-    - [Comandos Git](01-introduccion-play/comandos-git.md)
-    - [Enunciado práctica 1](01-introduccion-play/introduccion-play.md)
-- [Práctica 2](02-pruebas-tdd/integration-tdd.md)
-- [Práctica 3](03-gitflow-despliegue/gitflow-despliegue.md)
-- [Práctica 4](04-iteracion-scrum/iteracion-scrum.md)
+- Práctica 0
+    - [Introducción a Spring Boot para  MADS](01-intro-spring-boot/intro-spring-boot.md)
+    - [Comandos Git](01-intro-spring-boot/comandos-git.md)
+    - [Enunciado práctica 0](01-intro-spring-boot/practica0.md)
+
 
 #### Construido con MkDocs ####
 
