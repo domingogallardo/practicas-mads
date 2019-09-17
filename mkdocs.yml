@@ -6,6 +6,7 @@ nav:
    - 'Introducción a Sprign Boot para MADS': '01-intro-spring-boot/intro-spring-boot.md'
    - 'Comandos Git': '01-intro-spring-boot/comandos-git.md'
    - 'Práctica 0': '01-intro-spring-boot/practica0.md'
+- 'Práctica 1': '01-intro-spring-boot/practica1.md'
 
 theme:
     language: es
