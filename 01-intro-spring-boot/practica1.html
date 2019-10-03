@@ -2598,14 +2598,20 @@ hacer el <em>pull request</em> en GitHub, para probar que no se ha roto nada
 añadido también funcionan correctamente (en este caso no hemos añadido
 ninguno).</p>
 <p>En el terminal:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5
-6
-7
-8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>(acerca-de) $ git checkout master
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>(acerca-de) $ git checkout master
+(master) $ git pull (bajamos cambios que se hayan subido master. En
+                     este caso no habrá ninguno, pero lo habrán cuando
+                     trabajemos en equipo)
 (master) $ git merge acerca-de 
     Fast-forward
       pom.xml                                                   |  4 ++--
@@ -2646,7 +2652,7 @@ GitHub:</p>
 3
 4
 5
-6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>(master) $ git log --oneline (muestra la historia de commits y las ramas)
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>(master) $ git log --oneline --graph (muestra la historia de commits y las ramas)
 (master) $ git reset --hard origin/master
     HEAD is now at 51ebf62 Initial commit
 (master) $ git checkout acerca-de 
