@@ -7,6 +7,7 @@ nav:
    - 'Comandos Git': '01-intro-spring-boot/comandos-git.md'
    - 'Práctica 0': '01-intro-spring-boot/practica0.md'
 - 'Práctica 1': '01-intro-spring-boot/practica1.md'
+- 'Práctica 2': '02-pruebas-tdd/integration-tdd.md'
 
 theme:
     language: es
