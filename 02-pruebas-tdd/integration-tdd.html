@@ -820,15 +820,11 @@ spring.jpa.hibernate.ddl-auto=create
 instancia en marcha de una imagen) conectado al puerto 3306 y
 sobre la base de datos <code>mads</code>. Le da como nombre <code>mysql-develop</code>.</p>
 <p>Puedes ejecutar los siguientes comandos de Docker:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>```
-$ docker container ls -a (comprueba todos los contenedores en marcha)
-$ docker container stop &amp;lt;nombre o id de contenedor&amp;gt; (para un contenedor)
-$ docker container rm nombre o id de contenedor&amp;gt; (elimina un contenedor)
-```
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker container ls -a <span class="o">(</span>comprueba todos los contenedores en marcha<span class="o">)</span>
+$ docker container stop &lt;nombre o id de contenedor&gt; <span class="o">(</span>para un contenedor<span class="o">)</span>
+$ docker container rm nombre o id de contenedor&gt; <span class="o">(</span>elimina un contenedor<span class="o">)</span>
 </pre></div>
 </td></tr></table>
 
@@ -839,15 +835,14 @@ $ docker container rm nombre o id de contenedor&amp;gt; (elimina un contenedor)
 </pre></div>
 </td></tr></table>
 
-</li>
-</ul>
-<p>Se cargarán las preferencias de <code>src/main/resource/application.profile</code> y
-   <code>src/main/resource/application-mysql.profile</code>.</p>
-<p>Prueba a introducir datos en la aplicación y comprueba que se están
-   guardando en la base de datos con <em>MySQL Workbench</em> o alguna
-   aplicación similar.</p>
+<p>Se cargarán las preferencias de
+<code>src/main/resource/application.profile</code> y
+<code>src/main/resource/application-mysql.profile</code>.</p>
+<p>Prueba a introducir datos en la aplicación y comprueba que se
+están guardando en la base de datos con <em>MySQL Workbench</em> o alguna
+aplicación similar.</p>
 <p><img src="imagenes/mysql-workbench.png" width="700px"/></p>
-<ul>
+</li>
 <li>
 <p>Cierra la aplicación y vuelve a abrirla. Comprueba que los datos que
   se han creado en la ejecución anterior siguen estando.</p>
