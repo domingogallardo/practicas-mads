@@ -883,9 +883,9 @@ $ docker container stop mysql-develop
 4
 5
 6
-7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    ```
-    $ mvn -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
-    ```
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>  ```
+  $ mvn -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
+  ```
 
 Comprobamos con _MySQL Workbench_ que los datos que hay en
 la base de datos corresponden con los introducidos en el fichero
@@ -909,8 +909,6 @@ $ docker container start mysql-develop
 <li>
 <p>Realiza un commit con los cambios, súbelos a la rama y cierra el
   pull request para integrarlo en <code>master</code>:</p>
-</li>
-</ul>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
@@ -929,6 +927,8 @@ $ <span class="o">(</span>master<span class="o">)</span> git remote prune origin
 </pre></div>
 </td></tr></table>
 
+</li>
+</ul>
 <h2 id="integracion-continua-con-travis">Integración continua con Travis<a class="headerlink" href="#integracion-continua-con-travis" title="Permanent link">&para;</a></h2>
 <p><a href="https://travis-ci.com/">Travis-ci.com</a> es un servicio que permite realizar
 integración continua on-line, sin necesidad de configurar un servidor
