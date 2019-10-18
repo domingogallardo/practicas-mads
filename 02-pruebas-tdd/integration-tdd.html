@@ -854,8 +854,8 @@ aplicación similar.</p>
 2
 3
 4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker container ls -a 
-CONTAINER ID        IMAGE          ... NAMES
-520fee61d51e        mysql:5        ... mysql-develop
+CONTAINER ID        IMAGE     ...    NAME
+520fee61d51e        mysql:5   ...    mysql-develop
 $ docker container stop mysql-develop
 </pre></div>
 </td></tr></table>
@@ -878,7 +878,9 @@ la base de datos corresponden con los introducidos en el fichero
 </li>
 <li>
 <p>Podemos parar y arrancar el contenedor MySQL que necesitemos con
-  <code>docker container stop</code> y <code>docker container start</code>:</p>
+  <code>docker container stop</code> y <code>docker container start</code>. Por ejemplo,
+  para parar el contenedor MySQL con la base de datos de test y
+  arrancar el contenedor con la base de datos de desarrollo:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker container ls -a 
