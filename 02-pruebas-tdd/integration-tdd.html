@@ -1034,6 +1034,15 @@ ejecuta usando el Maven del propio proyecto.</p>
 </pre></div>
 </td></tr></table>
 
+<p>Con este comando se instala Maven en tu propio respositorio (en el
+directorio <code>.mvn</code>) y se instalan los comandos <code>mvnw</code> (para Linux)
+y <code>mvnw.cmd</code> (para Windows).</p>
+<p><strong>Si estás en Windows</strong> deberás actualizar el permiso de ejecución
+del comando <code>mvnw</code> con la siguiente instrucción:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git update-index --chmod<span class="o">=</span>+x mvnw
+</pre></div>
+</td></tr></table>
+
 <p>Prueba que funciona correctamente ejecutando los tests con el
 comando <code>./mvnw</code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ ./mvnw -DargLine<span class="o">=</span><span class="s2">&quot;-Dspring.profiles.active=mysql&quot;</span> <span class="nb">test</span>
