@@ -713,10 +713,13 @@ MySQL.</p>
   VirtualBox.</p>
 <p>Lo vamos a utilizar para <strong>lanzar el servidor MySQL de base de
   datos</strong> y también para la futura práctica 3.</p>
-<p>Si tienes Windows, Docker no es compatible con VirtualBox. Si
+<p><strong>Si tienes Windows, Docker no es compatible con VirtualBox</strong>. Si
   quieres usar ambos programas puedes usar una versión limitada de
   Docker llamada <a href="https://docs.docker.com/toolbox/toolbox_install_windows/">Docker
   Toolbox</a></p>
+<p><strong>Si tienes Ubuntu</strong> debes instalar Docker usando <code>apt</code>. Aquí tienes
+  un tutorial para <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04">instalar Docker en Ubuntu
+  18.04</a>.</p>
 <ul>
 <li>
 <p>Crea un nuevo <em>issue</em> llamado <code>Añadir perfiles y permitir trabajar
@@ -761,7 +764,7 @@ spring.datasource.initialization-mode=never
 2
 3
 4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>spring.datasource.url=jdbc:mysql://localhost:3306/mads-test
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>spring.datasource.url=jdbc:mysql://localhost:3306/mads_test
 spring.datasource.username=root
 spring.datasource.password=
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect
@@ -775,7 +778,7 @@ spring.jpa.hibernate.ddl-auto=create
    <code>spring.jpa.hibernate.ddl-auto</code>, que es <code>create</code>. De esta forma la
    base de datos se inicializa antes de cargar los datos de los tests
    y de ejecutarlos. También usamos una base de datos distinta
-   (<code>mads-test</code>) para no sobreescribir la base de datos definida en el
+   (<code>mads_test</code>) para no sobreescribir la base de datos definida en el
    perfil de ejecución.</p>
 <ul>
 <li>
@@ -867,7 +870,7 @@ $ docker container stop mysql-develop
 </li>
 <li>
 <p>Lanzamos ahora otro contenedor con la base de datos de test:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run -d -p <span class="m">3306</span>:3306 --name mysql-test -e <span class="nv">MYSQL_ALLOW_EMPTY_PASSWORD</span><span class="o">=</span>yes -e <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>mads-test mysql:5 
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run -d -p <span class="m">3306</span>:3306 --name mysql-test -e <span class="nv">MYSQL_ALLOW_EMPTY_PASSWORD</span><span class="o">=</span>yes -e <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>mads_test mysql:5 
 </pre></div>
 </td></tr></table>
 
@@ -985,7 +988,7 @@ services:
   - mysql
 
 before_install:
-  - mysql -e &#39;CREATE DATABASE mads-test;&#39;
+  - mysql -e &#39;CREATE DATABASE mads_test;&#39;
 
 script: ./mvnw -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
 </pre></div>
@@ -1004,7 +1007,7 @@ script: ./mvnw -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
 <li>En el apartado <code>before_install</code> se definen los comandos a realizar
   antes de ejecutar el <em>script</em> con los tests. En nuestro caso
   se ejecuta un comando sobre el servicio <code>mysql</code> para crear la base
-  de datos <code>mads-test</code> vacía.</li>
+  de datos <code>mads_test</code> vacía.</li>
 <li>En el apartado <code>script</code> se definen los comandos a realizar para
   lanzar los tests. En nuestro caso lanzamos el comando <code>mvnw</code> que
   lanza el Maven instalado en el repositorio (ver punto siguiente).</li>
