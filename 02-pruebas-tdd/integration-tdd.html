@@ -816,25 +816,23 @@ spring.jpa.hibernate.ddl-auto=create
 </pre></div>
 </td></tr></table>
 
-</li>
-</ul>
 <p>Docker se descarga la imagen <code>mysql:5</code> y lanza el contenedor (una
-   instancia en marcha de una imagen) conectado al puerto 3306 y sobre
-   la base de datos <code>mads</code>. Le da como nombre <code>mysql-develop</code>.</p>
+instancia en marcha de una imagen) conectado al puerto 3306 y
+sobre la base de datos <code>mads</code>. Le da como nombre <code>mysql-develop</code>.</p>
 <p>Puedes ejecutar los siguientes comandos de Docker:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    ```
-    $ docker container ls -a (comprueba todos los contenedores en marcha)
-    $ docker container stop &amp;lt;nombre o id de contenedor&amp;gt; (para un contenedor)
-    $ docker container rm nombre o id de contenedor&amp;gt; (elimina un contenedor)
-    ```
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>```
+$ docker container ls -a (comprueba todos los contenedores en marcha)
+$ docker container stop &amp;lt;nombre o id de contenedor&amp;gt; (para un contenedor)
+$ docker container rm nombre o id de contenedor&amp;gt; (elimina un contenedor)
+```
 </pre></div>
 </td></tr></table>
 
-<ul>
+</li>
 <li>
 <p>Arranca la aplicación con el siguiente comando:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ mvn spring-boot:run -Dspring-boot.run.profiles<span class="o">=</span>mysql
