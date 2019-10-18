@@ -716,7 +716,7 @@ MySQL.</p>
 <p><strong>Si tienes Windows, Docker no es compatible con VirtualBox</strong>. Si
   quieres usar ambos programas puedes usar una versión limitada de
   Docker llamada <a href="https://docs.docker.com/toolbox/toolbox_install_windows/">Docker
-  Toolbox</a></p>
+  Toolbox</a>.</p>
 <p><strong>Si tienes Ubuntu</strong> debes instalar Docker usando <code>apt</code>. Aquí tienes
   un tutorial para <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04">instalar Docker en Ubuntu
   18.04</a>.</p>
@@ -821,16 +821,16 @@ spring.jpa.hibernate.ddl-auto=create
 <p>Docker se descarga la imagen <code>mysql:5</code> y lanza el contenedor (una
    instancia en marcha de una imagen) conectado al puerto 3306 y sobre
    la base de datos <code>mads</code>. Le da como nombre <code>mysql-develop</code>.</p>
-<p>Puedes ejecutar los siguientes comandos de docker:</p>
+<p>Puedes ejecutar los siguientes comandos de Docker:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
 4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>```
-$ docker container ls -a (comprueba todos los contenedores en marcha)
-$ docker container stop &amp;lt;nombre o id de contenedor&amp;gt; (para un contenedor)
-$ docker container rm &amp;lt;nombre o id de contenedor&amp;gt; (elimina un contenedor)
-```
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    ```
+    $ docker container ls -a (comprueba todos los contenedores en marcha)
+    $ docker container stop &amp;lt;nombre o id de contenedor&amp;gt; (para un contenedor)
+    $ docker container rm nombre o id de contenedor&amp;gt; (elimina un contenedor)
+    ```
 </pre></div>
 </td></tr></table>
 
@@ -883,11 +883,11 @@ $ docker container stop mysql-develop
 4
 5
 6
-7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>```
-$ mvn -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
-```
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    ```
+    $ mvn -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
+    ```
 
-Comprobar con _MySQL Workbench_ que los datos que hay en
+Comprobamos con _MySQL Workbench_ que los datos que hay en
 la base de datos corresponden con los introducidos en el fichero
 `datos-test.sql` que se carga antes de ejecutar los tests.
 </pre></div>
