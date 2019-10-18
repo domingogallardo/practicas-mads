@@ -874,26 +874,15 @@ $ docker container stop mysql-develop
 </pre></div>
 </td></tr></table>
 
-</li>
-</ul>
 <p>Y lanzamos los tests sobre la base de datos MySQL con el siguiente comando:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>  ```
-  $ mvn -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
-  ```
-
-Comprobamos con _MySQL Workbench_ que los datos que hay en
-la base de datos corresponden con los introducidos en el fichero
-`datos-test.sql` que se carga antes de ejecutar los tests.
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ mvn -DargLine<span class="o">=</span><span class="s2">&quot;-Dspring.profiles.active=mysql&quot;</span> <span class="nb">test</span>
 </pre></div>
 </td></tr></table>
 
-<ul>
+<p>Comprobamos con <em>MySQL Workbench</em> que los datos que hay en
+la base de datos corresponden con los introducidos en el fichero
+<code>datos-test.sql</code> que se carga antes de ejecutar los tests.</p>
+</li>
 <li>
 <p>Podemos parar y arrancar el contenedor MySQL que necesitemos con
   <code>docker container stop</code> y <code>docker container start</code>:</p>
