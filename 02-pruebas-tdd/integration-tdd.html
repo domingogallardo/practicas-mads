@@ -1049,6 +1049,21 @@ comando <code>./mvnw</code>:</p>
 </pre></div>
 </td></tr></table>
 
+<p>Elimina del fichero <code>.gitignore</code> la línea <code>.mvn</code> (por un error se
+ha introducido esa línea desde el comienzo de la práctica) para
+que los ficheros necesarios de Maven Wrapper (en el directorio
+<code>.mvn/wrapper</code>) se incluyan en el repositorio:</p>
+<p><strong>Fichero <code>.gitignore</code></strong>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>target/
+<span class="gd">- .mvn</span>
+.idea
+*.iml
+</pre></div>
+</td></tr></table>
+
 <p>Crea un commit y súbelo a GitHub.</p>
 </li>
 <li>
