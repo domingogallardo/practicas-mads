@@ -1531,7 +1531,14 @@ especificar cómo se mapea en la base de datos:</p>
 <span class="gi">+    }</span>
 </pre></div>
 </td></tr></table></p>
+<p>Comprueba el test, haz un commit en la rama y súbelo a GitHub.</p>
 <h4>Sexto test - Relación entre usuarios y equipos en base de datos</h4>
+<p>En este test se va a especificar la relación muchos-a-muchos en base
+de datos. Para definir la relación se va a definir la tabla
+<code>equipo_usuario</code> en la que cada fila va a representar una relación de
+un usuario con un equipo. Las columnas definen las claves ajenas que
+contienen el identificador de equipo y el del usuario.</p>
+<p>Para definir el test, creamos una relación en la base de datos de prueba:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>INSERT INTO tareas (id, titulo, usuario_id) VALUES(&#39;2&#39;, &#39;Renovar DNI&#39;, &#39;1&#39;);
@@ -1540,6 +1547,8 @@ especificar cómo se mapea en la base de datos:</p>
 </pre></div>
 </td></tr></table>
 
+<p>Y comprobamos que se el usuario y equipo devuelto por cada clase
+<em>repository</em> tienen actualizada esa relación:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -1580,7 +1589,8 @@ especificar cómo se mapea en la base de datos:</p>
 </pre></div>
 </td></tr></table>
 
-<p>Solución:</p>
+<p>Para solucionar el test actualizamos la definición de la relación en
+las entidades:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
@@ -1601,13 +1611,19 @@ especificar cómo se mapea en la base de datos:</p>
 </pre></div>
 </td></tr></table>
 
+<p>Comprueba el test, haz un commit en la rama y súbelo a GitHub.</p>
 <h4>Séptimo test - listado de equipos</h4>
+<p>Ya por fin tenemos todo lo necesario para definir un test para obtener
+una lista de equipos en el <em>repository</em>:</p>
+<p>Actualizamos la base de datos de prueba con otro equipo:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES(&#39;1&#39;, &#39;1&#39;);
 <span class="gi">+ INSERT INTO equipos (id, nombre) VALUES(&#39;2&#39;, &#39;Proyecto Adamantium&#39;);</span>
 </pre></div>
 </td></tr></table>
 
+<p>Y añadimos el test. Queremos que el tipo devuelto por el <em>repository</em>
+sea <em>List</em>.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -1618,9 +1634,7 @@ especificar cómo se mapea en la base de datos:</p>
  8
  9
 10
-11
-12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="nd">@Test</span>
-    <span class="nd">@Transactional</span>
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarFindAll</span><span class="o">()</span> <span class="o">{</span>
         <span class="c1">// GIVEN</span>
         <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
@@ -1634,7 +1648,10 @@ especificar cómo se mapea en la base de datos:</p>
 </pre></div>
 </td></tr></table>
 
-<p>Solución:</p>
+<p>La solución consiste en añadir el método <code>findAll</code> en la interfaz
+p<code>EquipoRepository</code>, definiendo el tipo
+devuelto como <em>List</em>. Spring Boot se encarga de construir
+automáticamente la implementación de este método.</p>
 <p><strong>Fichero <code>EquipoRepository.java</code></strong>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -1649,6 +1666,11 @@ public interface EquipoRepository extends CrudRepository&lt;Equipo, Long&gt; {
 </td></tr></table>
 
 <h4>Octavo test - Método de servicio para el listado de equipos</h4>
+<p>¡Y por fin llegamos a la capa de servicio!</p>
+<p>Creamos el test que nos obliga a codificar en esa capa el método que
+lista todos los equipos existentes. Lo llamamos
+<code>findAllOrderedByName()</code> para indicar que queremos que el resultado
+sea una lista ordenada por los nombres de los equipos.</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -1722,11 +1744,60 @@ public interface EquipoRepository extends CrudRepository&lt;Equipo, Long&gt; {
 </pre></div>
 </td></tr></table>
 
+<p>Escribe el código estríctamente necesario para que pase. Haz un commit
+en la rama y súbelo a GitHub.</p>
 <h4>Noveno test - Método de servicio para recuperar un equipo</h4>
-<p>En el fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code>
-añadimos el siguiente test.</p>
-<p>El test sirve para crear el método de servicio que recupera un equipo
-y para asegurarnos de que la relación entre equipos y usuarios es <code>LAZY</code>.</p>
+<p>Vamos a centrar este test en la forma de traer a memoria los objetos
+que participan en la relación <code>USUARIO-EQUIPO</code>. </p>
+<p>En JPA hay dos formas de definir una relación a-muchos:</p>
+<ul>
+<li>
+<p><code>EAGER</code>: Si una relación a-muchos es <code>EAGER</code>, cuando la clase
+  repository devuelve un objeto (ya sea al recuperarlo
+  individualmente, o en una consulta en la que se recupera una
+  colección), se obtienen también de la base de datos todos los
+  objetos con los que está relacionado. Por ejemplo, en la práctica
+  tenemos definida de esta forma la relación entre usuarios y tareas.</p>
+</li>
+<li>
+<p><code>LAZY</code>: Si una relación a-muchos es <code>LAZY</code>, Cuando la clase
+  repository devuelve un objeto, no recupera los objetos
+  relacionados. Sólo se accede a ellos (de forma <em>perezosa</em>) cuando se
+  accede a la colección que contiene la relación. Entonces es cuando
+  se realiza la consulta a la base de datos y se traen estos objetos a
+  memoria. Si estos objetos tienen otras relaciones se traerán a
+  memoria o no dependiendo de si son <code>EAGER</code> o <code>LAZY</code>.</p>
+</li>
+</ul>
+<p>Para que funcione la recuperación perezosa debe estar abierta la
+  conexión con la base de datos en el momento en que se accede a la
+  colección. Para ello es muy importante la etiqueta
+  <code>@Transactional</code>. Cuando ponemos esta etiqueta en los métodos de las
+  clases de servicio se garantiza que todo el método se realiza en una
+  única transacción. Por ello, al finalizar el método se cerrará la
+  conexión con la base de datos y el objeto que se devolverá al
+  <em>controller</em> <strong>estará desconectado de la base de datos</strong>, por lo que
+  la recuperación perezosa no funcionará en el <em>controller</em>.</p>
+<p>En el caso de la relación USUARIO-EQUIPO vamos a definir el siguiente
+diseño:</p>
+<ul>
+<li>
+<p>La relación entre un usuario y sus equipos será <code>EAGER</code>. Cuando
+  recuperemos un usuario, recuperaremos también la información de
+  todos los equipos en los que participa.</p>
+</li>
+<li>
+<p>La relación entre un equipo y sus usuarios será <code>LAZY</code>. Esto es muy
+  importante. Si no lo hiciéramos así ¡podríamos fácilmente traernos a
+  memoria toda la base de datos!. Un equipo recuperaría todos sus
+  usuarios, que también pueden estar en otros equipos, que a su vez
+  también se traerían a memoria. </p>
+</li>
+</ul>
+<p>Vamos entonces a definir un test que sirve para crear el método de
+servicio que recupera un equipo y que se asegura de que la relación
+entre equipos y usuarios es <code>LAZY</code>.</p>
+<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -1763,14 +1834,49 @@ y para asegurarnos de que la relación entre equipos y usuarios es <code>LAZY</c
 </pre></div>
 </td></tr></table>
 
-<h4>Décimo test - Método de servicio para obtener los usuarios de un equipo</h4>
-<p>Un test algo complejo, que sirve para definir el método de servicio
+<p>Comprueba si hay que modificar el código, haz un commit y súbelo a
+GitHub.</p>
+<h4>Décimo test - comprobación de recuperación <em>eager</em> de equipos</h4>
+<p>Hacemos ahora un test para definir la relación entre usuarios y
+equipos como <em>eager</em>.</p>
+<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarRelacionUsuarioEquipos</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="mi">1L</span><span class="o">);</span>
+
+        <span class="c1">// THEN</span>
+
+        <span class="n">assertThat</span><span class="o">(</span><span class="n">usuario</span><span class="o">.</span><span class="na">getEquipos</span><span class="o">()).</span><span class="na">hasSize</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+    <span class="o">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Comprueba que el test falla (por un error "failed to lazily initialize
+a collection"), arregla el código para que pase, haz un commit y
+súbelo a GitHub.</p>
+<h4>Onceavo test - Método de servicio para obtener los usuarios de un equipo</h4>
+<p>El último test que sirve para definir el método de servicio
 <code>usuariosEquipo(Long idEquipo)</code> que devuelve la lista de usuarios de
 un equipo.</p>
-<p>Después de comprobar que la lista que se devuelve es correcta, se
-comprueba que la relación entre usuarios y equipos es <code>EAGER</code>, esto
-es, que desde un usuario se puede obtener la lista de equipos a los
-que pertenece.</p>
+<p>Después de comprobar que la lista que se devuelve es correcta,
+volvemos a comprobar que la relación entre usuarios y equipos es
+<code>EAGER</code>, esto es, que desde un usuario se puede obtener la lista de
+equipos a los que pertenece.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -1809,6 +1915,8 @@ que pertenece.</p>
 </pre></div>
 </td></tr></table>
 
+<p>Escribe el código necesario para que pase. Haz un commit en la rama y
+súbelo a GitHub.</p>
 <h4>Cierre del <em>issue</em></h4>
 <p>Cuando hayas terminado todos los ciclos de TDD anteriores habrás
 terminado el <em>issue</em> y testeado e implementado los métodos necesarios
