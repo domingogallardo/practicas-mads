@@ -1567,10 +1567,12 @@ contienen el identificador de equipo y el del usuario.</p>
 16
 17
 18
-19</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="nd">@Autowired</span>
+19
+20</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>    <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">UsuarioRepository</span> <span class="n">usuarioRepository</span><span class="o">;</span>
 
     <span class="nd">@Test</span>
+    <span class="nd">@Transactional</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarRelacionBaseDatos</span><span class="o">()</span> <span class="o">{</span>
         <span class="c1">// GIVEN</span>
         <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
