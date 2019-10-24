@@ -864,7 +864,7 @@ spring.jpa.hibernate.ddl-auto=create
   3306 con el usuario <code>root</code> sin contraseña. Es muy sencillo
   descargarlo y ejecutarlo si tienes instalado Docker. Ejecuta desde
   el terminal:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run -d -p <span class="m">3306</span>:3306 --name mysql-develop -e <span class="nv">MYSQL_ALLOW_EMPTY_PASSWORD</span><span class="o">=</span>yes -e <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>mads mysql:5 
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>docker run -d -p 3306:3306 --name mysql-develop -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=mads mysql:5 
 </pre></div>
 </td></tr></table>
 
@@ -883,7 +883,7 @@ $ docker container rm nombre o id de contenedor&gt; <span class="o">(</span>elim
 </li>
 <li>
 <p>Arranca la aplicación con el siguiente comando:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ mvn spring-boot:run -Dspring-boot.run.profiles<span class="o">=</span>mysql
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>mvn spring-boot:run -Dspring-boot.run.profiles=mysql
 </pre></div>
 </td></tr></table>
 
@@ -915,12 +915,12 @@ $ docker container stop mysql-develop
 </li>
 <li>
 <p>Lanzamos ahora otro contenedor con la base de datos de test:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run -d -p <span class="m">3306</span>:3306 --name mysql-test -e <span class="nv">MYSQL_ALLOW_EMPTY_PASSWORD</span><span class="o">=</span>yes -e <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>mads_test mysql:5 
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>docker run -d -p 3306:3306 --name mysql-test -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=mads_test mysql:5 
 </pre></div>
 </td></tr></table>
 
 <p>Y lanzamos los tests sobre la base de datos MySQL con el siguiente comando:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ mvn -DargLine<span class="o">=</span><span class="s2">&quot;-Dspring.profiles.active=mysql&quot;</span> <span class="nb">test</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>mvn -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
 </pre></div>
 </td></tr></table>
 
@@ -1082,7 +1082,7 @@ ejecuta usando el Maven del propio proyecto.</p>
 </li>
 <li>
 <p>Instala Maven Wrapper en tu repositorio:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ mvn -N io.takari:maven:wrapper
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>mvn -N io.takari:maven:wrapper
 </pre></div>
 </td></tr></table>
 
@@ -1091,13 +1091,13 @@ directorio <code>.mvn</code>) y se instalan los comandos <code>mvnw</code> (para
 y <code>mvnw.cmd</code> (para Windows).</p>
 <p><strong>Si estás en Windows</strong> deberás actualizar el permiso de ejecución
 del comando <code>mvnw</code> con la siguiente instrucción:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git update-index --chmod<span class="o">=</span>+x mvnw
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>git update-index --chmod=+x mvnw
 </pre></div>
 </td></tr></table>
 
 <p>Prueba que funciona correctamente ejecutando los tests con el
 comando <code>./mvnw</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ ./mvnw -DargLine<span class="o">=</span><span class="s2">&quot;-Dspring.profiles.active=mysql&quot;</span> <span class="nb">test</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>./mvnw -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
 </pre></div>
 </td></tr></table>
 
