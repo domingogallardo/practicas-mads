@@ -1349,6 +1349,14 @@ para comprobar que dos equipos son iguales. Debes escribir el código
 de los métodos <code>equals</code> y <code>hashCode</code> (necesario este último para que
 funcione correctamente la comprobación de igualdades en las
 colecciones).</p>
+<p>Hacemos los tests para que el <code>equals</code> funcione de la siguiente forma:</p>
+<blockquote>
+<p>Si alguno de los dos equipos no tiene <code>id</code> (es <code>null</code>), entonces se
+deben comparar sus nombres. Ahora bien, si los dos equipos tienen
+<code>id</code>, entonces se deben comparar esos <code>id</code>".</p>
+</blockquote>
+<p>Puedes guiarte por la implementación de <code>equals</code> y <code>hashCode</code> en
+<code>Usuario</code>.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
