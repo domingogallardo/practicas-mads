@@ -16,7 +16,7 @@ theme:
         primary: 'Teal'
         accent: 'Teal'
     font:
-        text: 'Open Sans'
+        text: 'Helvetica'
         code: 'Roboto Mono'
     logo: 'imagenes/logo.png'
 
