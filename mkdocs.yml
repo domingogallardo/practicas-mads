@@ -17,7 +17,7 @@ theme:
         accent: 'Teal'
     font:
         text: 'Helvetica'
-        code: 'Roboto Mono'
+        code: 'Source Code Pro'
     logo: 'imagenes/logo.png'
 
 # Ponemos como idioma de búsqueda el inglés
