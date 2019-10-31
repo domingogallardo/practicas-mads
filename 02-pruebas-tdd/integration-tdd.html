@@ -883,13 +883,13 @@ $ docker container rm nombre o id de contenedor&gt; <span class="o">(</span>elim
 </li>
 <li>
 <p>Arranca la aplicación con el siguiente comando:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>mvn spring-boot:run -Dspring-boot.run.profiles=mysql
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>mvn spring-boot:run -Dspring.profiles.active=mysql
 </pre></div>
 </td></tr></table>
 
-<p>Se cargarán las preferencias de
-<code>src/main/resource/application.profile</code> y
-<code>src/main/resource/application-mysql.profile</code>.</p>
+<p>Se activará el perfil <code>mysql</code> y se cargarán las preferencias de
+<code>src/main/resource/application.properties</code> y
+<code>src/main/resource/application-mysql.properties</code>.</p>
 <p>Prueba a introducir datos en la aplicación y comprueba que se
 están guardando en la base de datos con <em>MySQL Workbench</em> o alguna
 aplicación similar.</p>
@@ -919,8 +919,8 @@ $ docker container stop mysql-develop
 </pre></div>
 </td></tr></table>
 
-<p>Y lanzamos los tests sobre la base de datos MySQL con el siguiente comando:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>mvn -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
+<p>Y lanzamos los tests usando el perfil ` la base de datos MySQL con el siguiente comando:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>mvn test -Dspring.profiles.active=mysql
 </pre></div>
 </td></tr></table>
 
@@ -1026,7 +1026,7 @@ services:
 before_install:
   - mysql -e &#39;CREATE DATABASE mads_test;&#39;
 
-script: ./mvnw -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
+script: ./mvnw test -Dspring.profiles.active=mysql
 </pre></div>
 </td></tr></table>
 
@@ -1070,7 +1070,7 @@ lanzar desde cualquier sistema operativo.</p>
 <p>Lo utilizaremos para no tener que instalar Maven en Travis. Así
 podremos lanzar los tests en Travis con un único comando que se
 ejecuta usando el Maven del propio proyecto.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>./mvnw -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>./mvnw test -Dspring.profiles.active=mysql
 </pre></div>
 </td></tr></table>
 
@@ -1097,7 +1097,7 @@ del comando <code>mvnw</code> con la siguiente instrucción:</p>
 
 <p>Prueba que funciona correctamente ejecutando los tests con el
 comando <code>./mvnw</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>./mvnw -DargLine=&quot;-Dspring.profiles.active=mysql&quot; test
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>./mvnw test -Dspring.profiles.active=mysql
 </pre></div>
 </td></tr></table>
 
