@@ -8,6 +8,7 @@ nav:
    - 'Práctica 0': '01-intro-spring-boot/practica0.md'
 - 'Práctica 1': '01-intro-spring-boot/practica1.md'
 - 'Práctica 2': '02-pruebas-tdd/integration-tdd.md'
+- 'Práctica 3': '03-gitflow-despliegue/gitflow-despliegue.md'
 
 theme:
     language: es
