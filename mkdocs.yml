@@ -17,7 +17,7 @@ theme:
         primary: 'Teal'
         accent: 'Teal'
     font:
-        text: Roboto
+        text: Helvetica
         code: Roboto Mono        
 #        text: 'Helvetica'
 #        code: 'B612 Mono'
