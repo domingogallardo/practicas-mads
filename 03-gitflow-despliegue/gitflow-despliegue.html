@@ -586,7 +586,7 @@
 forma excepcional podrían ser 2 o 4 personas).</p>
 <p>Cada equipo trabajará con un repositorio común seleccionado de uno de
 los miembros del equipo. Se formará también un <em>team</em> en la
-organización <code>mads-ua-18</code> en el que participarán todos los miembros
+organización <code>mads-ua</code> en el que participarán todos los miembros
 del equipo.</p>
 <p><img src="imagenes/equipos-mads-ua.png" width="700px"/></p>
 <p>Utilizaremos <em>GitHub Classroom</em> para crear el <em>team</em> y el repositorio.</p>
@@ -616,7 +616,7 @@ imagen.</p>
 <p><img src="imagenes/nombre-repo-github-classroom.png" width="600px"/></p>
 <p>El equipo trabajará con un repositorio creado por GitHub Classroom
 con el nombre <code>todolistgrupo-2019-NOMBRE-EQUIPO</code>. Al igual que en
-la práctica 1, el repositorio se creará en el grupo <code>mads-ua-18</code>.</p>
+la práctica 1, el repositorio se creará en el grupo <code>mads-ua</code>.</p>
 <p><img src="imagenes/repo-creado-github-classroom.png" width="700px"/></p>
 <p>Una vez que la primera persona ha creado el equipo y el
 repositorio, las siguientes personas que usan el enlace pueden
@@ -636,7 +636,7 @@ unirse al equipo creado o crear un nuevo equipo:</p>
 <p>Subidlo al nuevo repositorio, cambiando la URL del <code>origin</code> del
 repositorio local y haciendo un push:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git remote set-url origin https://github.com/mads-ua-18/todolistgrupo-2019-NOMBRE-EQUIPO.git
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git remote set-url origin https://github.com/mads-ua/todolistgrupo-2019-NOMBRE-EQUIPO.git
 $ git push -u origin master
 </pre></div>
 </td></tr></table>
@@ -672,7 +672,7 @@ lo siguiente:</p>
   sobre la rama.</li>
 <li><strong>Pull request</strong>: Cuando el ticket se ha terminado, el responsable
   abre un pull request en GitHub y pone la tarjeta en la columna
-  <code>In pull request</code>.</li>
+  <code>In pull request</code>. Se archiva la tarjeta del <em>issue</em>.</li>
 <li><strong>Revisión de código</strong>: Los miembros del equipo revisan el código en
   el pull request (consultar documentación en GitHub: <a href="https://help.github.com/articles/reviewing-proposed-changes-in-a-pull-request/">Reviewing
   proposed changes in a pull
@@ -908,18 +908,33 @@ rama <code>develop</code> (además de en la rama <code>master</code>).</p>
   funciona bien.</p>
 </li>
 <li>
-<p>Vamos a probar el lanzamiento de una release usando el flujo de
+<p>Cread tres <em>issues</em> distintos, simulando tres nuevas
+  funcionalidades. Deben ser issues muy sencillos (cambiar el color de
+  algún elemento de la aplicación, cambiar un texto, o algo
+  similar). Cada uno de los miembros del equipo será el responsable de
+  uno de los issues. </p>
+</li>
+</ul>
+<p>El <strong>responsable de GitHub</strong> configurará el repositorio para obligar
+  a que cualquier <em>pull request</em> tenga que tener la revisión de una
+  persona distinta del responsable del PR.</p>
+<p>Desarrollar e integrar los issues en <code>develop</code> siguiendo el flujo de
+  trabajo planteado anteriormente. El <strong>responsable de GitHub</strong> se
+  asegurará de que el tablero de GitHub se actualiza correctamente.</p>
+<ul>
+<li>
+<p>Por último, vamos a probar el lanzamiento de una release usando el flujo de
   trabajo. Cread un <em>issue</em> con la tarea <em>Lanzar release 1.3.0</em> que
   tendrá como responsable al responsable de GitHub.</p>
 </li>
 <li>
-<p>El responsable de GitHub deberá publicar la nueva versión siguiendo
+<p>El <strong>responsable de GitHub</strong> deberá publicar la nueva versión siguiendo
   los pasos de GitFlow:</p>
 <ul>
-<li>Crear la rama local <strong><code>release-1.3.0</code></strong> a partir de <code>develop</code>.</li>
+<li>Crear la rama local <code>release-1.3.0</code> a partir de <code>develop</code>.</li>
 <li>Realizar en esta rama los cambios específicos de la versión. En
   nuestro caso:<ul>
-<li>Cambiar en la página "Acerca de" "Versión 1.3.0-SNAPSHOT" a
+<li>Cambiar en la página <code>Acerca de</code> "Versión 1.3.0-SNAPSHOT" a
   "Versión 1.3.0" y añadir la fecha de publicación.</li>
 <li>Cambiar el fichero <code>pom.xml</code>.</li>
 </ul>
@@ -935,7 +950,8 @@ rama <code>develop</code> (además de en la rama <code>master</code>).</p>
 <li>
 <p>Una vez hecho esto ya se puede borrar la rama <code>release-1.3.0</code> y las
   ramas <code>master</code> y <code>develop</code> estarán actualizadas a la nueva
-  versión.</p>
+  versión. Hacer por último un commit en <code>develop</code> (no hace falta PR)
+  cambiando la versión a <code>1.4.0-SNAPSHOT</code>.</p>
 </li>
 <li>
 <p>La rama <code>develop</code> también será integrada por Travis. Debemos
@@ -1227,7 +1243,7 @@ Añadir fichero 'schema-latest.sql' en el directorio sql con la
 última versión del esquema de datos, tal y como expliqué en clase. 
 Por ejemplo, el equipo 12 lo ha hecho así.
 
-https://github.com/mads-ua-18/todolistgrupo-2018-equipo-12/pull/18/files
+https://github.com/mads-ua/todolistgrupo-2018-equipo-12/pull/18/files
 
 ### Pasos a seguir ###
 
