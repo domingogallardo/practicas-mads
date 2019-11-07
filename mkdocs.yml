@@ -21,7 +21,7 @@ theme:
 #         code: 'Ubuntu Mono'
 #         text: 'Roboto'
 #         code: 'Roboto Mono'
-        text: 'Helvetica'
+        text: 'Ubuntu'
         code: 'B612 Mono'
     logo: 'imagenes/logo.png'
 
