@@ -22,7 +22,7 @@ theme:
 #         text: 'Roboto'
 #         code: 'Roboto Mono'
         text: 'Ubuntu'
-        code: 'B612 Mono'
+        code: 'Roboto Mono'
     logo: 'imagenes/logo.png'
 
 # Ponemos como idioma de búsqueda el inglés
