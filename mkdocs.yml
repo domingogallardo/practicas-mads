@@ -17,11 +17,8 @@ theme:
         primary: 'Teal'
         accent: 'Teal'
     font:
-#         text: 'Ubuntu'
-#         code: 'Ubuntu Mono'
-#         text: 'Roboto'
-#         code: 'Roboto Mono'
         text: 'Ubuntu' 
+#       text: 'Roboto'
         code: 'Roboto Mono' 
     logo: 'imagenes/logo.png'
 
