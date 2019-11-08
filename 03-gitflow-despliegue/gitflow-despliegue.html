@@ -404,8 +404,22 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pasos-a-seguir_3" title="Pasos a seguir" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#imagen-docker-de-la-aplicacion" title="Imagen Docker de la aplicación" class="md-nav__link">
     Imagen Docker de la aplicación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_4" title="Pasos a seguir" class="md-nav__link">
+    Pasos a seguir
   </a>
   
 </li>
@@ -571,8 +585,22 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pasos-a-seguir_3" title="Pasos a seguir" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#imagen-docker-de-la-aplicacion" title="Imagen Docker de la aplicación" class="md-nav__link">
     Imagen Docker de la aplicación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_4" title="Pasos a seguir" class="md-nav__link">
+    Pasos a seguir
   </a>
   
 </li>
@@ -1061,7 +1089,7 @@ los mensajes de error:</p>
 <p>En la aplicación vamos a usar esta variable y también otras que nos
 van a permitir configurar las propiedades relacionadas con la conexión
 con la base de datos.</p>
-<h4>Pasos a seguir</h4>
+<h3 id="pasos-a-seguir_3">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p>Abre un <em>issue</em> denominado <code>Dockerización de la aplicación</code> en el
@@ -1159,7 +1187,7 @@ dirección IP en la que se está ejecutando el contenedor Docker.</p>
 </div>
 <h3 id="imagen-docker-de-la-aplicacion">Imagen Docker de la aplicación<a class="headerlink" href="#imagen-docker-de-la-aplicacion" title="Permanent link">&para;</a></h3>
 <p>Hemos visto <a href="https://github.com/domingogallardo/apuntes-mads/blob/master/sesiones/08-integracion-entrega-continua/integracion-entrega-continua.md#demostración-de-docker">en teoría</a> cómo crear imágenes Docker. Vamos a crear una
-imagen con nuestra aplicación <code>todolist</code>.</p>
+imagen con nuestra aplicación <code>mads-todolist</code>.</p>
 <p>El fichero <code>Dockerfile</code> es el responsable de construir la máquina
 Docker. Usaremos el siguiente <code>Dockerfile</code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -1248,7 +1276,7 @@ CMD java -Dspring.profiles.active=$PROFILE -Ddb_ip=$DB_IP -Ddb_user=$DB_USER \
 </pre></div>
 </td></tr></table>
 
-<p>Se trata de un fichero que construye la aplicación en dos fases. En
+<p>Se trata de un fichero que construye la imagen docker en dos fases. En
 una primera fase compila la aplicación y guarda todos los <code>jars</code> en el
 directorio <code>target</code>. En la segunda fase crea la máquina resultante, basada en
 <code>openjdk:8-jre-alpine</code>, con las librerías compiladas previamente.</p>
@@ -1264,7 +1292,9 @@ definido en el fichero de propiedades de spring boot:</p>
 <li><code>DB_PASSWD</code>: contraseña del usuario de la base de datos.</li>
 <li><code>LOGGING</code>: nivel de logging que va a realizar la aplicación.</li>
 </ul>
-<h4>Pasos a seguir</h4>
+<p>Para lanzar una imagen docker definiendo un valor de una variable de
+entorno hay que utilizar el flag <code>-e VARIABLE=valor</code>. </p>
+<h3 id="pasos-a-seguir_4">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p>Crea una cuenta en <a href="https://hub.docker.com">DockerHub</a>. En esta
@@ -1281,7 +1311,16 @@ definido en el fichero de propiedades de spring boot:</p>
 </pre></div>
 </td></tr></table>
 
-<p>Y prueba a ejecutar la aplicación funcionando con la imagen docker
+<p>Prueba a ejecutar la aplicación trabajando con la base de datos en
+memoria y con logs de nivel <code>INFO</code>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>docker run --rm -it -p 8080:8080 -e LOGGING=error USUARIO/mads-todolist-equipo-XX
+</pre></div>
+</td></tr></table>
+
+<p>El flag <code>-it</code> permite visualizar en el terminal de forma
+interactiva la salida estándar de la aplicación Play y terminarla
+haciendo un <code>CTRL-C</code>.</p>
+<p>Y prueba por último a ejecutar la aplicación funcionando con la imagen docker
 con la base de datos MySQL:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -1293,9 +1332,6 @@ $ docker run --rm -it --link mysql-develop -p <span class="m">8080</span>:8080 <
 </pre></div>
 </td></tr></table>
 
-<p>El flag <code>-it</code> permite visualizar en el terminal de forma
-interactiva la salida estándar de la aplicación Play y terminarla
-haciendo un <code>CTRL-C</code>.</p>
 </li>
 <li>
 <p>Cuando compruebes que todo funciona correctamente, sube a <em>docker hub</em>
@@ -1313,9 +1349,20 @@ $ docker push USUARIO/mads-todolist-equipo-XX
 <p>Comprueba en <em>docker hub</em> que la imagen se ha subido
   correctamente. Uno de los compañeros debe probar que la imagen
   funciona correctamente, ejecutando las dos instrucciones
-  anteriores en su máquina. Comprobad que se descarga correctamente
-  la máquina <code>USUARIO/mads-todolist-equipo-XX</code> y que la aplicación se
-  lanza sin errores.</p>
+  anteriores en su máquina:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run -d -p <span class="m">3306</span>:3306 --name mysql-develop -e <span class="nv">MYSQL_ALLOW_EMPTY_PASSWORD</span><span class="o">=</span>yes -e <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>mads mysql:5 
+$ docker run --rm -it --link mysql-develop -p <span class="m">8080</span>:8080 <span class="se">\</span>
+  -e <span class="nv">PROFILE</span><span class="o">=</span>mysql -e <span class="nv">DB_IP</span><span class="o">=</span>mysql-develop:3306 -e <span class="nv">DB_USER</span><span class="o">=</span>root -e <span class="nv">LOGGING</span><span class="o">=</span>info <span class="se">\</span>
+  USUARIO/mads-todolist-equipo-XX
+</pre></div>
+</td></tr></table>
+
+<p>Comprobad que se descarga correctamente la máquina
+<code>USUARIO/mads-todolist-equipo-XX</code> y que la aplicación se lanza sin
+errores.</p>
 </li>
 <li>
 <p>Por último, modifica el script de Travis para que sea Travis quien
@@ -1353,20 +1400,7 @@ $ docker push USUARIO/mads-todolist-equipo-XX
 23
 24
 25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nt">Fichero</span> <span class="err">`</span><span class="p">.</span><span class="nc">travis</span><span class="p">.</span><span class="nc">yml</span><span class="err">`</span><span class="o">:</span>
+26</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nt">Fichero</span> <span class="err">`</span><span class="p">.</span><span class="nc">travis</span><span class="p">.</span><span class="nc">yml</span><span class="err">`</span><span class="o">:</span>
 
   <span class="err">```</span>
   <span class="nt">language</span><span class="o">:</span> <span class="nt">java</span>
@@ -1392,22 +1426,20 @@ $ docker push USUARIO/mads-todolist-equipo-XX
       <span class="nt">docker</span> <span class="nt">push</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="p">:</span><span class="nd">latest</span><span class="o">;</span>
       <span class="nt">fi</span>
   <span class="err">```</span>
-
-<span class="nt">El</span> <span class="nt">script</span> <span class="nt">que</span> <span class="nt">publica</span> <span class="nt">la</span> <span class="nt">imagen</span> <span class="nt">en</span> <span class="nt">DockerHub</span> <span class="nt">se</span> <span class="nt">realizar</span><span class="err">á</span> <span class="nt">cuando</span>
-<span class="nt">Travis</span> <span class="nt">haga</span> <span class="nt">un</span> <span class="nt">build</span> <span class="nt">que</span> <span class="nt">no</span> <span class="nt">sea</span> <span class="nt">del</span> <span class="nt">tipo</span> <span class="nt">_pull</span> <span class="nt">request_</span> <span class="o">(</span><span class="nt">o</span> <span class="nt">sea</span><span class="o">,</span>
-<span class="nt">cuando</span> <span class="nt">sea</span> <span class="nt">un</span> <span class="nt">build</span> <span class="nt">disparado</span> <span class="nt">por</span> <span class="nt">el</span> <span class="nt">commit</span> <span class="nt">de</span> <span class="nt">merge</span> <span class="nt">con</span> <span class="nt">la</span> <span class="nt">rama</span>
-<span class="nt">en</span> <span class="nt">la</span> <span class="nt">que</span> <span class="nt">se</span> <span class="nt">integra</span> <span class="nt">el</span> <span class="nt">PR</span><span class="o">).</span> <span class="nt">Y</span> <span class="nt">publica</span> <span class="nt">la</span> <span class="nt">imagen</span> <span class="nt">usando</span> <span class="nt">como</span>
-<span class="nt">n</span><span class="err">ú</span><span class="nt">mero</span> <span class="nt">de</span> <span class="nt">_tag_</span> <span class="nt">un</span> <span class="nt">n</span><span class="err">ú</span><span class="nt">mero</span> <span class="nt">que</span> <span class="nt">se</span> <span class="nt">va</span> <span class="nt">incrementando</span> <span class="nt">y</span> <span class="nt">que</span> <span class="nt">se</span> <span class="nt">obtiene</span>
-<span class="nt">del</span> <span class="nt">n</span><span class="err">ú</span><span class="nt">mero</span> <span class="nt">de</span> <span class="nt">build</span><span class="o">.</span> <span class="nt">Y</span> <span class="nt">esta</span> <span class="err">ú</span><span class="nt">ltima</span> <span class="nt">imagen</span> <span class="nt">tambi</span><span class="err">é</span><span class="nt">n</span> <span class="nt">se</span> <span class="nt">utilizar</span><span class="err">á</span>
-<span class="nt">como</span> <span class="err">ú</span><span class="nt">ltima</span><span class="o">,</span> <span class="nt">duplic</span><span class="err">á</span><span class="nt">ndola</span> <span class="nt">y</span> <span class="nt">asign</span><span class="err">á</span><span class="nt">ndole</span> <span class="nt">la</span> <span class="nt">etiqueta</span> <span class="err">`</span><span class="nt">latest</span><span class="err">`</span><span class="o">.</span>
-
-<span class="nt">Por</span> <span class="nt">ejemplo</span><span class="o">,</span> <span class="nt">cuando</span> <span class="nt">se</span> <span class="nt">realice</span> <span class="nt">el</span> <span class="nt">build</span> <span class="err">`</span><span class="p">#</span><span class="nn">28</span><span class="err">`</span> <span class="nt">se</span> <span class="nt">publicar</span><span class="err">á</span> <span class="nt">la</span>
-<span class="nt">imagen</span> <span class="nt">resultante</span> <span class="nt">de</span> <span class="nt">este</span> <span class="nt">build</span> <span class="nt">con</span> <span class="nt">las</span> <span class="nt">etiquetas</span> <span class="err">`</span><span class="nt">28</span><span class="err">`</span> <span class="nt">y</span> <span class="err">`</span><span class="nt">latest</span><span class="err">`</span><span class="o">:</span>
-<span class="err">`</span><span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="p">:</span><span class="nd">28</span><span class="err">`</span> <span class="nt">y</span>
-<span class="err">`</span><span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="p">:</span><span class="nd">latest</span><span class="err">`</span><span class="o">.</span>
 </pre></div>
 </td></tr></table>
 
+<p>El script que publica la imagen en DockerHub se realizará cuando
+   Travis haga un build que no sea del tipo <em>pull request</em> (o sea,
+   cuando sea un build disparado por el commit de merge con la rama en
+   la que se integra el PR). Y publica la imagen usando como número de
+   <em>tag</em> un número que se va incrementando y que se obtiene del número
+   de build. Y esta última imagen también se utilizará como última,
+   duplicándola y asignándole la etiqueta <code>latest</code>.</p>
+<p>Por ejemplo, cuando se realice el build <code>#28</code> se publicará la
+   imagen resultante de este build con las etiquetas <code>28</code> y <code>latest</code>:
+   <code>USUARIO/mads-todolist-equipo-XX:28</code> y
+   <code>USUARIO/mads-todolist-equipo-XX:latest</code>.</p>
 <ul>
 <li>
 <p>Por último, añade el siguiente fichero <code>docker-compose.yml</code> en el
@@ -1521,8 +1553,10 @@ $ docker-compose up
 </pre></div>
 </td></tr></table>
 
-<p>Verás cómo se ponen en marcha los dos contenedores y nuestra
-aplicación funciona correctamente. Puedes terminar la ejecución
+<p>Verás cómo se ponen en marcha el contenedor <code>mysql</code> y el
+contenedor con nuestra aplicación. Prueba a conectarte a la
+aplicación y comprobar que todo funciona correctamente.
+Puedes terminar la ejecución
 haciendo <code>CTRL-C</code> o lanzando desde otra terminal el comando</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>docker-compose down
 </pre></div>
