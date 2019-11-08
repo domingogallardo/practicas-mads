@@ -1372,9 +1372,8 @@ errores.</p>
   Environment Variables</em>) las variables: <code>DOCKER_USERNAME</code> y
   <code>DOCKER_PASSWORD</code>, para que Travis pueda publicar en tu cuenta de
   DockerHub.</p>
-</li>
-</ul>
 <p><img src="imagenes/variables-entorno-travis.png" width="700px"/></p>
+<p>Fichero <code>.travis.yml</code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -1395,52 +1394,48 @@ errores.</p>
 18
 19
 20
-21
-22
-23
-24
-25
-26</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nt">Fichero</span> <span class="err">`</span><span class="p">.</span><span class="nc">travis</span><span class="p">.</span><span class="nc">yml</span><span class="err">`</span><span class="o">:</span>
+21</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">language</span><span class="o">:</span> <span class="n">java</span>
+<span class="n">branches</span><span class="o">:</span>
+  <span class="n">only</span><span class="o">:</span>
+    <span class="o">-</span> <span class="n">master</span>
 
-  <span class="err">```</span>
-  <span class="nt">language</span><span class="o">:</span> <span class="nt">java</span>
+<span class="n">services</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">mysql</span>
 
-  <span class="nt">branches</span><span class="o">:</span>
-    <span class="nt">only</span><span class="o">:</span>
-      <span class="nt">-</span> <span class="nt">master</span>
+<span class="n">before_install</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">mysql</span> <span class="o">-</span><span class="n">e</span> <span class="s1">&#39;CREATE DATABASE mads_test;&#39;</span>
 
-  <span class="nt">services</span><span class="o">:</span>
-    <span class="nt">-</span> <span class="nt">mysql</span>
+<span class="n">script</span><span class="o">:</span> <span class="o">./</span><span class="n">mvnw</span> <span class="n">test</span> <span class="o">-</span><span class="n">Dspring</span><span class="o">.</span><span class="na">profiles</span><span class="o">.</span><span class="na">active</span><span class="o">=</span><span class="n">mysql</span>
 
-  <span class="nt">before_install</span><span class="o">:</span>
-    <span class="nt">-</span> <span class="nt">mysql</span> <span class="nt">-e</span> <span class="s1">&#39;CREATE DATABASE mads_test;&#39;</span>
-
-  <span class="nt">script</span><span class="o">:</span> <span class="o">./</span><span class="nt">mvnw</span> <span class="nt">test</span> <span class="nt">-Dspring</span><span class="p">.</span><span class="nc">profiles</span><span class="p">.</span><span class="nc">active</span><span class="o">=</span><span class="nt">mysql</span>
-
-  <span class="nt">after_success</span><span class="o">:</span>
-    <span class="nt">-</span> <span class="nt">docker</span> <span class="nt">build</span> <span class="nt">-t</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="o">:$</span><span class="nt">TRAVIS_BUILD_NUMBER</span> <span class="o">.</span>
-    <span class="nt">-</span> <span class="nt">if</span> <span class="cp">[</span> <span class="s2">&quot;$TRAVIS_EVENT_TYPE&quot;</span> <span class="o">!=</span> <span class="s2">&quot;pull_request&quot;</span> <span class="cp">]</span><span class="o">;</span> <span class="nt">then</span>
-      <span class="nt">docker</span> <span class="nt">login</span> <span class="nt">-u</span><span class="o">=</span><span class="s2">&quot;$DOCKER_USERNAME&quot;</span> <span class="nt">-p</span><span class="o">=</span><span class="s2">&quot;$DOCKER_PASSWORD&quot;</span><span class="o">;</span>
-      <span class="nt">docker</span> <span class="nt">push</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="o">:$</span><span class="nt">TRAVIS_BUILD_NUMBER</span><span class="o">;</span>
-      <span class="nt">docker</span> <span class="nt">tag</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="o">:$</span><span class="nt">TRAVIS_BUILD_NUMBER</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="p">:</span><span class="nd">latest</span><span class="o">;</span>
-      <span class="nt">docker</span> <span class="nt">push</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="p">:</span><span class="nd">latest</span><span class="o">;</span>
-      <span class="nt">fi</span>
-  <span class="err">```</span>
+<span class="n">after_success</span><span class="o">:</span>
+  <span class="o">-</span> <span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">USUARIO</span><span class="o">/</span><span class="n">mads</span><span class="o">-</span><span class="n">todolist</span><span class="o">-</span><span class="n">equipo</span><span class="o">-</span><span class="n">XX</span><span class="o">:</span><span class="n">$TRAVIS_BUILD_NUMBER</span> <span class="o">.</span>
+  <span class="o">-</span> <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_EVENT_TYPE&quot;</span> <span class="o">!=</span> <span class="s2">&quot;pull_request&quot;</span> <span class="o">];</span> <span class="n">then</span>
+    <span class="n">docker</span> <span class="n">login</span> <span class="o">-</span><span class="n">u</span><span class="o">=</span><span class="s2">&quot;$DOCKER_USERNAME&quot;</span> <span class="o">-</span><span class="n">p</span><span class="o">=</span><span class="s2">&quot;$DOCKER_PASSWORD&quot;</span><span class="o">;</span>
+    <span class="n">docker</span> <span class="n">push</span> <span class="n">USUARIO</span><span class="o">/</span><span class="n">mads</span><span class="o">-</span><span class="n">todolist</span><span class="o">-</span><span class="n">equipo</span><span class="o">-</span><span class="n">XX</span><span class="o">:</span><span class="n">$TRAVIS_BUILD_NUMBER</span><span class="o">;</span>
+    <span class="n">docker</span> <span class="n">tag</span> <span class="n">USUARIO</span><span class="sr">/mads-todolist-equipo-XX:$TRAVIS_BUILD_NUMBER USUARIO/</span><span class="n">mads</span><span class="o">-</span><span class="n">todolist</span><span class="o">-</span><span class="n">equipo</span><span class="o">-</span><span class="n">XX</span><span class="o">:</span><span class="n">latest</span><span class="o">;</span>
+    <span class="n">docker</span> <span class="n">push</span> <span class="n">USUARIO</span><span class="o">/</span><span class="n">mads</span><span class="o">-</span><span class="n">todolist</span><span class="o">-</span><span class="n">equipo</span><span class="o">-</span><span class="n">XX</span><span class="o">:</span><span class="n">latest</span><span class="o">;</span>
+    <span class="n">fi</span>
 </pre></div>
 </td></tr></table>
 
-<p>El script que publica la imagen en DockerHub se realizará cuando
-   Travis haga un build que no sea del tipo <em>pull request</em> (o sea,
-   cuando sea un build disparado por el commit de merge con la rama en
-   la que se integra el PR). Y publica la imagen usando como número de
-   <em>tag</em> un número que se va incrementando y que se obtiene del número
-   de build. Y esta última imagen también se utilizará como última,
-   duplicándola y asignándole la etiqueta <code>latest</code>.</p>
-<p>Por ejemplo, cuando se realice el build <code>#28</code> se publicará la
-   imagen resultante de este build con las etiquetas <code>28</code> y <code>latest</code>:
-   <code>USUARIO/mads-todolist-equipo-XX:28</code> y
-   <code>USUARIO/mads-todolist-equipo-XX:latest</code>.</p>
+<p>Fíjate en el scritp <code>after_success</code>. Es lo que Travis hará después
+de ejecutar con éxito los tests:</p>
 <ul>
+<li>Construir la máquina docker de nuestra aplicación, asignándole
+como etiqueta el número de build actuar.</li>
+<li>Si la ejecución de Travis es debida a un evento que no es un
+<em>pull request</em> (o sea, cuando sea un build disparado por el commit
+de merge con la rama en la que se integra el PR) se logea en
+docker hub con el usuario y la contraseña definidas en las
+variables. Una vez logeado, publica la imagen usando como número
+de <em>tag</em> el número de build. Y esta última imagen también se
+vuelve a etiquetar como <code>latest</code> y se vuelve a subir.</li>
+</ul>
+<p>Por ejemplo, cuando se realice el build <code>#28</code> se publicará la
+imagen resultante de este build con las etiquetas <code>28</code> y <code>latest</code>:
+<code>USUARIO/mads-todolist-equipo-XX:28</code> y
+<code>USUARIO/mads-todolist-equipo-XX:latest</code>.</p>
+</li>
 <li>
 <p>Por último, añade el siguiente fichero <code>docker-compose.yml</code> en el
   directorio raíz de la aplicación. La aplicación <code>docker-compose</code>
