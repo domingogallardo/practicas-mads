@@ -1385,48 +1385,22 @@ errores.</p>
   <code>DOCKER_PASSWORD</code>, para que Travis pueda publicar en tu cuenta de
   DockerHub.</p>
 <p><img src="imagenes/variables-entorno-travis.png" width="700px"/></p>
-<p>Fichero <code>.travis.yml</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="n">language</span><span class="o">:</span> <span class="n">java</span>
-<span class="n">branches</span><span class="o">:</span>
-  <span class="n">only</span><span class="o">:</span>
-    <span class="o">-</span> <span class="n">master</span>
-
-<span class="n">services</span><span class="o">:</span>
-  <span class="o">-</span> <span class="n">mysql</span>
-
-<span class="n">before_install</span><span class="o">:</span>
-  <span class="o">-</span> <span class="n">mysql</span> <span class="o">-</span><span class="n">e</span> <span class="s1">&#39;CREATE DATABASE mads_test;&#39;</span>
-
-<span class="n">script</span><span class="o">:</span> <span class="o">./</span><span class="n">mvnw</span> <span class="n">test</span> <span class="o">-</span><span class="n">Dspring</span><span class="o">.</span><span class="na">profiles</span><span class="o">.</span><span class="na">active</span><span class="o">=</span><span class="n">mysql</span>
-
-<span class="n">after_success</span><span class="o">:</span>
-  <span class="o">-</span> <span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">USUARIO</span><span class="o">/</span><span class="n">mads</span><span class="o">-</span><span class="n">todolist</span><span class="o">-</span><span class="n">equipo</span><span class="o">-</span><span class="n">XX</span><span class="o">:</span><span class="n">$TRAVIS_BUILD_NUMBER</span> <span class="o">.</span>
-  <span class="o">-</span> <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$TRAVIS_EVENT_TYPE&quot;</span> <span class="o">!=</span> <span class="s2">&quot;pull_request&quot;</span> <span class="o">];</span> <span class="n">then</span>
-    <span class="n">docker</span> <span class="n">login</span> <span class="o">-</span><span class="n">u</span><span class="o">=</span><span class="s2">&quot;$DOCKER_USERNAME&quot;</span> <span class="o">-</span><span class="n">p</span><span class="o">=</span><span class="s2">&quot;$DOCKER_PASSWORD&quot;</span><span class="o">;</span>
-    <span class="n">docker</span> <span class="n">push</span> <span class="n">USUARIO</span><span class="o">/</span><span class="n">mads</span><span class="o">-</span><span class="n">todolist</span><span class="o">-</span><span class="n">equipo</span><span class="o">-</span><span class="n">XX</span><span class="o">:</span><span class="n">$TRAVIS_BUILD_NUMBER</span><span class="o">;</span>
-    <span class="n">docker</span> <span class="n">tag</span> <span class="n">USUARIO</span><span class="sr">/mads-todolist-equipo-XX:$TRAVIS_BUILD_NUMBER USUARIO/</span><span class="n">mads</span><span class="o">-</span><span class="n">todolist</span><span class="o">-</span><span class="n">equipo</span><span class="o">-</span><span class="n">XX</span><span class="o">:</span><span class="n">latest</span><span class="o">;</span>
-    <span class="n">docker</span> <span class="n">push</span> <span class="n">USUARIO</span><span class="o">/</span><span class="n">mads</span><span class="o">-</span><span class="n">todolist</span><span class="o">-</span><span class="n">equipo</span><span class="o">-</span><span class="n">XX</span><span class="o">:</span><span class="n">latest</span><span class="o">;</span>
-    <span class="n">fi</span>
+<p>Líneas a añadir al final del fichero <code>.travis.yml</code>:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="nt">after_success</span><span class="o">:</span>
+  <span class="nt">-</span> <span class="nt">docker</span> <span class="nt">build</span> <span class="nt">-t</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="o">:$</span><span class="nt">TRAVIS_BUILD_NUMBER</span> <span class="o">.</span>
+  <span class="nt">-</span> <span class="nt">if</span> <span class="cp">[</span> <span class="s2">&quot;$TRAVIS_EVENT_TYPE&quot;</span> <span class="o">!=</span> <span class="s2">&quot;pull_request&quot;</span> <span class="cp">]</span><span class="o">;</span> <span class="nt">then</span>
+    <span class="nt">docker</span> <span class="nt">login</span> <span class="nt">-u</span><span class="o">=</span><span class="s2">&quot;$DOCKER_USERNAME&quot;</span> <span class="nt">-p</span><span class="o">=</span><span class="s2">&quot;$DOCKER_PASSWORD&quot;</span><span class="o">;</span>
+    <span class="nt">docker</span> <span class="nt">push</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="o">:$</span><span class="nt">TRAVIS_BUILD_NUMBER</span><span class="o">;</span>
+    <span class="nt">docker</span> <span class="nt">tag</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="o">:$</span><span class="nt">TRAVIS_BUILD_NUMBER</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="p">:</span><span class="nd">latest</span><span class="o">;</span>
+    <span class="nt">docker</span> <span class="nt">push</span> <span class="nt">USUARIO</span><span class="o">/</span><span class="nt">mads-todolist-equipo-XX</span><span class="p">:</span><span class="nd">latest</span><span class="o">;</span>
+    <span class="nt">fi</span>
 </pre></div>
 </td></tr></table>
 
