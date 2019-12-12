@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.1.1">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -40,9 +40,9 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.3020aac5.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
       
-        <link rel="stylesheet" href="../assets/stylesheets/application-palette.224b79ff.css">
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
       
         
@@ -51,12 +51,12 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.01ccdecf.js"></script>
+      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700|Roboto+Mono">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -108,7 +108,9 @@
               Prácticas MADS
             </span>
             <span class="md-header-nav__topic">
-              Comandos Git
+              
+                Comandos Git
+              
             </span>
           
         </div>
@@ -151,7 +153,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -232,7 +234,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#resumen-de-comandos-git" title="Resumen de comandos Git" class="md-nav__link">
+  <a href="#resumen-de-comandos-git" class="md-nav__link">
     Resumen de comandos Git
   </a>
   
@@ -240,28 +242,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#comandos-basicos" title="Comandos básicos" class="md-nav__link">
+  <a href="#comandos-basicos" class="md-nav__link">
     Comandos básicos
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ramas" title="Ramas" class="md-nav__link">
+  <a href="#ramas" class="md-nav__link">
     Ramas
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#modificar-la-historia" title="Modificar la historia" class="md-nav__link">
+  <a href="#modificar-la-historia" class="md-nav__link">
     Modificar la historia
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#mas-informacion" title="Más información" class="md-nav__link">
+  <a href="#mas-informacion" class="md-nav__link">
     Más información
   </a>
   
@@ -367,7 +369,7 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#resumen-de-comandos-git" title="Resumen de comandos Git" class="md-nav__link">
+  <a href="#resumen-de-comandos-git" class="md-nav__link">
     Resumen de comandos Git
   </a>
   
@@ -375,28 +377,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#comandos-basicos" title="Comandos básicos" class="md-nav__link">
+  <a href="#comandos-basicos" class="md-nav__link">
     Comandos básicos
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ramas" title="Ramas" class="md-nav__link">
+  <a href="#ramas" class="md-nav__link">
     Ramas
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#modificar-la-historia" title="Modificar la historia" class="md-nav__link">
+  <a href="#modificar-la-historia" class="md-nav__link">
     Modificar la historia
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#mas-informacion" title="Más información" class="md-nav__link">
+  <a href="#mas-informacion" class="md-nav__link">
     Más información
   </a>
   
@@ -454,8 +456,8 @@ $ git config --global user.email johndoe@example.com
 4
 5
 6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ <span class="nb">cd</span> /ruta/a/mi/directorio
-$ git config --global user.name <span class="p">&amp;</span>lt<span class="p">;</span>nombre-usuario<span class="p">&amp;</span>gt<span class="p">;</span>
-$ git config --global user.email <span class="p">&amp;</span>lt<span class="p">;</span>email<span class="p">&amp;</span>gt<span class="p">;</span>
+$ git config --global user.name &lt;nombre-usuario&gt;
+$ git config --global user.email &lt;email&gt;
 $ git init
 $ git add .
 $ git commit -m <span class="s2">&quot;Versión inicial&quot;</span>
@@ -466,7 +468,7 @@ $ git commit -m <span class="s2">&quot;Versión inicial&quot;</span>
 <li>
 <p>Publicar por primera vez el repositorio local en el remoto (en GitHub):</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git remote add origin https://github.com/<span class="p">&amp;</span>lt<span class="p">;</span>usuario<span class="p">&amp;</span>gt<span class="p">;</span>/<span class="p">&amp;</span>lt<span class="p">;</span>nombre-repo<span class="p">&amp;</span>gt<span class="p">;</span>.git
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git remote add origin https://github.com/&lt;usuario&gt;/&lt;nombre-repo&gt;.git
 $ git push -u origin master
 </pre></div>
 </td></tr></table>
@@ -495,7 +497,7 @@ que se crea al inicializar el repositorio local).</p>
 <p>Añadir un fichero al
   <a href="http://programmers.stackexchange.com/questions/119782/what-does-stage-mean-in-git"><em>stage</em></a>
   (añadirlo para el próximo commit):</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git add <span class="p">&amp;</span>lt<span class="p">;</span>fichero o directorio<span class="p">&amp;</span>gt<span class="p">;</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git add &lt;fichero o directorio&gt;
 </pre></div>
 </td></tr></table>
 
@@ -514,7 +516,7 @@ dibujo muestra su funcionamiento:</p>
 <li>
 <p>Eliminar un fichero del <em>stage</em> (si lo hemos añadido, pero al final
   decidimos no añadirlo en el siguiente commit):</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git reset HEAD <span class="p">&amp;</span>lt<span class="p">;</span>fichero<span class="p">&amp;</span>gt<span class="p">;</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git reset HEAD &lt;fichero&gt;
 </pre></div>
 </td></tr></table>
 
@@ -562,7 +564,7 @@ $ git clean -fd <span class="o">(</span>si se ha añadido algún fichero<span cl
 </li>
 <li>
 <p>Comprobar las diferencias entre dos commits:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git diff <span class="p">&amp;</span>lt<span class="p">;</span>hash-previo<span class="p">&amp;</span>gt<span class="p">;</span> <span class="p">&amp;</span>lt<span class="p">;</span>hash-nuevo<span class="p">&amp;</span>gt<span class="p">;</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git diff &lt;hash-previo&gt; &lt;hash-nuevo&gt;
 </pre></div>
 </td></tr></table>
 
@@ -612,7 +614,7 @@ Switched to branch <span class="s1">&#39;master&#39;</span>
 </li>
 <li>
 <p>Mostrar un fichero de una rama (o commit) dado:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git show <span class="p">&amp;</span>lt<span class="p">;</span>commit o rama<span class="p">&amp;</span>gt<span class="p">;</span>:<span class="p">&amp;</span>lt<span class="p">;</span>nombre-fichero<span class="p">&amp;</span>gt<span class="p">;</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git show &lt;commit o rama&gt;:&lt;nombre-fichero&gt;
 </pre></div>
 </td></tr></table>
 
@@ -727,15 +729,15 @@ $ git branch -d nueva-rama
  9
 10
 11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git rebase master
-CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict in <span class="p">&amp;</span>lt<span class="p">;</span>some-file<span class="p">&amp;</span>gt<span class="p">;</span>
+CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict in &lt;some-file&gt;
 <span class="c1"># hacemos git status para comprobar donde están los conflictos</span>
 $ git status
 <span class="c1"># Unmerged paths:</span>
-<span class="c1"># (use &quot;git reset HEAD &amp;lt;some-file&amp;gt;...&quot; to unstage)</span>
-<span class="c1"># (use &quot;git add/rm &amp;lt;some-file&amp;gt;...&quot; as appropriate to mark resolution)</span>
+<span class="c1"># (use &quot;git reset HEAD &lt;some-file&gt;...&quot; to unstage)</span>
+<span class="c1"># (use &quot;git add/rm &lt;some-file&gt;...&quot; as appropriate to mark resolution)</span>
 <span class="c1">#</span>
 <span class="c1"># Editamos los ficheros para corregir los conflictos</span>
-$ git add <span class="p">&amp;</span>lt<span class="p">;</span>some-file<span class="p">&amp;</span>gt<span class="p">;</span>
+$ git add &lt;some-file&gt;
 $ git rebase --continue
 </pre></div>
 </td></tr></table>
@@ -774,7 +776,7 @@ otras.</p>
 </li>
 <li>
 <p>Subir una rama al repositorio remoto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git push -u origin <span class="p">&amp;</span>lt<span class="p">;</span>rama<span class="p">&amp;</span>gt<span class="p">;</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git push -u origin &lt;rama&gt;
 </pre></div>
 </td></tr></table>
 
@@ -790,7 +792,7 @@ vez</strong> puedes utilizar el siguiente comando que la guarda en una caché:</
   repositorio remoto por defecto)</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git fetch 
-$ git checkout -b <span class="p">&amp;</span>lt<span class="p">;</span>rama<span class="p">&amp;</span>gt<span class="p">;</span> origin/<span class="p">&amp;</span>lt<span class="p">;</span>rama<span class="p">&amp;</span>gt<span class="p">;</span>
+$ git checkout -b &lt;rama&gt; origin/&lt;rama&gt;
 </pre></div>
 </td></tr></table>
 
@@ -815,7 +817,7 @@ para subir los cambios en cualquiera de las ramas presentes.</p>
 </li>
 <li>
 <p>Borrar una rama en repositorio remoto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git push origin --delete <span class="p">&amp;</span>lt<span class="p">;</span>branchName<span class="p">&amp;</span>gt<span class="p">;</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git push origin --delete &lt;branchName&gt;
 </pre></div>
 </td></tr></table>
 
@@ -860,7 +862,7 @@ para subir los cambios en cualquiera de las ramas presentes.</p>
  9
 10
 11
-12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git checkout <span class="p">&amp;</span>lt<span class="p">;</span>hash<span class="p">&amp;</span>gt<span class="p">;</span> <span class="o">(</span>o tag, por ejemplo v2.0<span class="o">)</span>
+12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git checkout &lt;hash&gt; <span class="o">(</span>o tag, por ejemplo v2.0<span class="o">)</span>
 You are in <span class="s1">&#39;detached HEAD&#39;</span> state.
 <span class="c1"># Ahora estás en un detached HEAD</span>
 $ git branch
@@ -879,7 +881,7 @@ $ git checkout master
 <li>
 <p>Movernos atrás a un commit pasado, descartando todos los commits
   realizados después (<strong>peligroso</strong>)</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git reset --hard <span class="p">&amp;</span>lt<span class="p">;</span>hash<span class="p">&amp;</span>gt<span class="p">;</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git reset --hard &lt;hash&gt;
 </pre></div>
 </td></tr></table>
 
@@ -896,6 +898,7 @@ $ git checkout master
 </ul>
                 
                   
+                
                 
               
               
@@ -963,7 +966,7 @@ $ git checkout master
       
     </div>
     
-      <script src="../assets/javascripts/application.dc02f8ce.js"></script>
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
