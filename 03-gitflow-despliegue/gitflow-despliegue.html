@@ -1543,6 +1543,28 @@ haciendo <code>CTRL-C</code> o lanzando desde otra terminal el comando</p>
 
 </li>
 <li>
+<p>En el script de <code>docker compose</code> el contenedor <code>mysql</code> utiliza un
+    <a href="https://docs.docker.com/storage/volumes/">volumen</a>. Esto permite
+    conservar los datos que se introduzcan en la ejecución del
+    programa, aunque el contenedor se borre. También sería posible
+    hacer un backup de estos datos a partir del volumen.</p>
+<p>Para listar los volúmenes mantenidos por docker:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">docker volume ls</span>
+</pre></div>
+</td></tr></table>
+
+<p>Para eliminar un volumen:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">docker volume rm nombre-volumen</span>
+</pre></div>
+</td></tr></table>
+
+<p>Y para elminiar todos los volúmenes:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">docker volume prune</span>
+</pre></div>
+</td></tr></table>
+
+</li>
+<li>
 <p>Haz un commit y sube los cambios a GitHub. </p>
 </li>
 <li>
