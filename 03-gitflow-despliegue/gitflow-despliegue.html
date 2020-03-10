@@ -32,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
     
     
       
@@ -40,7 +40,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.adb8469c.css">
       
         <link rel="stylesheet" href="../assets/stylesheets/application-palette.a8b3c06d.css">
       
@@ -51,7 +51,7 @@
       
     
     
-      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#practica-3-trabajo-en-equipo-con-gitflow-y-despliegue-de-la-aplicacion" tabindex="1" class="md-skip">
+      <a href="#practica-3-trabajo-en-equipo-con-gitflow-y-despliegue-de-la-aplicacion" tabindex="0" class="md-skip">
         Saltar a contenido
       </a>
     
@@ -92,9 +92,9 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href=".." title="Prácticas MADS" class="md-header-nav__button md-logo">
+        <a href=".." title="Prácticas MADS" aria-label="Prácticas MADS" class="md-header-nav__button md-logo">
           
-            <img src="../imagenes/logo.png" width="24" height="24">
+            <img alt="logo" src="../imagenes/logo.png" width="24" height="24">
           
         </a>
       </div>
@@ -123,7 +123,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -164,7 +164,7 @@
   <label class="md-nav__title md-nav__title--site" for="__drawer">
     <a href=".." title="Prácticas MADS" class="md-nav__button md-logo">
       
-        <img src="../imagenes/logo.png" width="48" height="48">
+        <img alt="logo" src="../imagenes/logo.png" width="48" height="48">
       
     </a>
     Prácticas MADS
@@ -197,8 +197,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../01-intro-spring-boot/intro-spring-boot.html" title="Introducción a Sprign Boot para MADS" class="md-nav__link">
-      Introducción a Sprign Boot para MADS
+    <a href="../01-intro-spring-boot/intro-spring-boot.html" title="Introducción a Spring Boot para MADS" class="md-nav__link">
+      Introducción a Spring Boot para MADS
     </a>
   </li>
 
@@ -718,9 +718,9 @@ unirse al equipo creado o crear un nuevo equipo:</p>
 <p>Subidlo al nuevo repositorio, cambiando la URL del <code>origin</code> del
 repositorio local y haciendo un push:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git remote set-url origin https://github.com/mads-ua/todolistgrupo-2019-NOMBRE-EQUIPO.git
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git remote set-url origin https://github.com/mads-ua/todolistgrupo-2019-NOMBRE-EQUIPO.git
 $ git push -u origin master
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 <p>Por último, los otros miembros del equipo deberán clonar el
@@ -774,18 +774,18 @@ en repositorios y ramas remotas.</p>
 <li>
 <p>Subir una rama al repositorio remoto:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git checkout -b nueva-rama
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout -b nueva-rama
 $ git push -u origin nueva-rama
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 </li>
 <li>
 <p>Descargar una rama del repositorio remoto:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git fetch 
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git fetch 
 $ git checkout nueva-rama
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 <p>El comando <code>git fetch</code> se descarga todos los cambios pero no los
@@ -800,8 +800,8 @@ a la rama <code>origin/nueva-rama</code>.</p>
 <li>
 <p>Actualizar una rama con cambios que otros compañeros han subido al
   repositorio remoto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git pull
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git pull
+</code></pre></div>
 </td></tr></table>
 
 <p>El comando <code>git pull</code> es equivalente a un <code>git fetch</code> seguido de
@@ -809,19 +809,19 @@ un <code>git merge</code>. El comando <code>git fetch</code> actualiza la rama r
 <code>origin/nueva-rama</code>. El comando <code>git pull</code> es equivalente a hacer:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git checkout nueva-rama
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout nueva-rama
 $ git fetch
 $ git merge origin/nueva-rama
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 </li>
 <li>
 <p>Subir cambios de la rama actual:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">(estando en la rama que queremos subir)</span>
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">(estando en la rama que queremos subir)</span>
 <span class="err">$ git push</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 <p>El comando <code>git push</code> funcionará correctamente sin más parámetros
@@ -829,8 +829,8 @@ si previamente hemos subido la rama con un <code>git push -u</code>.</p>
 </li>
 <li>
 <p>Comprobar el estado de las ramas locales y remotas:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git branch -vv
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git branch -vv
+</code></pre></div>
 </td></tr></table>
 
 <p>Este comando no accede directamente al servidor, sino que muestra
@@ -838,9 +838,9 @@ la información de la última vez que se accedió a él. Si queremos
 la información actualizada podemos hacer un <code>git fetch --all</code>
 antes:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git fetch --all
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git fetch --all
 $ git branch -vv
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 <p>Es importante recordar que <code>git fetch</code> (a diferencia de <code>git
@@ -849,14 +849,14 @@ ramas remotas cachés locales.</p>
 </li>
 <li>
 <p>Información de los repositorios remotos:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git remote show origin
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git remote show origin
+</code></pre></div>
 </td></tr></table>
 
 <p>Proporciona información del repositorio remoto, todas sus ramas,
 del local y de la conexión entre ambos.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git remote -v update
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git remote -v update
+</code></pre></div>
 </td></tr></table>
 
 <p>Proporciona información del estado de las ramas remotas y locales
@@ -866,9 +866,9 @@ subidas).</p>
 <li>
 <p>Borrado de ramas remotas desde el terminar:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git push origin --delete nueva-rama
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git push origin --delete nueva-rama
 $ git remote prune origin
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 </li>
@@ -879,9 +879,9 @@ $ git remote prune origin
 <em>feature</em> para incorporar los avances de código que se han hecho
 en <code>master</code> y que necesitamos en nuestra nueva rama:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git checkout nueva-rama
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout nueva-rama
 $ git merge master
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 </li>
@@ -898,14 +898,14 @@ request</em>. Para arreglar el conflicto:</p>
 4
 5
 6
-7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ git checkout master
+7</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout master
 $ git pull
 $ git checkout nueva-rama
 $ git merge master
 <span class="c1"># arreglar el conflicto</span>
 $ git push
 <span class="c1"># ya se puede hacer el merge en GitHub</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 </li>
@@ -1056,21 +1056,21 @@ pasos.</p>
 <p>Hemos visto que al lanzar la aplicación Spring Boot podemos
 seleccionar el perfil activo. Por ejemplo para lanzar la aplicación
 usando como perfil activo el fichero <code>application-mysql.properties</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">mvn spring-boot:run -Dspring.profiles.active=mysql</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">mvn spring-boot:run -Dspring.profiles.active=mysql</span>
+</code></pre></div>
 </td></tr></table>
 
 <p>También hemos visto que podemos seleccionar este perfile para lanzar los tests:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">mvn test -Dspring.profiles.active=mysql</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">mvn test -Dspring.profiles.active=mysql</span>
+</code></pre></div>
 </td></tr></table>
 
 <p>La opción <code>-D</code> permite sobreescribir una propiedad del fichero de
 propiedades. Por ejemplo, podemos lanzar la aplicación modificando el
 usuario y la contraseña de una conexión a una base de datos con el
 siguiente comando:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">mvn spring-boot:run -Dspring.datasource.username=root -Dspring.datasource.password=12345678</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">mvn spring-boot:run -Dspring.datasource.username=root -Dspring.datasource.password=12345678</span>
+</code></pre></div>
 </td></tr></table>
 
 <p>También es posible definir variables en el propio fichero de
@@ -1085,19 +1085,19 @@ usamos el mismo nivel para los distintos paquetes de la aplicación:</p>
 2
 3
 4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>logging=info
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>logging=info
 logging.level.org.springframework=<span class="cp">${</span><span class="n">logging</span><span class="cp">}</span>
 logging.level.root=<span class="cp">${</span><span class="n">logging</span><span class="cp">}</span>
 logging.level.org.hibernate=<span class="cp">${</span><span class="n">logging</span><span class="cp">}</span>
 logging.level.sql=<span class="cp">${</span><span class="n">logging</span><span class="cp">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 <p>Podríamos entonces modificar el nivel de logs modificando la variable
 <code>logging</code> al lanzar los tests de la aplicación, para que sólo muestre
 los mensajes de error:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">mvn test -Dloggin=error</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">mvn test -Dloggin=error</span>
+</code></pre></div>
 </td></tr></table>
 
 <p>En la aplicación vamos a usar esta variable y también otras que nos
@@ -1127,7 +1127,7 @@ con la base de datos.</p>
 10
 11
 12
-13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>spring.datasource.url=jdbc:h2:mem:dev
+13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>spring.datasource.url=jdbc:h2:mem:dev
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
 spring.datasource.data=classpath:datos-dev.sql
@@ -1140,7 +1140,7 @@ logging.level.org.springframework=<span class="cp">${</span><span class="n">logg
 logging.level.root=<span class="cp">${</span><span class="n">logging</span><span class="cp">}</span>
 logging.level.org.hibernate=<span class="cp">${</span><span class="n">logging</span><span class="cp">}</span>
 logging.level.sql=<span class="cp">${</span><span class="n">logging</span><span class="cp">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 <p><strong>Fichero <code>src/main/resources/application-mysql.properties</code></strong></p>
@@ -1152,7 +1152,7 @@ logging.level.sql=<span class="cp">${</span><span class="n">logging</span><span 
 6
 7
 8
-9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>db_ip=localhost:3306
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>db_ip=localhost:3306
 db_user=root
 db_passwd=
 spring.datasource.url=jdbc:mysql://<span class="cp">${</span><span class="n">db_ip</span><span class="cp">}</span>/mads
@@ -1161,30 +1161,30 @@ spring.datasource.password=<span class="cp">${</span><span class="n">db_passwd</
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect
 spring.jpa.hibernate.ddl-auto=update
 spring.datasource.initialization-mode=never
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 </li>
 <li>
 <p>Probamos que funcionan bien las variables de
   configuración. Para ello, lanzamos mysql en un puerto distinto, el 3316:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">docker run -d -p 3316:3306 --name mysql-otro-puerto -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=mads mysql:5</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">docker run -d -p 3316:3306 --name mysql-otro-puerto -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=mads mysql:5</span>
+</code></pre></div>
 </td></tr></table>
 
 <p>y probamos a lanzar la aplicación modificando la variable <code>db_ip</code>
 para que se conecte a ese nuevo puerto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">mvn spring-boot:run -Dspring.profiles.active=mysql -Ddb_ip=localhost:3316</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">mvn spring-boot:run -Dspring.profiles.active=mysql -Ddb_ip=localhost:3316</span>
+</code></pre></div>
 </td></tr></table>
 
 <p>La aplicación debe arrancar correctamente, conectándose a la base
 de datos en el nuevo puerto.</p>
 <p>Por último, borramos el contenendor de prueba creado:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err"> docker container stop mysql-otro-puerto</span>
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err"> docker container stop mysql-otro-puerto</span>
 <span class="err"> docker container rm mysql-otro-puerto</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 </li>
@@ -1245,7 +1245,7 @@ Docker. Usaremos el siguiente <code>Dockerfile</code>:</p>
 39
 40
 41
-42</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">####</span><span class="w"> </span><span class="n">Stage</span><span class="w"> </span><span class="mi">1</span><span class="err">:</span><span class="w"> </span><span class="n">Build</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">application</span><span class="w"></span>
+42</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">####</span><span class="w"> </span><span class="n">Stage</span><span class="w"> </span><span class="mi">1</span><span class="err">:</span><span class="w"> </span><span class="n">Build</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">application</span><span class="w"></span>
 <span class="k">FROM</span><span class="w"> </span><span class="nl">openjdk</span><span class="p">:</span><span class="mi">8</span><span class="o">-</span><span class="n">jdk</span><span class="o">-</span><span class="n">alpine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">build</span><span class="w"></span>
 
 <span class="err">#</span><span class="w"> </span><span class="k">Set</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">current</span><span class="w"> </span><span class="n">working</span><span class="w"> </span><span class="n">directory</span><span class="w"> </span><span class="n">inside</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="nc">image</span><span class="w"></span>
@@ -1287,7 +1287,7 @@ Docker. Usaremos el siguiente <code>Dockerfile</code>:</p>
 
 <span class="cm">CMD java -Dspring.profiles.active=$PROFILE -Ddb_ip=$DB_IP -Ddb_user=$DB_USER \</span>
 <span class="cm">    -Ddb_passwd=$DB_PASSWD -Dlogging=$LOGGING -cp app:app/lib/* madstodolist.Application</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 <p>Se trata de un fichero que construye la imagen docker en dos fases. En
@@ -1321,14 +1321,14 @@ entorno hay que utilizar el flag <code>-e VARIABLE=valor</code>. </p>
 <li>
 <p>Construye la máquina docker. Utiliza como <em>usuario</em> el usuario que
   has creado en DockerHub.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">docker build -t USUARIO/mads-todolist-equipo-XX .</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">docker build -t USUARIO/mads-todolist-equipo-XX .</span>
+</code></pre></div>
 </td></tr></table>
 
 <p>Prueba a ejecutar la aplicación trabajando con la base de datos en
 memoria y con logs de nivel <code>INFO</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">docker run --rm -it -p 8080:8080 -e LOGGING=error USUARIO/mads-todolist-equipo-XX</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">docker run --rm -it -p 8080:8080 -e LOGGING=error USUARIO/mads-todolist-equipo-XX</span>
+</code></pre></div>
 </td></tr></table>
 
 <p>El flag <code>-it</code> permite visualizar en el terminal de forma
@@ -1339,11 +1339,11 @@ con la base de datos MySQL:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run -d -p <span class="m">3306</span>:3306 --name mysql-develop -e <span class="nv">MYSQL_ALLOW_EMPTY_PASSWORD</span><span class="o">=</span>yes -e <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>mads mysql:5 
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ docker run -d -p <span class="m">3306</span>:3306 --name mysql-develop -e <span class="nv">MYSQL_ALLOW_EMPTY_PASSWORD</span><span class="o">=</span>yes -e <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>mads mysql:5 
 $ docker run --rm -it --link mysql-develop -p <span class="m">8080</span>:8080 <span class="se">\</span>
   -e <span class="nv">PROFILE</span><span class="o">=</span>mysql -e <span class="nv">DB_IP</span><span class="o">=</span>mysql-develop:3306 -e <span class="nv">DB_USER</span><span class="o">=</span>root -e <span class="nv">LOGGING</span><span class="o">=</span>info <span class="se">\</span>
   USUARIO/mads-todolist-equipo-XX
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 </li>
@@ -1352,10 +1352,10 @@ $ docker run --rm -it --link mysql-develop -p <span class="m">8080</span>:8080 <
   la imagen compilada:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker login
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ docker login
 <span class="c1"># introduce tus credenciales en docker hub</span>
 $ docker push USUARIO/mads-todolist-equipo-XX
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 </li>
@@ -1367,11 +1367,11 @@ $ docker push USUARIO/mads-todolist-equipo-XX
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker run -d -p <span class="m">3306</span>:3306 --name mysql-develop -e <span class="nv">MYSQL_ALLOW_EMPTY_PASSWORD</span><span class="o">=</span>yes -e <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>mads mysql:5 
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ docker run -d -p <span class="m">3306</span>:3306 --name mysql-develop -e <span class="nv">MYSQL_ALLOW_EMPTY_PASSWORD</span><span class="o">=</span>yes -e <span class="nv">MYSQL_DATABASE</span><span class="o">=</span>mads mysql:5 
 $ docker run --rm -it --link mysql-develop -p <span class="m">8080</span>:8080 <span class="se">\</span>
   -e <span class="nv">PROFILE</span><span class="o">=</span>mysql -e <span class="nv">DB_IP</span><span class="o">=</span>mysql-develop:3306 -e <span class="nv">DB_USER</span><span class="o">=</span>root -e <span class="nv">LOGGING</span><span class="o">=</span>info <span class="se">\</span>
   USUARIO/mads-todolist-equipo-XX
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 <p>Comprobad que se descarga correctamente la máquina
@@ -1395,7 +1395,7 @@ errores.</p>
 5
 6
 7
-8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="c">after_success:</span>
+8</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="c">after_success:</span>
 <span class="c">  - docker build -t USUARIO/mads-todolist-equipo-XX:$TRAVIS_BUILD_NUMBER .</span>
 <span class="c">  - if [ &quot;$TRAVIS_EVENT_TYPE&quot; != &quot;pull_request&quot; ]; then</span>
 <span class="c">    docker login -u=&quot;$DOCKER_USERNAME&quot; -p=&quot;$DOCKER_PASSWORD&quot;;</span>
@@ -1403,7 +1403,7 @@ errores.</p>
 <span class="c">    docker tag USUARIO/mads-todolist-equipo-XX:$TRAVIS_BUILD_NUMBER USUARIO/mads-todolist-equipo-XX:latest;</span>
 <span class="c">    docker push USUARIO/mads-todolist-equipo-XX:latest;</span>
 <span class="c">    fi</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 <p>Fíjate en el script <code>after_success</code>. Es lo que Travis hará después
@@ -1473,7 +1473,7 @@ imagen resultante de este build con las etiquetas <code>28</code> y <code>latest
 39
 40
 41
-42</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="k">version</span><span class="p">:</span> <span class="s1">&#39;3.7&#39;</span>
+42</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="k">version</span><span class="p">:</span> <span class="s1">&#39;3.7&#39;</span>
 
 <span class="o">#</span> <span class="n">Define</span> <span class="n">services</span>
 <span class="n">services</span><span class="p">:</span>
@@ -1515,7 +1515,7 @@ imagen resultante de este build con las etiquetas <code>28</code> y <code>latest
 <span class="o">#</span> <span class="n">Networks</span> <span class="k">to</span> <span class="n">be</span> <span class="n">created</span> <span class="k">to</span> <span class="n">facilitate</span> <span class="n">communication</span> <span class="k">between</span> <span class="n">containers</span>
 <span class="n">networks</span><span class="p">:</span>
   <span class="n">backend</span><span class="p">:</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 </li>
@@ -1526,10 +1526,10 @@ imagen resultante de este build con las etiquetas <code>28</code> y <code>latest
     previamente la imagen que tengas en tu ordendador:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span>$ docker container prune
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ docker container prune
 $ docker image rm USUARIO/mads-todolist-equipo-XX
 $ docker-compose up
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 
 <p>Verás cómo se ponen en marcha el contenedor <code>mysql</code> y el
@@ -1537,8 +1537,8 @@ contenedor con nuestra aplicación. Prueba a conectarte a la
 aplicación y comprobar que todo funciona correctamente.
 Puedes terminar la ejecución
 haciendo <code>CTRL-C</code> o lanzando desde otra terminal el comando</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">docker-compose down</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">docker-compose down</span>
+</code></pre></div>
 </td></tr></table>
 
 </li>
@@ -1549,18 +1549,18 @@ haciendo <code>CTRL-C</code> o lanzando desde otra terminal el comando</p>
     programa, aunque el contenedor se borre. También sería posible
     hacer un backup de estos datos a partir del volumen.</p>
 <p>Para listar los volúmenes mantenidos por docker:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">docker volume ls</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">docker volume ls</span>
+</code></pre></div>
 </td></tr></table>
 
 <p>Para eliminar un volumen:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">docker volume rm nombre-volumen</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">docker volume rm nombre-volumen</span>
+</code></pre></div>
 </td></tr></table>
 
 <p>Y para elminar todos los volúmenes:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="err">docker volume prune</span>
-</pre></div>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">docker volume prune</span>
+</code></pre></div>
 </td></tr></table>
 
 </li>
@@ -1657,9 +1657,9 @@ haciendo <code>CTRL-C</code> o lanzando desde otra terminal el comando</p>
       <div class="md-footer-copyright">
         
         powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
@@ -1669,9 +1669,9 @@ haciendo <code>CTRL-C</code> o lanzando desde otra terminal el comando</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      <script>app.initialize({version:"1.1",url:{base:".."}})</script>
       
     
   </body>
