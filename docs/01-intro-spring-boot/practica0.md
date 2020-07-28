@@ -1,5 +1,5 @@
 
-# Práctica 0 - Primera aplicación con Spring Boot#
+# Práctica 1 - Primera aplicación con Spring Boot#
 
 En esta práctica tendremos un primer contacto con Spring Boot. También
 usaremos Git.
