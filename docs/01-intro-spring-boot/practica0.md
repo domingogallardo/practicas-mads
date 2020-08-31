@@ -19,14 +19,6 @@ usar el terminal que viene con el sistema. En Windows se puede usar el
 terminal Git Bash que se instala en la instalación de Git para
 Windows.
 
-!!! Note "Nota del profesor sobre en qué sistema operativo realizar la práctica"
-    Aunque en los apuntes aparezca información de cómo trabajar desde
-    Windows, recomiendo utilizar Linux o macOS. No puedo
-    garantizar que las instrucciones funcionen al 100% para Windows
-    porque no es un sistema operativo que maneje habitualmente. Si
-    haces la práctica usando Windows deberás buscar tú mismo la forma
-    de arreglar posibles problemas que puedan surgir.
-
 Es posible desarrollar la práctica en cualquier sistema
 operativo. Debemos instalar el siguiente software:
 
@@ -34,6 +26,14 @@ operativo. Debemos instalar el siguiente software:
 - Java JDK 8 o posterior
 - Maven (opcional, se puede usar el comando `./mvnw` del proyecto)
 - IntelliJ Ultimate
+
+!!! Note "Nota del profesor sobre en el sistema operativo en el que realizar la práctica" 
+    Aunque en los apuntes aparezca información
+    sobre cómo trabajar desde Windows, no puedo garantizar que las
+    instrucciones funcionen al 100% para Windows, ni podré ayudar con
+    posibles problemas, porque no es un sistema operativo que maneje
+    habitualmente. Por tanto, si tienes Windows, te recomiendo que
+    instales una máquina virtual Linux y la uses para la práctica.
 
 Recomendamos hacer el desarrollo usando el IDE [IntelliJ
 Ultimate](https://www.jetbrains.com/idea/download/). Aunque es de
