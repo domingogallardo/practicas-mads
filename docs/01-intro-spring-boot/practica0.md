@@ -30,10 +30,11 @@ operativo. Debemos instalar el siguiente software:
 !!! Note "Nota del profesor sobre en el sistema operativo en el que realizar la práctica" 
     Aunque en los apuntes aparezca información
     sobre cómo trabajar desde Windows, no puedo garantizar que las
-    instrucciones funcionen al 100% para Windows, ni podré ayudar con
-    posibles problemas, porque no es un sistema operativo que maneje
-    habitualmente. Por tanto, si tienes Windows, te recomiendo que
-    instales una máquina virtual Linux y la uses para la práctica.
+    instrucciones funcionen correctamente en todas las posibles
+    configuraciones, ni te podré ayudar con posibles problemas, porque no
+    es un sistema operativo que maneje habitualmente. Por tanto, si
+    tienes Windows, te recomiendo que instales una máquina virtual
+    Linux y la uses para la práctica.
 
 Recomendamos hacer el desarrollo usando el IDE [IntelliJ
 Ultimate](https://www.jetbrains.com/idea/download/). Aunque es de
