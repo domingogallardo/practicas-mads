@@ -10,8 +10,8 @@ ya configurados.
 
 Nosotros vamos a hacerlo más fácil todavía usando una aplicación
 ejemplo en
-[GitHub](https://github.com/domingogallardo/spring-boot-demoapp). Puedes
-hacerlo usando Git:
+GitHub [domingogallardo/spring-boot-demoapp](https://github.com/domingogallardo/spring-boot-demoapp). Puedes
+descargarla usando Git:
 
 ```
 $ git clone https://github.com/domingogallardo/spring-boot-demoapp.git
@@ -114,19 +114,26 @@ _starters_ que agrupan un conjunto de dependencias comunes.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>es.ua.mads</groupId>
     <artifactId>demoapp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <name>demoapp</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
+        <version>2.1.16.RELEASE</version>
     </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -183,7 +190,7 @@ petición HTTP. Son clases que se suelen colocar en el paquete
 
 Vemos un ejemplo en la clase `SaludoController`.
 
-**Fichero `src/main/java/demoapp/controller/SaludoService.java`**:
+**Fichero `src/main/java/demoapp/controller/SaludoController.java`**:
 
 ```java
 package demoapp.controller;
@@ -324,7 +331,7 @@ Puedes encontrar más información y ejemplos en [este enlace](https://www.baeld
 
 ### Plantillas Thymeleaf ###
 
-La aplicación devuelve páginas HTML, vistas que se construyen
+Las páginas HTML devueltas se pueden construir
 utilizando un lenguaje de plantillas con el framework
 [Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html). Las
 plantillas thymeleaf son páginas HTML en las que se introducen objetos
@@ -373,8 +380,12 @@ public class SaludoControllerPlantilla {
     }
 
     @RequestMapping("/saludoplantilla/{nombre}")
-    public String saludo(@PathVariable(value="nombre") String nombre, Model model) {
+    public String saludo(@PathVariable(value="nombre") String nombre, 
+                                                       Model model) {
+        // Se añade la respuesta a la clave 'mensaje' que se usa
+        // en la plantilla
         model.addAttribute("mensaje", service.saluda(nombre));
+        // Se llama a la plantilla 'saludo.html'
         return "saludo";
     }
 }
@@ -394,6 +405,13 @@ Los tests se pueden ejecutar usando el comando típico de Maven:
 ```
 $ mvn test
 ```
+
+O también, usando el comando de Maven Wrapper:
+
+```
+$ .mvnw test
+```
+
 
 También se pueden lanzar desde el propio IntelliJ.
 
@@ -452,6 +470,10 @@ esperada.
 
 En este test lo único que se moquea es el servidor web, y se ejecuta
 el código real del servicio, del controlador y de la plantilla.
+
+Se utilizan los métodos `andDo` y `andExpect` de la propia librería de
+testeo de Spring Framework y el método `conteainsString` de la
+librería de testeo [Hamcrest](http://hamcrest.org/JavaHamcrest/tutorial).
 
 **Fichero `src/test/demoapp/AutoConfigureWebMockTest.java`**
 
@@ -548,6 +570,9 @@ Por último, también podemos realizar tests sobre la aplicación
 funcionando completamente, realizando una petición al servidor web y
 comprobando que se devuelve lo esperado.
 
+Estos tests son los más costosos porque conllevan levantar el servidor
+web y realizar completamente el procesamiento de la petición. 
+
 **Fichero `src/test/java/demoapp/HttpRequestTest`**
 
 ```java
@@ -588,7 +613,7 @@ public class HttpRequestTest {
 
 - Getting Started Guide [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
 - Getting Started Guide [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-- Spring Boot Reference Guide 2.2.0.BUILD-SNAPSHOT
-  ([HTML](https://docs.spring.io/spring-boot/docs/2.2.0.BUILD-SNAPSHOT/reference/htmlsingle/),
-  [PDF](https://docs.spring.io/spring-boot/docs/2.2.0.BUILD-SNAPSHOT/reference/pdf/spring-boot-reference.pdf))
+- Spring Boot Reference Guide 2.1.16.RELEASE
+  ([HTML](https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/htmlsingle/)
+  [PDF](https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/pdf/spring-boot-reference.pdf))
   
