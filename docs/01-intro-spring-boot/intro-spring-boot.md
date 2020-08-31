@@ -614,6 +614,5 @@ public class HttpRequestTest {
 - Getting Started Guide [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
 - Getting Started Guide [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
 - Spring Boot Reference Guide 2.1.16.RELEASE
-  ([HTML](https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/htmlsingle/)
-  [PDF](https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/pdf/spring-boot-reference.pdf))
+  ([HTML](https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/htmlsingle/), [PDF](https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/pdf/spring-boot-reference.pdf))
   
