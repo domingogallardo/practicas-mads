@@ -525,8 +525,8 @@ el proyecto como un ZIP con la estructura de directorios y el POM
 ya configurados. </p>
 <p>Nosotros vamos a hacerlo más fácil todavía usando una aplicación
 ejemplo en
-<a href="https://github.com/domingogallardo/spring-boot-demoapp">GitHub</a>. Puedes
-hacerlo usando Git:</p>
+GitHub <a href="https://github.com/domingogallardo/spring-boot-demoapp">domingogallardo/spring-boot-demoapp</a>. Puedes
+descargarla usando Git:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git clone https://github.com/domingogallardo/spring-boot-demoapp.git
 </code></pre></div>
 </td></tr></table>
@@ -642,20 +642,34 @@ Maven:</p>
 38
 39
 40
-41</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
-         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span class="nt">&gt;</span>
+41
+42
+43
+44
+45
+46
+47
+48</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> 
+         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 </span>
+<span class="s">         https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
 
     <span class="nt">&lt;groupId&gt;</span>es.ua.mads<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>demoapp<span class="nt">&lt;/artifactId&gt;</span>
     <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;name&gt;</span>demoapp<span class="nt">&lt;/name&gt;</span>
 
     <span class="nt">&lt;parent&gt;</span>
         <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
         <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-parent<span class="nt">&lt;/artifactId&gt;</span>
-        <span class="nt">&lt;version&gt;</span>2.1.6.RELEASE<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;version&gt;</span>2.1.16.RELEASE<span class="nt">&lt;/version&gt;</span>
     <span class="nt">&lt;/parent&gt;</span>
+
+    <span class="nt">&lt;properties&gt;</span>
+        <span class="nt">&lt;java.version&gt;</span>1.8<span class="nt">&lt;/java.version&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
 
     <span class="nt">&lt;dependencies&gt;</span>
         <span class="nt">&lt;dependency&gt;</span>
@@ -704,7 +718,7 @@ añadiendo elementos al fichero.</p>
 petición HTTP. Son clases que se suelen colocar en el paquete
 <code>controller</code> y están anotadas con <code>@Controller</code>.</p>
 <p>Vemos un ejemplo en la clase <code>SaludoController</code>.</p>
-<p><strong>Fichero <code>src/main/java/demoapp/controller/SaludoService.java</code></strong>:</p>
+<p><strong>Fichero <code>src/main/java/demoapp/controller/SaludoController.java</code></strong>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -859,7 +873,7 @@ objeto para cada petición HTTP y en el segundo se crea una instancia
 nueva en cada sesión HTTP.</p>
 <p>Puedes encontrar más información y ejemplos en <a href="https://www.baeldung.com/spring-bean-scopes">este enlace</a>.</p>
 <h3 id="plantillas-thymeleaf">Plantillas Thymeleaf<a class="headerlink" href="#plantillas-thymeleaf" title="Permanent link">&para;</a></h3>
-<p>La aplicación devuelve páginas HTML, vistas que se construyen
+<p>Las páginas HTML devueltas se pueden construir
 utilizando un lenguaje de plantillas con el framework
 <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html">Thymeleaf</a>. Las
 plantillas thymeleaf son páginas HTML en las que se introducen objetos
@@ -908,7 +922,11 @@ diccionario (la variable <code>model</code> que recibe como parámetro):</p>
 23
 24
 25
-26</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="kn">package</span> <span class="nn">demoapp.controller</span><span class="p">;</span>
+26
+27
+28
+29
+30</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="kn">package</span> <span class="nn">demoapp.controller</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">demoapp.service.SaludoService</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
@@ -929,8 +947,12 @@ diccionario (la variable <code>model</code> que recibe como parámetro):</p>
     <span class="p">}</span>
 
     <span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/saludoplantilla/{nombre}&quot;</span><span class="p">)</span>
-    <span class="kd">public</span> <span class="n">String</span> <span class="nf">saludo</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s">&quot;nombre&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">Model</span> <span class="n">model</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">saludo</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s">&quot;nombre&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">nombre</span><span class="p">,</span> 
+                                                       <span class="n">Model</span> <span class="n">model</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Se añade la respuesta a la clave &#39;mensaje&#39; que se usa</span>
+        <span class="c1">// en la plantilla</span>
         <span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;mensaje&quot;</span><span class="p">,</span> <span class="n">service</span><span class="p">.</span><span class="na">saluda</span><span class="p">(</span><span class="n">nombre</span><span class="p">));</span>
+        <span class="c1">// Se llama a la plantilla &#39;saludo.html&#39;</span>
         <span class="k">return</span> <span class="s">&quot;saludo&quot;</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -945,6 +967,11 @@ posibles formas de realizar pruebas en una aplicación Spring Boot.</p>
 expresiones de prueba con un lenguaje muy expresivo.</p>
 <p>Los tests se pueden ejecutar usando el comando típico de Maven:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ mvn <span class="nb">test</span>
+</code></pre></div>
+</td></tr></table>
+
+<p>O también, usando el comando de Maven Wrapper:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ .mvnw <span class="nb">test</span>
 </code></pre></div>
 </td></tr></table>
 
@@ -1023,6 +1050,9 @@ la clase <code>MockMvc</code> y se usan métodos como <code>perform(get("/"))</c
 esperada.</p>
 <p>En este test lo único que se moquea es el servidor web, y se ejecuta
 el código real del servicio, del controlador y de la plantilla.</p>
+<p>Se utilizan los métodos <code>andDo</code> y <code>andExpect</code> de la propia librería de
+testeo de Spring Framework y el método <code>conteainsString</code> de la
+librería de testeo <a href="http://hamcrest.org/JavaHamcrest/tutorial">Hamcrest</a>.</p>
 <p><strong>Fichero <code>src/test/demoapp/AutoConfigureWebMockTest.java</code></strong></p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -1184,6 +1214,8 @@ siguiente ejemplo.</p>
 <p>Por último, también podemos realizar tests sobre la aplicación
 funcionando completamente, realizando una petición al servidor web y
 comprobando que se devuelve lo esperado.</p>
+<p>Estos tests son los más costosos porque conllevan levantar el servidor
+web y realizar completamente el procesamiento de la petición. </p>
 <p><strong>Fichero <code>src/test/java/demoapp/HttpRequestTest</code></strong></p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -1251,9 +1283,9 @@ comprobando que se devuelve lo esperado.</p>
 <ul>
 <li>Getting Started Guide <a href="https://spring.io/guides/gs/spring-boot/">Building an Application with Spring Boot</a></li>
 <li>Getting Started Guide <a href="https://spring.io/guides/gs/serving-web-content/">Serving Web Content with Spring MVC</a></li>
-<li>Spring Boot Reference Guide 2.2.0.BUILD-SNAPSHOT
-  (<a href="https://docs.spring.io/spring-boot/docs/2.2.0.BUILD-SNAPSHOT/reference/htmlsingle/">HTML</a>,
-  <a href="https://docs.spring.io/spring-boot/docs/2.2.0.BUILD-SNAPSHOT/reference/pdf/spring-boot-reference.pdf">PDF</a>)</li>
+<li>Spring Boot Reference Guide 2.1.16.RELEASE
+  (<a href="https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/htmlsingle/">HTML</a>
+  <a href="https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/pdf/spring-boot-reference.pdf">PDF</a>)</li>
 </ul>
                 
                   
