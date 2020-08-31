@@ -15,16 +15,24 @@ Los objetivos principales son:
 ## Instalación de software ##
 
 Vamos a trabajar bastante con el terminal. En Linux o macOS podemos
-usar el terminal que viene con el sistema. En Windows usaremos el
+usar el terminal que viene con el sistema. En Windows se puede usar el
 terminal Git Bash que se instala en la instalación de Git para
 Windows.
+
+!!! Note "Nota del profesor sobre en qué sistema operativo realizar la práctica"
+    Aunque en los apuntes aparezca información de cómo trabajar desde
+    Windows, recomiendo utilizar Linux o macOS. No puedo
+    garantizar que las instrucciones funcionen al 100% para Windows
+    porque no es un sistema operativo que maneje habitualmente. Si
+    haces la práctica usando Windows deberás buscar tú mismo la forma
+    de arreglar posibles problemas que puedan surgir.
 
 Es posible desarrollar la práctica en cualquier sistema
 operativo. Debemos instalar el siguiente software:
 
 - Git
 - Java JDK 8 o posterior
-- Maven
+- Maven (opcional, se puede usar el comando `./mvnw` del proyecto)
 - IntelliJ Ultimate
 
 Recomendamos hacer el desarrollo usando el IDE [IntelliJ
@@ -32,7 +40,6 @@ Ultimate](https://www.jetbrains.com/idea/download/). Aunque es de
 pago, es posible [obtener una licencia de
 estudiante](https://www.jetbrains.com/shop/eform/students) usando la
 dirección de correo de la UA.
-
 
 ### Instalación básica ###
 
