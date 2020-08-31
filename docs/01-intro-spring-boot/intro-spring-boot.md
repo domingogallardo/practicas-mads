@@ -2,9 +2,15 @@
 
 ## Descarga de la aplicación ejemplo ##
 
-Empieza descargando una sencilla aplicación ejemplo Spring Boot desde
-este [enlace de
-GitHub](https://github.com/domingogallardo/spring-boot-demoapp). Puedes
+Es muy sencillo crear aplicaciones de Spring Boot **desde cero** usando la
+web [Spring initializr](https://start.spring.io). En esa página puedes
+configurar los metadatos del proyecto y sus dependencias y descargar
+el proyecto como un ZIP con la estructura de directorios y el POM
+ya configurados. 
+
+Nosotros vamos a hacerlo más fácil todavía usando una aplicación
+ejemplo en
+[GitHub](https://github.com/domingogallardo/spring-boot-demoapp). Puedes
 hacerlo usando Git:
 
 ```
@@ -27,18 +33,24 @@ Para lanzar una aplicación Spring Boot es suficiente tener instalados:
 - JDK Java (8 en adelante)
 - Maven
 
+Maven incluso no es necesario si la aplicación Spring Boot lo tiene ya
+instalado utilizando [Maven
+Wrapper](https://github.com/takari/maven-wrapper), como es el caso de
+la aplicación ejemplo.
+
 Desde el directorio donde está la aplicación que queremos lanzar
-podemos arrancarla como una aplicación Java:
+podemos arrancarla como una aplicación Java. Podemos llamar a `mvn` si
+tenemos instalado Maven o a `./mvnw` para usar Maven Wrapper:
 
 ```
-$ mvn package
-$ java -jar target/clientesapp-0.0.1-SNAPSHOT.jar 
+$ ./mvnw package
+$ java -jar target/demoapp-0.0.1-SNAPSHOT.jar 
 ```
 
 También podemos lanzarla usando el plugin `spring-boot` de Maven:
 
 ```
-$ mvn spring-boot:run
+$ ./mvnw spring-boot:run
 ```
 
 La aplicación se arranca por defecto en el puerto local 8080. Una vez

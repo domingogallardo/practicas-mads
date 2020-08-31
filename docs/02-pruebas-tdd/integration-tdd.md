@@ -392,71 +392,12 @@ y consultar la salida de los mismos para comprobar su
     _builds_ que se lancen quedarán encolados por fecha de inicio.
 
 
-### Maven Wrapper ###
-
-[Maven Wrapper](https://github.com/takari/maven-wrapper) es una forma
-muy sencilla de distribuir un proyecto que use Maven para que se pueda
-construir en un sistema operativo en el que Maven no esté
-instalado. 
-
-En el propio repositorio se instala una versión de Maven que se puede
-lanzar desde cualquier sistema operativo.
-
-Lo utilizaremos para no tener que instalar Maven en Travis. Así
-podremos lanzar los tests en Travis con un único comando que se
-ejecuta usando el Maven del propio proyecto.
-
-```
-./mvnw test -Dspring.profiles.active=mysql
-```
-
-
 ### Pasos a seguir ###
 
 - Crea un _issue_ llamado `Integración continua con Travis`. Abre una
   rama `travis`, súbela a GitHub y abre un pull request.
 
-- Instala Maven Wrapper en tu repositorio:
-
-    ```
-    mvn -N io.takari:maven:wrapper
-    ```
-
-    Con este comando se instala Maven en tu propio respositorio (en el
-    directorio `.mvn`) y se instalan los comandos `mvnw` (para Linux)
-    y `mvnw.cmd` (para Windows).
-
-    **Si estás en Windows** deberás actualizar el permiso de ejecución
-    del comando `mvnw` con la siguiente instrucción:
-    
-    ```
-    git update-index --chmod=+x mvnw
-    ```
-
-    Prueba que funciona correctamente ejecutando los tests con el
-    comando `./mvnw`:
-    
-    ```
-    ./mvnw test -Dspring.profiles.active=mysql
-    ```
- 
-    Elimina del fichero `.gitignore` la línea `.mvn` (por un error se
-    ha introducido esa línea desde el comienzo de la práctica) para
-    que los ficheros necesarios de Maven Wrapper (en el directorio
-    `.mvn/wrapper`) se incluyan en el repositorio:
-    
-    **Fichero `.gitignore`**:
-    
-    ```diff
-    target/
-    - .mvn
-    .idea
-    *.iml
-    ```
-    
-    Crea un commit y súbelo a GitHub.
-
-- Añade el fichero `.travis.yml` en la raíz del repositorio. Haz otro
+- Añade el fichero `.travis.yml` en la raíz del repositorio. Haz un
   commit y súbelo a GitHub.
 
 - Date de alta en [Travis-ci.com](https://travis-ci.com) y conéctalo
