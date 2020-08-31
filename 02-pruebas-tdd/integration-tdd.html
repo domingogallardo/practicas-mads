@@ -380,13 +380,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#maven-wrapper" class="md-nav__link">
-    Maven Wrapper
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#pasos-a-seguir_3" class="md-nav__link">
     Pasos a seguir
   </a>
@@ -600,13 +593,6 @@
           <li class="md-nav__item">
   <a href="#builds-en-travis" class="md-nav__link">
     Builds en Travis
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#maven-wrapper" class="md-nav__link">
-    Maven Wrapper
   </a>
   
 </li>
@@ -1086,20 +1072,6 @@ y consultar la salida de los mismos para comprobar su </p>
 <code>mads-ua</code>. Cuando hay otro <em>build</em> ejecutándose los nuevos
 <em>builds</em> que se lancen quedarán encolados por fecha de inicio.</p>
 </div>
-<h3 id="maven-wrapper">Maven Wrapper<a class="headerlink" href="#maven-wrapper" title="Permanent link">&para;</a></h3>
-<p><a href="https://github.com/takari/maven-wrapper">Maven Wrapper</a> es una forma
-muy sencilla de distribuir un proyecto que use Maven para que se pueda
-construir en un sistema operativo en el que Maven no esté
-instalado. </p>
-<p>En el propio repositorio se instala una versión de Maven que se puede
-lanzar desde cualquier sistema operativo.</p>
-<p>Lo utilizaremos para no tener que instalar Maven en Travis. Así
-podremos lanzar los tests en Travis con un único comando que se
-ejecuta usando el Maven del propio proyecto.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">./mvnw test -Dspring.profiles.active=mysql</span>
-</code></pre></div>
-</td></tr></table>
-
 <h3 id="pasos-a-seguir_3">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
@@ -1107,45 +1079,7 @@ ejecuta usando el Maven del propio proyecto.</p>
   rama <code>travis</code>, súbela a GitHub y abre un pull request.</p>
 </li>
 <li>
-<p>Instala Maven Wrapper en tu repositorio:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">mvn -N io.takari:maven:wrapper</span>
-</code></pre></div>
-</td></tr></table>
-
-<p>Con este comando se instala Maven en tu propio respositorio (en el
-directorio <code>.mvn</code>) y se instalan los comandos <code>mvnw</code> (para Linux)
-y <code>mvnw.cmd</code> (para Windows).</p>
-<p><strong>Si estás en Windows</strong> deberás actualizar el permiso de ejecución
-del comando <code>mvnw</code> con la siguiente instrucción:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">git update-index --chmod=+x mvnw</span>
-</code></pre></div>
-</td></tr></table>
-
-<p>Prueba que funciona correctamente ejecutando los tests con el
-comando <code>./mvnw</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">./mvnw test -Dspring.profiles.active=mysql</span>
-</code></pre></div>
-</td></tr></table>
-
-<p>Elimina del fichero <code>.gitignore</code> la línea <code>.mvn</code> (por un error se
-ha introducido esa línea desde el comienzo de la práctica) para
-que los ficheros necesarios de Maven Wrapper (en el directorio
-<code>.mvn/wrapper</code>) se incluyan en el repositorio:</p>
-<p><strong>Fichero <code>.gitignore</code></strong>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>target/
-<span class="gd">- .mvn</span>
-.idea
-*.iml
-</code></pre></div>
-</td></tr></table>
-
-<p>Crea un commit y súbelo a GitHub.</p>
-</li>
-<li>
-<p>Añade el fichero <code>.travis.yml</code> en la raíz del repositorio. Haz otro
+<p>Añade el fichero <code>.travis.yml</code> en la raíz del repositorio. Haz un
   commit y súbelo a GitHub.</p>
 </li>
 <li>

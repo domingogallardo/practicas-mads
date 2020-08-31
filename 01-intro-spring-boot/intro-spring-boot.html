@@ -518,9 +518,14 @@
                 
                 <h1 id="introduccion-a-spring-boot-para-las-practicas-de-mads">Introducción a Spring Boot para las prácticas de MADS<a class="headerlink" href="#introduccion-a-spring-boot-para-las-practicas-de-mads" title="Permanent link">&para;</a></h1>
 <h2 id="descarga-de-la-aplicacion-ejemplo">Descarga de la aplicación ejemplo<a class="headerlink" href="#descarga-de-la-aplicacion-ejemplo" title="Permanent link">&para;</a></h2>
-<p>Empieza descargando una sencilla aplicación ejemplo Spring Boot desde
-este <a href="https://github.com/domingogallardo/spring-boot-demoapp">enlace de
-GitHub</a>. Puedes
+<p>Es muy sencillo crear aplicaciones de Spring Boot <strong>desde cero</strong> usando la
+web <a href="https://start.spring.io">Spring initializr</a>. En esa página puedes
+configurar los metadatos del proyecto y sus dependencias y descargar
+el proyecto como un ZIP con la estructura de directorios y el POM
+ya configurados. </p>
+<p>Nosotros vamos a hacerlo más fácil todavía usando una aplicación
+ejemplo en
+<a href="https://github.com/domingogallardo/spring-boot-demoapp">GitHub</a>. Puedes
 hacerlo usando Git:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git clone https://github.com/domingogallardo/spring-boot-demoapp.git
 </code></pre></div>
@@ -539,16 +544,21 @@ las páginas de la aplicación web.</p>
 <li>JDK Java (8 en adelante)</li>
 <li>Maven</li>
 </ul>
+<p>Maven incluso no es necesario si la aplicación Spring Boot lo tiene ya
+instalado utilizando <a href="https://github.com/takari/maven-wrapper">Maven
+Wrapper</a>, como es el caso de
+la aplicación ejemplo.</p>
 <p>Desde el directorio donde está la aplicación que queremos lanzar
-podemos arrancarla como una aplicación Java:</p>
+podemos arrancarla como una aplicación Java. Podemos llamar a <code>mvn</code> si
+tenemos instalado Maven o a <code>./mvnw</code> para usar Maven Wrapper:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ mvn package
-$ java -jar target/clientesapp-0.0.1-SNAPSHOT.jar 
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ ./mvnw package
+$ java -jar target/demoapp-0.0.1-SNAPSHOT.jar 
 </code></pre></div>
 </td></tr></table>
 
 <p>También podemos lanzarla usando el plugin <code>spring-boot</code> de Maven:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ mvn spring-boot:run
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ ./mvnw spring-boot:run
 </code></pre></div>
 </td></tr></table>
 
