@@ -1,3 +1,14 @@
+<!--
+
+Configuración de Github Classroom
+
+- Una organización por curso: mads-ua-20-21, mads-ua-21-22, etc.
+- Para actualizar la organización a un plan Team gratuito usar la página:
+https://education.github.com/toolbox/offers/github-org-upgrades
+
+https://classroom.github.com/help/upgrade-your-organization
+
+-->
 
 # Práctica 1 - Primera aplicación con Spring Boot#
 
@@ -121,13 +132,13 @@ esta práctica debes seguir los siguientes pasos:
    nombre y apellidos en el perfil** usando la opción _Settings >
    Profile_ y actualizando el campo _Name_.
    
-3. Una vez logeado en GitHub, copia el enlace con una invitación que
-   compartiremos en el foro de Moodle. Con esa invitación se creará
-   automáticamente el repositorio `practica-0-<usuario>` en la
+3. Una vez logeado en GitHub, pincha en el enlace con una invitación
+   que compartiremos en el foro de Moodle. Con esa invitación se
+   creará automáticamente el repositorio `practica-0-<usuario>` en la
    organización [mads-ua](https://github.com/mads-ua). Es un
-   repositorio privado al que tienes acceso tú y el
-   profesor. Contiene el código inicial del proyecto demostración de
-   Spring Boot (es una copia del repositorio
+   repositorio privado al que tienes acceso tú y el profesor. Contiene
+   el código inicial del proyecto demostración de Spring Boot (es una
+   copia del repositorio
    [domingogallardo/spring-boot-demoapp](https://github.com/domingogallardo/spring-boot-demoapp)
 
     Es importante que tengas en cuenta que el repositorio recién
@@ -137,10 +148,10 @@ esta práctica debes seguir los siguientes pasos:
    
     <img src="imagenes/dashboard-github.png" width="600px"/>
 
-    También el profesor te invitará a formar parte de la organización
-    y recibirás un mensaje de correo electrónico en el que deberás
-    aceptar esta invitación. También se puede aceptar la invitación
-    accediendo a <https://github.com/mads-ua>.
+4. El profesor te invitará a formar parte de la organización `mads-ua`
+   y recibirás un mensaje de correo electrónico en el que deberás
+   aceptar esta invitación. También se puede aceptar la invitación
+   accediendo a <https://github.com/mads-ua>.
    
 
 ## Documentación a consultar ##
