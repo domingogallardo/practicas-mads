@@ -242,9 +242,12 @@ asignatura.
 
 ## Entrega ##
 
+Para realizar la entrega debes hacer lo siguiente:
+
 - Realizar la aplicación en el repositorio creado e ir subiendo los
   commits conforme se van realizando.
 - Entregar en Moodle un ZIP con el directorio del proyecto (incluyendo el
   directorio .git con el repositorio git), después de haber hecho
-  `mvn clean` para eliminar los binarios compilados.
-- Fecha límite de entrega: 22 de septiembre (1 semana).
+  `./mvnw clean` para eliminar los binarios compilados.
+
+La fecha límite de entrega es el 22 de septiembre (1 semana).
