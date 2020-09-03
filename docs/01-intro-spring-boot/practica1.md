@@ -1,19 +1,20 @@
-# Enunciado práctica 1
+# Aplicación ToDoList
+
+Esta es la **segunda parte** de la práctica 1.
 
 ## Objetivos
 
-En la primera práctica de la asignatura vamos a tomar contacto con el
-_framework_ de desarrollo de aplicaciones web en Java _Spring Boot_,
-trabajando sobre la aplicación inicial
+En esta segunda parte de la práctica vamos a
+trabajar sobre la aplicación inicial
 [domingogallardo/mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial).
 
-La práctica tendrá una duración de cuatro semanas. Deberás realizarla de
+Esta parte tendrá una duración de cuatro semanas. Deberás realizarla de
 forma individual, siguiendo las indicaciones que encontrarás en este
 documento. Tendrás que desarrollar código y trabajar en GitHub
 desarrollando _issues_, _pull requests_, _releases_ y actualizando la
 wiki del proyecto.
 
-Igual que en la práctica 0, debes leer la [introducción a Spring Boot
+Igual que en la primera parte, debes leer la [introducción a Spring Boot
 para las prácticas de MADS](./intro-spring-boot.md) para entender los
 conceptos fundamentales del framework.
 

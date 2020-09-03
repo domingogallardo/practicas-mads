@@ -1,4 +1,4 @@
-# Introducción a Spring Boot para las prácticas de MADS #
+# Introducción a Spring Boot #
 
 ## Descarga de la aplicación ejemplo ##
 

@@ -3,7 +3,7 @@ Prácticas de la asignatura Metodologías Ágiles de Desarrollo de
 Software de la Universidad de Alicante.
 
 - Práctica 1
-    - [Introducción a Spring Boot para  MADS](01-intro-spring-boot/intro-spring-boot.md)
+    - [Introducción a Spring Boot](01-intro-spring-boot/intro-spring-boot.md)
     - [Comandos Git](01-intro-spring-boot/comandos-git.md)
     - [Primera aplicación con Spring Boot](01-intro-spring-boot/practica0.md)
     - [Aplicación ToDoList](01-intro-spring-boot/practica1.md)

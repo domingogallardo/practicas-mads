@@ -10,10 +10,10 @@ https://classroom.github.com/help/upgrade-your-organization
 
 -->
 
-# Práctica 1 - Primera aplicación con Spring Boot#
+# Primera aplicación con Spring Boot#
 
-En esta práctica tendremos un primer contacto con Spring Boot. También
-usaremos Git.
+Esta es la **primera parte** de la práctica 1. En esta parte tendremos un
+primer contacto con Spring Boot. También usaremos Git.
 
 Los objetivos principales son:
 
@@ -133,49 +133,51 @@ esta práctica debes seguir los siguientes pasos:
    Profile_ y actualizando el campo _Name_.
    
 3. Una vez logeado en GitHub, pincha en el enlace con una invitación
-   que compartiremos en el foro de Moodle. Con esa invitación se
-   creará automáticamente el repositorio `practica-0-<usuario>` en la
-   organización [mads-ua](https://github.com/mads-ua). Es un
-   repositorio privado al que tienes acceso tú y el profesor. Contiene
-   el código inicial del proyecto demostración de Spring Boot (es una
-   copia del repositorio
-   [domingogallardo/spring-boot-demoapp](https://github.com/domingogallardo/spring-boot-demoapp)
+   que compartiremos en el foro de Moodle. Deberás aceptar las
+   peticiones de GitHub Classroom y podrás aceptar la práctica _Spring
+   Boot Demo App_. 
 
+    <img src="imagenes/aceptar-classroom.png" width="500px"></img>
+   
+    Se creará automáticamente el repositorio `springboot-demo-app-<usuario>` en la
+    organización [mads-ua-20-21](https://github.com/mads-ua-20-21). Es un
+    repositorio privado al que tienes acceso tú y el profesor. Contiene
+    el código inicial del proyecto demostración de Spring Boot (es una
+    copia del repositorio
+    [domingogallardo/spring-boot-demoapp](https://github.com/domingogallardo/spring-boot-demoapp)).
+
+    <img src="imagenes/aplicacion-inicial-spring-boot.png" width="700px"></img>
+    
     Es importante que tengas en cuenta que el repositorio recién
     creado no reside en tu cuenta, sino en la organización
-    `mads-ua`. Puedes acceder a él desde el _dashboard_ de GitHub que
-    aparece cuando te logeas:
+    `mads-ua-20-21`. Puedes acceder a él desde el _dashboard_ de GitHub que
+    aparece cuando te logeas o pulsando en el icono de GitHub:
    
-    <img src="imagenes/dashboard-github.png" width="600px"/>
+    <img src="imagenes/dashboard-github.png" width="700px"/>
 
-4. El profesor te invitará a formar parte de la organización `mads-ua`
+4. El profesor te invitará a formar parte de la organización `mads-ua-20-21`
    y recibirás un mensaje de correo electrónico en el que deberás
    aceptar esta invitación. También se puede aceptar la invitación
-   accediendo a <https://github.com/mads-ua>.
+   accediendo a <https://github.com/mads-ua-20-21>.
    
 
 ## Documentación a consultar ##
 
-Spring Boot es un _framework_ ligero que permite ejecutar aplicaciones
-Spring de forma _standalone_, sin necesidad de un servidor de
-aplicaciones.
+Para realizar la práctica debes leer los siguientes documentos:
 
-Puedes encontrar la documentación de referencia de estos dos
-frameworks en las siguientes páginas, en la pestaña _Learn_:
+- [Introducción a Spring Boot](./intro-spring-boot.md)
+- [Validating Form Input](https://spring.io/guides/gs/validating-form-input/)
+
+En el caso en que necesites más información puedes encontrar la
+documentación de referencia de Spring Boot y Spring en las siguientes
+páginas, en la pestaña _Learn_:
 
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Spring](https://spring.io/projects/spring-framework) 
 
-Podemos encontrar también una extensa cantidad de tutoriales y guías
+También podemos encontrar también una extensa cantidad de tutoriales y guías
 rápidas en la web de Spring, en la url
 [https://spring.io/guides](https://spring.io/guides).
-
-Para realizar la práctica debes leer la [Introducción a Spring Boot para las
-prácticas de MADS](./intro-spring-boot.md) y las siguientes guías:
-
-- [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
-- [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-- [Validating Form Input](https://spring.io/guides/gs/validating-form-input/)
 
 
 ## Enunciado de la práctica ##
@@ -188,19 +190,21 @@ funcionalidad.
 
 Debemos hacer lo siguiente:
 
-- Descargar la [aplicación Demo]() de Spring Boot usando el comando git clone.
+- Descargar la aplicación demo de Spring Boot que hemos creado en
+  GitHub usando el comando git clone.
 - Importarla en IntelliJ
 - Probar que se pasan todos los tests usando Maven e IntelliJ
 - Ejecutarla desde línea de comando y desde IntelliJ
-- Hacer algún pequeño cambio
+- Hacer algún pequeño cambio a la aplicación. Por ejemplo, cambiar los
+  mensajes de saludo.
     
 ### Añadimos alguna funcionalidad sencilla a la aplicación ###
     
 Debemos añadir alguna funcionalidad sencilla a la aplicación que
 realice lo siguiente:
 
-- Leer datos de un formulario usando Thymeleaf.
-- Llamar a un método de servicio que procese los datos leídos.
+- Leer datos de un formulario usando Thymeleaf y realizando alguna validación.
+- Llamar a un **método de servicio** que procese los datos leídos.
 - Mostrar el resultado devuelto por el servicio en una página Thymeleaf.
 - Incluir al menos 2 tests:
     - 1 de la capa de servicio
@@ -210,6 +214,14 @@ Muy importante, debemos desarrollar la aplicación en **pequeños
 commits**. Cada commit debe compilar correctamente y añadir una
 pequeña funcionalidad. Debemos subir los commits al repositorio
 personal de GitHub.
+
+Debes definir tú la funcionalidad a implementar. Por ejemplo:
+
+- Palíndroma: lee una palabra y comprueba si es palíndroma.
+- Número par: lee un número y comprueba si es par
+- Cuadrado: lee dos números y comprueba si el segundo es el cuadrado del primero
+- Calculadora: lee un par de números y una operación y devuelve el resultado.
+- Etc.
 
 ## Comandos Git ##
 
@@ -235,5 +247,4 @@ asignatura.
 - Entregar en Moodle un ZIP con el directorio del proyecto (incluyendo el
   directorio .git con el repositorio git), después de haber hecho
   `mvn clean` para eliminar los binarios compilados.
-- Fecha límite de entrega: 17 de septiembre (1 semana)
-
+- Fecha límite de entrega: 22 de septiembre (1 semana).
