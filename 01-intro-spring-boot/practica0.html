@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#practica-1-primera-aplicacion-con-spring-boot" tabindex="0" class="md-skip">
+      <a href="#primera-aplicacion-con-spring-boot" tabindex="0" class="md-skip">
         Saltar a contenido
       </a>
     
@@ -199,8 +199,8 @@
 
 
   <li class="md-nav__item">
-    <a href="intro-spring-boot.html" title="Introducción a Spring Boot para MADS" class="md-nav__link">
-      Introducción a Spring Boot para MADS
+    <a href="intro-spring-boot.html" title="Introducción a Spring Boot" class="md-nav__link">
+      Introducción a Spring Boot
     </a>
   </li>
 
@@ -526,9 +526,9 @@ https://classroom.github.com/help/upgrade-your-organization
 
 -->
 
-<h1 id="practica-1-primera-aplicacion-con-spring-boot">Práctica 1 - Primera aplicación con Spring Boot<a class="headerlink" href="#practica-1-primera-aplicacion-con-spring-boot" title="Permanent link">&para;</a></h1>
-<p>En esta práctica tendremos un primer contacto con Spring Boot. También
-usaremos Git.</p>
+<h1 id="primera-aplicacion-con-spring-boot">Primera aplicación con Spring Boot<a class="headerlink" href="#primera-aplicacion-con-spring-boot" title="Permanent link">&para;</a></h1>
+<p>Esta es la <strong>primera parte</strong> de la práctica 1. En esta parte tendremos un
+primer contacto con Spring Boot. También usaremos Git.</p>
 <p>Los objetivos principales son:</p>
 <ul>
 <li>Empezar a conocer Spring Boot, ejecutando una sencilla aplicación <em>hola mundo</em> en Spring Boot.</li>
@@ -648,46 +648,46 @@ $ git config --global user.email pepe.perez@example.com&lt;
 </li>
 <li>
 <p>Una vez logeado en GitHub, pincha en el enlace con una invitación
-   que compartiremos en el foro de Moodle. Con esa invitación se
-   creará automáticamente el repositorio <code>practica-0-&lt;usuario&gt;</code> en la
-   organización <a href="https://github.com/mads-ua">mads-ua</a>. Es un
-   repositorio privado al que tienes acceso tú y el profesor. Contiene
-   el código inicial del proyecto demostración de Spring Boot (es una
-   copia del repositorio
-   <a href="https://github.com/domingogallardo/spring-boot-demoapp">domingogallardo/spring-boot-demoapp</a></p>
+   que compartiremos en el foro de Moodle. Deberás aceptar las
+   peticiones de GitHub Classroom y podrás aceptar la práctica <em>Spring
+   Boot Demo App</em>. </p>
+<p><img src="imagenes/aceptar-classroom.png" width="500px"></img></p>
+<p>Se creará automáticamente el repositorio <code>springboot-demo-app-&lt;usuario&gt;</code> en la
+organización <a href="https://github.com/mads-ua-20-21">mads-ua-20-21</a>. Es un
+repositorio privado al que tienes acceso tú y el profesor. Contiene
+el código inicial del proyecto demostración de Spring Boot (es una
+copia del repositorio
+<a href="https://github.com/domingogallardo/spring-boot-demoapp">domingogallardo/spring-boot-demoapp</a>).</p>
+<p><img src="imagenes/aplicacion-inicial-spring-boot.png" width="700px"></img></p>
 <p>Es importante que tengas en cuenta que el repositorio recién
 creado no reside en tu cuenta, sino en la organización
-<code>mads-ua</code>. Puedes acceder a él desde el <em>dashboard</em> de GitHub que
-aparece cuando te logeas:</p>
-<p><img src="imagenes/dashboard-github.png" width="600px"/></p>
+<code>mads-ua-20-21</code>. Puedes acceder a él desde el <em>dashboard</em> de GitHub que
+aparece cuando te logeas o pulsando en el icono de GitHub:</p>
+<p><img src="imagenes/dashboard-github.png" width="700px"/></p>
 </li>
 <li>
-<p>El profesor te invitará a formar parte de la organización <code>mads-ua</code>
+<p>El profesor te invitará a formar parte de la organización <code>mads-ua-20-21</code>
    y recibirás un mensaje de correo electrónico en el que deberás
    aceptar esta invitación. También se puede aceptar la invitación
-   accediendo a <a href="https://github.com/mads-ua">https://github.com/mads-ua</a>.</p>
+   accediendo a <a href="https://github.com/mads-ua-20-21">https://github.com/mads-ua-20-21</a>.</p>
 </li>
 </ol>
 <h2 id="documentacion-a-consultar">Documentación a consultar<a class="headerlink" href="#documentacion-a-consultar" title="Permanent link">&para;</a></h2>
-<p>Spring Boot es un <em>framework</em> ligero que permite ejecutar aplicaciones
-Spring de forma <em>standalone</em>, sin necesidad de un servidor de
-aplicaciones.</p>
-<p>Puedes encontrar la documentación de referencia de estos dos
-frameworks en las siguientes páginas, en la pestaña <em>Learn</em>:</p>
+<p>Para realizar la práctica debes leer los siguientes documentos:</p>
+<ul>
+<li><a href="intro-spring-boot.html">Introducción a Spring Boot</a></li>
+<li><a href="https://spring.io/guides/gs/validating-form-input/">Validating Form Input</a></li>
+</ul>
+<p>En el caso en que necesites más información puedes encontrar la
+documentación de referencia de Spring Boot y Spring en las siguientes
+páginas, en la pestaña <em>Learn</em>:</p>
 <ul>
 <li><a href="https://spring.io/projects/spring-boot">Spring Boot</a></li>
 <li><a href="https://spring.io/projects/spring-framework">Spring</a> </li>
 </ul>
-<p>Podemos encontrar también una extensa cantidad de tutoriales y guías
+<p>También podemos encontrar también una extensa cantidad de tutoriales y guías
 rápidas en la web de Spring, en la url
 <a href="https://spring.io/guides">https://spring.io/guides</a>.</p>
-<p>Para realizar la práctica debes leer la <a href="intro-spring-boot.html">Introducción a Spring Boot para las
-prácticas de MADS</a> y las siguientes guías:</p>
-<ul>
-<li><a href="https://spring.io/guides/gs/spring-boot/">Building an Application with Spring Boot</a></li>
-<li><a href="https://spring.io/guides/gs/serving-web-content/">Serving Web Content with Spring MVC</a></li>
-<li><a href="https://spring.io/guides/gs/validating-form-input/">Validating Form Input</a></li>
-</ul>
 <h2 id="enunciado-de-la-practica">Enunciado de la práctica<a class="headerlink" href="#enunciado-de-la-practica" title="Permanent link">&para;</a></h2>
 <p>Haremos una primera práctica sencilla en la que pondremos en
 marcha una aplicación inicial en Spring Boot y añadiremos alguna
@@ -695,18 +695,20 @@ funcionalidad.</p>
 <h3 id="trabajamos-con-la-aplicacion-demo-de-spring-boot">Trabajamos con la aplicación Demo de Spring Boot<a class="headerlink" href="#trabajamos-con-la-aplicacion-demo-de-spring-boot" title="Permanent link">&para;</a></h3>
 <p>Debemos hacer lo siguiente:</p>
 <ul>
-<li>Descargar la <a href="">aplicación Demo</a> de Spring Boot usando el comando git clone.</li>
+<li>Descargar la aplicación demo de Spring Boot que hemos creado en
+  GitHub usando el comando git clone.</li>
 <li>Importarla en IntelliJ</li>
 <li>Probar que se pasan todos los tests usando Maven e IntelliJ</li>
 <li>Ejecutarla desde línea de comando y desde IntelliJ</li>
-<li>Hacer algún pequeño cambio</li>
+<li>Hacer algún pequeño cambio a la aplicación. Por ejemplo, cambiar los
+  mensajes de saludo.</li>
 </ul>
 <h3 id="anadimos-alguna-funcionalidad-sencilla-a-la-aplicacion">Añadimos alguna funcionalidad sencilla a la aplicación<a class="headerlink" href="#anadimos-alguna-funcionalidad-sencilla-a-la-aplicacion" title="Permanent link">&para;</a></h3>
 <p>Debemos añadir alguna funcionalidad sencilla a la aplicación que
 realice lo siguiente:</p>
 <ul>
-<li>Leer datos de un formulario usando Thymeleaf.</li>
-<li>Llamar a un método de servicio que procese los datos leídos.</li>
+<li>Leer datos de un formulario usando Thymeleaf y realizando alguna validación.</li>
+<li>Llamar a un <strong>método de servicio</strong> que procese los datos leídos.</li>
 <li>Mostrar el resultado devuelto por el servicio en una página Thymeleaf.</li>
 <li>Incluir al menos 2 tests:<ul>
 <li>1 de la capa de servicio</li>
@@ -718,6 +720,14 @@ realice lo siguiente:</p>
 commits</strong>. Cada commit debe compilar correctamente y añadir una
 pequeña funcionalidad. Debemos subir los commits al repositorio
 personal de GitHub.</p>
+<p>Debes definir tú la funcionalidad a implementar. Por ejemplo:</p>
+<ul>
+<li>Palíndroma: lee una palabra y comprueba si es palíndroma.</li>
+<li>Número par: lee un número y comprueba si es par</li>
+<li>Cuadrado: lee dos números y comprueba si el segundo es el cuadrado del primero</li>
+<li>Calculadora: lee un par de números y una operación y devuelve el resultado.</li>
+<li>Etc.</li>
+</ul>
 <h2 id="comandos-git">Comandos Git<a class="headerlink" href="#comandos-git" title="Permanent link">&para;</a></h2>
 <p>Comandos Git necesarios para realizar la práctica:</p>
 <ul>
@@ -739,7 +749,7 @@ asignatura.</p>
 <li>Entregar en Moodle un ZIP con el directorio del proyecto (incluyendo el
   directorio .git con el repositorio git), después de haber hecho
   <code>mvn clean</code> para eliminar los binarios compilados.</li>
-<li>Fecha límite de entrega: 17 de septiembre (1 semana)</li>
+<li>Fecha límite de entrega: 22 de septiembre (1 semana).</li>
 </ul>
                 
                   
