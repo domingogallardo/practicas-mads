@@ -24,9 +24,9 @@ documento. Tendrás que desarrollar código y trabajar en GitHub
 desarrollando _issues_, _pull requests_, _releases_ y actualizando la
 wiki del proyecto.
 
-Igual que en la primera parte, debes leer la [introducción a Spring Boot
-para las prácticas de MADS](./intro-spring-boot.md) para entender los
-conceptos fundamentales del framework.
+Igual que en la primera parte, debes leer la [introducción a Spring
+Boot](./intro-spring-boot.md) para entender los conceptos
+fundamentales del framework. 
 
 ## Aplicación inicial ##
 
@@ -69,10 +69,10 @@ repasaremos e introduciremos el uso de:
   desarrollaremos pequeños incrementos que añadirán poco a poco las
   funcionalidades necesarias en la aplicación.
 - [GitHub](https://github.com) como servicio en el que publicaremos los cambios e
-  integraremos las ramas usando _pull requests_ (PRs). Utilizaremos un
+  integraremos las ramas usando pull requests (PRs). Utilizaremos un
   gran número de características de GitHub para realizar el
-  seguimiento del desarrollo del proyecto: _issues_, _labels_,
-  _milestones_, etc.
+  seguimiento del desarrollo del proyecto: issues, labels,
+  milestones, etc.
 - JUnit y las [características de testing de Spring
   Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html)
   para realizar continuamente pruebas unitarias que
@@ -86,7 +86,7 @@ Existen muchos proyectos que tienen un desarrollo abierto,
 transparente, en GitHub. Podemos aprender de sus metodologías
 estudiándolos. A continuación listamos ejemplos de repositorios en
 GitHub interesantes, en los que podemos estudiar los procesos de _pull
-requests_, _issues_, tableros, etc. y las dinámicas de comunicación
+requests_, issues, tableros, etc. y las dinámicas de comunicación
 que utilizan.
 
 - [CartoDB](https://github.com/CartoDB/cartodb). Software español para
@@ -146,7 +146,7 @@ Para implementar este flujo de trabajo utilizaremos los siguientes
 instrumentos de GitHub que facilitan la comunicación entre los
 miembros del equipo:
 
-- **Issues** (_incidencias_): GitHub permite abrir _issues_
+- **Issues** (_incidencias_): GitHub permite abrir issues
   (incidencias o tareas), asignarlos a personas, realizar comentarios,
   asignar etiquetas y cerrarlos cuando la implementación ha
   terminado. Consultar
@@ -154,37 +154,39 @@ miembros del equipo:
 
     <img src="./imagenes/github-issues.png" width="500px"/>
 
-    Definiremos distintos tipos de _issues_ en función de su
-    propósito: _bug_, _technical_, _enhancement_. Los _issues_ que
+    Definiremos distintos tipos de issues en función de su
+    propósito: _bug_, _technical_, _enhancement_. Los issues que
     implementan una historia de usuario los etiquetaremos con el
-    código de la historia de usuario.
+    código de la historia de usuario. Puede haber más de un issue
+    asociado con una historia de usuario y de esta forma podemos
+    agruparlos.
   
     <img src="./imagenes/labels-issues.png" width="400px"/>
   
-    Cada _issue_ se desarrollará en una rama de Git y se integrará en la
-    rama _main_ haciendo un _pull request_.
+    Cada issue se desarrollará en una rama de Git y se integrará en la
+    rama _main_ haciendo un pull request.
 
 
-- **Pull Requests**: Un _pull request_ permite avisar al equipo de que
+- **Pull Requests**: Un pull request permite avisar al equipo de que
   se va a integrar en la rama principal una rama con un desarrollo
   nuevo. Cuando creamos un PR, GitHub crea una página en la que se
   pueden realizar comentarios, revisiones de código o definir
   políticas de aceptación del PR. Consultar
   [About pull requests](https://help.github.com/articles/about-pull-requests/).
   
-    Implementaremos cada _issue_ en una rama separada de git y la
+    Implementaremos cada issue en una rama separada de git y la
     integraremos en la rama `main` haciendo un _pull
-    request_. Cuando se mezcle el PR en `main` el _issue_ se
+    request_. Cuando se mezcle el PR en `main` el issue se
     cerrará.
   
     <img src="./imagenes/github-pr.png" width="700px"/>
 
     Más adelante añadiremos otra rama de largo recorrido `releases` para
-    incluir en ella las _releases_ del proyecto.
+    incluir en ella las releases del proyecto.
 
-- **Milestones** y **Releases**: Etiquetaremos cada _issue_ con el
+- **Milestones** y **Releases**: Etiquetaremos cada issue con el
   _milestone_ en el que queremos que se lance. Para identificar el
-  _milestone_ usaremos el [versionado semántico](https://semver.org):
+  milestone usaremos el [versionado semántico](https://semver.org):
   MAJOR.MINOR.PATCH. 
   
     <img src="./imagenes/github-milestones.png" width="600px"/>
@@ -192,20 +194,26 @@ miembros del equipo:
     Usaremos la funcionalidad de GitHub _Releases_ para etiquetar los
     commits en los que queramos marcar una versión nueva del
     proyecto. Podemos añadir información sobre las novedades de la
-    versión (normalmente serán enlaces a los _issues_ y _pull
-    requests_ de ese _milestone_).
+    versión (normalmente serán enlaces a los issues ese milestone).
   
     <img src="./imagenes/github-releases.png" width="600px"/>
 
 - **Tablero de proyecto**: Un tablero de proyecto nos ayudará a hacer
-  un seguimiento de en qué estado se encuentra cada _issue_ o PR:
+  un seguimiento de en qué estado se encuentra cada issue:
   cuáles han sido implementados, cuáles faltan por asignar,
   implementar, probar, etc. Vamos a utilizar la funcionalidad propia
   de GitHub llamada _Projects_. Consultar
   [project boards](https://help.github.com/articles/tracking-the-progress-of-your-work-with-project-boards/).
 
     <img src="./imagenes/github-tablero.png" width="700px"/>
-  
+
+    Cuando se crea un pull request que resuelve un issue enlazaremos
+    el issue con el pull request. Podremos ver en el tablero que bajo
+    el issue aparece su PR enlazado y podremos desplegarlo en la
+    propia tarjeta (funcionalidad nueva de GitHub).
+    
+    <img src="./imagenes/pr-enlazado.png" width="500px"/>
+    
 
 También utilizaremos un panel de [Trello](https://trello.com/) para representar las
 historias de usuario que se van implementando en el proyecto. 
@@ -217,19 +225,20 @@ implementarse con uno o más issues. En GitHub crearemos una etiqueta
 por cada historia de usuario y se la asignaremos a los issues que se
 usen para implementarla.
 
-!!! Important
+!!! Important "Importante"
     Puede parecer redundante el uso de dos tableros, uno para las
-    historias de usuario y otro para los _issues_ y _PR_. La
+    historias de usuario y otro para los issues y _PR_. La
     justificación es que los objetivos de ambos tableros son distintos
-    (y los contenidos también). El tablero de GitHub será un **tablero
-    técnico** gestionado por el equipo de desarrollo. En terminología
-    de Scrum será el _sprint backlog_. Mientras que el
+    (y los contenidos también). El
     tablero Trello es un **tablero de funcionalidades de usuario**, que
     es gestionado por el _product owner_, usado por el equipo de
     desarrollo y puede ser compartido también con clientes y
-    gerencia. En la terminología de Scrum será el _product backlog_.
+    gerencia. En la terminología de Scrum será el _product
+    backlog_. Mientras que el tablero de GitHub será un **tablero
+    técnico** gestionado por el equipo de desarrollo. En terminología
+    de Scrum será el _sprint backlog_. 
 
-La documentación en Trello y en GitHub (en los _issues_, en los PRs y
+La documentación en Trello y en GitHub (en los issues, en los PRs y
 en el propio `README.md` del proyecto) hay que escribirla en
 **Markdown**, un lenguaje de marcado muy popular y sencillo de
 dominar. Si no has trabajado todavía con él puedes leer estas [guías
@@ -239,12 +248,11 @@ de GitHub](https://help.github.com/categories/writing-on-github/).
     Existen herramientas y servicios más avanzados para gestionar
     todos estos elementos del desarrollo. Por ejemplo
     [Jira](https://www.atlassian.com/software/jira),
-    [YouTrack](https://www.jetbrains.com/youtrack/),
-    [Confluence](https://www.atlassian.com/software/confluence) o
-    incluso [Trello](https://www.atlassian.com/software/trello). Pero
-    lo que nos ofrece GitHub es suficiente para lo que vamos a
-    realizar en la asignatura y tiene la ventaja de estar integrado en
-    una misma plataforma.
+    [YouTrack](https://www.jetbrains.com/youtrack/) o
+    [Confluence](https://www.atlassian.com/software/confluence). Pero
+    la combinación de GitHub + Trello es suficiente para lo que vamos a
+    realizar en la asignatura y para aprender los objetivos y el
+    funcionamiento de estos tipos de sistemas basados en incidencias.
 
 
 ## La aplicación ToDoList ##
@@ -255,7 +263,7 @@ es la versión inicial de la aplicación que se va a desarrollar
 durante todo el cuatrimestre en la asignatura.
 
 Es una aplicación bastante más compleja que la vista en la
-práctica 0. Entre otros, tiene los siguientes elementos:
+parte anterior de la práctica. Entre otros, tiene los siguientes elementos:
 
 - Gestiona distintos comandos HTTP: GET, POST, DELETE.
 - Recogida de datos en formularios HTML y validación de los datos.
@@ -349,7 +357,7 @@ JPA](https://docs.spring.io/spring-data/jpa/docs/2.1.10.RELEASE/reference/html/)
 trata de un API de Spring Boot que se construye sobre JPA (_Java
 Persistence API_), el ORM (_Object Relational Mapping_) estándar de
 Java. La implementación de JPA que utiliza Spring Boot es Hibernate
-5.3.10.
+5.3.17.
 
 Spring Data JPA usa todos los conceptos de JPA y añade algunos
 adicionales que facilitan aun más su utilización, como es la
@@ -364,7 +372,7 @@ entidad se define una tabla en la base de datos, con columnas que se
 mapean con sus atributos.
 
 Por ejemplo, la clase `Usuario` que se lista a continuación define la
-tabla `usuario` en la base de datos. Los distintos atributos (`login`,
+tabla `usuarios` en la base de datos. Los distintos atributos (`login`,
 `email`, ...) se corresponden con las columnas de la tabla.
 
 El atributo `id` se corresponde con la clave primaria de la tabla. JPA
@@ -374,8 +382,22 @@ GenerationType.IDENTITY)` que define una columna que se autoincrementa
 en cada operación de inserción de un nuevo registro en la tabla.
 
 Además de los atributos, en la clase se define un constructor con los
-atributos obligatorios para definir un usuario, unos _getters_ y
-_setters_ y los métodos `equals` y `hashCode` para comparar usuarios.
+atributos obligatorios para definir un usuario (en nuestro caso el
+correo electronico), los _getters_ y _setters_ de todas las
+propiedades (necesario para JPA) y los métodos `equals` y `hashCode`
+para comparar usuarios. 
+
+Los métodos `equals` y `hashCode` son necesarios para buscar
+instancias de la entidad en colecciones y JPA los usa para no incluir
+instancias repetidas en los resultados de las queries. El método
+`equals` proporcionado no es el que genera IntelliJ por defecto, sino
+que hay que considerar si la instancia ha sido ya vinculada a la base
+de datos o no. En el caso en que la instancia ya esté vinculada a la
+base de datos, tendrá una clave primaria asignada y ésta será la que
+se usará para comparar. En el caso en que la instancia no esté
+vinculada (se acaba de crear o la estamos usando para alguna parte de
+la lógica de negocio y no se va a persistir) se comparan los atributos
+obligatorios (en este caso el correo electrónico).
 
 **Fichero `src/main/java/madstodolist/model/Usuario.java`**:
 
@@ -593,8 +615,35 @@ public class Tarea implements Serializable {
 
 #### Recuperación _eager_ y _lazy_ de las colecciones ####
 
-En la aplicación se define la relación _uno-a-muchos_ entre usuarios y
-tareas: un usuario tiene muchas tareas.
+Como hemos visto anteriormente, en la aplicación se define la relación
+_uno-a-muchos_ entre usuarios y tareas: un usuario tiene muchas
+tareas.
+
+
+Por defecto, todas las relaciones _a-muchos_ en JPA se definen de
+tipo `LAZY`. 
+
+La característica de los atributos marcados como _lazy_ en JPA es que
+no se traen a memoria cuando se recupera la entidad, sino cuando se
+consultan explícitamente accediendo al atributo. Para que se traigan a
+memoria **la conexión con la base de datos debe estar abierta**. Si ya
+se ha cerrado esa conexión (por ejemplo, se ha cerrado la transacción
+en el método de servicio y se quiere acceder a la una lista de tareas
+de un usuario devuelto por el propio método estando en el controller)
+se producirá un error.
+
+Frente a la recuperación _lazy_ de colecciones, también existe la
+posibilidad de definir una colección como de tipo _EAGER_. En este
+caso JPA se traerá siempre a memoria todos los elementos. Es el caso
+de la relación entre un usuario y sus tareas.
+
+En general, no es conveniente definir una relación como _eager_ porque
+puede provocar problemas de rendimiento en el caso en que haya muchos
+elementos relacionados. Pero si no hay muchos datos en la relación y
+los vamos a usar con frecuencia, sí que es aconsejable usar el tipo
+_EAGER_ para facilitar el manejo de la entidad.
+
+El código queda como hemos visto anteriormente:
 
 ```java
 @Entity
@@ -622,34 +671,6 @@ public class Tarea {
     ...
 }
 ```
-
-**Relaciones _lazy_**
-
-Por defecto, todas las relaciones _a-muchos_ en JPA se definen de
-tipo `LAZY`. 
-
-La característica de los atributos marcados como _lazy_ en JPA es que
-no se traen a memoria cuando se recupera la entidad, sino cuando se
-consultan. Pero para que se traigan a memoria **la conexión con la base
-de datos debe estar abierta**. Si ya se ha cerrado esa conexión (por
-ejemplo, se ha cerrado la transacción en el método de servicio y se
-quiere acceder a la una lista de tareas de un usuario devuelto por el
-propio método estando en el controller) se producirá un error.
-
-**Relaciones _eager_**
-
-Frente a la recuperación _lazy_ de colecciones, también existe la
-posibilidad de definir una colección como de tipo _EAGER_. En este
-caso JPA se traerá siempre a memoria todos los elementos. Es el caso
-de la relación entre un usuario y sus tareas.
-
-En general, no es conveniente definir una relación como _eager_ porque
-puede provocar problemas de rendimiento en el caso en que haya muchos
-elementos relacionados. 
-
-Pero si no hay muchos datos en la relación y los vamos a usar con
-frecuencia, sí que es aconsejable usar el tipo _EAGER_ para facilitar
-el manejo de la entidad.
 
 
 #### Clases Repository ####
@@ -767,21 +788,6 @@ cuando no se pueda realizar alguna funcionalidad.
 Los servicios obtienen instancias de _Repository_ usando inyección de
 dependencias.
 
-**Ventajas de utilizar una capa de servicios**
-
-Al utilizar clases de servicios podemos aislar la lógica de negocio de
-la aplicación usando métodos y objetos Java, sin preocuparnos de cómo
-obtener los datos de la interfaz de usuario ni de cómo mostrar los
-resultados. De esto ya se ocuparán las clases _controller_. De esta
-forma, si se necesita modificar la interfaz de usuario de la
-aplicación, o convertirla en un servicio REST que devuelva JSON en
-lugar de HTML sólo tendremos que tocar las clases _controller_, no las
-de servicio.
-
-Además, al no tener ninguna dependencia con la interfaz de usuario,
-estas clases de servicios también podrán ser fácilmente testeadas. La
-mayoría de los tests automáticos los haremos sobre ellas.
-
 **Fichero `src/main/java/madstodolist/service/UsuarioService.java`**:
 
 ```java
@@ -861,6 +867,22 @@ public class UsuarioServiceException extends RuntimeException {
     }
 }
 ```
+
+
+**Ventajas de utilizar una capa de servicios**
+
+Al utilizar clases de servicios podemos aislar la lógica de negocio de
+la aplicación usando métodos y objetos Java, sin preocuparnos de cómo
+obtener los datos de la interfaz de usuario ni de cómo mostrar los
+resultados. De esto ya se ocuparán las clases _controller_. De esta
+forma, si se necesita modificar la interfaz de usuario de la
+aplicación, o convertirla en un servicio REST que devuelva JSON en
+lugar de HTML sólo tendremos que tocar las clases _controller_, no las
+de servicio.
+
+Además, al no tener ninguna dependencia con la interfaz de usuario,
+estas clases de servicios también podrán ser fácilmente testeadas. La
+mayoría de los tests automáticos los haremos sobre ellas.
 
 
 ### Controllers ###
@@ -1060,7 +1082,8 @@ librerías JavaScript. Ambos se encuentran en el directorio
 `src/main/resources/static/`, el directorio por defecto en el que se
 guardan los recursos estáticos de una aplicación Spring Boot.
 
-La vista principal es el listado de tareas.
+La vista principal de la aplicación es el listado de tareas que vemos
+a continuación.
 
 **Fichero `src/main/resources/templates/listaTareas.html`**:
 
@@ -1264,24 +1287,24 @@ los demás.
 
 1. Una vez logeado en GitHub, copia el enlace con una invitación que
    compartiremos en el foro de Moodle. Con esa invitación se creará
-   automáticamente el repositorio `todolist-2019-<usuario>` en la
-   organización [mads-ua](https://github.com/mads-ua). Al igual que el
-   repositorio de la práctica 0. Es un repositorio privado al que
-   tienes acceso tú y el profesor. Contiene el código inicial de un
-   proyecto base (es una copia del repositorio
+   automáticamente el repositorio `todolist-<usuario>` en la
+   organización [mads-ua](https://github.com/mads-ua-20-21). Al igual
+   que el repositorio de la primera parte de la práctica es un
+   repositorio privado al que tienes acceso tú y el profesor. Contiene
+   el código inicial de un proyecto base (es una copia del repositorio
    [domingogallardo/mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial))
    en la que se han comprimido todos los commits en uno.
 
-   Al igual que en la práctica 0 es importante que tengas en cuenta
-  que el repositorio recién creado no reside en tu cuenta, sino en
-  la organización `mads-ua`. Puedes acceder a él desde el
-   _dashboard_ de GitHub que aparece cuando te logeas:
+    Es importante que tengas en cuenta que el repositorio recién
+    creado no reside en tu cuenta, sino en la organización
+    `mads-ua-20-21`. Puedes acceder a él desde el _dashboard_ de GitHub que
+    aparece cuando te logeas.
    
 2. Descarga el proyecto y comprueba que se compila y ejecuta
    correctamente:
    
-        $ git clone https://github.com/mads-ua/todolist-2019-usuario.git
-        $ cd todolist-2019-usuario
+        $ git clone https://github.com/mads-ua/todolist-<usuario>.git
+        $ cd todolist-<usuario>
         $ ./mvnw spring-boot:run
    
     Comprueba que la aplicación está funcionando en
@@ -1340,8 +1363,8 @@ En esta primera práctica vamos a desarrollar las siguientes historias de usuari
 
 La práctica va a consistir en la realización en tu proyecto de todos
 los elementos necesarios para implementar estas _features_ : tablero Trello,
-_issues_, _pull requests_ (con sus _commits_ en los que se desarrolla paso a paso
-cada _issue_) y tablero del proyecto. 
+issues, pull requests (con sus _commits_ en los que se desarrolla paso a paso
+cada issue) y tablero del proyecto. 
 
 Haremos paso a paso la historia de usuario 1, creando la primera
 versión 1.0.1 de la aplicación. Las siguientes características las
@@ -1378,7 +1401,7 @@ progress` y `Done`.
 
 <img src="./imagenes/project-practica.png" width="900px">
 
-En las columnas deberán aparecer los _issues_ y _pull requests_ del
+En las columnas deberán aparecer los issues y pull requests del
 proyecto. GitHub permite automatizar el movimiento de las tarjetas de
 una columna a otra. A continuación mostramos la configuración que
 usaremos:
@@ -1389,16 +1412,16 @@ Deberemos mover manualmente las tarjetas en algún caso, porque GitHub
 no podrá detectar las condiciones. En resumen, las condiciones de las
 fichas que habrá en cada columna son las siguientes:
 
-- Columna `To do`: Nuevos _issues_ añadidos al proyecto. Cuando
-  añadimos el proyecto al _issue_ (en la página del _issue_) GitHub
+- Columna `To do`: Nuevos issues añadidos al proyecto. Cuando
+  añadimos el proyecto al issue (en la página del issue) GitHub
   lo coloca automáticamente en esta columna.
-- Columna `In progress`: _Issues_ que se han comenzado a implementar
+- Columna `In progress`: issues que se han comenzado a implementar
   (se ha creado una rama su desarrollo). Manual.
-- Columna `In pull request`: _Pull request_ creados. Cuando añadimos
-  el proyecto al _pull request_ (en la página del _pull request_)
+- Columna `In pull request`: pull request creados. Cuando añadimos
+  el proyecto al pull request (en la página del pull request)
   GitHub lo coloca automáticamente en esta columna. **Archivaremos el
-  _issue_** implementado por el _pull request_ manualmente.
-- Columna `Done`: _Pull requests_ cerrados. GitHub lo detecta automáticamente.
+  issue** implementado por el pull request manualmente.
+- Columna `Done`: pull requests cerrados. GitHub lo detecta automáticamente.
 
 #### Issues ####
 
@@ -1406,25 +1429,25 @@ Añade las etiquetas que vamos a usar inicialmente.
 
 <img src="./imagenes/labels-practica.png" width="400px"/>
 
-Crea el primer _issue_, correspondiente a la _feature_ a desarrollar
-**Página _Acerca de_**. Crea el _milestone_ 1.0.1. y añade el issue a
+Crea el primer issue, correspondiente a la _feature_ a desarrollar
+**Página _Acerca de_**. Crea el milestone 1.0.1. y añade el issue a
 él.
 
 <img src="./imagenes/issue-acerca-de-listado.png" width="500px"/>
 
 <img src="./imagenes/issue-acerca-de-detalle.png" width="600px"/>
 
-Añade el _issue_ al proyecto (desde la página del _issue_) y
+Añade el issue al proyecto (desde la página del issue) y
 automáticamente se añadirá en la columna `To do`.
 
 
 #### Desarrollo ####
 
-Para desarrollar el _issue_ abriremos una rama en Git, realizaremos
+Para desarrollar el issue abriremos una rama en Git, realizaremos
 commits sobre ella hasta estar terminado y después crearemos un _pull
 request_ en GitHub para realizar la integración con la rama `main`.
 
-Mueve en el tablero la tarjeta con el _issue_ a la columna `In
+Mueve en el tablero la tarjeta con el issue a la columna `In
 progress`.
 
 <img src="./imagenes/in-progress-issue-1.png" width="500px" />
@@ -1435,7 +1458,7 @@ un terminal para trabajar con Git:
 <img src="./imagenes/intellij-practica.png" width="700px"/>
 
 En el terminal escribimos los comandos para crear la rama en la que
-desarrollaremos la _feature_ y subirla:
+desarrollaremos la feature y subirla:
 
 ```text
 (main) $ git checkout -b acerca-de
@@ -1448,7 +1471,7 @@ Hacemos un primer commit.
 
 Cambia en `pom.xml` el nombre del proyecto a `mads-todolist-<tu-nombre>` y
 la versión a `1.0.1-SNAPSHOT`. El sufijo `SNAPSHOT` indica _en
-desarrollo_. Cuando hagamos el _release_ de la versión 1.0.1
+desarrollo_. Cuando hagamos el release de la versión 1.0.1
 eliminaremos el sufijo.
 
 Realiza el commit y súbelo a GitHub:
@@ -1571,19 +1594,19 @@ Prueba que funciona correctamente, haz el commit y súbelo a GitHub:
 
 #### Pull request ####
 
-Una vez terminada la implementación de la _feature_ en la rama,
-creamos un _pull request_ en GitHub para indicar que estamos listos
-para mezclar la rama con la _feature_ con la rama principal de
+Una vez terminada la implementación de la feature en la rama,
+creamos un pull request en GitHub para indicar que estamos listos
+para mezclar la rama con la feature con la rama principal de
 desarrollo (_main_).
 
-Más adelante añadiremos al _pull request_ una comprobación automática
+Más adelante añadiremos al pull request una comprobación automática
 de las pruebas y una revisión de código por parte de compañeros del
 equipo. Por ahora haremos nosotros ambas tareas.
 
 Vamos a verlo paso a paso.
 
 Empezamos por mezclar la rama de forma local con `main`, antes de
-hacer el _pull request_ en GitHub, para probar que no se ha roto nada
+hacer el pull request en GitHub, para probar que no se ha roto nada
 (todos los tests deben seguir pasando) y que los tests que hemos
 añadido también funcionan correctamente (en este caso no hemos añadido
 ninguno).
@@ -1621,7 +1644,7 @@ Lanzamos los tests (lo podemos hacer en el terminal o en IntelliJ):
 
 Una vez que hemos comprobado que todo funciona bien, deshacemos el
 merge que acabamos de realizar en la rama `main`, ya que
-actualizaremos después la rama con el resultado del _pull request_ en
+actualizaremos después la rama con el resultado del pull request en
 GitHub:
 
 ```text
@@ -1633,7 +1656,7 @@ GitHub:
     Your branch is up to date with 'origin/acerca-de'.
 ```
 
-Ya podemos crear el _pull request_ en GitHub. 
+Ya podemos crear el pull request en GitHub. 
 
 Accede a la rama y comprueba que están todos los cambios pulsando
 `Compare`. 
@@ -1645,9 +1668,9 @@ introducen todos los commits de la rama:
 
 <img src="./imagenes/compara-cambios-pr.png" width="700px"/>
 
-Pulsa después el botón _Create pull request_ para crear el _pull request_.
+Pulsa después el botón _Create pull request_ para crear el pull request.
 
-Introduce el nombre del _pull request_, el comentario, el _milestone_,
+Introduce el nombre del pull request, el comentario, el milestone,
 la etiqueta y el proyecto. En el comentario escribe
 
 ```text
@@ -1656,15 +1679,15 @@ Closes #1
 
 <img src="./imagenes/pull-request-practica.png" width="700px"/>
 
-De esta forma, cuando se cierre el _pull request_ se cerrará
-automáticamente el _issue_. El número `#1` lo convierte GitHub en un
-enlace al _issue_ correspondiente. De esta forma podemos examinar el
-_issue_ resuelto por el PR.
+De esta forma, cuando se cierre el pull request se cerrará
+automáticamente el issue. El número `#1` lo convierte GitHub en un
+enlace al issue correspondiente. De esta forma podemos examinar el
+issue resuelto por el PR.
 
-En el proyecto el _pull request_ se colocará automáticamente la
+En el proyecto el pull request se colocará automáticamente la
 columna `In pull request`. Entra en el proyecto y archiva la tarjeta
-con el _issue_, ya que la actividad de desarrollar la _feature_ queda
-representada por el _pull request_.
+con el issue, ya que la actividad de desarrollar la feature queda
+representada por el pull request.
 
 En este momento se debería hacer una revisión del código del pull
 request y comprobar de forma automática que la integración con
@@ -1699,7 +1722,7 @@ repositorio local. En el terminal:
 ```
 
 Comprobamos también la historia de _commits_ en GitHub. Aparecerá el
-_commit_ de _merge_ introducido por el _pull request_.
+_commit_ de _merge_ introducido por el pull request.
 
 <img src="./imagenes/historia-commits-practica1.png" width="800px"/>
 
@@ -1717,9 +1740,9 @@ columna _Terminadas_.
 
 #### Versión 1.0.1 ####
 
-Por último creamos el _release_ 1.0.1. Haremos un commit directamente
+Por último creamos el release 1.0.1. Haremos un commit directamente
 sobre la rama `main` (más adelante explicaremos una forma más
-elaborada de hacer un _release_, cuando expliquemos el flujo de
+elaborada de hacer un release, cuando expliquemos el flujo de
 trabajo de GitFlow).
 
 
@@ -1765,9 +1788,9 @@ enlace `release` en la página principal (pestaña `Code`).
 
 <img src="./imagenes/release-practica1.png" width="700px"/>
 
-Un _release_ en GitHub se guarda como una una etiqueta Git, junto con
+Un release en GitHub se guarda como una una etiqueta Git, junto con
 información asociada. Se suelen indicar las nuevas _features_ añadidas
-en el _release_ mediante enlaces a los _pull requests_
+en el release mediante enlaces a los pull requests
 añadidos. También añadiremos enlaces a la página de la Wiki en la que
 se describe la característica.
 
