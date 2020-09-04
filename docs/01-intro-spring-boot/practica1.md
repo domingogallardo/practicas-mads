@@ -1,3 +1,13 @@
+
+<!--
+
+TODO: En GitHub ya se puede ver en el panel del proyecto el PR 
+asociado a un Issue. Por lo que ya no es necesario poner etiquetas ni
+milestones en los PR. Estarán en el issue asociado.
+
+-->
+
+
 # Aplicación ToDoList
 
 Esta es la **segunda parte** de la práctica 1.
@@ -152,7 +162,7 @@ miembros del equipo:
     <img src="./imagenes/labels-issues.png" width="400px"/>
   
     Cada _issue_ se desarrollará en una rama de Git y se integrará en la
-    rama _master_ haciendo un _pull request_.
+    rama _main_ haciendo un _pull request_.
 
 
 - **Pull Requests**: Un _pull request_ permite avisar al equipo de que
@@ -163,8 +173,8 @@ miembros del equipo:
   [About pull requests](https://help.github.com/articles/about-pull-requests/).
   
     Implementaremos cada _issue_ en una rama separada de git y la
-    integraremos en la rama `master` haciendo un _pull
-    request_. Cuando se mezcle el PR en `master` el _issue_ se
+    integraremos en la rama `main` haciendo un _pull
+    request_. Cuando se mezcle el PR en `main` el _issue_ se
     cerrará.
   
     <img src="./imagenes/github-pr.png" width="700px"/>
@@ -1272,7 +1282,7 @@ los demás.
    
         $ git clone https://github.com/mads-ua/todolist-2019-usuario.git
         $ cd todolist-2019-usuario
-        $ mvn spring-boot:run
+        $ ./mvnw spring-boot:run
    
     Comprueba que la aplicación está funcionando en
     <http://localhost:8080/login> en la máquina host.
@@ -1412,7 +1422,7 @@ automáticamente se añadirá en la columna `To do`.
 
 Para desarrollar el _issue_ abriremos una rama en Git, realizaremos
 commits sobre ella hasta estar terminado y después crearemos un _pull
-request_ en GitHub para realizar la integración con la rama `master`.
+request_ en GitHub para realizar la integración con la rama `main`.
 
 Mueve en el tablero la tarjeta con el _issue_ a la columna `In
 progress`.
@@ -1428,7 +1438,7 @@ En el terminal escribimos los comandos para crear la rama en la que
 desarrollaremos la _feature_ y subirla:
 
 ```text
-(master) $ git checkout -b acerca-de
+(main) $ git checkout -b acerca-de
 (acerca-de) $ git push -u origin acerca-de
 ```
 
@@ -1564,7 +1574,7 @@ Prueba que funciona correctamente, haz el commit y súbelo a GitHub:
 Una vez terminada la implementación de la _feature_ en la rama,
 creamos un _pull request_ en GitHub para indicar que estamos listos
 para mezclar la rama con la _feature_ con la rama principal de
-desarrollo (_master_).
+desarrollo (_main_).
 
 Más adelante añadiremos al _pull request_ una comprobación automática
 de las pruebas y una revisión de código por parte de compañeros del
@@ -1572,7 +1582,7 @@ equipo. Por ahora haremos nosotros ambas tareas.
 
 Vamos a verlo paso a paso.
 
-Empezamos por mezclar la rama de forma local con `master`, antes de
+Empezamos por mezclar la rama de forma local con `main`, antes de
 hacer el _pull request_ en GitHub, para probar que no se ha roto nada
 (todos los tests deben seguir pasando) y que los tests que hemos
 añadido también funcionan correctamente (en este caso no hemos añadido
@@ -1581,11 +1591,11 @@ ninguno).
 En el terminal:
 
 ```text
-(acerca-de) $ git checkout master
-(master) $ git pull (bajamos cambios que se hayan subido master. En
+(acerca-de) $ git checkout main
+(main) $ git pull (bajamos cambios que se hayan subido main. En
                      este caso no habrá ninguno, pero lo habrán cuando
                      trabajemos en equipo)
-(master) $ git merge acerca-de 
+(main) $ git merge acerca-de 
     Fast-forward
       pom.xml                                                   |  4 ++--
       src/main/java/madstodolist/controller/HomeController.java | 20 ++++++++++++++++++++
@@ -1597,7 +1607,7 @@ En el terminal:
 Lanzamos los tests (lo podemos hacer en el terminal o en IntelliJ):
 
 ```text
-(master) $ mvn test
+(main) $ ./mvnw test
 ...
 [INFO] 
 [INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
@@ -1610,15 +1620,15 @@ Lanzamos los tests (lo podemos hacer en el terminal o en IntelliJ):
 
 
 Una vez que hemos comprobado que todo funciona bien, deshacemos el
-merge que acabamos de realizar en la rama `master`, ya que
+merge que acabamos de realizar en la rama `main`, ya que
 actualizaremos después la rama con el resultado del _pull request_ en
 GitHub:
 
 ```text
-(master) $ git log --oneline --graph (muestra la historia de commits y las ramas)
-(master) $ git reset --hard origin/master
+(main) $ git log --oneline --graph (muestra la historia de commits y las ramas)
+(main) $ git reset --hard origin/main
     HEAD is now at 51ebf62 Initial commit
-(master) $ git checkout acerca-de 
+(main) $ git checkout acerca-de 
     Switched to branch 'acerca-de'
     Your branch is up to date with 'origin/acerca-de'.
 ```
@@ -1658,10 +1668,10 @@ representada por el _pull request_.
 
 En este momento se debería hacer una revisión del código del pull
 request y comprobar de forma automática que la integración con
-_master_ no introduce errores en los tests. Lo haremos en siguientes
+_main_ no introduce errores en los tests. Lo haremos en siguientes
 prácticas.
 
-GitHub informa de que no hay conflictos con la rama `master` y que es
+GitHub informa de que no hay conflictos con la rama `main` y que es
 posible hacer el merge. Pulsa el botón de `Merge` y confírmalo. 
 
 <img src="./imagenes/merge-pull-request.png" width="600px"/>
@@ -1674,12 +1684,12 @@ Este _merge_ lo has hecho en GitHub. Debes por último integrarlo en tu
 repositorio local. En el terminal:
 
 ```text
-(acerca-de) $ git checkout master
-(master) $ git pull (bajamos los cambios)
-(master) $ git branch -d acerca-de (borramos la rama)
-(master) $ git remote prune origin (borramos referencias a rama remota)
-(master) $ git log --oneline --graph --all
-    *   9527ae2 (HEAD -> master, origin/master, origin/HEAD) Merge pull request #2 from mads-ua-18/acerca-de
+(acerca-de) $ git checkout main
+(main) $ git pull (bajamos los cambios)
+(main) $ git branch -d acerca-de (borramos la rama)
+(main) $ git remote prune origin (borramos referencias a rama remota)
+(main) $ git log --oneline --graph --all
+    *   9527ae2 (HEAD -> main, origin/main, origin/HEAD) Merge pull request #2 from mads-ua-18/acerca-de
     |\  
     | * 672c28f Añadido enlace a página 'about' en página 'login'
     | * 3fdfb83 Añadida ruta, vista y controller 'about'
@@ -1708,7 +1718,7 @@ columna _Terminadas_.
 #### Versión 1.0.1 ####
 
 Por último creamos el _release_ 1.0.1. Haremos un commit directamente
-sobre la rama `master` (más adelante explicaremos una forma más
+sobre la rama `main` (más adelante explicaremos una forma más
 elaborada de hacer un _release_, cuando expliquemos el flujo de
 trabajo de GitFlow).
 
@@ -1745,9 +1755,9 @@ los ficheros `pom.xml` y `about.html`
 Añadimos el commit y lo subimos a GitHub
 
 ```text
-(master) $ git add .
-(master) $ git commit -m "Cambio de versión a 1.0.1"
-(master) $ git push
+(main) $ git add .
+(main) $ git commit -m "Cambio de versión a 1.0.1"
+(main) $ git push
 ```
 
 Y, por último, creamos la versión 1.0.1 en GitHub pulsando en el
@@ -1864,7 +1874,7 @@ una breve pero útil [introducción a Markdown](https://guides.github.com/featur
 - Para realizar la entrega se debe subir a Moodle un ZIP que contenga
   todo el proyecto, incluyendo el directorio `.git` que contiene la
   historia Git. Para ello comprime tu directorio local del proyecto
-  **después de haber hecho un `mvn clean`** para eliminar el
+  **después de haber hecho un `./mvnw clean`** para eliminar el
   directorio `target` que contiene los binarios compilados. Debes
   dejar también en Moodle la URL del repositorio en GitHub.
 
