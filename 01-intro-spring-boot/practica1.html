@@ -624,7 +624,15 @@
               
                 
                 
-                <h1 id="aplicacion-todolist">Aplicación ToDoList<a class="headerlink" href="#aplicacion-todolist" title="Permanent link">&para;</a></h1>
+                <!--
+
+TODO: En GitHub ya se puede ver en el panel del proyecto el PR 
+asociado a un Issue. Por lo que ya no es necesario poner etiquetas ni
+milestones en los PR. Estarán en el issue asociado.
+
+-->
+
+<h1 id="aplicacion-todolist">Aplicación ToDoList<a class="headerlink" href="#aplicacion-todolist" title="Permanent link">&para;</a></h1>
 <p>Esta es la <strong>segunda parte</strong> de la práctica 1.</p>
 <h2 id="objetivos">Objetivos<a class="headerlink" href="#objetivos" title="Permanent link">&para;</a></h2>
 <p>En esta segunda parte de la práctica vamos a
@@ -756,7 +764,7 @@ implementan una historia de usuario los etiquetaremos con el
 código de la historia de usuario.</p>
 <p><img src="./imagenes/labels-issues.png" width="400px"/></p>
 <p>Cada <em>issue</em> se desarrollará en una rama de Git y se integrará en la
-rama <em>master</em> haciendo un <em>pull request</em>.</p>
+rama <em>main</em> haciendo un <em>pull request</em>.</p>
 </li>
 <li>
 <p><strong>Pull Requests</strong>: Un <em>pull request</em> permite avisar al equipo de que
@@ -766,8 +774,8 @@ rama <em>master</em> haciendo un <em>pull request</em>.</p>
   políticas de aceptación del PR. Consultar
   <a href="https://help.github.com/articles/about-pull-requests/">About pull requests</a>.</p>
 <p>Implementaremos cada <em>issue</em> en una rama separada de git y la
-integraremos en la rama <code>master</code> haciendo un <em>pull
-request</em>. Cuando se mezcle el PR en <code>master</code> el <em>issue</em> se
+integraremos en la rama <code>main</code> haciendo un <em>pull
+request</em>. Cuando se mezcle el PR en <code>main</code> el <em>issue</em> se
 cerrará.</p>
 <p><img src="./imagenes/github-pr.png" width="700px"/></p>
 <p>Más adelante añadiremos otra rama de largo recorrido <code>releases</code> para
@@ -2339,7 +2347,7 @@ los demás.</p>
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git clone https://github.com/mads-ua/todolist-2019-usuario.git
 $ <span class="nb">cd</span> todolist-2019-usuario
-$ mvn spring-boot:run
+$ ./mvnw spring-boot:run
 </code></pre></div>
 </td></tr></table>
 
@@ -2451,7 +2459,7 @@ automáticamente se añadirá en la columna <code>To do</code>.</p>
 <h4>Desarrollo</h4>
 <p>Para desarrollar el <em>issue</em> abriremos una rama en Git, realizaremos
 commits sobre ella hasta estar terminado y después crearemos un <em>pull
-request</em> en GitHub para realizar la integración con la rama <code>master</code>.</p>
+request</em> en GitHub para realizar la integración con la rama <code>main</code>.</p>
 <p>Mueve en el tablero la tarjeta con el <em>issue</em> a la columna <code>In
 progress</code>.</p>
 <p><img src="./imagenes/in-progress-issue-1.png" width="500px" /></p>
@@ -2461,7 +2469,7 @@ un terminal para trabajar con Git:</p>
 <p>En el terminal escribimos los comandos para crear la rama en la que
 desarrollaremos la <em>feature</em> y subirla:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(master) $ git checkout -b acerca-de
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(main) $ git checkout -b acerca-de
 (acerca-de) $ git push -u origin acerca-de
 </code></pre></div>
 </td></tr></table>
@@ -2627,12 +2635,12 @@ login de la aplicación.</p>
 <p>Una vez terminada la implementación de la <em>feature</em> en la rama,
 creamos un <em>pull request</em> en GitHub para indicar que estamos listos
 para mezclar la rama con la <em>feature</em> con la rama principal de
-desarrollo (<em>master</em>).</p>
+desarrollo (<em>main</em>).</p>
 <p>Más adelante añadiremos al <em>pull request</em> una comprobación automática
 de las pruebas y una revisión de código por parte de compañeros del
 equipo. Por ahora haremos nosotros ambas tareas.</p>
 <p>Vamos a verlo paso a paso.</p>
-<p>Empezamos por mezclar la rama de forma local con <code>master</code>, antes de
+<p>Empezamos por mezclar la rama de forma local con <code>main</code>, antes de
 hacer el <em>pull request</em> en GitHub, para probar que no se ha roto nada
 (todos los tests deben seguir pasando) y que los tests que hemos
 añadido también funcionan correctamente (en este caso no hemos añadido
@@ -2648,11 +2656,11 @@ ninguno).</p>
  8
  9
 10
-11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(acerca-de) $ git checkout master
-(master) $ git pull (bajamos cambios que se hayan subido master. En
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(acerca-de) $ git checkout main
+(main) $ git pull (bajamos cambios que se hayan subido main. En
                      este caso no habrá ninguno, pero lo habrán cuando
                      trabajemos en equipo)
-(master) $ git merge acerca-de 
+(main) $ git merge acerca-de 
     Fast-forward
       pom.xml                                                   |  4 ++--
       src/main/java/madstodolist/controller/HomeController.java | 20 ++++++++++++++++++++
@@ -2671,7 +2679,7 @@ ninguno).</p>
 6
 7
 8
-9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(master) $ mvn test
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(main) $ ./mvnw test
 ...
 [INFO] 
 [INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
@@ -2684,7 +2692,7 @@ ninguno).</p>
 </td></tr></table>
 
 <p>Una vez que hemos comprobado que todo funciona bien, deshacemos el
-merge que acabamos de realizar en la rama <code>master</code>, ya que
+merge que acabamos de realizar en la rama <code>main</code>, ya que
 actualizaremos después la rama con el resultado del <em>pull request</em> en
 GitHub:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
@@ -2692,10 +2700,10 @@ GitHub:</p>
 3
 4
 5
-6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(master) $ git log --oneline --graph (muestra la historia de commits y las ramas)
-(master) $ git reset --hard origin/master
+6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(main) $ git log --oneline --graph (muestra la historia de commits y las ramas)
+(main) $ git reset --hard origin/main
     HEAD is now at 51ebf62 Initial commit
-(master) $ git checkout acerca-de 
+(main) $ git checkout acerca-de 
     Switched to branch &#39;acerca-de&#39;
     Your branch is up to date with &#39;origin/acerca-de&#39;.
 </code></pre></div>
@@ -2726,9 +2734,9 @@ con el <em>issue</em>, ya que la actividad de desarrollar la <em>feature</em> qu
 representada por el <em>pull request</em>.</p>
 <p>En este momento se debería hacer una revisión del código del pull
 request y comprobar de forma automática que la integración con
-<em>master</em> no introduce errores en los tests. Lo haremos en siguientes
+<em>main</em> no introduce errores en los tests. Lo haremos en siguientes
 prácticas.</p>
-<p>GitHub informa de que no hay conflictos con la rama <code>master</code> y que es
+<p>GitHub informa de que no hay conflictos con la rama <code>main</code> y que es
 posible hacer el merge. Pulsa el botón de <code>Merge</code> y confírmalo. </p>
 <p><img src="./imagenes/merge-pull-request.png" width="600px"/></p>
 <p>Borra la rama en GitHub, pulsando el botón correspondiente.</p>
@@ -2746,12 +2754,12 @@ repositorio local. En el terminal:</p>
  9
 10
 11
-12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(acerca-de) $ git checkout master
-(master) $ git pull (bajamos los cambios)
-(master) $ git branch -d acerca-de (borramos la rama)
-(master) $ git remote prune origin (borramos referencias a rama remota)
-(master) $ git log --oneline --graph --all
-    *   9527ae2 (HEAD -&gt; master, origin/master, origin/HEAD) Merge pull request #2 from mads-ua-18/acerca-de
+12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(acerca-de) $ git checkout main
+(main) $ git pull (bajamos los cambios)
+(main) $ git branch -d acerca-de (borramos la rama)
+(main) $ git remote prune origin (borramos referencias a rama remota)
+(main) $ git log --oneline --graph --all
+    *   9527ae2 (HEAD -&gt; main, origin/main, origin/HEAD) Merge pull request #2 from mads-ua-18/acerca-de
     |\  
     | * 672c28f Añadido enlace a página &#39;about&#39; en página &#39;login&#39;
     | * 3fdfb83 Añadida ruta, vista y controller &#39;about&#39;
@@ -2773,7 +2781,7 @@ columna <em>Terminadas</em>.</p>
 <p><img src="./imagenes/trello-terminadas.png" width="600px"/></p>
 <h4>Versión 1.0.1</h4>
 <p>Por último creamos el <em>release</em> 1.0.1. Haremos un commit directamente
-sobre la rama <code>master</code> (más adelante explicaremos una forma más
+sobre la rama <code>main</code> (más adelante explicaremos una forma más
 elaborada de hacer un <em>release</em>, cuando expliquemos el flujo de
 trabajo de GitFlow).</p>
 <p>Crea un commit con la confirmación del número de versión y fecha en
@@ -2817,9 +2825,9 @@ los ficheros <code>pom.xml</code> y <code>about.html</code></p>
 <p>Añadimos el commit y lo subimos a GitHub</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(master) $ git add .
-(master) $ git commit -m &quot;Cambio de versión a 1.0.1&quot;
-(master) $ git push
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(main) $ git add .
+(main) $ git commit -m &quot;Cambio de versión a 1.0.1&quot;
+(main) $ git push
 </code></pre></div>
 </td></tr></table>
 
@@ -2925,7 +2933,7 @@ una breve pero útil <a href="https://guides.github.com/features/mastering-markd
 <li>Para realizar la entrega se debe subir a Moodle un ZIP que contenga
   todo el proyecto, incluyendo el directorio <code>.git</code> que contiene la
   historia Git. Para ello comprime tu directorio local del proyecto
-  <strong>después de haber hecho un <code>mvn clean</code></strong> para eliminar el
+  <strong>después de haber hecho un <code>./mvnw clean</code></strong> para eliminar el
   directorio <code>target</code> que contiene los binarios compilados. Debes
   dejar también en Moodle la URL del repositorio en GitHub.</li>
 </ul>
