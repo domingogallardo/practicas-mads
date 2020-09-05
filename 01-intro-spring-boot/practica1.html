@@ -643,9 +643,9 @@ forma individual, siguiendo las indicaciones que encontrarás en este
 documento. Tendrás que desarrollar código y trabajar en GitHub
 desarrollando <em>issues</em>, <em>pull requests</em>, <em>releases</em> y actualizando la
 wiki del proyecto.</p>
-<p>Igual que en la primera parte, debes leer la <a href="intro-spring-boot.html">introducción a Spring Boot
-para las prácticas de MADS</a> para entender los
-conceptos fundamentales del framework.</p>
+<p>Igual que en la primera parte, debes leer la <a href="intro-spring-boot.html">introducción a Spring
+Boot</a> para entender los conceptos
+fundamentales del framework. </p>
 <h2 id="aplicacion-inicial">Aplicación inicial<a class="headerlink" href="#aplicacion-inicial" title="Permanent link">&para;</a></h2>
 <p>La aplicación inicial es una aplicación para gestionar listas de
 tareas pendientes de los usuarios de la aplicación. Se pueden registrar
@@ -680,10 +680,10 @@ repasaremos e introduciremos el uso de:</p>
   desarrollaremos pequeños incrementos que añadirán poco a poco las
   funcionalidades necesarias en la aplicación.</li>
 <li><a href="https://github.com">GitHub</a> como servicio en el que publicaremos los cambios e
-  integraremos las ramas usando <em>pull requests</em> (PRs). Utilizaremos un
+  integraremos las ramas usando pull requests (PRs). Utilizaremos un
   gran número de características de GitHub para realizar el
-  seguimiento del desarrollo del proyecto: <em>issues</em>, <em>labels</em>,
-  <em>milestones</em>, etc.</li>
+  seguimiento del desarrollo del proyecto: issues, labels,
+  milestones, etc.</li>
 <li>JUnit y las <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html">características de testing de Spring
   Boot</a>
   para realizar continuamente pruebas unitarias que
@@ -696,7 +696,7 @@ source</em>. </p>
 transparente, en GitHub. Podemos aprender de sus metodologías
 estudiándolos. A continuación listamos ejemplos de repositorios en
 GitHub interesantes, en los que podemos estudiar los procesos de <em>pull
-requests</em>, <em>issues</em>, tableros, etc. y las dinámicas de comunicación
+requests</em>, issues, tableros, etc. y las dinámicas de comunicación
 que utilizan.</p>
 <ul>
 <li><a href="https://github.com/CartoDB/cartodb">CartoDB</a>. Software español para
@@ -752,56 +752,62 @@ instrumentos de GitHub que facilitan la comunicación entre los
 miembros del equipo:</p>
 <ul>
 <li>
-<p><strong>Issues</strong> (<em>incidencias</em>): GitHub permite abrir <em>issues</em>
+<p><strong>Issues</strong> (<em>incidencias</em>): GitHub permite abrir issues
   (incidencias o tareas), asignarlos a personas, realizar comentarios,
   asignar etiquetas y cerrarlos cuando la implementación ha
   terminado. Consultar
   <a href="https://guides.github.com/features/issues/">Mastering Issues</a>.</p>
 <p><img src="./imagenes/github-issues.png" width="500px"/></p>
-<p>Definiremos distintos tipos de <em>issues</em> en función de su
-propósito: <em>bug</em>, <em>technical</em>, <em>enhancement</em>. Los <em>issues</em> que
+<p>Definiremos distintos tipos de issues en función de su
+propósito: <em>bug</em>, <em>technical</em>, <em>enhancement</em>. Los issues que
 implementan una historia de usuario los etiquetaremos con el
-código de la historia de usuario.</p>
+código de la historia de usuario. Puede haber más de un issue
+asociado con una historia de usuario y de esta forma podemos
+agruparlos.</p>
 <p><img src="./imagenes/labels-issues.png" width="400px"/></p>
-<p>Cada <em>issue</em> se desarrollará en una rama de Git y se integrará en la
-rama <em>main</em> haciendo un <em>pull request</em>.</p>
+<p>Cada issue se desarrollará en una rama de Git y se integrará en la
+rama <em>main</em> haciendo un pull request.</p>
 </li>
 <li>
-<p><strong>Pull Requests</strong>: Un <em>pull request</em> permite avisar al equipo de que
+<p><strong>Pull Requests</strong>: Un pull request permite avisar al equipo de que
   se va a integrar en la rama principal una rama con un desarrollo
   nuevo. Cuando creamos un PR, GitHub crea una página en la que se
   pueden realizar comentarios, revisiones de código o definir
   políticas de aceptación del PR. Consultar
   <a href="https://help.github.com/articles/about-pull-requests/">About pull requests</a>.</p>
-<p>Implementaremos cada <em>issue</em> en una rama separada de git y la
+<p>Implementaremos cada issue en una rama separada de git y la
 integraremos en la rama <code>main</code> haciendo un <em>pull
-request</em>. Cuando se mezcle el PR en <code>main</code> el <em>issue</em> se
+request</em>. Cuando se mezcle el PR en <code>main</code> el issue se
 cerrará.</p>
 <p><img src="./imagenes/github-pr.png" width="700px"/></p>
 <p>Más adelante añadiremos otra rama de largo recorrido <code>releases</code> para
-incluir en ella las <em>releases</em> del proyecto.</p>
+incluir en ella las releases del proyecto.</p>
 </li>
 <li>
-<p><strong>Milestones</strong> y <strong>Releases</strong>: Etiquetaremos cada <em>issue</em> con el
+<p><strong>Milestones</strong> y <strong>Releases</strong>: Etiquetaremos cada issue con el
   <em>milestone</em> en el que queremos que se lance. Para identificar el
-  <em>milestone</em> usaremos el <a href="https://semver.org">versionado semántico</a>:
+  milestone usaremos el <a href="https://semver.org">versionado semántico</a>:
   MAJOR.MINOR.PATCH. </p>
 <p><img src="./imagenes/github-milestones.png" width="600px"/></p>
 <p>Usaremos la funcionalidad de GitHub <em>Releases</em> para etiquetar los
 commits en los que queramos marcar una versión nueva del
 proyecto. Podemos añadir información sobre las novedades de la
-versión (normalmente serán enlaces a los <em>issues</em> y <em>pull
-requests</em> de ese <em>milestone</em>).</p>
+versión (normalmente serán enlaces a los issues ese milestone).</p>
 <p><img src="./imagenes/github-releases.png" width="600px"/></p>
 </li>
 <li>
 <p><strong>Tablero de proyecto</strong>: Un tablero de proyecto nos ayudará a hacer
-  un seguimiento de en qué estado se encuentra cada <em>issue</em> o PR:
+  un seguimiento de en qué estado se encuentra cada issue:
   cuáles han sido implementados, cuáles faltan por asignar,
   implementar, probar, etc. Vamos a utilizar la funcionalidad propia
   de GitHub llamada <em>Projects</em>. Consultar
   <a href="https://help.github.com/articles/tracking-the-progress-of-your-work-with-project-boards/">project boards</a>.</p>
 <p><img src="./imagenes/github-tablero.png" width="700px"/></p>
+<p>Cuando se crea un pull request que resuelve un issue enlazaremos
+el issue con el pull request. Podremos ver en el tablero que bajo
+el issue aparece su PR enlazado y podremos desplegarlo en la
+propia tarjeta (funcionalidad nueva de GitHub).</p>
+<p><img src="./imagenes/pr-enlazado.png" width="500px"/></p>
 </li>
 </ul>
 <p>También utilizaremos un panel de <a href="https://trello.com/">Trello</a> para representar las
@@ -812,19 +818,20 @@ implementarse con uno o más issues. En GitHub crearemos una etiqueta
 por cada historia de usuario y se la asignaremos a los issues que se
 usen para implementarla.</p>
 <div class="admonition important">
-<p class="admonition-title">Important</p>
+<p class="admonition-title">Importante</p>
 <p>Puede parecer redundante el uso de dos tableros, uno para las
-historias de usuario y otro para los <em>issues</em> y <em>PR</em>. La
+historias de usuario y otro para los issues y <em>PR</em>. La
 justificación es que los objetivos de ambos tableros son distintos
-(y los contenidos también). El tablero de GitHub será un <strong>tablero
-técnico</strong> gestionado por el equipo de desarrollo. En terminología
-de Scrum será el <em>sprint backlog</em>. Mientras que el
+(y los contenidos también). El
 tablero Trello es un <strong>tablero de funcionalidades de usuario</strong>, que
 es gestionado por el <em>product owner</em>, usado por el equipo de
 desarrollo y puede ser compartido también con clientes y
-gerencia. En la terminología de Scrum será el <em>product backlog</em>.</p>
+gerencia. En la terminología de Scrum será el <em>product
+backlog</em>. Mientras que el tablero de GitHub será un <strong>tablero
+técnico</strong> gestionado por el equipo de desarrollo. En terminología
+de Scrum será el <em>sprint backlog</em>. </p>
 </div>
-<p>La documentación en Trello y en GitHub (en los <em>issues</em>, en los PRs y
+<p>La documentación en Trello y en GitHub (en los issues, en los PRs y
 en el propio <code>README.md</code> del proyecto) hay que escribirla en
 <strong>Markdown</strong>, un lenguaje de marcado muy popular y sencillo de
 dominar. Si no has trabajado todavía con él puedes leer estas <a href="https://help.github.com/categories/writing-on-github/">guías
@@ -834,12 +841,11 @@ de GitHub</a>.</p>
 <p>Existen herramientas y servicios más avanzados para gestionar
 todos estos elementos del desarrollo. Por ejemplo
 <a href="https://www.atlassian.com/software/jira">Jira</a>,
-<a href="https://www.jetbrains.com/youtrack/">YouTrack</a>,
-<a href="https://www.atlassian.com/software/confluence">Confluence</a> o
-incluso <a href="https://www.atlassian.com/software/trello">Trello</a>. Pero
-lo que nos ofrece GitHub es suficiente para lo que vamos a
-realizar en la asignatura y tiene la ventaja de estar integrado en
-una misma plataforma.</p>
+<a href="https://www.jetbrains.com/youtrack/">YouTrack</a> o
+<a href="https://www.atlassian.com/software/confluence">Confluence</a>. Pero
+la combinación de GitHub + Trello es suficiente para lo que vamos a
+realizar en la asignatura y para aprender los objetivos y el
+funcionamiento de estos tipos de sistemas basados en incidencias.</p>
 </div>
 <h2 id="la-aplicacion-todolist">La aplicación ToDoList<a class="headerlink" href="#la-aplicacion-todolist" title="Permanent link">&para;</a></h2>
 <p>La aplicación
@@ -847,7 +853,7 @@ una misma plataforma.</p>
 es la versión inicial de la aplicación que se va a desarrollar
 durante todo el cuatrimestre en la asignatura.</p>
 <p>Es una aplicación bastante más compleja que la vista en la
-práctica 0. Entre otros, tiene los siguientes elementos:</p>
+parte anterior de la práctica. Entre otros, tiene los siguientes elementos:</p>
 <ul>
 <li>Gestiona distintos comandos HTTP: GET, POST, DELETE.</li>
 <li>Recogida de datos en formularios HTML y validación de los datos.</li>
@@ -938,7 +944,7 @@ JPA</a>. Se
 trata de un API de Spring Boot que se construye sobre JPA (<em>Java
 Persistence API</em>), el ORM (<em>Object Relational Mapping</em>) estándar de
 Java. La implementación de JPA que utiliza Spring Boot es Hibernate
-5.3.10.</p>
+5.3.17.</p>
 <p>Spring Data JPA usa todos los conceptos de JPA y añade algunos
 adicionales que facilitan aun más su utilización, como es la
 definición de interfaces <code>Repository</code> con métodos CRUD estándar para
@@ -949,7 +955,7 @@ anotaciones en las clases denominadas de entidad. Para cada clase de
 entidad se define una tabla en la base de datos, con columnas que se
 mapean con sus atributos.</p>
 <p>Por ejemplo, la clase <code>Usuario</code> que se lista a continuación define la
-tabla <code>usuario</code> en la base de datos. Los distintos atributos (<code>login</code>,
+tabla <code>usuarios</code> en la base de datos. Los distintos atributos (<code>login</code>,
 <code>email</code>, ...) se corresponden con las columnas de la tabla.</p>
 <p>El atributo <code>id</code> se corresponde con la clave primaria de la tabla. JPA
 define varias estrategias para obtener esa clave primera, y se ha
@@ -957,8 +963,21 @@ escogido la estrategia <code>@GeneratedValue(strategy =
 GenerationType.IDENTITY)</code> que define una columna que se autoincrementa
 en cada operación de inserción de un nuevo registro en la tabla.</p>
 <p>Además de los atributos, en la clase se define un constructor con los
-atributos obligatorios para definir un usuario, unos <em>getters</em> y
-<em>setters</em> y los métodos <code>equals</code> y <code>hashCode</code> para comparar usuarios.</p>
+atributos obligatorios para definir un usuario (en nuestro caso el
+correo electronico), los <em>getters</em> y <em>setters</em> de todas las
+propiedades (necesario para JPA) y los métodos <code>equals</code> y <code>hashCode</code>
+para comparar usuarios. </p>
+<p>Los métodos <code>equals</code> y <code>hashCode</code> son necesarios para buscar
+instancias de la entidad en colecciones y JPA los usa para no incluir
+instancias repetidas en los resultados de las queries. El método
+<code>equals</code> proporcionado no es el que genera IntelliJ por defecto, sino
+que hay que considerar si la instancia ha sido ya vinculada a la base
+de datos o no. En el caso en que la instancia ya esté vinculada a la
+base de datos, tendrá una clave primaria asignada y ésta será la que
+se usará para comparar. En el caso en que la instancia no esté
+vinculada (se acaba de crear o la estamos usando para alguna parte de
+la lógica de negocio y no se va a persistir) se comparan los atributos
+obligatorios (en este caso el correo electrónico).</p>
 <p><strong>Fichero <code>src/main/java/madstodolist/model/Usuario.java</code></strong>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>  1
   2
@@ -1360,8 +1379,29 @@ entidad <code>Tarea</code>.</p>
 </td></tr></table>
 
 <h4>Recuperación <em>eager</em> y <em>lazy</em> de las colecciones</h4>
-<p>En la aplicación se define la relación <em>uno-a-muchos</em> entre usuarios y
-tareas: un usuario tiene muchas tareas.</p>
+<p>Como hemos visto anteriormente, en la aplicación se define la relación
+<em>uno-a-muchos</em> entre usuarios y tareas: un usuario tiene muchas
+tareas.</p>
+<p>Por defecto, todas las relaciones <em>a-muchos</em> en JPA se definen de
+tipo <code>LAZY</code>. </p>
+<p>La característica de los atributos marcados como <em>lazy</em> en JPA es que
+no se traen a memoria cuando se recupera la entidad, sino cuando se
+consultan explícitamente accediendo al atributo. Para que se traigan a
+memoria <strong>la conexión con la base de datos debe estar abierta</strong>. Si ya
+se ha cerrado esa conexión (por ejemplo, se ha cerrado la transacción
+en el método de servicio y se quiere acceder a la una lista de tareas
+de un usuario devuelto por el propio método estando en el controller)
+se producirá un error.</p>
+<p>Frente a la recuperación <em>lazy</em> de colecciones, también existe la
+posibilidad de definir una colección como de tipo <em>EAGER</em>. En este
+caso JPA se traerá siempre a memoria todos los elementos. Es el caso
+de la relación entre un usuario y sus tareas.</p>
+<p>En general, no es conveniente definir una relación como <em>eager</em> porque
+puede provocar problemas de rendimiento en el caso en que haya muchos
+elementos relacionados. Pero si no hay muchos datos en la relación y
+los vamos a usar con frecuencia, sí que es aconsejable usar el tipo
+<em>EAGER</em> para facilitar el manejo de la entidad.</p>
+<p>El código queda como hemos visto anteriormente:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -1412,27 +1452,6 @@ tareas: un usuario tiene muchas tareas.</p>
 </code></pre></div>
 </td></tr></table>
 
-<p><strong>Relaciones <em>lazy</em></strong></p>
-<p>Por defecto, todas las relaciones <em>a-muchos</em> en JPA se definen de
-tipo <code>LAZY</code>. </p>
-<p>La característica de los atributos marcados como <em>lazy</em> en JPA es que
-no se traen a memoria cuando se recupera la entidad, sino cuando se
-consultan. Pero para que se traigan a memoria <strong>la conexión con la base
-de datos debe estar abierta</strong>. Si ya se ha cerrado esa conexión (por
-ejemplo, se ha cerrado la transacción en el método de servicio y se
-quiere acceder a la una lista de tareas de un usuario devuelto por el
-propio método estando en el controller) se producirá un error.</p>
-<p><strong>Relaciones <em>eager</em></strong></p>
-<p>Frente a la recuperación <em>lazy</em> de colecciones, también existe la
-posibilidad de definir una colección como de tipo <em>EAGER</em>. En este
-caso JPA se traerá siempre a memoria todos los elementos. Es el caso
-de la relación entre un usuario y sus tareas.</p>
-<p>En general, no es conveniente definir una relación como <em>eager</em> porque
-puede provocar problemas de rendimiento en el caso en que haya muchos
-elementos relacionados. </p>
-<p>Pero si no hay muchos datos en la relación y los vamos a usar con
-frecuencia, sí que es aconsejable usar el tipo <em>EAGER</em> para facilitar
-el manejo de la entidad.</p>
 <h4>Clases Repository</h4>
 <p>Spring define la clase genérica <code>CrudRepository</code> que contienen métodos por
 defecto para actualizar las entidades y realizar <em>queries</em> sobre
@@ -1578,18 +1597,6 @@ memoria y hacer persistentes los cambios utilizando la capa
 cuando no se pueda realizar alguna funcionalidad.</p>
 <p>Los servicios obtienen instancias de <em>Repository</em> usando inyección de
 dependencias.</p>
-<p><strong>Ventajas de utilizar una capa de servicios</strong></p>
-<p>Al utilizar clases de servicios podemos aislar la lógica de negocio de
-la aplicación usando métodos y objetos Java, sin preocuparnos de cómo
-obtener los datos de la interfaz de usuario ni de cómo mostrar los
-resultados. De esto ya se ocuparán las clases <em>controller</em>. De esta
-forma, si se necesita modificar la interfaz de usuario de la
-aplicación, o convertirla en un servicio REST que devuelva JSON en
-lugar de HTML sólo tendremos que tocar las clases <em>controller</em>, no las
-de servicio.</p>
-<p>Además, al no tener ninguna dependencia con la interfaz de usuario,
-estas clases de servicios también podrán ser fácilmente testeadas. La
-mayoría de los tests automáticos los haremos sobre ellas.</p>
 <p><strong>Fichero <code>src/main/java/madstodolist/service/UsuarioService.java</code></strong>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -1734,6 +1741,18 @@ mayoría de los tests automáticos los haremos sobre ellas.</p>
 </code></pre></div>
 </td></tr></table>
 
+<p><strong>Ventajas de utilizar una capa de servicios</strong></p>
+<p>Al utilizar clases de servicios podemos aislar la lógica de negocio de
+la aplicación usando métodos y objetos Java, sin preocuparnos de cómo
+obtener los datos de la interfaz de usuario ni de cómo mostrar los
+resultados. De esto ya se ocuparán las clases <em>controller</em>. De esta
+forma, si se necesita modificar la interfaz de usuario de la
+aplicación, o convertirla en un servicio REST que devuelva JSON en
+lugar de HTML sólo tendremos que tocar las clases <em>controller</em>, no las
+de servicio.</p>
+<p>Además, al no tener ninguna dependencia con la interfaz de usuario,
+estas clases de servicios también podrán ser fácilmente testeadas. La
+mayoría de los tests automáticos los haremos sobre ellas.</p>
 <h3 id="controllers">Controllers<a class="headerlink" href="#controllers" title="Permanent link">&para;</a></h3>
 <p>Las clases <em>controllers</em> son las que gestionan la interfaz de usuario
 de la aplicación. Se encargan de recibir los datos de las peticiones
@@ -2040,7 +2059,8 @@ fichero <code>fragments.html</code>.</p>
 librerías JavaScript. Ambos se encuentran en el directorio
 <code>src/main/resources/static/</code>, el directorio por defecto en el que se
 guardan los recursos estáticos de una aplicación Spring Boot.</p>
-<p>La vista principal es el listado de tareas.</p>
+<p>La vista principal de la aplicación es el listado de tareas que vemos
+a continuación.</p>
 <p><strong>Fichero <code>src/main/resources/templates/listaTareas.html</code></strong>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -2325,28 +2345,28 @@ tests. Tenemos que tener cuidado en que cada test sea independiente de
 los demás.</p>
 <h2 id="antes-de-empezar-la-practica">Antes de empezar la práctica<a class="headerlink" href="#antes-de-empezar-la-practica" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Una vez logeado en GitHub, copia el enlace con una invitación que
+<li>
+<p>Una vez logeado en GitHub, copia el enlace con una invitación que
    compartiremos en el foro de Moodle. Con esa invitación se creará
-   automáticamente el repositorio <code>todolist-2019-&lt;usuario&gt;</code> en la
-   organización <a href="https://github.com/mads-ua">mads-ua</a>. Al igual que el
-   repositorio de la práctica 0. Es un repositorio privado al que
-   tienes acceso tú y el profesor. Contiene el código inicial de un
-   proyecto base (es una copia del repositorio
+   automáticamente el repositorio <code>todolist-&lt;usuario&gt;</code> en la
+   organización <a href="https://github.com/mads-ua-20-21">mads-ua</a>. Al igual
+   que el repositorio de la primera parte de la práctica es un
+   repositorio privado al que tienes acceso tú y el profesor. Contiene
+   el código inicial de un proyecto base (es una copia del repositorio
    <a href="https://github.com/domingogallardo/mads-todolist-inicial">domingogallardo/mads-todolist-inicial</a>)
-   en la que se han comprimido todos los commits en uno.</li>
-</ol>
-<p>Al igual que en la práctica 0 es importante que tengas en cuenta
-  que el repositorio recién creado no reside en tu cuenta, sino en
-  la organización <code>mads-ua</code>. Puedes acceder a él desde el
-   <em>dashboard</em> de GitHub que aparece cuando te logeas:</p>
-<ol start="2">
+   en la que se han comprimido todos los commits en uno.</p>
+<p>Es importante que tengas en cuenta que el repositorio recién
+creado no reside en tu cuenta, sino en la organización
+<code>mads-ua-20-21</code>. Puedes acceder a él desde el <em>dashboard</em> de GitHub que
+aparece cuando te logeas.</p>
+</li>
 <li>
 <p>Descarga el proyecto y comprueba que se compila y ejecuta
    correctamente:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git clone https://github.com/mads-ua/todolist-2019-usuario.git
-$ <span class="nb">cd</span> todolist-2019-usuario
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git clone https://github.com/mads-ua/todolist-&lt;usuario&gt;.git
+$ <span class="nb">cd</span> todolist-&lt;usuario&gt;
 $ ./mvnw spring-boot:run
 </code></pre></div>
 </td></tr></table>
@@ -2389,7 +2409,7 @@ la dirección de la fuente de datos <code>jdbc:h2:mem:dev</code> y como
    el profesor pueda acceder a consultar el estado del proyecto.</p>
 <p>Un ejemplo de tablero es el <a href="https://trello.com/b/5zWOT6uO/todolist-inicial">Trello del proyecto mads-todolist-inicial</a>.</p>
 <h2 id="desarrollo-de-la-practica">Desarrollo de la práctica<a class="headerlink" href="#desarrollo-de-la-practica" title="Permanent link">&para;</a></h2>
-<p>En esta primera práctica vamos a desarrollar las siguientes historias de usuario o <em>features</em>:</p>
+<p>En esta primera práctica vamos a desarrollar las siguientes historias de usuario o features:</p>
 <ol>
 <li>Página <em>Acerca de</em></li>
 <li>Barra de menú</li>
@@ -2400,9 +2420,9 @@ la dirección de la fuente de datos <code>jdbc:h2:mem:dev</code> y como
 <li>Bloqueo de usuarios por el usuario administrador (opcional)</li>
 </ol>
 <p>La práctica va a consistir en la realización en tu proyecto de todos
-los elementos necesarios para implementar estas <em>features</em> : tablero Trello,
-<em>issues</em>, <em>pull requests</em> (con sus <em>commits</em> en los que se desarrolla paso a paso
-cada <em>issue</em>) y tablero del proyecto. </p>
+los elementos necesarios para implementar estas features : tablero Trello,
+issues, pull requests (con sus <em>commits</em> en los que se desarrolla paso a paso
+cada issue) y tablero del proyecto. </p>
 <p>Haremos paso a paso la historia de usuario 1, creando la primera
 versión 1.0.1 de la aplicación. Las siguientes características las
 deberás desarrollar tu mismo y entregar la versión 1.1.0.</p>
@@ -2426,48 +2446,47 @@ seleccionando como plantilla <code>Automated kanban</code>. Elimina las tarjetas
 en la columna <code>To do</code> y añade la columna <code>In pull request</code> entre <code>In
 progress</code> y <code>Done</code>.</p>
 <p><img src="./imagenes/project-practica.png" width="900px"></p>
-<p>En las columnas deberán aparecer los <em>issues</em> y <em>pull requests</em> del
-proyecto. GitHub permite automatizar el movimiento de las tarjetas de
-una columna a otra. A continuación mostramos la configuración que
-usaremos:</p>
+<p>En las columnas deberán aparecer los issues del proyecto (y los PRs
+estarán enlazados en ellos). GitHub permite automatizar el movimiento
+de las tarjetas de una columna a otra. A continuación mostramos la
+configuración que usaremos:</p>
 <p><img src="./imagenes/projecto-practica-automation.png" width="900px"/></p>
 <p>Deberemos mover manualmente las tarjetas en algún caso, porque GitHub
 no podrá detectar las condiciones. En resumen, las condiciones de las
 fichas que habrá en cada columna son las siguientes:</p>
 <ul>
-<li>Columna <code>To do</code>: Nuevos <em>issues</em> añadidos al proyecto. Cuando
-  añadimos el proyecto al <em>issue</em> (en la página del <em>issue</em>) GitHub
+<li>Columna <code>To do</code>: Nuevos issues añadidos al proyecto. Cuando
+  añadimos el proyecto al issue (en la página del issue) GitHub
   lo coloca automáticamente en esta columna.</li>
-<li>Columna <code>In progress</code>: <em>Issues</em> que se han comenzado a implementar
+<li>Columna <code>In progress</code>: issues que se han comenzado a implementar
   (se ha creado una rama su desarrollo). Manual.</li>
-<li>Columna <code>In pull request</code>: <em>Pull request</em> creados. Cuando añadimos
-  el proyecto al <em>pull request</em> (en la página del <em>pull request</em>)
-  GitHub lo coloca automáticamente en esta columna. <strong>Archivaremos el
-  <em>issue</em></strong> implementado por el <em>pull request</em> manualmente.</li>
-<li>Columna <code>Done</code>: <em>Pull requests</em> cerrados. GitHub lo detecta automáticamente.</li>
+<li>Columna <code>In pull request</code>: moveremos a esta columna el issue abramos
+  un PR y lo enlacemos con el issue. Manual.
+  GitHub lo coloca automáticamente en esta columna. implementado por el pull request manualmente.</li>
+<li>Columna <code>Done</code>: pull requests cerrados. GitHub lo detecta automáticamente.</li>
 </ul>
 <h4>Issues</h4>
 <p>Añade las etiquetas que vamos a usar inicialmente.</p>
 <p><img src="./imagenes/labels-practica.png" width="400px"/></p>
-<p>Crea el primer <em>issue</em>, correspondiente a la <em>feature</em> a desarrollar
-<strong>Página <em>Acerca de</em></strong>. Crea el <em>milestone</em> 1.0.1. y añade el issue a
+<p>Crea el primer issue, correspondiente a la <em>feature</em> a desarrollar
+<strong>Página <em>Acerca de</em></strong>. Crea el milestone 1.0.1. y añade el issue a
 él.</p>
 <p><img src="./imagenes/issue-acerca-de-listado.png" width="500px"/></p>
 <p><img src="./imagenes/issue-acerca-de-detalle.png" width="600px"/></p>
-<p>Añade el <em>issue</em> al proyecto (desde la página del <em>issue</em>) y
+<p>Añade el issue al proyecto (desde la página del issue) y
 automáticamente se añadirá en la columna <code>To do</code>.</p>
 <h4>Desarrollo</h4>
-<p>Para desarrollar el <em>issue</em> abriremos una rama en Git, realizaremos
+<p>Para desarrollar el issue abriremos una rama en Git, realizaremos
 commits sobre ella hasta estar terminado y después crearemos un <em>pull
 request</em> en GitHub para realizar la integración con la rama <code>main</code>.</p>
-<p>Mueve en el tablero la tarjeta con el <em>issue</em> a la columna <code>In
+<p>Mueve en el tablero la tarjeta con el issue a la columna <code>In
 progress</code>.</p>
 <p><img src="./imagenes/in-progress-issue-1.png" width="500px" /></p>
 <p>Empezamos el desarrollo importando el proyecto en IntelliJ y abriendo
 un terminal para trabajar con Git:</p>
 <p><img src="./imagenes/intellij-practica.png" width="700px"/></p>
 <p>En el terminal escribimos los comandos para crear la rama en la que
-desarrollaremos la <em>feature</em> y subirla:</p>
+desarrollaremos la feature y subirla:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(main) $ git checkout -b acerca-de
 (acerca-de) $ git push -u origin acerca-de
@@ -2476,36 +2495,14 @@ desarrollaremos la <em>feature</em> y subirla:</p>
 
 <h5>Primer commit</h5>
 <p>Hacemos un primer commit.</p>
-<p>Cambia en <code>pom.xml</code> el nombre del proyecto a <code>mads-todolist-&lt;tu-nombre&gt;</code> y
+<p>Cambia en <code>pom.xml</code> el nombre del proyecto (<code>artifactId</code>) a <code>mads-todolist-&lt;tu-nombre&gt;</code> y
 la versión a <code>1.0.1-SNAPSHOT</code>. El sufijo <code>SNAPSHOT</code> indica <em>en
-desarrollo</em>. Cuando hagamos el <em>release</em> de la versión 1.0.1
+desarrollo</em>. Cuando hagamos el release de la versión 1.0.1
 eliminaremos el sufijo.</p>
+<p>Cambia la instrucción en el README.md para lanzar el proyecto usando
+<code>./mvnw package</code> y comprueba que funciona correctamente lanzándolo
+desde el terminal y desde IntelliJ.</p>
 <p>Realiza el commit y súbelo a GitHub:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(acerca-de) $ git status (comprobamos los ficheros que han cambiado)
-(acerca-de) $ git add pom.xml
-(acerca-de) $ git status (comprobamos que está listo para añadirse en el commit)
-(acerca-de) $ git commit -m &quot;Cambiado el nombre del proyecto y empezamos versión 1.0.1&quot;
-(acerca-de) $ git push
-</code></pre></div>
-</td></tr></table>
-
-<p>Consulta en GitHub que el <em>commit</em> se ha subido en GitHub:</p>
-<p><img src="./imagenes/commit-practica-github.png" width="500px"/></p>
-<p>De esta forma habrás comprobado que tienes permiso de escritura en
-el repositorio y que ya puedes comenzar a realizar la práctica.</p>
-<h5>Segundo commit</h5>
-<p>En el segundo commit incluiremos el desarrollo de los elementos
-necesarios para la página <em>acerca de</em>:</p>
-<ul>
-<li>Acción en controller</li>
-<li>Vista</li>
-</ul>
-<p>Añade los siguientes ficheros:</p>
-<p>**Controller <code>HomeController.java</code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -2525,7 +2522,65 @@ necesarios para la página <em>acerca de</em>:</p>
 17
 18
 19
-20</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist.controller</span><span class="p">;</span>
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(acerca-de) $ git status (comprobamos los ficheros que han cambiado)
+On branch acerca-de
+Your branch is up to date with &#39;origin/acerca-de&#39;.
+
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+
+    modified:   README.md
+    modified:   pom.xml
+
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+(acerca-de) $ git add .
+(acerca-de) $ git status (comprobamos que está listo para añadirse en el commit)
+(acerca-de) $ git commit -m &quot;Cambiado el nombre del proyecto y empezamos versión 1.0.1&quot;
+On branch acerca-de
+Your branch is up to date with &#39;origin/acerca-de&#39;.
+
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+
+    modified:   README.md
+    modified:   pom.xml
+(acerca-de) $ git push
+</code></pre></div>
+</td></tr></table>
+
+<p>Consulta en GitHub que el <em>commit</em> se ha subido en GitHub:</p>
+<p><img src="./imagenes/commit-practica-github.png" width="600px"/></p>
+<p>De esta forma habrás comprobado que tienes permiso de escritura en
+el repositorio y que ya puedes comenzar a realizar la práctica.</p>
+<h5>Segundo commit</h5>
+<p>En el segundo commit incluiremos el desarrollo de los elementos
+necesarios para la página <em>acerca de</em>:</p>
+<ul>
+<li>Acción en controller</li>
+<li>Vista</li>
+</ul>
+<p>Añade los siguientes ficheros:</p>
+<p><strong>Controller <code>HomeController.java</code></strong></p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist.controller</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.ui.Model</span><span class="p">;</span>
@@ -2533,11 +2588,6 @@ necesarios para la página <em>acerca de</em>:</p>
 
 <span class="nd">@Controller</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HomeController</span> <span class="p">{</span>
-
-    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span>
-    <span class="kd">public</span> <span class="n">String</span> <span class="nf">home</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="s">&quot;redirect:/login&quot;</span><span class="p">;</span>
-    <span class="p">}</span>
 
     <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/about&quot;</span><span class="p">)</span>
     <span class="kd">public</span> <span class="n">String</span> <span class="nf">loginForm</span><span class="p">(</span><span class="n">Model</span> <span class="n">model</span><span class="p">)</span> <span class="p">{</span>
@@ -2581,7 +2631,7 @@ necesarios para la página <em>acerca de</em>:</p>
         <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>ToDo List<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
         <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
             <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Desarrollada por Domingo Gallardo<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
-            <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Versión 1.0.0 (en desarrollo)<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Versión 1.0.1 (en desarrollo)<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
             <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Fecha de release: pendiente de release<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
         <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
     <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
@@ -2619,54 +2669,54 @@ login de la aplicación.</p>
 3
 4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>                         &lt;a class=&quot;btn btn-link&quot; href=&quot;/registro&quot;&gt;Ir a registro&lt;/a&gt;
 <span class="gi">+                        &lt;a class=&quot;btn btn-link&quot; href=&quot;/about&quot;&gt;Acerca de&lt;/a&gt;</span>
-<span class="gi">+                    &lt;/div&gt;</span>
+                     &lt;/div&gt;
              &lt;/form&gt;
 </code></pre></div>
 </td></tr></table>
 
 <p>Prueba que funciona correctamente, haz el commit y súbelo a GitHub:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(acerca-de) $ git commit -am &quot;Añadido enlace a página &#39;about&#39; en página &#39;login&#39;&quot;
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(acerca-de) $ git status
+(acerca-de) $ git add .
+(acerca-de) $ git commit -m &quot;Añadido enlace a página &#39;about&#39; en página &#39;login&#39;&quot;
 (acerca-de) $ git push
 </code></pre></div>
 </td></tr></table>
 
 <h4>Pull request</h4>
-<p>Una vez terminada la implementación de la <em>feature</em> en la rama,
-creamos un <em>pull request</em> en GitHub para indicar que estamos listos
-para mezclar la rama con la <em>feature</em> con la rama principal de
+<p>Una vez terminada la implementación de la feature en la rama,
+creamos un pull request en GitHub para indicar que estamos listos
+para mezclar la rama con la feature con la rama principal de
 desarrollo (<em>main</em>).</p>
-<p>Más adelante añadiremos al <em>pull request</em> una comprobación automática
+<p>Más adelante añadiremos al pull request una comprobación automática
 de las pruebas y una revisión de código por parte de compañeros del
 equipo. Por ahora haremos nosotros ambas tareas.</p>
 <p>Vamos a verlo paso a paso.</p>
 <p>Empezamos por mezclar la rama de forma local con <code>main</code>, antes de
-hacer el <em>pull request</em> en GitHub, para probar que no se ha roto nada
+hacer el pull request en GitHub, para probar que no se ha roto nada
 (todos los tests deben seguir pasando) y que los tests que hemos
 añadido también funcionan correctamente (en este caso no hemos añadido
 ninguno).</p>
 <p>En el terminal:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(acerca-de) $ git checkout main
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(acerca-de) $ git checkout main
 (main) $ git pull (bajamos cambios que se hayan subido main. En
-                     este caso no habrá ninguno, pero lo habrán cuando
+                     este caso no habrá ninguno, pero los habrán cuando
                      trabajemos en equipo)
-(main) $ git merge acerca-de 
-    Fast-forward
-      pom.xml                                                   |  4 ++--
-      src/main/java/madstodolist/controller/HomeController.java | 20 ++++++++++++++++++++
-      src/main/resources/templates/about.html                   | 22 ++++++++++++++++++++++
-      src/main/resources/templates/formLogin.html               |  2 ++
-      4 files changed, 46 insertions(+), 2 deletions(-)
+(main) $ git checkout acerca-de
+(main) $ git merge main (actualizamos la rama de desarrollo con los
+                         cambios que se hayan incluido en la rama
+                         principal. En este caso no habrá ninguno,
+                         pero los habrán cuando trabajemos en equipo)
 </code></pre></div>
 </td></tr></table>
 
@@ -2691,53 +2741,46 @@ ninguno).</p>
 </code></pre></div>
 </td></tr></table>
 
-<p>Una vez que hemos comprobado que todo funciona bien, deshacemos el
-merge que acabamos de realizar en la rama <code>main</code>, ya que
-actualizaremos después la rama con el resultado del <em>pull request</em> en
-GitHub:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5
-6</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(main) $ git log --oneline --graph (muestra la historia de commits y las ramas)
-(main) $ git reset --hard origin/main
-    HEAD is now at 51ebf62 Initial commit
-(main) $ git checkout acerca-de 
-    Switched to branch &#39;acerca-de&#39;
-    Your branch is up to date with &#39;origin/acerca-de&#39;.
-</code></pre></div>
-</td></tr></table>
-
-<p>Ya podemos crear el <em>pull request</em> en GitHub. </p>
+<p>Ya podemos crear el pull request en GitHub. </p>
 <p>Accede a la rama y comprueba que están todos los cambios pulsando
 <code>Compare</code>. </p>
 <p><img src="./imagenes/rama-acerca-de.png" width="700px"/></p>
 <p>Aparecerá la siguiente página, con la información de los cambios que
 introducen todos los commits de la rama:</p>
 <p><img src="./imagenes/compara-cambios-pr.png" width="700px"/></p>
-<p>Pulsa después el botón <em>Create pull request</em> para crear el <em>pull request</em>.</p>
-<p>Introduce el nombre del <em>pull request</em>, el comentario, el <em>milestone</em>,
-la etiqueta y el proyecto. En el comentario escribe</p>
+<p>Pulsa después el botón <em>Create pull request</em> para crear el pull request.</p>
+<p>Escribe como título del PR: <code>Añadida página 'Acerca de'</code> y </p>
+<p>En el comentario escribe:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>Closes #1
 </code></pre></div>
 </td></tr></table>
 
+<p>Verás que al escribir <code>#1</code> aparecerá el nombre del issue. Si escribes
+sólo <code>#</code> verás una lista de los últimos issues. </p>
+<p>De esta forma estamos enlazando el PR con el issue. Cuando se cierre
+el pull request se cerrará automáticamente el issue. Y podremos en
+todas las pantallas en las que aparece el issue acceder al PR enlazado.</p>
+<p>UPulsa en el botón para crear el pull request. Debe quedar la
+siguiente pantalla en la que informa del PR recién creado:</p>
 <p><img src="./imagenes/pull-request-practica.png" width="700px"/></p>
-<p>De esta forma, cuando se cierre el <em>pull request</em> se cerrará
-automáticamente el <em>issue</em>. El número <code>#1</code> lo convierte GitHub en un
-enlace al <em>issue</em> correspondiente. De esta forma podemos examinar el
-<em>issue</em> resuelto por el PR.</p>
-<p>En el proyecto el <em>pull request</em> se colocará automáticamente la
-columna <code>In pull request</code>. Entra en el proyecto y archiva la tarjeta
-con el <em>issue</em>, ya que la actividad de desarrollar la <em>feature</em> queda
-representada por el <em>pull request</em>.</p>
-<p>En este momento se debería hacer una revisión del código del pull
-request y comprobar de forma automática que la integración con
-<em>main</em> no introduce errores en los tests. Lo haremos en siguientes
+<p>En el proyecto mueve la tarjeta con el issue a la columna <code>In
+Pull Request</code>. Verás que se ha añadido en la parte inferior de la
+tarjeta un desplegable con la información sobre el PR enlazado.</p>
+<p><img src="./imagenes/movido-a-in-pull-request.png" width="700px"/></p>
+<p>En este momento los compañeros del equipo deberían revisar el pull
+request y su código. En la propia página del pull request es posible
+conversar y realizar comentarios que puede aclarar el autor del PR. Y
+también es posible subir nuevos commits con modificaciones
+o ampliaciones correspondientes a las sugerencias indicadas.</p>
+<p>También es posible configurar un sistema de integración continua que
+de forma automática compruebe que la integración con <em>main</em> no
+introduce errores en los tests.</p>
+<p>Tanto la discusión en la página del pull request como los tests
+automáticos son funcionalidades que utilizaremos en las próximas
 prácticas.</p>
-<p>GitHub informa de que no hay conflictos con la rama <code>main</code> y que es
-posible hacer el merge. Pulsa el botón de <code>Merge</code> y confírmalo. </p>
+<p>Podemos ver que GitHub informa de que no hay conflictos con la rama
+<code>main</code> y que es posible hacer el merge. Pulsa el botón de <code>Merge pull
+request</code> (con la opción por defecto <code>Create a merge commit</code>) y confírmalo.</p>
 <p><img src="./imagenes/merge-pull-request.png" width="600px"/></p>
 <p>Borra la rama en GitHub, pulsando el botón correspondiente.</p>
 <p><img src="./imagenes/merge-pull-request-1.png" width="600px"/></p>
@@ -2770,19 +2813,20 @@ repositorio local. En el terminal:</p>
 </td></tr></table>
 
 <p>Comprobamos también la historia de <em>commits</em> en GitHub. Aparecerá el
-<em>commit</em> de <em>merge</em> introducido por el <em>pull request</em>.</p>
+<em>commit</em> de <em>merge</em> introducido por el pull request.</p>
 <p><img src="./imagenes/historia-commits-practica1.png" width="800px"/></p>
 <p>De esta forma hemos cerrado el PR e integrado su código en la rama
-principal de desarrollo. En el tablero de proyecto debe haber cambiado
-la tarjeta con el PR a la columna <code>Done</code>.</p>
+principal de desarrollo. El issue ligado al PR se habrá cerrado
+automáticamente y en el tablero de proyecto debe haber cambiado
+la tarjeta a la columna <code>Done</code>.</p>
 <h4>Actualizamos tablero Trello</h4>
 <p>Actualizamos el tablero Trello moviendo la historia de usuario a la
 columna <em>Terminadas</em>.</p>
 <p><img src="./imagenes/trello-terminadas.png" width="600px"/></p>
 <h4>Versión 1.0.1</h4>
-<p>Por último creamos el <em>release</em> 1.0.1. Haremos un commit directamente
+<p>Por último creamos el release 1.0.1. Haremos un commit directamente
 sobre la rama <code>main</code> (más adelante explicaremos una forma más
-elaborada de hacer un <em>release</em>, cuando expliquemos el flujo de
+elaborada de hacer un release, cuando expliquemos el flujo de
 trabajo de GitFlow).</p>
 <p>Crea un commit con la confirmación del número de versión y fecha en
 los ficheros <code>pom.xml</code> y <code>about.html</code></p>
@@ -2832,13 +2876,12 @@ los ficheros <code>pom.xml</code> y <code>about.html</code></p>
 </td></tr></table>
 
 <p>Y, por último, creamos la versión 1.0.1 en GitHub pulsando en el
-enlace <code>release</code> en la página principal (pestaña <code>Code</code>).</p>
+enlace <code>Create a new release</code> en la página principal:</p>
 <p><img src="./imagenes/release-practica1.png" width="700px"/></p>
-<p>Un <em>release</em> en GitHub se guarda como una una etiqueta Git, junto con
-información asociada. Se suelen indicar las nuevas <em>features</em> añadidas
-en el <em>release</em> mediante enlaces a los <em>pull requests</em>
-añadidos. También añadiremos enlaces a la página de la Wiki en la que
-se describe la característica.</p>
+<p>Un release en GitHub se guarda como una una etiqueta Git, junto con
+información asociada. Se suelen indicar las nuevas features añadidas
+en el release mediante enlaces a los pull requests
+añadidos. </p>
 <p><img src="./imagenes/primer-release-practica1.png" width="700px"/></p>
 <p>El resultado será:</p>
 <p><img src="./imagenes/release-practica1-terminado.png" width="400px"/></p>
@@ -2920,10 +2963,12 @@ usuario para que sólo las pueda consultar el administrador.</li>
   aparecerá un mensaje de error indicándoselo.</li>
 </ul>
 <h2 id="documentacion-entrega-y-evaluacion">Documentación, entrega y evaluación<a class="headerlink" href="#documentacion-entrega-y-evaluacion" title="Permanent link">&para;</a></h2>
-<p>No es necesario, pero si quieres resaltar o documentar alguna cosa que
-hayas hecho en la práctica puedes crear la página <code>/doc/practica1.md</code>
-y escribir la documentación en Markdown. Tienes disponible en GitHub
-una breve pero útil <a href="https://guides.github.com/features/mastering-markdown/">introducción a Markdown</a>.</p>
+<p>Deberás añadir una página documentación <code>/doc/practica1.md</code> en la que
+debes explicar brevemente los detalles técnicos de las nuevas
+funcionalidades implementadas. Deberás escribir esta documentación en
+Markdown. Tienes disponible en GitHub una breve pero útil
+<a href="https://guides.github.com/features/mastering-markdown/">introducción a
+Markdown</a>.</p>
 <ul>
 <li>La práctica tiene una duración de 4 semanas y debe estar terminada
   el martes 15 de octubre.</li>
@@ -2944,6 +2989,7 @@ una breve pero útil <a href="https://guides.github.com/features/mastering-markd
 <li>Correcto desarrollo de la metodología.</li>
 <li>Diseño e implementación del código y de los tests de las
   características desarrolladas.</li>
+<li>Documentación.</li>
 </ul>
                 
                   
