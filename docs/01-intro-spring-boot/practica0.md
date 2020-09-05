@@ -125,7 +125,7 @@ esta práctica debes seguir los siguientes pasos:
    y apellido.
    
         $ git config --global user.name "Pepe Perez"
-        $ git config --global user.email pepe.perez@example.com<
+        $ git config --global user.email pepe.perez@example.com
 
 2. Crea una cuenta en GitHub. Puedes usar el nombre de usuario que
    quieras (o usar el que ya tienes), pero **escribe correctamente tu

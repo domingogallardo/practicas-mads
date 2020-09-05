@@ -1351,7 +1351,7 @@ los demás.
 
 ## Desarrollo de la práctica
 
-En esta primera práctica vamos a desarrollar las siguientes historias de usuario o _features_:
+En esta primera práctica vamos a desarrollar las siguientes historias de usuario o features:
 
 1. Página _Acerca de_
 2. Barra de menú
@@ -1362,7 +1362,7 @@ En esta primera práctica vamos a desarrollar las siguientes historias de usuari
 7. Bloqueo de usuarios por el usuario administrador (opcional)
 
 La práctica va a consistir en la realización en tu proyecto de todos
-los elementos necesarios para implementar estas _features_ : tablero Trello,
+los elementos necesarios para implementar estas features : tablero Trello,
 issues, pull requests (con sus _commits_ en los que se desarrolla paso a paso
 cada issue) y tablero del proyecto. 
 
@@ -1401,10 +1401,10 @@ progress` y `Done`.
 
 <img src="./imagenes/project-practica.png" width="900px">
 
-En las columnas deberán aparecer los issues y pull requests del
-proyecto. GitHub permite automatizar el movimiento de las tarjetas de
-una columna a otra. A continuación mostramos la configuración que
-usaremos:
+En las columnas deberán aparecer los issues del proyecto (y los PRs
+estarán enlazados en ellos). GitHub permite automatizar el movimiento
+de las tarjetas de una columna a otra. A continuación mostramos la
+configuración que usaremos:
 
 <img src="./imagenes/projecto-practica-automation.png" width="900px"/>
 
@@ -1417,10 +1417,9 @@ fichas que habrá en cada columna son las siguientes:
   lo coloca automáticamente en esta columna.
 - Columna `In progress`: issues que se han comenzado a implementar
   (se ha creado una rama su desarrollo). Manual.
-- Columna `In pull request`: pull request creados. Cuando añadimos
-  el proyecto al pull request (en la página del pull request)
-  GitHub lo coloca automáticamente en esta columna. **Archivaremos el
-  issue** implementado por el pull request manualmente.
+- Columna `In pull request`: moveremos a esta columna el issue abramos
+  un PR y lo enlacemos con el issue. Manual.
+  GitHub lo coloca automáticamente en esta columna. implementado por el pull request manualmente.
 - Columna `Done`: pull requests cerrados. GitHub lo detecta automáticamente.
 
 #### Issues ####
@@ -1469,24 +1468,47 @@ desarrollaremos la feature y subirla:
 
 Hacemos un primer commit.
 
-Cambia en `pom.xml` el nombre del proyecto a `mads-todolist-<tu-nombre>` y
+Cambia en `pom.xml` el nombre del proyecto (`artifactId`) a `mads-todolist-<tu-nombre>` y
 la versión a `1.0.1-SNAPSHOT`. El sufijo `SNAPSHOT` indica _en
 desarrollo_. Cuando hagamos el release de la versión 1.0.1
 eliminaremos el sufijo.
+
+Cambia la instrucción en el README.md para lanzar el proyecto usando
+`./mvnw package` y comprueba que funciona correctamente lanzándolo
+desde el terminal y desde IntelliJ.
 
 Realiza el commit y súbelo a GitHub:
    
 ```text
 (acerca-de) $ git status (comprobamos los ficheros que han cambiado)
-(acerca-de) $ git add pom.xml
+On branch acerca-de
+Your branch is up to date with 'origin/acerca-de'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   README.md
+	modified:   pom.xml
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(acerca-de) $ git add .
 (acerca-de) $ git status (comprobamos que está listo para añadirse en el commit)
 (acerca-de) $ git commit -m "Cambiado el nombre del proyecto y empezamos versión 1.0.1"
+On branch acerca-de
+Your branch is up to date with 'origin/acerca-de'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   README.md
+	modified:   pom.xml
 (acerca-de) $ git push
 ```
 
 Consulta en GitHub que el _commit_ se ha subido en GitHub:
 
-<img src="./imagenes/commit-practica-github.png" width="500px"/>
+<img src="./imagenes/commit-practica-github.png" width="600px"/>
    
 De esta forma habrás comprobado que tienes permiso de escritura en
 el repositorio y que ya puedes comenzar a realizar la práctica.
@@ -1501,7 +1523,7 @@ necesarios para la página _acerca de_:
 
 Añade los siguientes ficheros:
 
-**Controller `HomeController.java`:
+**Controller `HomeController.java`**
 
 ```java
 package madstodolist.controller;
@@ -1512,11 +1534,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-
-    @GetMapping("/")
-    public String home() {
-        return "redirect:/login";
-    }
 
     @GetMapping("/about")
     public String loginForm(Model model) {
@@ -1540,7 +1557,7 @@ public class HomeController {
         <h1>ToDo List</h1>
         <ul>
             <li>Desarrollada por Domingo Gallardo</li>
-            <li>Versión 1.0.0 (en desarrollo)</li>
+            <li>Versión 1.0.1 (en desarrollo)</li>
             <li>Fecha de release: pendiente de release</li>
         </ul>
     </div>
@@ -1580,14 +1597,16 @@ Realiza el siguiente cambio:
 ```diff
                          <a class="btn btn-link" href="/registro">Ir a registro</a>
 +                        <a class="btn btn-link" href="/about">Acerca de</a>
-+                    </div>
+                     </div>
              </form>
 ```
 
 Prueba que funciona correctamente, haz el commit y súbelo a GitHub:
 
 ```text
-(acerca-de) $ git commit -am "Añadido enlace a página 'about' en página 'login'"
+(acerca-de) $ git status
+(acerca-de) $ git add .
+(acerca-de) $ git commit -m "Añadido enlace a página 'about' en página 'login'"
 (acerca-de) $ git push
 ```
 
@@ -1616,15 +1635,13 @@ En el terminal:
 ```text
 (acerca-de) $ git checkout main
 (main) $ git pull (bajamos cambios que se hayan subido main. En
-                     este caso no habrá ninguno, pero lo habrán cuando
+                     este caso no habrá ninguno, pero los habrán cuando
                      trabajemos en equipo)
-(main) $ git merge acerca-de 
-    Fast-forward
-      pom.xml                                                   |  4 ++--
-      src/main/java/madstodolist/controller/HomeController.java | 20 ++++++++++++++++++++
-      src/main/resources/templates/about.html                   | 22 ++++++++++++++++++++++
-      src/main/resources/templates/formLogin.html               |  2 ++
-      4 files changed, 46 insertions(+), 2 deletions(-)
+(main) $ git checkout acerca-de
+(main) $ git merge main (actualizamos la rama de desarrollo con los
+                         cambios que se hayan incluido en la rama
+                         principal. En este caso no habrá ninguno,
+                         pero los habrán cuando trabajemos en equipo)
 ```
 
 Lanzamos los tests (lo podemos hacer en el terminal o en IntelliJ):
@@ -1641,21 +1658,6 @@ Lanzamos los tests (lo podemos hacer en el terminal o en IntelliJ):
 [INFO] Total time:  21.879 s
 ```
 
-
-Una vez que hemos comprobado que todo funciona bien, deshacemos el
-merge que acabamos de realizar en la rama `main`, ya que
-actualizaremos después la rama con el resultado del pull request en
-GitHub:
-
-```text
-(main) $ git log --oneline --graph (muestra la historia de commits y las ramas)
-(main) $ git reset --hard origin/main
-    HEAD is now at 51ebf62 Initial commit
-(main) $ git checkout acerca-de 
-    Switched to branch 'acerca-de'
-    Your branch is up to date with 'origin/acerca-de'.
-```
-
 Ya podemos crear el pull request en GitHub. 
 
 Accede a la rama y comprueba que están todos los cambios pulsando
@@ -1670,32 +1672,49 @@ introducen todos los commits de la rama:
 
 Pulsa después el botón _Create pull request_ para crear el pull request.
 
-Introduce el nombre del pull request, el comentario, el milestone,
-la etiqueta y el proyecto. En el comentario escribe
+Escribe como título del PR: `Añadida página 'Acerca de'` y 
+
+En el comentario escribe:
 
 ```text
 Closes #1
 ```
 
+Verás que al escribir `#1` aparecerá el nombre del issue. Si escribes
+sólo `#` verás una lista de los últimos issues. 
+
+De esta forma estamos enlazando el PR con el issue. Cuando se cierre
+el pull request se cerrará automáticamente el issue. Y podremos en
+todas las pantallas en las que aparece el issue acceder al PR enlazado.
+
+UPulsa en el botón para crear el pull request. Debe quedar la
+siguiente pantalla en la que informa del PR recién creado:
+
 <img src="./imagenes/pull-request-practica.png" width="700px"/>
 
-De esta forma, cuando se cierre el pull request se cerrará
-automáticamente el issue. El número `#1` lo convierte GitHub en un
-enlace al issue correspondiente. De esta forma podemos examinar el
-issue resuelto por el PR.
+En el proyecto mueve la tarjeta con el issue a la columna `In
+Pull Request`. Verás que se ha añadido en la parte inferior de la
+tarjeta un desplegable con la información sobre el PR enlazado.
 
-En el proyecto el pull request se colocará automáticamente la
-columna `In pull request`. Entra en el proyecto y archiva la tarjeta
-con el issue, ya que la actividad de desarrollar la feature queda
-representada por el pull request.
+<img src="./imagenes/movido-a-in-pull-request.png" width="700px"/>
 
-En este momento se debería hacer una revisión del código del pull
-request y comprobar de forma automática que la integración con
-_main_ no introduce errores en los tests. Lo haremos en siguientes
+En este momento los compañeros del equipo deberían revisar el pull
+request y su código. En la propia página del pull request es posible
+conversar y realizar comentarios que puede aclarar el autor del PR. Y
+también es posible subir nuevos commits con modificaciones
+o ampliaciones correspondientes a las sugerencias indicadas.
+
+También es posible configurar un sistema de integración continua que
+de forma automática compruebe que la integración con _main_ no
+introduce errores en los tests.
+
+Tanto la discusión en la página del pull request como los tests
+automáticos son funcionalidades que utilizaremos en las próximas
 prácticas.
 
-GitHub informa de que no hay conflictos con la rama `main` y que es
-posible hacer el merge. Pulsa el botón de `Merge` y confírmalo. 
+Podemos ver que GitHub informa de que no hay conflictos con la rama
+`main` y que es posible hacer el merge. Pulsa el botón de `Merge pull
+request` (con la opción por defecto `Create a merge commit`) y confírmalo.
 
 <img src="./imagenes/merge-pull-request.png" width="600px"/>
 
@@ -1727,8 +1746,9 @@ _commit_ de _merge_ introducido por el pull request.
 <img src="./imagenes/historia-commits-practica1.png" width="800px"/>
 
 De esta forma hemos cerrado el PR e integrado su código en la rama
-principal de desarrollo. En el tablero de proyecto debe haber cambiado
-la tarjeta con el PR a la columna `Done`.
+principal de desarrollo. El issue ligado al PR se habrá cerrado
+automáticamente y en el tablero de proyecto debe haber cambiado
+la tarjeta a la columna `Done`.
 
 #### Actualizamos tablero Trello ####
 
@@ -1784,16 +1804,14 @@ Añadimos el commit y lo subimos a GitHub
 ```
 
 Y, por último, creamos la versión 1.0.1 en GitHub pulsando en el
-enlace `release` en la página principal (pestaña `Code`).
+enlace `Create a new release` en la página principal:
 
 <img src="./imagenes/release-practica1.png" width="700px"/>
 
 Un release en GitHub se guarda como una una etiqueta Git, junto con
-información asociada. Se suelen indicar las nuevas _features_ añadidas
+información asociada. Se suelen indicar las nuevas features añadidas
 en el release mediante enlaces a los pull requests
-añadidos. También añadiremos enlaces a la página de la Wiki en la que
-se describe la característica.
-
+añadidos. 
 
 <img src="./imagenes/primer-release-practica1.png" width="700px"/>
 
@@ -1884,10 +1902,12 @@ usuario para que sólo las pueda consultar el administrador.
 
 ## Documentación, entrega y evaluación ##
 
-No es necesario, pero si quieres resaltar o documentar alguna cosa que
-hayas hecho en la práctica puedes crear la página `/doc/practica1.md`
-y escribir la documentación en Markdown. Tienes disponible en GitHub
-una breve pero útil [introducción a Markdown](https://guides.github.com/features/mastering-markdown/).
+Deberás añadir una página documentación `/doc/practica1.md` en la que
+debes explicar brevemente los detalles técnicos de las nuevas
+funcionalidades implementadas. Deberás escribir esta documentación en
+Markdown. Tienes disponible en GitHub una breve pero útil
+[introducción a
+Markdown](https://guides.github.com/features/mastering-markdown/).
 
 - La práctica tiene una duración de 4 semanas y debe estar terminada
   el martes 15 de octubre.
@@ -1908,4 +1928,4 @@ Para la evaluación se tendrá en cuenta:
 - Correcto desarrollo de la metodología.
 - Diseño e implementación del código y de los tests de las
   características desarrolladas.
-
+- Documentación.
