@@ -215,13 +215,13 @@ commits**. Cada commit debe compilar correctamente y añadir una
 pequeña funcionalidad. Debemos subir los commits al repositorio
 personal de GitHub.
 
-Debes definir tú la funcionalidad a implementar. Por ejemplo:
+Debes definir tú la funcionalidad a implementar. Por ejemplo,
+cualquiera de los siguientes ejemplos o alguno similar que se te ocurra:
 
 - Palíndroma: lee una palabra y comprueba si es palíndroma.
 - Número par: lee un número y comprueba si es par
 - Cuadrado: lee dos números y comprueba si el segundo es el cuadrado del primero
 - Calculadora: lee un par de números y una operación y devuelve el resultado.
-- Etc.
 
 ## Comandos Git ##
 
