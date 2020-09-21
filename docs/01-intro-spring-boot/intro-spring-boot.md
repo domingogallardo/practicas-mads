@@ -303,7 +303,7 @@ Mediante la inyección de dependencias el código es más flexible y es
 más fácil de testear, pudiéndose definir _mocks_ que sustituyen los
 objetos inyectados.
 
-Más información en la documentación de Spring Boot [Spring Beans and Dependency Injection](https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/htmlsingle/#using-boot-spring-beans-and-dependency-injection)
+Más información en la documentación de Spring Boot [Spring Beans and Dependency Injection](https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/htmlsingle/#using-boot-spring-beans-and-dependency-injection).
 
 #### Alcance de los objetos inyectados ####
 
