@@ -30,7 +30,7 @@ múltiples versiones (PDF, eBook, HTML y mobi).
 
 - Publicar por primera vez el repositorio local en el remoto (en GitHub):
 
-        $ git remote add origin https://github.com/<usuario>/<nombre-repo>.git
+        $ git remote add origin <url-repo>.git
         $ git push -u origin main
 
     El nombre del repositorio remoto será `origin` (nombre estándar
