@@ -242,6 +242,11 @@ asignatura.
 
 ## Entrega ##
 
+- La práctica tiene una duración de 1 semana y debe estar terminada
+  el martes 22 de septiembre.
+- La calificación de la práctica tiene un peso de un 3% en la nota
+  final de la asignatura.
+
 Para realizar la entrega debes hacer lo siguiente:
 
 - Realizar la aplicación en el repositorio creado e ir subiendo los
@@ -250,4 +255,10 @@ Para realizar la entrega debes hacer lo siguiente:
   directorio .git con el repositorio git), después de haber hecho
   `./mvnw clean` para eliminar los binarios compilados.
 
-La fecha límite de entrega es el 22 de septiembre (1 semana).
+Para la evaluación se tendrá en cuenta:
+
+- Desarrollo continuo (los _commits_ deben realizarse a lo largo de
+  toda la semana y no dejar todo para el último día).
+- Correcto desarrollo de la metodología.
+- Diseño e implementación del código y de los tests de las
+  características desarrolladas.
