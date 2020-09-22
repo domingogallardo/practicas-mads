@@ -31,11 +31,11 @@ múltiples versiones (PDF, eBook, HTML y mobi).
 - Publicar por primera vez el repositorio local en el remoto (en GitHub):
 
         $ git remote add origin https://github.com/<usuario>/<nombre-repo>.git
-        $ git push -u origin master
+        $ git push -u origin main
 
     El nombre del repositorio remoto será `origin` (nombre estándar
     del repositorio remoto en el caso en el que sólo haya
-    uno). Subimos al repositorio la rama `master` (la rama por defecto
+    uno). Subimos al repositorio la rama `main` (la rama por defecto
     que se crea al inicializar el repositorio local).
 
 - Comprobar el estado del repositorio local: 
@@ -124,14 +124,14 @@ rama actual.
 - Listar todas las ramas de un repositorio (incluyendo ramas remotas)
 
         $ git branch -av
-        master
+        main
         * nueva-rama
         $ git commit -a -m "Confirmamos los cambios en la nueva rama"
 
 - Moverse a otra rama:
 
-        $ git checkout master
-        Switched to branch 'master'
+        $ git checkout main
+        Switched to branch 'main'
 
 - Mostrar un fichero de una rama (o commit) dado:
 
@@ -139,15 +139,15 @@ rama actual.
 
 - Comparar dos ramas:
 
-        $ git diff master nueva-rama
+        $ git diff main nueva-rama
 
-    El comando `git diff master nueva-rama` devuelve las diferencias
-    entre las ramas `master` y `nueva-rama`: las modificaciones que
-    resultarían de mezclar la rama `nueva-rama` en la rama `master`.
+    El comando `git diff main nueva-rama` devuelve las diferencias
+    entre las ramas `main` y `nueva-rama`: las modificaciones que
+    resultarían de mezclar la rama `nueva-rama` en la rama `main`.
 
-- **_Merge_ de ramas**: Mezclar la rama `nueva-rama` en la rama `master` (añade a la `master` los commits adicionales de la rama `nueva-rama`):
+- **_Merge_ de ramas**: Mezclar la rama `nueva-rama` en la rama `main` (añade a la `main` los commits adicionales de la rama `nueva-rama`):
 
-        $ git checkout master
+        $ git checkout main
         $ git merge [--no-ff] nueva-rama -m "Mensaje de commit"
 
     La opción `--no-ff` no hace un fast forward y mantiene separados
@@ -170,18 +170,18 @@ rama actual.
     El comando `git status` después de un merge nos indica qué
     ficheros no se han mezclado y hay que editar manualmente.
 
-- **_Rebase_ de una rama**. Si la rama master ha avanzado después de
+- **_Rebase_ de una rama**. Si la rama main ha avanzado después de
   separar una rama alternativa y queremos incorporar esos cambios en
   la rama alternativa podemos hacer un `git rebase`:
 
         $ git checkout -b experiment
         # hacemos cambios
         $ git commit -m "Cambios en experiment"
-        $ git checkout master  
+        $ git checkout main  
         # hacemos cambios  
-        $ git commit -a -m "Cambios en master"  
+        $ git commit -a -m "Cambios en main"  
         $ git checkout experiment
-        $ git rebase master  
+        $ git rebase main  
         First, rewinding head to replay your work on top of it...  
         Applying: Corregido bug1  
         Applying: Corregido bug2
@@ -189,7 +189,7 @@ rama actual.
     <img src="imagenes/rebase.png" width="600px">
 
     El comando cambia la historia de la rama: primero la mueve al
-    final de la rama master (_rewind head_) y a partir de ahí aplica
+    final de la rama main (_rewind head_) y a partir de ahí aplica
     los cambios propios de la rama.
 
     **IMPORTANTE**: No se debe hacer un _rebase_ de commits que
@@ -199,9 +199,9 @@ rama actual.
     distintos.
 
     Una vez que hemos hecho el _rebase_ ya podemos añadir mover la
-    rama `master` y tener una historia lineal:
+    rama `main` y tener una historia lineal:
 
-        $ git checkout master
+        $ git checkout main
         $ git merge nueva-rama
         # Borramos la rama una vez mezclada
         $ git branch -d nueva-rama
@@ -210,7 +210,7 @@ rama actual.
   conflictos al hacer el _rebase_, basta con modificar los ficheros
   con conflictos, añadirlos y continuar el _rebase_:
 
-        $ git rebase master
+        $ git rebase main
         CONFLICT (content): Merge conflict in <some-file>
         # hacemos git status para comprobar donde están los conflictos
         $ git status
@@ -302,13 +302,13 @@ rama actual.
         # Ahora estás en un detached HEAD
         $ git branch
         * (HEAD detached at 594b606)
-        master
+        main
         $ git checkout -b v2.0.1
         Switched to a new branch 'v2.0.1'
         $ git branch
-        master
+        main
         * v2.0.1
-        $ git checkout master
+        $ git checkout main
 
 - Movernos atrás a un commit pasado, descartando todos los commits
   realizados después (**peligroso**)
