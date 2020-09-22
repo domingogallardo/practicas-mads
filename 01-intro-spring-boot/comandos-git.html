@@ -433,13 +433,13 @@ $ git commit -m <span class="s2">&quot;Versión inicial&quot;</span>
 <p>Publicar por primera vez el repositorio local en el remoto (en GitHub):</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git remote add origin https://github.com/&lt;usuario&gt;/&lt;nombre-repo&gt;.git
-$ git push -u origin master
+$ git push -u origin main
 </code></pre></div>
 </td></tr></table>
 
 <p>El nombre del repositorio remoto será <code>origin</code> (nombre estándar
 del repositorio remoto en el caso en el que sólo haya
-uno). Subimos al repositorio la rama <code>master</code> (la rama por defecto
+uno). Subimos al repositorio la rama <code>main</code> (la rama por defecto
 que se crea al inicializar el repositorio local).</p>
 </li>
 <li>
@@ -560,7 +560,7 @@ Switched to a new branch <span class="s1">&#39;nueva-rama&#39;</span>
 2
 3
 4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git branch -av
-master
+main
 * nueva-rama
 $ git commit -a -m <span class="s2">&quot;Confirmamos los cambios en la nueva rama&quot;</span>
 </code></pre></div>
@@ -570,8 +570,8 @@ $ git commit -a -m <span class="s2">&quot;Confirmamos los cambios en la nueva ra
 <li>
 <p>Moverse a otra rama:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout master
-Switched to branch <span class="s1">&#39;master&#39;</span>
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout main
+Switched to branch <span class="s1">&#39;main&#39;</span>
 </code></pre></div>
 </td></tr></table>
 
@@ -585,18 +585,18 @@ Switched to branch <span class="s1">&#39;master&#39;</span>
 </li>
 <li>
 <p>Comparar dos ramas:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git diff master nueva-rama
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git diff main nueva-rama
 </code></pre></div>
 </td></tr></table>
 
-<p>El comando <code>git diff master nueva-rama</code> devuelve las diferencias
-entre las ramas <code>master</code> y <code>nueva-rama</code>: las modificaciones que
-resultarían de mezclar la rama <code>nueva-rama</code> en la rama <code>master</code>.</p>
+<p>El comando <code>git diff main nueva-rama</code> devuelve las diferencias
+entre las ramas <code>main</code> y <code>nueva-rama</code>: las modificaciones que
+resultarían de mezclar la rama <code>nueva-rama</code> en la rama <code>main</code>.</p>
 </li>
 <li>
-<p><strong><em>Merge</em> de ramas</strong>: Mezclar la rama <code>nueva-rama</code> en la rama <code>master</code> (añade a la <code>master</code> los commits adicionales de la rama <code>nueva-rama</code>):</p>
+<p><strong><em>Merge</em> de ramas</strong>: Mezclar la rama <code>nueva-rama</code> en la rama <code>main</code> (añade a la <code>main</code> los commits adicionales de la rama <code>nueva-rama</code>):</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout master
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout main
 $ git merge <span class="o">[</span>--no-ff<span class="o">]</span> nueva-rama -m <span class="s2">&quot;Mensaje de commit&quot;</span>
 </code></pre></div>
 </td></tr></table>
@@ -629,7 +629,7 @@ $ git merge nueva-rama
 ficheros no se han mezclado y hay que editar manualmente.</p>
 </li>
 <li>
-<p><strong><em>Rebase</em> de una rama</strong>. Si la rama master ha avanzado después de
+<p><strong><em>Rebase</em> de una rama</strong>. Si la rama main ha avanzado después de
   separar una rama alternativa y queremos incorporar esos cambios en
   la rama alternativa podemos hacer un <code>git rebase</code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -645,11 +645,11 @@ ficheros no se han mezclado y hay que editar manualmente.</p>
 11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout -b experiment
 <span class="c1"># hacemos cambios</span>
 $ git commit -m <span class="s2">&quot;Cambios en experiment&quot;</span>
-$ git checkout master  
+$ git checkout main  
 <span class="c1"># hacemos cambios  </span>
-$ git commit -a -m <span class="s2">&quot;Cambios en master&quot;</span>  
+$ git commit -a -m <span class="s2">&quot;Cambios en main&quot;</span>  
 $ git checkout experiment
-$ git rebase master  
+$ git rebase main  
 First, rewinding head to replay your work on top of it...  
 Applying: Corregido bug1  
 Applying: Corregido bug2
@@ -658,7 +658,7 @@ Applying: Corregido bug2
 
 <p><img src="imagenes/rebase.png" width="600px"></p>
 <p>El comando cambia la historia de la rama: primero la mueve al
-final de la rama master (<em>rewind head</em>) y a partir de ahí aplica
+final de la rama main (<em>rewind head</em>) y a partir de ahí aplica
 los cambios propios de la rama.</p>
 <p><strong>IMPORTANTE</strong>: No se debe hacer un <em>rebase</em> de commits que
 existan en otros repositorios locales de compañeros. Al volver a
@@ -666,11 +666,11 @@ aplicar los commits sobre los commits rebobinados, se cambia su
 número de hash (identificador) y se convierten en commits
 distintos.</p>
 <p>Una vez que hemos hecho el <em>rebase</em> ya podemos añadir mover la
-rama <code>master</code> y tener una historia lineal:</p>
+rama <code>main</code> y tener una historia lineal:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout master
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout main
 $ git merge nueva-rama
 <span class="c1"># Borramos la rama una vez mezclada</span>
 $ git branch -d nueva-rama
@@ -692,7 +692,7 @@ $ git branch -d nueva-rama
  8
  9
 10
-11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git rebase master
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git rebase main
 CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict in &lt;some-file&gt;
 <span class="c1"># hacemos git status para comprobar donde están los conflictos</span>
 $ git status
@@ -831,13 +831,13 @@ You are in <span class="s1">&#39;detached HEAD&#39;</span> state.
 <span class="c1"># Ahora estás en un detached HEAD</span>
 $ git branch
 * <span class="o">(</span>HEAD detached at 594b606<span class="o">)</span>
-master
+main
 $ git checkout -b v2.0.1
 Switched to a new branch <span class="s1">&#39;v2.0.1&#39;</span>
 $ git branch
-master
+main
 * v2.0.1
-$ git checkout master
+$ git checkout main
 </code></pre></div>
 </td></tr></table>
 
