@@ -1473,10 +1473,6 @@ la versión a `1.0.1-SNAPSHOT`. El sufijo `SNAPSHOT` indica _en
 desarrollo_. Cuando hagamos el release de la versión 1.0.1
 eliminaremos el sufijo.
 
-Cambia la instrucción en el README.md para lanzar el proyecto usando
-`./mvnw package` y comprueba que funciona correctamente lanzándolo
-desde el terminal y desde IntelliJ.
-
 Realiza el commit y súbelo a GitHub:
    
 ```text
