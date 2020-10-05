@@ -1532,7 +1532,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/about")
-    public String loginForm(Model model) {
+    public String about(Model model) {
         return "about";
     }
 
