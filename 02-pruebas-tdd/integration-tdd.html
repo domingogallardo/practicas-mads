@@ -585,7 +585,7 @@ $ <span class="o">(</span>perfiles<span class="o">)</span> git push -u origin pe
 </li>
 </ul>
 <p>En este fichero de configuración se define la URL de conexión a la
-   base de datos MySQL, su usuario (<code>root</code>) y contraseña (vacía) y el
+   base de datos MySQL <code>mads</code>, su usuario (<code>root</code>) y contraseña (vacía) y el
    dialecto que se va a utilizar para trabajar desde JPA con la base
    de datos (<code>org.hibernate.dialect.MySQL5InnoDBDialect</code>). Además se indica
    que no se debe cargar ningún fichero de datos inicial. El esquema
@@ -608,12 +608,13 @@ $ <span class="o">(</span>perfiles<span class="o">)</span> git push -u origin pe
 
 </li>
 </ul>
-<p>La diferencia más importante es el valor de
-   <code>spring.jpa.hibernate.ddl-auto</code>, que es <code>create</code>. De esta forma la
-   base de datos se inicializa antes de cargar los datos de los tests
-   y de ejecutarlos. También usamos una base de datos distinta
-   (<code>mads_test</code>) para no sobreescribir la base de datos definida en el
-   perfil de ejecución.</p>
+<p>En este perfil la conexión se hace con una base de datos diferente:
+   <code>mads_test</code>. La diferencia más importante del resto de parámetros
+   es el valor de <code>spring.jpa.hibernate.ddl-auto</code>, que es <code>create</code>. De
+   esta forma la base de datos se inicializa antes de cargar los datos
+   de los tests y de ejecutarlos. También usamos una base de datos
+   distinta (<code>mads_test</code>) para no sobreescribir la base de datos
+   definida en el perfil de ejecución.</p>
 <ul>
 <li>
 <p>Añade la siguiente dependencia en el fichero <code>pom.xml</code> para que se
@@ -651,8 +652,9 @@ $ <span class="o">(</span>perfiles<span class="o">)</span> git push -u origin pe
 </td></tr></table>
 
 <p>Docker se descarga la imagen <code>mysql:5</code> y lanza el contenedor (una
-instancia en marcha de una imagen) conectado al puerto 3306 y
-sobre la base de datos <code>mads</code>. Le da como nombre <code>mysql-develop</code>.</p>
+instancia en marcha de una imagen) conectado al puerto 3306 (no debe
+estar ocupado) y sobre la base de datos <code>mads</code>. Le da como nombre
+<code>mysql-develop</code>.</p>
 <p>Puedes ejecutar los siguientes comandos de Docker:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -701,7 +703,7 @@ $ docker container stop mysql-develop
 </code></pre></div>
 </td></tr></table>
 
-<p>Y lanzamos los tests usando el perfil ` la base de datos MySQL con el siguiente comando:</p>
+<p>Y lanzamos los tests usando el perfil <code>mysql</code> con la base de datos MySQL con el siguiente comando:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">mvn test -Dspring.profiles.active=mysql</span>
 </code></pre></div>
 </td></tr></table>
@@ -712,7 +714,8 @@ la base de datos corresponden con los introducidos en el fichero
 </li>
 <li>
 <p>Podemos parar y arrancar el contenedor MySQL que necesitemos con
-  <code>docker container stop</code> y <code>docker container start</code>. Por ejemplo,
+  <code>docker container stop</code> y <code>docker container start</code>. Mientras que no
+  borres el contenedor los datos siguen estando en él. Por ejemplo,
   para parar el contenedor MySQL con la base de datos de test y
   arrancar el contenedor con la base de datos de desarrollo:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
@@ -1024,8 +1027,8 @@ creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 
     <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">crearEquipo</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1061,7 +1064,7 @@ añadiendo el siguiente test:</p>
     <span class="nd">@Transactional</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">grabarEquipo</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
 
         <span class="c1">// WHEN</span>
         <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">equipo</span><span class="p">);</span>
@@ -1114,9 +1117,9 @@ deben comparar sus nombres. Ahora bien, si los dos equipos tienen
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarIgualdadEquipos</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
         <span class="c1">// Creamos tres equipos sin id, sólo con el nombre</span>
-        <span class="n">Equipo</span> <span class="n">equipo1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
-        <span class="n">Equipo</span> <span class="n">equipo2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Níquel&quot;</span><span class="p">);</span>
-        <span class="n">Equipo</span> <span class="n">equipo3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Níquel&quot;</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipo1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipo2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P2&quot;</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipo3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P2&quot;</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
         <span class="c1">// Comprobamos igualdad basada en el atributo nombre</span>
@@ -1143,7 +1146,7 @@ deben comparar sus nombres. Ahora bien, si los dos equipos tienen
 de la base de datos. Añadimos un equipo a la tabla en el fichero
 <code>datos-test.sql</code> para poder comprobar que funciona correctamente.</p>
 <p>Añadimos en el fichero <strong><code>src/test/java/resources/datos-test.sql</code></strong>:
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">INSERT INTO equipos (id, nombre) VALUES(&#39;1&#39;, &#39;Proyecto Cobalto&#39;);</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">INSERT INTO equipos (id, nombre) VALUES(&#39;1&#39;, &#39;Proyecto P1&#39;);</span>
 </code></pre></div>
 </td></tr></table></p>
 <p>Test:</p>
@@ -1172,7 +1175,7 @@ de la base de datos. Añadimos un equipo a la tabla en el fichero
         <span class="c1">// THEN</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1202,7 +1205,7 @@ anotaciones mínimas para que JPA no se queje:</p>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">relaciónMuchosAMuchosVacia</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
 
-        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
         <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;prueba@gmail.com&quot;</span><span class="p">);</span>
 
         <span class="c1">// WHEN</span>
@@ -1280,7 +1283,7 @@ contienen el identificador de equipo y el del usuario.</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>INSERT INTO tareas (id, titulo, usuario_id) VALUES(&#39;2&#39;, &#39;Renovar DNI&#39;, &#39;1&#39;);
-<span class="gi">+ INSERT INTO equipos (id, nombre) VALUES(&#39;1&#39;, &#39;Proyecto Cobalto&#39;);</span>
+<span class="gi">+ INSERT INTO equipos (id, nombre) VALUES(&#39;1&#39;, &#39;Proyecto P1&#39;);</span>
 <span class="gi">+ INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES(&#39;1&#39;, &#39;1&#39;);</span>
 </code></pre></div>
 </td></tr></table>
@@ -1358,7 +1361,7 @@ una lista de equipos en el <em>repository</em>:</p>
 <p>Actualizamos la base de datos de prueba con otro equipo:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES(&#39;1&#39;, &#39;1&#39;);
-<span class="gi">+ INSERT INTO equipos (id, nombre) VALUES(&#39;2&#39;, &#39;Proyecto Adamantium&#39;);</span>
+<span class="gi">+ INSERT INTO equipos (id, nombre) VALUES(&#39;2&#39;, &#39;Proyecto P3&#39;);</span>
 </code></pre></div>
 </td></tr></table>
 
@@ -1477,8 +1480,8 @@ sea una lista ordenada por los nombres de los equipos.</p>
 
          <span class="c1">// THEN</span>
          <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Adamantium&quot;</span><span class="p">);</span>
-         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P3&quot;</span><span class="p">);</span>
+         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
      <span class="p">}</span>
  <span class="p">}</span>
 </code></pre></div>
@@ -1563,7 +1566,7 @@ entre equipos y usuarios es <code>LAZY</code>.</p>
         <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
         <span class="c1">// Comprobamos que la relación con Usuarios es lazy: al</span>
         <span class="c1">// intentar acceder a la colección de usuarios se debe lanzar una</span>
         <span class="c1">// excepción de tipo LazyInitializationException.</span>
@@ -1648,8 +1651,8 @@ equipos a los que pertenece.</p>
         <span class="c1">// Comprobamos que la relación entre usuarios y equipos es eager</span>
         <span class="c1">// Primero comprobamos que la colección de equipos tiene 1 elemento</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEquipos</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="c1">// Y después que el elemento es el equipo Proyecto Cobalto</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEquipos</span><span class="p">().</span><span class="na">stream</span><span class="p">().</span><span class="na">findFirst</span><span class="p">().</span><span class="na">get</span><span class="p">().</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="c1">// Y después que el elemento es el equipo Proyecto P1</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEquipos</span><span class="p">().</span><span class="na">stream</span><span class="p">().</span><span class="na">findFirst</span><span class="p">().</span><span class="na">get</span><span class="p">().</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
