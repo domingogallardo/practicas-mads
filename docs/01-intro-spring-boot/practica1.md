@@ -1899,10 +1899,22 @@ usuario para que sólo las pueda consultar el administrador.
 ## Documentación, entrega y evaluación ##
 
 Deberás añadir una página documentación `/doc/practica1.md` en la que
-debes explicar brevemente los detalles técnicos de las nuevas
-funcionalidades implementadas. Deberás escribir esta documentación en
-Markdown. Tienes disponible en GitHub una breve pero útil
-[introducción a
+debes realizar una breve **documentación técnica**. Puedes suponer que
+estás trabajando con un equipo de desarrollo y que debes dejar una
+breve documentación para que el resto del equipo sepa cómo ha
+evolucionado la implementación de la aplicación. **No debe ser una
+manual de usuario, no es una documentación para el cliente**.
+
+Por ejemplo, la documentación podría contener:
+
+- Listado de nuevas clases y métodos implementados.
+- Listado de plantillas thyemeleaf añadidas.
+- Explicación de código fuente relevante de las nuevas funcionalidades
+  implementadas. 
+- Tests de web implementados.
+
+Deberás escribir esta documentación en Markdown. Tienes disponible en
+GitHub una breve pero útil [introducción a
 Markdown](https://guides.github.com/features/mastering-markdown/).
 
 - La práctica tiene una duración de 4 semanas y debe estar terminada
