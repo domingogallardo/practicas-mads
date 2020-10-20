@@ -36,7 +36,7 @@
     
     
       
-        <title>Práctica 2: Integración con Travis y TDD - Prácticas MADS</title>
+        <title>Práctica 2 - Prácticas MADS</title>
       
     
     
@@ -83,7 +83,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#practica-2-integracion-con-travis-y-tdd" tabindex="0" class="md-skip">
+      <a href="#practica-2-integracion-con-github-actions-y-tdd" tabindex="0" class="md-skip">
         Saltar a contenido
       </a>
     
@@ -109,7 +109,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Práctica 2: Integración con Travis y TDD
+                Práctica 2
               
             </span>
           
@@ -244,17 +244,29 @@
   </li>
 
     
-  </ul>
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Práctica 2
+      </label>
+    
+    <a href="integration-tdd.html" title="Práctica 2" class="md-nav__link md-nav__link--active">
+      Práctica 2
+    </a>
+    
+      
 <nav class="md-nav md-nav--secondary">
   
   
@@ -285,12 +297,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#refactorizacion-de-la-relacion-uno-a-muchos" class="md-nav__link">
-    Refactorización de la relación uno-a-muchos
+  <a href="#integracion-continua-con-github-actions" class="md-nav__link">
+    Integración continua con GitHub Actions
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tests-en-los-pull-requests" class="md-nav__link">
+    Tests en los pull requests
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-fichero-de-configuracion" class="md-nav__link">
+    El fichero de configuración
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#builds-en-actions" class="md-nav__link">
+    Builds en Actions
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#pasos-a-seguir_1" class="md-nav__link">
@@ -332,19 +365,111 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#integracion-continua-con-travis" class="md-nav__link">
-    Integración continua con Travis
+  <a href="#tdd" class="md-nav__link">
+    TDD
   </a>
   
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#conexion-con-github" class="md-nav__link">
-    Conexión con GitHub
+  <a href="#008-listado-de-equipos" class="md-nav__link">
+    008 Listado de equipos
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_3" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resto-de-historias-de-usuario" class="md-nav__link">
+    Resto de historias de usuario
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_4" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#entrega-y-evaluacion" class="md-nav__link">
+    Entrega y evaluación
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Tabla de contenidos</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#desarrollo-de-la-release-120" class="md-nav__link">
+    Desarrollo de la release 1.2.0
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integracion-continua-con-github-actions" class="md-nav__link">
+    Integración continua con GitHub Actions
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#tests-en-los-pull-requests" class="md-nav__link">
@@ -361,14 +486,41 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#builds-en-travis" class="md-nav__link">
-    Builds en Travis
+  <a href="#builds-en-actions" class="md-nav__link">
+    Builds en Actions
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#pasos-a-seguir_3" class="md-nav__link">
+  <a href="#pasos-a-seguir_1" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion-de-la-aplicacion" class="md-nav__link">
+    Configuración de la aplicación
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ficheros-de-configuracion-de-la-aplicacion" class="md-nav__link">
+    Ficheros de configuración de la aplicación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_2" class="md-nav__link">
     Pasos a seguir
   </a>
   
@@ -395,7 +547,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pasos-a-seguir_4" class="md-nav__link">
+  <a href="#pasos-a-seguir_3" class="md-nav__link">
     Pasos a seguir
   </a>
   
@@ -409,7 +561,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pasos-a-seguir_5" class="md-nav__link">
+  <a href="#pasos-a-seguir_4" class="md-nav__link">
     Pasos a seguir
   </a>
   
@@ -444,13 +596,14 @@
               
                 
                 
-                <h1 id="practica-2-integracion-con-travis-y-tdd">Práctica 2: Integración con Travis y TDD<a class="headerlink" href="#practica-2-integracion-con-travis-y-tdd" title="Permanent link">&para;</a></h1>
+                <h1 id="practica-2-integracion-con-github-actions-y-tdd">Práctica 2: Integración con GitHub Actions y TDD<a class="headerlink" href="#practica-2-integracion-con-github-actions-y-tdd" title="Permanent link">&para;</a></h1>
 <p>En esta práctica 2 de la asignatura realizaremos dos tareas principales:</p>
 <ul>
-<li>Configuraremos un sistema de integración continua conectando el
-  repositorio de GitHub con Travis. En este sistema se lanzarán los
-  tests automáticamente en cada <em>pull request</em> sobre la base de datos
-  MySQL.</li>
+<li>Configuraremos un sistema de integración continua usando las
+  <em>actions</em> del repositorio de GitHub. En este sistema se lanzarán los
+  tests automáticamente en cada <em>pull request</em>. Después definiremos
+  una nueva configuración del proyecto en la que se lanzarán los tests
+  sobre la base de datos  MySQL.</li>
 <li>Añadiremos nuevas funcionalidades usando la práctica XP de TDD
   (<em>Test Driven Design</em>).</li>
 </ul>
@@ -461,7 +614,7 @@ apartados con el título <code>Pasos a seguir</code>. Ahí están
 especificadas las acciones que debes realizar en la práctica.</p>
 </div>
 <p>La duración de la práctica es de 3 semanas y la fecha límite de
-entrega es el día 5 de noviembre.</p>
+entrega es el día 10 de noviembre.</p>
 <h2 id="desarrollo-de-la-release-120">Desarrollo de la <em>release</em> 1.2.0<a class="headerlink" href="#desarrollo-de-la-release-120" title="Permanent link">&para;</a></h2>
 <p>En esta práctica vamos a desarrollar la versión 1.2.0 de la aplicación
 <code>ToDoList</code>. A todos los <em>issues</em> y <em>pull requests</em> les debes poner este
@@ -470,22 +623,146 @@ esta <em>release</em>.</p>
 <h3 id="pasos-a-seguir">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Cambia el número de versión (en el fichero <em>Acerca De</em> y en el
-  <code>pom.xml</code>) a <code>1.2.0-SNAPSHOT</code> para indicar que lo que hay en master
+  <code>pom.xml</code>) a <code>1.2.0-SNAPSHOT</code> para indicar que lo que hay en main
   es la versión 1.2.0 <strong>en progreso</strong>. Esta versión la lanzaremos al
   final del desarrollo de la práctica, en su entrega.</li>
 </ul>
-<h2 id="refactorizacion-de-la-relacion-uno-a-muchos">Refactorización de la relación uno-a-muchos<a class="headerlink" href="#refactorizacion-de-la-relacion-uno-a-muchos" title="Permanent link">&para;</a></h2>
-<p>Antes de comenzar la práctica hay que hacer una refactorización en la
-relación una-a-muchos entre usuario y tareas: pasar la lista de tareas
-de un usuario de <code>List</code> a <code>Set</code>. </p>
-<p>A diferencias del tipo <code>List</code>, el <code>Set</code> no permite elementos repetidos
-y es más conveniente definir las relaciones JPA de esta forma.</p>
+<h2 id="integracion-continua-con-github-actions">Integración continua con GitHub Actions<a class="headerlink" href="#integracion-continua-con-github-actions" title="Permanent link">&para;</a></h2>
+<p><a href="https://docs.github.com/en/free-pro-team@latest/actions">GitHub
+Actions</a> es
+un servicio de GitHub que permite realizar integración continua
+en su propia web, sin necesidad de configurar un servidor propio de integración
+continua.</p>
+<p>Puedes consultar el funcionamiento de GitHub Actions leyendo su documentación,
+comenzando por las páginas <a href="https://docs.github.com/en/free-pro-team@latest/actions/quickstart">Quickstart for GitHub
+Actions</a>,
+<a href="https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/introduction-to-github-actions">Introduction to GitHub
+Actions</a>
+y <a href="https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-java-with-maven">Building and testing Java with
+Maven</a>. </p>
+<p>En la práctica vamos a comenzar configurando GitHub Actions para que
+todos los <em>pull requests</em> deban pasar los tests de integración antes
+de realizar el <em>merge</em> con <code>main</code>.</p>
+<h3 id="tests-en-los-pull-requests">Tests en los pull requests<a class="headerlink" href="#tests-en-los-pull-requests" title="Permanent link">&para;</a></h3>
+<p>Usando GitHub Actions es posible configurar el repositorio de GitHub
+para que todos los <em>pull requests</em> deban pasar los tests de
+integración en el servicio.</p>
+<p>En la siguiente imagen vemos el aspecto en GitHub de un <em>pull request</em>
+estando activa la integración con Actions. Una vez abierto el PR,
+se lanzan los flujos de trabajo (<em>workflows</em>) definidos en 
+el directorio <code>.github/workflows</code>. </p>
+<p>GitHub comprueba si la integración de main con la rama pasa los tests
+definidos en el workflow. Sólo si los tests pasan es posible realizar
+el <em>merge</em> del PR en main.</p>
+<p><img src="imagenes/pull-request-actions.png" width="600px"/></p>
+<h3 id="el-fichero-de-configuracion">El fichero de configuración<a class="headerlink" href="#el-fichero-de-configuracion" title="Permanent link">&para;</a></h3>
+<p>Para configurar GitHub Actions basta con añadir un fichero de flujo de
+trabajo en el directorio <code>.github/workflows</code>.</p>
+<p>El fichero con el flujo de trabajo inicial lo llamaremos <code>db-tests.yml</code>:</p>
+<p><strong>Fichero <code>.github/workflows/db-tests.yml</code></strong></p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="n">Tests</span><span class="w"> </span><span class="n">DB</span><span class="w"></span>
+
+<span class="k">on</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">push</span><span class="o">]</span><span class="w"></span>
+
+<span class="nl">jobs</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nl">build</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">runs</span><span class="o">-</span><span class="k">on</span><span class="err">:</span><span class="w"> </span><span class="n">ubuntu</span><span class="o">-</span><span class="n">latest</span><span class="w"></span>
+
+<span class="w">    </span><span class="nl">steps</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="nl">uses</span><span class="p">:</span><span class="w"> </span><span class="n">actions</span><span class="o">/</span><span class="n">checkout</span><span class="nv">@v2</span><span class="w"></span>
+<span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="k">Set</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="n">JDK</span><span class="w"> </span><span class="mf">1.8</span><span class="w"></span>
+<span class="w">        </span><span class="nl">uses</span><span class="p">:</span><span class="w"> </span><span class="n">actions</span><span class="o">/</span><span class="n">setup</span><span class="o">-</span><span class="n">java</span><span class="nv">@v1</span><span class="w"></span>
+<span class="w">        </span><span class="k">with</span><span class="err">:</span><span class="w"></span>
+<span class="w">          </span><span class="n">java</span><span class="o">-</span><span class="nl">version</span><span class="p">:</span><span class="w"> </span><span class="mf">1.8</span><span class="w"></span>
+<span class="w">      </span><span class="o">-</span><span class="w"> </span><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="n">Launch</span><span class="w"> </span><span class="n">tests</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">Maven</span><span class="w"></span>
+<span class="w">        </span><span class="nl">run</span><span class="p">:</span><span class="w">  </span><span class="p">.</span><span class="o">/</span><span class="n">mvnw</span><span class="w"> </span><span class="n">test</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+
+<p>Puntos interesantes a destacar:</p>
+<ul>
+<li>El nombre del flujo de trabajo es <em>Tests DB</em>.</li>
+<li>Con la palabra clave <code>on</code> se define el evento que causa que se lance
+  el flujo de trabajo. Es en cualquier commit subido a GitHub
+  (push).</li>
+<li>En <code>jobs</code> se definen los trabajos en paralelo a realizar por el
+  flujo de trabajo. En nuestro caso sólo habrá uno.</li>
+<li>En <code>runs-on</code> se define la máquina base sobre la que se van a
+  ejecutar los siguientes pasos del flujo.</li>
+<li>En <code>uses: actions/checkout@v2</code> se especifica que se obtenga la
+  versión 2 de la acción llamada <code>actions/checkout</code>. Esta acción se
+  descarga el repositorio en la máquina especificada anteriormente y
+  lo deja listo para ejecutar los tests o cualquier otra acción.</li>
+<li>En <code>uses: actions/setup-java@v1</code> se especifica que se descargue los
+  paquetes básicos de Java, en concreto la versión 1.8 (definido por
+  la siguiente línea <code>with</code>).</li>
+<li>Por último, con el comando <code>run: ./mvnw test</code> se indica que el flujo
+  de trabajo debe lanzar este comando, que es el que lanza los
+  tests. </li>
+<li>Los nombres (<code>name</code>) son nombres arbitrarios que indicamos y que
+  después aparecen en la interfaz de Actions y nos sirven para
+  localizar los distintos pasos.</li>
+</ul>
+<h3 id="builds-en-actions">Builds en Actions<a class="headerlink" href="#builds-en-actions" title="Permanent link">&para;</a></h3>
+<p>En Actions tenemos toda la información de los <em>builds</em>. Es posible
+visualizarla mientras que se está realizando el build o cuando ya ha
+terminado. Allí podremos ver el detalle de la ejecución de los tests y
+consultar la salida de los mismos para comprobar su resultado.</p>
+<p>En la siguiente imagen se ha capturado el build en ejecución. El color
+naranja significa que el proceso está en ejecución.</p>
+<p><img src="imagenes/builds-github-actions.png" width="600px"/></p>
 <h3 id="pasos-a-seguir_1">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_1" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Realiza un commit en <code>master</code> (no hace falta que hagas un pull
-  request) con los cambios que aparecen este <a href="https://github.com/domingogallardo/mads-todolist-inicial/commit/498442afc689e81cc02d5022cfa6a85722a56bc7">commit</a>.</li>
-<li>Lanza los tests para comprobar que todo funciona correctamente y
-  sube el commit a GitHub.</li>
+<li>
+<p>Crea un <em>issue</em> llamado <code>Integración continua con GitHub
+  Actions</code>. Abre una rama <code>integracion-continua-actions</code>, súbela a GitHub y abre un pull
+  request.</p>
+</li>
+<li>
+<p>Añade el fichero <code>.github/workflows/db-tests.yml</code>. Haz un
+  commit y súbelo a GitHub.</p>
+</li>
+<li>
+<p>Comprueba que se pasan los tests y que se marca como correcto el
+  <em>pull request</em>.</p>
+</li>
+<li>
+<p>Modifica un test para que falle y sube un nuevo commit. Comprueba
+  que el commit aparece como erróneo en GitHub cuando el <em>build</em>
+  falla. Vuelve a realizar los cambios para corregirlos, vuelve a
+  subir el commit y comprueba que el nuevo commit y el PR pasan
+  correctamente.</p>
+</li>
+<li>
+<p>Cierra el <em>pull request</em> con <code>main</code>. Se volverán a lanzar los tests
+  en GitHub y el commit aparecerá marcado como correcto. Baja los
+  cambios al repositorio local y borra la rama.</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ <span class="o">(</span>integracion-continua-actions<span class="o">)</span> git checkout main
+$ <span class="o">(</span>main<span class="o">)</span> git pull
+$ <span class="o">(</span>main<span class="o">)</span> git branch -d integracion-continua-actions
+$ <span class="o">(</span>main<span class="o">)</span> git remote prune origin
+</code></pre></div>
+</td></tr></table>
+
+</li>
 </ul>
 <h2 id="configuracion-de-la-aplicacion">Configuración de la aplicación<a class="headerlink" href="#configuracion-de-la-aplicacion" title="Permanent link">&para;</a></h2>
 <p>Hasta ahora hemos trabajado con la aplicación en una configuración
@@ -528,13 +805,15 @@ conectarse, etc.). </p>
 en el directorio <code>src/test/resources</code> que define la configuración que
 se carga cuando se lanzan los tests.</p>
 <p>Spring Boot permite definir ficheros de configuración adicionales que
-pueden sobreescribir las propiedades definidas en el fichero de
-configuración por defecto. El nombre de estos ficheros de
-configuración debe ser <code>application-xxx.properties</code> donde <code>xxx</code> define el
-nombre del perfil. En nuestro caso definiremos los ficheros
+pueden sobreescribir y añadir propiedades a las definidas en el
+fichero de configuración por defecto. El nombre de estos ficheros de
+configuración debe ser <code>application-xxx.properties</code> donde <code>xxx</code> define
+el nombre del perfil. En nuestro caso definiremos los ficheros
 <code>application-mysql.properties</code> (uno en el directorio <code>main</code> y otro en
 <code>test</code>) para definir las configuraciones de ejecución y de test con
 MySQL.</p>
+<p>Estos ficheros de configuración adicionales se cargan después de
+cargar la configuración por defecto definida en <code>application.properties</code>.</p>
 <h3 id="pasos-a-seguir_2">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Instala <a href="https://www.docker.com/products/docker-desktop">Docker
@@ -554,13 +833,20 @@ MySQL.</p>
 <p><strong>Si tienes Ubuntu</strong> debes instalar Docker usando <code>apt</code>. Aquí tienes
   un tutorial para <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04">instalar Docker en Ubuntu
   18.04</a>.</p>
+<p>Prueba el tutorial rápido de 2 minutos que viene junto con la
+  instalación de docker y que puedes lanzar desde el <em>docker
+  dashboard</em>. Ese tutorial te enseña cómo crear una imagen Docker y
+  como lanzar un contenedor a partir de esa imagen.</p>
+<p>En esta práctica vamos a usar Docker sólo para poner en marcha
+  MySQL. En la práctica siguiente ya veremos cómo usarlo para
+  <em>dockerizar</em> nuestra aplicación.</p>
 <ul>
 <li>
 <p>Crea un nuevo <em>issue</em> llamado <code>Añadir perfiles y permitir trabajar
   con MySQL</code>. Crea una rama nueva (llámala <code>perfiles</code>, por ejemplo) y
   abre un pull request. </p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ <span class="o">(</span>master<span class="o">)</span> git checkout -b perfiles
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ <span class="o">(</span>main<span class="o">)</span> git checkout -b perfiles
 $ <span class="o">(</span>perfiles<span class="o">)</span> git push -u origin perfiles
 </code></pre></div>
 </td></tr></table>
@@ -587,13 +873,17 @@ $ <span class="o">(</span>perfiles<span class="o">)</span> git push -u origin pe
 <p>En este fichero de configuración se define la URL de conexión a la
    base de datos MySQL <code>mads</code>, su usuario (<code>root</code>) y contraseña (vacía) y el
    dialecto que se va a utilizar para trabajar desde JPA con la base
-   de datos (<code>org.hibernate.dialect.MySQL5InnoDBDialect</code>). Además se indica
-   que no se debe cargar ningún fichero de datos inicial. El esquema
-   de la base de datos se actualizará si hay cambios en las entidades
-   de la aplicación, y los datos se mantendrán en la base de datos.</p>
+   de datos (<code>org.hibernate.dialect.MySQL5InnoDBDialect</code>). </p>
+<p>La propiedad <code>spring.datasource.initialization-mode=never</code> indica
+   que no se debe cargar ningún fichero de datos inicial. Deberás
+   registrar un usuario inicial para poder probar la aplicación.</p>
+<p>El esquema de la base de datos se actualizará si hay cambios en las
+   entidades de la aplicación, y los datos se mantendrán en la base de
+   datos.</p>
 <ul>
 <li>
-<p>Copia el siguiente fichero en <code>src/test/resources/application-mysql.properties</code>:</p>
+<p>Vamos ahora a añadir el perfil de test. Copia el siguiente fichero
+  en <code>src/test/resources/application-mysql.properties</code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
@@ -658,8 +948,10 @@ estar ocupado) y sobre la base de datos <code>mads</code>. Le da como nombre
 <p>Puedes ejecutar los siguientes comandos de Docker:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ docker container ls -a <span class="o">(</span>comprueba todos los contenedores en marcha<span class="o">)</span>
+3
+4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ docker container ls -a <span class="o">(</span>comprueba todos los contenedores en marcha<span class="o">)</span>
 $ docker container stop &lt;nombre o id de contenedor&gt; <span class="o">(</span>para un contenedor<span class="o">)</span>
+$ docker container start &lt;nombre o id de contenedor&gt; <span class="o">(</span>pone en marcha un contenedor<span class="o">)</span>
 $ docker container rm nombre o id de contenedor&gt; <span class="o">(</span>elimina un contenedor<span class="o">)</span>
 </code></pre></div>
 </td></tr></table>
@@ -667,7 +959,7 @@ $ docker container rm nombre o id de contenedor&gt; <span class="o">(</span>elim
 </li>
 <li>
 <p>Arranca la aplicación con el siguiente comando:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">mvn spring-boot:run -Dspring.profiles.active=mysql</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">./mvnw spring-boot:run -Dspring.profiles.active=mysql</span>
 </code></pre></div>
 </td></tr></table>
 
@@ -681,7 +973,10 @@ aplicación similar.</p>
 </li>
 <li>
 <p>Cierra la aplicación y vuelve a abrirla. Comprueba que los datos que
-  se han creado en la ejecución anterior siguen estando.</p>
+  se han creado en la ejecución anterior siguen estando. Podemos
+  también parar el contenedor y volverlo a reiniciar y los datos se
+  conservarán. Al parar el contenedor no se eliminan los datos, sólo
+  al borrarlo.</p>
 </li>
 <li>
 <p>Cierra la aplicación. Paramos el contenedor con la base de datos de
@@ -696,6 +991,9 @@ $ docker container stop mysql-develop
 </code></pre></div>
 </td></tr></table>
 
+<p>Además de por línea de comando, también es posible gestionar los
+contenedores usando la aplicación <em>Docker Desktop</em> que se
+encuentra en la propia instalación de Docker.</p>
 </li>
 <li>
 <p>Lanzamos ahora otro contenedor con la base de datos de test:</p>
@@ -704,20 +1002,22 @@ $ docker container stop mysql-develop
 </td></tr></table>
 
 <p>Y lanzamos los tests usando el perfil <code>mysql</code> con la base de datos MySQL con el siguiente comando:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">mvn test -Dspring.profiles.active=mysql</span>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="err">./mvnw test -Dspring.profiles.active=mysql</span>
 </code></pre></div>
 </td></tr></table>
 
-<p>Comprobamos con <em>MySQL Workbench</em> que los datos que hay en
-la base de datos corresponden con los introducidos en el fichero
-<code>datos-test.sql</code> que se carga antes de ejecutar los tests.</p>
+<p>Nos conectamos con MySQL Workbench a la base de datos <code>mads_test</code>
+y comprobamos que los datos que hay en la base de datos
+corresponden con los introducidos en el fichero <code>datos-test.sql</code>
+que se carga antes de ejecutar los tests.</p>
 </li>
 <li>
 <p>Podemos parar y arrancar el contenedor MySQL que necesitemos con
-  <code>docker container stop</code> y <code>docker container start</code>. Mientras que no
-  borres el contenedor los datos siguen estando en él. Por ejemplo,
-  para parar el contenedor MySQL con la base de datos de test y
-  arrancar el contenedor con la base de datos de desarrollo:</p>
+  <code>docker container stop</code> y <code>docker container start</code>. Como hemos dicho
+  antes, mientras que no borres el contenedor los datos siguen estando
+  en él. Por ejemplo, para parar el contenedor MySQL con la base de
+  datos de test y arrancar el contenedor con la base de datos de
+  desarrollo:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ docker container ls -a 
@@ -729,7 +1029,7 @@ $ docker container start mysql-develop
 </li>
 <li>
 <p>Realiza un commit con los cambios, súbelos a la rama y cierra el
-  pull request para integrarlo en <code>master</code>:</p>
+  pull request para integrarlo en <code>main</code>:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
@@ -741,146 +1041,10 @@ $ docker container start mysql-develop
 $ <span class="o">(</span>perfiles<span class="o">)</span> git commit -m <span class="s2">&quot;Añadidos perfiles para trabajar con MySQL&quot;</span>
 $ <span class="o">(</span>perfiles<span class="o">)</span> git push
 // Mezclamos el Pull Request en GitHub
-$ <span class="o">(</span>perfiles<span class="o">)</span> git checkout master
-$ <span class="o">(</span>master<span class="o">)</span> git pull
-$ <span class="o">(</span>master<span class="o">)</span> git branch -d perfiles
-$ <span class="o">(</span>master<span class="o">)</span> git remote prune origin
-</code></pre></div>
-</td></tr></table>
-
-</li>
-</ul>
-<h2 id="integracion-continua-con-travis">Integración continua con Travis<a class="headerlink" href="#integracion-continua-con-travis" title="Permanent link">&para;</a></h2>
-<p><a href="https://travis-ci.com/">Travis-ci.com</a> es un servicio que permite realizar
-integración continua on-line, sin necesidad de configurar un servidor
-propio de integración continua.</p>
-<p>Es un servicio de pago, pero es gratuito para los repositorios
-abiertos (<em>open source</em>) y para las cuentas educativas de GitHub. La
-organización de GitHub <code>mads-ua</code> también está autorizada como
-organización educativa, por lo que todos los repositorios creados
-dentro de esa organización podrán trabajar con Travis.</p>
-<p>Puedes consultar el funcionamiento de Travis leyendo su documentación,
-comenzando por la página <a href="https://docs.travis-ci.com/user/getting-started/">Getting
-started</a>.</p>
-<p>En la práctica vamos a configurar Travis para que todos los <em>pull
-requests</em> deban pasar los tests de integración (conectándose a la base
-de datos MySQL) antes de realizar el <em>merge</em> con <code>master</code>. </p>
-<h3 id="conexion-con-github">Conexión con GitHub<a class="headerlink" href="#conexion-con-github" title="Permanent link">&para;</a></h3>
-<p>En GitHub está configurada la conexión con Travis para todos los
-proyectos en la organización <code>mads-ua</code>. </p>
-<p>En tu cuenta de Travis, una vez logeado, podrás acceder a tu
-repositorio en la organización <code>mads-ua</code> y comprobar su
-configuración. Verás una pantalla como la siguiente:</p>
-<p><img src="imagenes/conexion-travis.png" width="700px"/></p>
-<h3 id="tests-en-los-pull-requests">Tests en los pull requests<a class="headerlink" href="#tests-en-los-pull-requests" title="Permanent link">&para;</a></h3>
-<p>Usando Travis es posible configurar el repositorio de GitHub para que todos los
-<em>pull requests</em> deban pasar los tests de integración en el servicio.</p>
-<p>En la siguiente imagen vemos el aspecto en GitHub de un <em>pull request</em>
-estando activa la integración con Travis. Una vez abierto el PR,
-Travis comprueba si la integración de master con la rama pasa los
-tests definidos en el fichero de configuración. Sólo si los tests
-pasan es posible realizar el <em>merge</em> del PR en master.</p>
-<p><img src="imagenes/pull-request-travis.png" width="600px"/></p>
-<h3 id="el-fichero-de-configuracion">El fichero de configuración<a class="headerlink" href="#el-fichero-de-configuracion" title="Permanent link">&para;</a></h3>
-<p>La configuración de Travis se realiza con el fichero <code>.travis.yml</code> en
-la raíz del repositorio.</p>
-<p>El fichero <code>.travis.yml</code> para mi repositorio solución de la práctica
-es el siguiente:</p>
-<p><strong>Fichero <code>.travis.yml</code></strong></p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>language: java
-
-branches:
-  only:
-    - master
-
-services:
-  - mysql
-
-before_install:
-  - mysql -e &#39;CREATE DATABASE mads_test;&#39;
-
-script: ./mvnw test -Dspring.profiles.active=mysql
-</code></pre></div>
-</td></tr></table>
-
-<p>Puntos interesantes a destacar:</p>
-<ul>
-<li>Se puede espeficar la rama en la que se activa la integración
-  continua en el apartado <code>branches</code>. En nuestro caso es la rama
-  <code>master</code>. En cualquier commit o <em>pull request</em> que se haga sobre esa
-  rama se lanzará la integración continua.</li>
-<li>El apartado <code>services</code> define los servicios necesarios para que se
-  ejecute el script de integración. En nuestro caso <code>mysql</code>. Cuando se
-  lance travis se lanzará un servidor de MySQL en el puerto por
-  defecto (3306) y con usuario <code>root</code> sin contraseña.</li>
-<li>En el apartado <code>before_install</code> se definen los comandos a realizar
-  antes de ejecutar el <em>script</em> con los tests. En nuestro caso
-  se ejecuta un comando sobre el servicio <code>mysql</code> para crear la base
-  de datos <code>mads_test</code> vacía.</li>
-<li>En el apartado <code>script</code> se definen los comandos a realizar para
-  lanzar los tests. En nuestro caso lanzamos el comando <code>mvnw</code> que
-  lanza el Maven instalado en el repositorio (ver punto siguiente).</li>
-</ul>
-<h3 id="builds-en-travis">Builds en Travis<a class="headerlink" href="#builds-en-travis" title="Permanent link">&para;</a></h3>
-<p>En Travis tenemos toda la información de los <em>builds</em>. Es posible
-visualizarla una vez ha terminado el <em>build</em> o mientras se está
-ejecutando. Allí podremos ver el detalle de la ejecución de los tests
-y consultar la salida de los mismos para comprobar su </p>
-<p><img src="imagenes/builds-travis.png" width="600px"/></p>
-<div class="admonition note">
-<p class="admonition-title">Nota</p>
-<p>Sólo es posible ejecutar un <em>build</em> simultáneo en la organización
-<code>mads-ua</code>. Cuando hay otro <em>build</em> ejecutándose los nuevos
-<em>builds</em> que se lancen quedarán encolados por fecha de inicio.</p>
-</div>
-<h3 id="pasos-a-seguir_3">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_3" title="Permanent link">&para;</a></h3>
-<ul>
-<li>
-<p>Crea un <em>issue</em> llamado <code>Integración continua con Travis</code>. Abre una
-  rama <code>travis</code>, súbela a GitHub y abre un pull request.</p>
-</li>
-<li>
-<p>Añade el fichero <code>.travis.yml</code> en la raíz del repositorio. Haz un
-  commit y súbelo a GitHub.</p>
-</li>
-<li>
-<p>Date de alta en <a href="https://travis-ci.com">Travis-ci.com</a> y conéctalo
-  al repositorio de la práctica.</p>
-</li>
-<li>
-<p><strong>Comprueba que se pasan los tests en Travis</strong> y que se marca como
-  correcto el <em>pull request</em>. </p>
-</li>
-<li>
-<p>Modifica un test para que falle y sube un nuevo commit. Comprueba
-  que el commit aparece como erróneo en GitHub cuando el <em>build</em> de
-  Travis falla. Vuelve a realizar los cambios para corregirlos,
-  vuelve a subir el commit y comprueba que el nuevo commit y el PR
-  pasan correctamente.</p>
-</li>
-<li>
-<p>Cierra el <em>pull request</em> con <code>master</code>. Se volverán a lanzar los
-  tests en Travis y el commit aparecerá marcado como correcto. Baja
-  los cambios al repositorio local y borra la rama.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ <span class="o">(</span>travis<span class="o">)</span> git checkout master
-$ <span class="o">(</span>master<span class="o">)</span> git pull
-$ <span class="o">(</span>master<span class="o">)</span> git branch -d travis
-$ <span class="o">(</span>master<span class="o">)</span> git remote prune origin
+$ <span class="o">(</span>perfiles<span class="o">)</span> git checkout main
+$ <span class="o">(</span>main<span class="o">)</span> git pull
+$ <span class="o">(</span>main<span class="o">)</span> git branch -d perfiles
+$ <span class="o">(</span>main<span class="o">)</span> git remote prune origin
 </code></pre></div>
 </td></tr></table>
 
@@ -967,7 +1131,7 @@ necesario, no puedes escribir código de más</strong>)</li>
 </ul>
 <p>Deberás hacer <strong>un commit por cada fase Test-Code</strong>. Si haces
 refactorización deberás hacerlo en otro commit adicional.</p>
-<h3 id="pasos-a-seguir_4">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_4" title="Permanent link">&para;</a></h3>
+<h3 id="pasos-a-seguir_3">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p>Crea la historia de usuario <code>008 Listado de equipos</code> en el tablero Trello.</p>
@@ -1667,7 +1831,7 @@ para la clase de servicio que gestiona el listado de equipos y
 usuarios de esos equipos.</p>
 <ul>
 <li>Crea un pull request que cierre el <em>issue</em>, comprueba que Travis pasa
-correctamente los tests e intégralo en <code>master</code> en GitHub. Baja los
+correctamente los tests e intégralo en <code>main</code> en GitHub. Baja los
 cambios al repositorio local.</li>
 </ul>
 <h4>Vista y controller listado de equipos</h4>
@@ -1697,7 +1861,7 @@ nombre y eliminar los equipos para adaptarlos a los proyectos y
 estructura de la empresa.</p>
 </li>
 </ul>
-<h3 id="pasos-a-seguir_5">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_5" title="Permanent link">&para;</a></h3>
+<h3 id="pasos-a-seguir_4">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Implementa cada historia de usuario usando el mismo proceso que
   hemos utilizado para la historia 008. Deberás pensar qué servicios
@@ -1732,7 +1896,7 @@ estructura de la empresa.</p>
 <li>Para realizar la entrega se debe subir a Moodle un ZIP que contenga
   todo el proyecto, incluyendo el directorio <code>.git</code> que contiene la
   historia Git. Para ello comprime tu directorio local del proyecto
-  <strong>después de haber hecho un <code>mvn clean</code></strong> para eliminar el
+  <strong>después de haber hecho un <code>./mvnw clean</code></strong> para eliminar el
   directorio <code>target</code> que contiene los binarios compilados. Debes
   dejar también en Moodle la URL del repositorio en GitHub.</li>
 </ul>
@@ -1761,6 +1925,27 @@ estructura de la empresa.</p>
       
         
 <footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../01-intro-spring-boot/practica1.html" title="Aplicación ToDoList" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Anterior
+                </span>
+                Aplicación ToDoList
+              </span>
+            </div>
+          </a>
+        
+        
+      </nav>
+    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
