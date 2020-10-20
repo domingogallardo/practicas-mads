@@ -1,13 +1,4 @@
 
-<!--
-
-TODO: En GitHub ya se puede ver en el panel del proyecto el PR 
-asociado a un Issue. Por lo que ya no es necesario poner etiquetas ni
-milestones en los PR. Estarán en el issue asociado.
-
--->
-
-
 # Aplicación ToDoList
 
 Esta es la **segunda parte** de la práctica 1.

@@ -28,25 +28,9 @@ esta _release_.
 ### Pasos a seguir ###
 
 - Cambia el número de versión (en el fichero _Acerca De_ y en el
-  `pom.xml`) a `1.2.0-SNAPSHOT` para indicar que lo que hay en master
+  `pom.xml`) a `1.2.0-SNAPSHOT` para indicar que lo que hay en main
   es la versión 1.2.0 **en progreso**. Esta versión la lanzaremos al
   final del desarrollo de la práctica, en su entrega.
-
-## Refactorización de la relación uno-a-muchos ##
-
-Antes de comenzar la práctica hay que hacer una refactorización en la
-relación una-a-muchos entre usuario y tareas: pasar la lista de tareas
-de un usuario de `List` a `Set`. 
-
-A diferencias del tipo `List`, el `Set` no permite elementos repetidos
-y es más conveniente definir las relaciones JPA de esta forma.
-
-### Pasos a seguir ###
-
-- Realiza un commit en `master` (no hace falta que hagas un pull
-  request) con los cambios que aparecen este [commit](https://github.com/domingogallardo/mads-todolist-inicial/commit/498442afc689e81cc02d5022cfa6a85722a56bc7).
-- Lanza los tests para comprobar que todo funciona correctamente y
-  sube el commit a GitHub.
 
 ## Configuración de la aplicación ##
 
@@ -96,13 +80,16 @@ en el directorio `src/test/resources` que define la configuración que
 se carga cuando se lanzan los tests.
 
 Spring Boot permite definir ficheros de configuración adicionales que
-pueden sobreescribir las propiedades definidas en el fichero de
-configuración por defecto. El nombre de estos ficheros de
-configuración debe ser `application-xxx.properties` donde `xxx` define el
-nombre del perfil. En nuestro caso definiremos los ficheros
+pueden sobreescribir y añadir propiedades a las definidas en el
+fichero de configuración por defecto. El nombre de estos ficheros de
+configuración debe ser `application-xxx.properties` donde `xxx` define
+el nombre del perfil. En nuestro caso definiremos los ficheros
 `application-mysql.properties` (uno en el directorio `main` y otro en
 `test`) para definir las configuraciones de ejecución y de test con
 MySQL.
+
+Estos ficheros de configuración adicionales se cargan después de
+cargar la configuración por defecto definida en `application.properties`.
 
 
 ### Pasos a seguir ###
@@ -129,12 +116,21 @@ MySQL.
   un tutorial para [instalar Docker en Ubuntu
   18.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04).
 
+  Prueba el tutorial rápido de 2 minutos que viene junto con la
+  instalación de docker y que puedes lanzar desde el _docker
+  dashboard_. Ese tutorial te enseña cómo crear una imagen Docker y
+  como lanzar un contenedor a partir de esa imagen.
+  
+  En esta práctica vamos a usar Docker sólo para poner en marcha
+  MySQL. En la práctica siguiente ya veremos cómo usarlo para
+  _dockerizar_ nuestra aplicación.
+
 - Crea un nuevo _issue_ llamado `Añadir perfiles y permitir trabajar
   con MySQL`. Crea una rama nueva (llámala `perfiles`, por ejemplo) y
   abre un pull request. 
   
     ```
-    $ (master) git checkout -b perfiles
+    $ (main) git checkout -b perfiles
     $ (perfiles) git push -u origin perfiles
     ```
     
@@ -151,14 +147,20 @@ MySQL.
     ```
 
    En este fichero de configuración se define la URL de conexión a la
-   base de datos MySQL, su usuario (`root`) y contraseña (vacía) y el
+   base de datos MySQL `mads`, su usuario (`root`) y contraseña (vacía) y el
    dialecto que se va a utilizar para trabajar desde JPA con la base
-   de datos (`org.hibernate.dialect.MySQL5InnoDBDialect`). Además se indica
-   que no se debe cargar ningún fichero de datos inicial. El esquema
-   de la base de datos se actualizará si hay cambios en las entidades
-   de la aplicación, y los datos se mantendrán en la base de datos.
+   de datos (`org.hibernate.dialect.MySQL5InnoDBDialect`). 
+   
+   La propiedad `spring.datasource.initialization-mode=never` indica
+   que no se debe cargar ningún fichero de datos inicial. Deberás
+   registrar un usuario inicial para poder probar la aplicación.
+   
+   El esquema de la base de datos se actualizará si hay cambios en las
+   entidades de la aplicación, y los datos se mantendrán en la base de
+   datos.
     
-- Copia el siguiente fichero en `src/test/resources/application-mysql.properties`:
+- Vamos ahora a añadir el perfil de test. Copia el siguiente fichero
+  en `src/test/resources/application-mysql.properties`:
     
     ```
     spring.datasource.url=jdbc:mysql://localhost:3306/mads_test
@@ -168,12 +170,13 @@ MySQL.
     spring.jpa.hibernate.ddl-auto=create
     ```
      
-   La diferencia más importante es el valor de
-   `spring.jpa.hibernate.ddl-auto`, que es `create`. De esta forma la
-   base de datos se inicializa antes de cargar los datos de los tests
-   y de ejecutarlos. También usamos una base de datos distinta
-   (`mads_test`) para no sobreescribir la base de datos definida en el
-   perfil de ejecución.
+   En este perfil la conexión se hace con una base de datos diferente:
+   `mads_test`. La diferencia más importante del resto de parámetros
+   es el valor de `spring.jpa.hibernate.ddl-auto`, que es `create`. De
+   esta forma la base de datos se inicializa antes de cargar los datos
+   de los tests y de ejecutarlos. También usamos una base de datos
+   distinta (`mads_test`) para no sobreescribir la base de datos
+   definida en el perfil de ejecución.
 
 - Añade la siguiente dependencia en el fichero `pom.xml` para que se
   descargue el driver `mysql-connector-java` y poder utilizar una base
@@ -204,8 +207,9 @@ MySQL.
     ```
 
     Docker se descarga la imagen `mysql:5` y lanza el contenedor (una
-    instancia en marcha de una imagen) conectado al puerto 3306 y
-    sobre la base de datos `mads`. Le da como nombre `mysql-develop`.
+    instancia en marcha de una imagen) conectado al puerto 3306 (no debe
+    estar ocupado) y sobre la base de datos `mads`. Le da como nombre
+    `mysql-develop`.
    
     Puedes ejecutar los siguientes comandos de Docker:
     
@@ -218,7 +222,7 @@ MySQL.
 - Arranca la aplicación con el siguiente comando:
 
     ```
-    mvn spring-boot:run -Dspring.profiles.active=mysql
+    ./mvnw spring-boot:run -Dspring.profiles.active=mysql
     ```
 
     Se activará el perfil `mysql` y se cargarán las preferencias de
@@ -232,7 +236,10 @@ MySQL.
     <img src="imagenes/mysql-workbench.png" width="700px"/>
 
 - Cierra la aplicación y vuelve a abrirla. Comprueba que los datos que
-  se han creado en la ejecución anterior siguen estando.
+  se han creado en la ejecución anterior siguen estando. Podemos
+  también parar el contenedor y volverlo a reiniciar y los datos se
+  conservarán. Al parar el contenedor no se eliminan los datos, sólo
+  al borrarlo.
 
 - Cierra la aplicación. Paramos el contenedor con la base de datos de
   desarrollo haciendo `docker container stop`:
@@ -244,26 +251,33 @@ MySQL.
     $ docker container stop mysql-develop
     ```
 
+    Además de por línea de comando, también es posible gestionar los
+    contenedores usando la aplicación _Docker Desktop_ que se
+    encuentra en la propia instalación de Docker.
+
 - Lanzamos ahora otro contenedor con la base de datos de test:
 
     ```
     docker run -d -p 3306:3306 --name mysql-test -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=mads_test mysql:5 
     ```
 
-    Y lanzamos los tests usando el perfil ` la base de datos MySQL con el siguiente comando:
+    Y lanzamos los tests usando el perfil `mysql` con la base de datos MySQL con el siguiente comando:
   
       ```
       mvn test -Dspring.profiles.active=mysql
       ```
   
-    Comprobamos con _MySQL Workbench_ que los datos que hay en
-    la base de datos corresponden con los introducidos en el fichero
-    `datos-test.sql` que se carga antes de ejecutar los tests.
+    Nos conectamos con MySQL Workbench a la base de datos `mads_test`
+    y comprobamos que los datos que hay en la base de datos
+    corresponden con los introducidos en el fichero `datos-test.sql`
+    que se carga antes de ejecutar los tests.
 
 - Podemos parar y arrancar el contenedor MySQL que necesitemos con
-  `docker container stop` y `docker container start`. Por ejemplo,
-  para parar el contenedor MySQL con la base de datos de test y
-  arrancar el contenedor con la base de datos de desarrollo:
+  `docker container stop` y `docker container start`. Como hemos dicho
+  antes, mientras que no borres el contenedor los datos siguen estando
+  en él. Por ejemplo, para parar el contenedor MySQL con la base de
+  datos de test y arrancar el contenedor con la base de datos de
+  desarrollo:
   
     ```
     $ docker container ls -a 
@@ -272,17 +286,17 @@ MySQL.
     ```
 
 - Realiza un commit con los cambios, súbelos a la rama y cierra el
-  pull request para integrarlo en `master`:
+  pull request para integrarlo en `main`:
   
       ```
       $ (perfiles) git add .
       $ (perfiles) git commit -m "Añadidos perfiles para trabajar con MySQL"
       $ (perfiles) git push
       // Mezclamos el Pull Request en GitHub
-      $ (perfiles) git checkout master
-      $ (master) git pull
-      $ (master) git branch -d perfiles
-      $ (master) git remote prune origin
+      $ (perfiles) git checkout main
+      $ (main) git pull
+      $ (main) git branch -d perfiles
+      $ (main) git remote prune origin
       ```
 
 
@@ -304,7 +318,7 @@ started](https://docs.travis-ci.com/user/getting-started/).
 
 En la práctica vamos a configurar Travis para que todos los _pull
 requests_ deban pasar los tests de integración (conectándose a la base
-de datos MySQL) antes de realizar el _merge_ con `master`. 
+de datos MySQL) antes de realizar el _merge_ con `main`. 
 
 ### Conexión con GitHub ###
 
@@ -325,9 +339,9 @@ _pull requests_ deban pasar los tests de integración en el servicio.
 
 En la siguiente imagen vemos el aspecto en GitHub de un _pull request_
 estando activa la integración con Travis. Una vez abierto el PR,
-Travis comprueba si la integración de master con la rama pasa los
+Travis comprueba si la integración de main con la rama pasa los
 tests definidos en el fichero de configuración. Sólo si los tests
-pasan es posible realizar el _merge_ del PR en master.
+pasan es posible realizar el _merge_ del PR en main.
 
 <img src="imagenes/pull-request-travis.png" width="600px"/>
 
@@ -347,7 +361,7 @@ language: java
 
 branches:
   only:
-    - master
+    - main
 
 services:
   - mysql
@@ -362,7 +376,7 @@ Puntos interesantes a destacar:
 
 - Se puede espeficar la rama en la que se activa la integración
   continua en el apartado `branches`. En nuestro caso es la rama
-  `master`. En cualquier commit o _pull request_ que se haga sobre esa
+  `main`. En cualquier commit o _pull request_ que se haga sobre esa
   rama se lanzará la integración continua.
 - El apartado `services` define los servicios necesarios para que se
   ejecute el script de integración. En nuestro caso `mysql`. Cuando se
@@ -412,15 +426,15 @@ y consultar la salida de los mismos para comprobar su
   vuelve a subir el commit y comprueba que el nuevo commit y el PR
   pasan correctamente.
 
-- Cierra el _pull request_ con `master`. Se volverán a lanzar los
+- Cierra el _pull request_ con `main`. Se volverán a lanzar los
   tests en Travis y el commit aparecerá marcado como correcto. Baja
   los cambios al repositorio local y borra la rama.
 
     ```
-    $ (travis) git checkout master
-    $ (master) git pull
-    $ (master) git branch -d travis
-    $ (master) git remote prune origin
+    $ (travis) git checkout main
+    $ (main) git pull
+    $ (main) git branch -d travis
+    $ (main) git remote prune origin
     ```
 
 
@@ -543,8 +557,8 @@ public class EquipoTest {
 
     @Test
     public void crearEquipo() {
-        Equipo equipo = new Equipo("Proyecto Cobalto");
-        assertThat(equipo.getNombre()).isEqualTo("Proyecto Cobalto");
+        Equipo equipo = new Equipo("Proyecto P1");
+        assertThat(equipo.getNombre()).isEqualTo("Proyecto P1");
     }
 }
 ```
@@ -572,7 +586,7 @@ añadiendo el siguiente test:
     @Transactional
     public void grabarEquipo() {
         // GIVEN
-        Equipo equipo = new Equipo("Proyecto Cobalto");
+        Equipo equipo = new Equipo("Proyecto P1");
 
         // WHEN
         equipoRepository.save(equipo);
@@ -606,9 +620,9 @@ Puedes guiarte por la implementación de `equals` y `hashCode` en
     public void comprobarIgualdadEquipos() {
         // GIVEN
         // Creamos tres equipos sin id, sólo con el nombre
-        Equipo equipo1 = new Equipo("Proyecto Cobalto");
-        Equipo equipo2 = new Equipo("Proyecto Níquel");
-        Equipo equipo3 = new Equipo("Proyecto Níquel");
+        Equipo equipo1 = new Equipo("Proyecto P1");
+        Equipo equipo2 = new Equipo("Proyecto P2");
+        Equipo equipo3 = new Equipo("Proyecto P2");
 
         // THEN
         // Comprobamos igualdad basada en el atributo nombre
@@ -638,7 +652,7 @@ de la base de datos. Añadimos un equipo a la tabla en el fichero
 
 Añadimos en el fichero **`src/test/java/resources/datos-test.sql`**:
 ```
-INSERT INTO equipos (id, nombre) VALUES('1', 'Proyecto Cobalto');
+INSERT INTO equipos (id, nombre) VALUES('1', 'Proyecto P1');
 ```
 
 Test:
@@ -656,7 +670,7 @@ Test:
         // THEN
         assertThat(equipo).isNotNull();
         assertThat(equipo.getId()).isEqualTo(1L);
-        assertThat(equipo.getNombre()).isEqualTo("Proyecto Cobalto");
+        assertThat(equipo.getNombre()).isEqualTo("Proyecto P1");
     }
 ```
 
@@ -679,7 +693,7 @@ anotaciones mínimas para que JPA no se queje:
     public void relaciónMuchosAMuchosVacia() {
         // GIVEN
 
-        Equipo equipo = new Equipo("Proyecto Cobalto");
+        Equipo equipo = new Equipo("Proyecto P1");
         Usuario usuario = new Usuario("prueba@gmail.com");
 
         // WHEN
@@ -741,7 +755,7 @@ Para definir el test, creamos una relación en la base de datos de prueba:
 
 ```diff
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
-+ INSERT INTO equipos (id, nombre) VALUES('1', 'Proyecto Cobalto');
++ INSERT INTO equipos (id, nombre) VALUES('1', 'Proyecto P1');
 + INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES('1', '1');
 ```
 
@@ -799,7 +813,7 @@ Actualizamos la base de datos de prueba con otro equipo:
 
 ```diff
 INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES('1', '1');
-+ INSERT INTO equipos (id, nombre) VALUES('2', 'Proyecto Adamantium');
++ INSERT INTO equipos (id, nombre) VALUES('2', 'Proyecto P3');
 ```
 
 
@@ -880,8 +894,8 @@ package madstodolist;
 
          // THEN
          assertThat(equipos).hasSize(2);
-         assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto Adamantium");
-         assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto Cobalto");
+         assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto P3");
+         assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto P1");
      }
  }
 ```
@@ -951,7 +965,7 @@ entre equipos y usuarios es `LAZY`.
         Equipo equipo = equipoService.findById(1L);
 
         // THEN
-        assertThat(equipo.getNombre()).isEqualTo("Proyecto Cobalto");
+        assertThat(equipo.getNombre()).isEqualTo("Proyecto P1");
         // Comprobamos que la relación con Usuarios es lazy: al
         // intentar acceder a la colección de usuarios se debe lanzar una
         // excepción de tipo LazyInitializationException.
@@ -1017,8 +1031,8 @@ equipos a los que pertenece.
         // Comprobamos que la relación entre usuarios y equipos es eager
         // Primero comprobamos que la colección de equipos tiene 1 elemento
         assertThat(usuarios.get(0).getEquipos()).hasSize(1);
-        // Y después que el elemento es el equipo Proyecto Cobalto
-        assertThat(usuarios.get(0).getEquipos().stream().findFirst().get().getNombre()).isEqualTo("Proyecto Cobalto");
+        // Y después que el elemento es el equipo Proyecto P1
+        assertThat(usuarios.get(0).getEquipos().stream().findFirst().get().getNombre()).isEqualTo("Proyecto P1");
     }
 }
 ```
@@ -1034,7 +1048,7 @@ para la clase de servicio que gestiona el listado de equipos y
 usuarios de esos equipos.
 
 - Crea un pull request que cierre el _issue_, comprueba que Travis pasa
-correctamente los tests e intégralo en `master` en GitHub. Baja los
+correctamente los tests e intégralo en `main` en GitHub. Baja los
 cambios al repositorio local.
 
 
