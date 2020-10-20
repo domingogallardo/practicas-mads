@@ -1,12 +1,13 @@
 
-# Práctica 2: Integración con Travis y TDD
+# Práctica 2: Integración con GitHub Actions y TDD
 
 En esta práctica 2 de la asignatura realizaremos dos tareas principales:
 
-- Configuraremos un sistema de integración continua conectando el
-  repositorio de GitHub con Travis. En este sistema se lanzarán los
-  tests automáticamente en cada _pull request_ sobre la base de datos
-  MySQL.
+- Configuraremos un sistema de integración continua usando las
+  _actions_ del repositorio de GitHub. En este sistema se lanzarán los
+  tests automáticamente en cada _pull request_. Después definiremos
+  una nueva configuración del proyecto en la que se lanzarán los tests
+  sobre la base de datos  MySQL.
 - Añadiremos nuevas funcionalidades usando la práctica XP de TDD
   (_Test Driven Design_).
 
@@ -16,7 +17,7 @@ En esta práctica 2 de la asignatura realizaremos dos tareas principales:
     especificadas las acciones que debes realizar en la práctica.
 
 La duración de la práctica es de 3 semanas y la fecha límite de
-entrega es el día 5 de noviembre.
+entrega es el día 10 de noviembre.
 
 ## Desarrollo de la _release_ 1.2.0 ##
 
@@ -31,6 +32,142 @@ esta _release_.
   `pom.xml`) a `1.2.0-SNAPSHOT` para indicar que lo que hay en main
   es la versión 1.2.0 **en progreso**. Esta versión la lanzaremos al
   final del desarrollo de la práctica, en su entrega.
+
+
+## Integración continua con GitHub Actions ##
+
+[GitHub
+Actions](https://docs.github.com/en/free-pro-team@latest/actions) es
+un servicio de GitHub que permite realizar integración continua
+en su propia web, sin necesidad de configurar un servidor propio de integración
+continua.
+
+Puedes consultar el funcionamiento de GitHub Actions leyendo su documentación,
+comenzando por las páginas [Quickstart for GitHub
+Actions](https://docs.github.com/en/free-pro-team@latest/actions/quickstart),
+[Introduction to GitHub
+Actions](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/introduction-to-github-actions)
+y [Building and testing Java with
+Maven](https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-java-with-maven). 
+
+En la práctica vamos a comenzar configurando GitHub Actions para que
+todos los _pull requests_ deban pasar los tests de integración antes
+de realizar el _merge_ con `main`.
+
+### Tests en los pull requests ###
+
+Usando GitHub Actions es posible configurar el repositorio de GitHub
+para que todos los _pull requests_ deban pasar los tests de
+integración en el servicio.
+
+En la siguiente imagen vemos el aspecto en GitHub de un _pull request_
+estando activa la integración con Actions. Una vez abierto el PR,
+se lanzan los flujos de trabajo (_workflows_) definidos en 
+el directorio `.github/workflows`. 
+
+GitHub comprueba si la integración de main con la rama pasa los tests
+definidos en el workflow. Sólo si los tests pasan es posible realizar
+el _merge_ del PR en main.
+
+<img src="imagenes/pull-request-actions.png" width="600px"/>
+
+
+### El fichero de configuración  ###
+
+Para configurar GitHub Actions basta con añadir un fichero de flujo de
+trabajo en el directorio `.github/workflows`.
+
+El fichero con el flujo de trabajo inicial lo llamaremos `db-tests.yml`:
+
+**Fichero `.github/workflows/db-tests.yml`**
+
+```yml
+name: Tests DB
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Launch tests with Maven
+        run:  ./mvnw test
+```
+
+Puntos interesantes a destacar:
+
+- El nombre del flujo de trabajo es _Tests DB_.
+- Con la palabra clave `on` se define el evento que causa que se lance
+  el flujo de trabajo. Es en cualquier commit subido a GitHub
+  (push).
+- En `jobs` se definen los trabajos en paralelo a realizar por el
+  flujo de trabajo. En nuestro caso sólo habrá uno.
+- En `runs-on` se define la máquina base sobre la que se van a
+  ejecutar los siguientes pasos del flujo.
+- En `uses: actions/checkout@v2` se especifica que se obtenga la
+  versión 2 de la acción llamada `actions/checkout`. Esta acción se
+  descarga el repositorio en la máquina especificada anteriormente y
+  lo deja listo para ejecutar los tests o cualquier otra acción.
+- En `uses: actions/setup-java@v1` se especifica que se descargue los
+  paquetes básicos de Java, en concreto la versión 1.8 (definido por
+  la siguiente línea `with`).
+- Por último, con el comando `run: ./mvnw test` se indica que el flujo
+  de trabajo debe lanzar este comando, que es el que lanza los
+  tests. 
+- Los nombres (`name`) son nombres arbitrarios que indicamos y que
+  después aparecen en la interfaz de Actions y nos sirven para
+  localizar los distintos pasos.
+  
+
+### Builds en Actions ###
+
+En Actions tenemos toda la información de los _builds_. Es posible
+visualizarla mientras que se está realizando el build o cuando ya ha
+terminado. Allí podremos ver el detalle de la ejecución de los tests y
+consultar la salida de los mismos para comprobar su resultado.
+
+En la siguiente imagen se ha capturado el build en ejecución. El color
+naranja significa que el proceso está en ejecución.
+
+<img src="imagenes/builds-github-actions.png" width="600px"/>
+
+
+### Pasos a seguir ###
+
+- Crea un _issue_ llamado `Integración continua con GitHub
+  Actions`. Abre una rama `integracion-continua-actions`, súbela a GitHub y abre un pull
+  request.
+
+- Añade el fichero `.github/workflows/db-tests.yml`. Haz un
+  commit y súbelo a GitHub.
+
+- Comprueba que se pasan los tests y que se marca como correcto el
+  _pull request_.
+  
+- Modifica un test para que falle y sube un nuevo commit. Comprueba
+  que el commit aparece como erróneo en GitHub cuando el _build_
+  falla. Vuelve a realizar los cambios para corregirlos, vuelve a
+  subir el commit y comprueba que el nuevo commit y el PR pasan
+  correctamente.
+
+- Cierra el _pull request_ con `main`. Se volverán a lanzar los tests
+  en GitHub y el commit aparecerá marcado como correcto. Baja los
+  cambios al repositorio local y borra la rama.
+
+    ```
+    $ (integracion-continua-actions) git checkout main
+    $ (main) git pull
+    $ (main) git branch -d integracion-continua-actions
+    $ (main) git remote prune origin
+    ```
+
+
 
 ## Configuración de la aplicación ##
 
@@ -216,6 +353,7 @@ cargar la configuración por defecto definida en `application.properties`.
       ```
       $ docker container ls -a (comprueba todos los contenedores en marcha)
       $ docker container stop <nombre o id de contenedor> (para un contenedor)
+      $ docker container start <nombre o id de contenedor> (pone en marcha un contenedor)
       $ docker container rm nombre o id de contenedor> (elimina un contenedor)
       ```
 
@@ -264,7 +402,7 @@ cargar la configuración por defecto definida en `application.properties`.
     Y lanzamos los tests usando el perfil `mysql` con la base de datos MySQL con el siguiente comando:
   
       ```
-      mvn test -Dspring.profiles.active=mysql
+      ./mvnw test -Dspring.profiles.active=mysql
       ```
   
     Nos conectamos con MySQL Workbench a la base de datos `mads_test`
@@ -298,144 +436,6 @@ cargar la configuración por defecto definida en `application.properties`.
       $ (main) git branch -d perfiles
       $ (main) git remote prune origin
       ```
-
-
-## Integración continua con Travis ##
-
-[Travis-ci.com](https://travis-ci.com/) es un servicio que permite realizar
-integración continua on-line, sin necesidad de configurar un servidor
-propio de integración continua.
-
-Es un servicio de pago, pero es gratuito para los repositorios
-abiertos (_open source_) y para las cuentas educativas de GitHub. La
-organización de GitHub `mads-ua` también está autorizada como
-organización educativa, por lo que todos los repositorios creados
-dentro de esa organización podrán trabajar con Travis.
-
-Puedes consultar el funcionamiento de Travis leyendo su documentación,
-comenzando por la página [Getting
-started](https://docs.travis-ci.com/user/getting-started/).
-
-En la práctica vamos a configurar Travis para que todos los _pull
-requests_ deban pasar los tests de integración (conectándose a la base
-de datos MySQL) antes de realizar el _merge_ con `main`. 
-
-### Conexión con GitHub ###
-
-En GitHub está configurada la conexión con Travis para todos los
-proyectos en la organización `mads-ua`. 
-
-En tu cuenta de Travis, una vez logeado, podrás acceder a tu
-repositorio en la organización `mads-ua` y comprobar su
-configuración. Verás una pantalla como la siguiente:
-
-<img src="imagenes/conexion-travis.png" width="700px"/>
-
-
-### Tests en los pull requests ###
-
-Usando Travis es posible configurar el repositorio de GitHub para que todos los
-_pull requests_ deban pasar los tests de integración en el servicio.
-
-En la siguiente imagen vemos el aspecto en GitHub de un _pull request_
-estando activa la integración con Travis. Una vez abierto el PR,
-Travis comprueba si la integración de main con la rama pasa los
-tests definidos en el fichero de configuración. Sólo si los tests
-pasan es posible realizar el _merge_ del PR en main.
-
-<img src="imagenes/pull-request-travis.png" width="600px"/>
-
-
-### El fichero de configuración  ###
-
-La configuración de Travis se realiza con el fichero `.travis.yml` en
-la raíz del repositorio.
-
-El fichero `.travis.yml` para mi repositorio solución de la práctica
-es el siguiente:
-
-**Fichero `.travis.yml`**
-
-```text
-language: java
-
-branches:
-  only:
-    - main
-
-services:
-  - mysql
-
-before_install:
-  - mysql -e 'CREATE DATABASE mads_test;'
-
-script: ./mvnw test -Dspring.profiles.active=mysql
-```
-
-Puntos interesantes a destacar:
-
-- Se puede espeficar la rama en la que se activa la integración
-  continua en el apartado `branches`. En nuestro caso es la rama
-  `main`. En cualquier commit o _pull request_ que se haga sobre esa
-  rama se lanzará la integración continua.
-- El apartado `services` define los servicios necesarios para que se
-  ejecute el script de integración. En nuestro caso `mysql`. Cuando se
-  lance travis se lanzará un servidor de MySQL en el puerto por
-  defecto (3306) y con usuario `root` sin contraseña.
-- En el apartado `before_install` se definen los comandos a realizar
-  antes de ejecutar el _script_ con los tests. En nuestro caso
-  se ejecuta un comando sobre el servicio `mysql` para crear la base
-  de datos `mads_test` vacía.
-- En el apartado `script` se definen los comandos a realizar para
-  lanzar los tests. En nuestro caso lanzamos el comando `mvnw` que
-  lanza el Maven instalado en el repositorio (ver punto siguiente).
-  
-
-### Builds en Travis ###
-
-En Travis tenemos toda la información de los _builds_. Es posible
-visualizarla una vez ha terminado el _build_ o mientras se está
-ejecutando. Allí podremos ver el detalle de la ejecución de los tests
-y consultar la salida de los mismos para comprobar su 
-
-<img src="imagenes/builds-travis.png" width="600px"/>
-
-!!! Note "Nota"
-    Sólo es posible ejecutar un _build_ simultáneo en la organización
-    `mads-ua`. Cuando hay otro _build_ ejecutándose los nuevos
-    _builds_ que se lancen quedarán encolados por fecha de inicio.
-
-
-### Pasos a seguir ###
-
-- Crea un _issue_ llamado `Integración continua con Travis`. Abre una
-  rama `travis`, súbela a GitHub y abre un pull request.
-
-- Añade el fichero `.travis.yml` en la raíz del repositorio. Haz un
-  commit y súbelo a GitHub.
-
-- Date de alta en [Travis-ci.com](https://travis-ci.com) y conéctalo
-  al repositorio de la práctica.
-
-- **Comprueba que se pasan los tests en Travis** y que se marca como
-  correcto el _pull request_. 
-  
-- Modifica un test para que falle y sube un nuevo commit. Comprueba
-  que el commit aparece como erróneo en GitHub cuando el _build_ de
-  Travis falla. Vuelve a realizar los cambios para corregirlos,
-  vuelve a subir el commit y comprueba que el nuevo commit y el PR
-  pasan correctamente.
-
-- Cierra el _pull request_ con `main`. Se volverán a lanzar los
-  tests en Travis y el commit aparecerá marcado como correcto. Baja
-  los cambios al repositorio local y borra la rama.
-
-    ```
-    $ (travis) git checkout main
-    $ (main) git pull
-    $ (main) git branch -d travis
-    $ (main) git remote prune origin
-    ```
 
 
 ## TDD ##
@@ -1112,7 +1112,7 @@ estructura de la empresa.
 - Para realizar la entrega se debe subir a Moodle un ZIP que contenga
   todo el proyecto, incluyendo el directorio `.git` que contiene la
   historia Git. Para ello comprime tu directorio local del proyecto
-  **después de haber hecho un `mvn clean`** para eliminar el
+  **después de haber hecho un `./mvnw clean`** para eliminar el
   directorio `target` que contiene los binarios compilados. Debes
   dejar también en Moodle la URL del repositorio en GitHub.
 
