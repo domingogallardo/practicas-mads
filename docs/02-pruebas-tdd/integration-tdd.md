@@ -711,7 +711,6 @@ especificar cómo se mapea en la base de datos:
 **Fichero `src/main/java/madstodolist/model/Equipo.java`**:
 ```diff
     private String nombre;
-+    @ManyToMany
 +    Set<Usuario> usuarios = new HashSet<>();
 
 ...
@@ -731,7 +730,6 @@ especificar cómo se mapea en la base de datos:
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     Set<Tarea> tareas = new HashSet<>();
 
-+    @ManyToMany
 +    Set<Equipo> equipos = new HashSet<>();
 
 ...
@@ -789,7 +787,7 @@ Para solucionar el test actualizamos la definición de la relación en
 las entidades:
 
 ```diff
-    @ManyToMany
++    @ManyToMany
 +    @JoinTable(name = "equipo_usuario",
 +            joinColumns = { @JoinColumn(name = "fk_equipo") },
 +            inverseJoinColumns = {@JoinColumn(name = "fk_usuario")})
@@ -797,7 +795,6 @@ las entidades:
 ```
 
 ```diff
--    @ManyToMany
 +    @ManyToMany(mappedBy = "usuarios")
     Set<Equipo> equipos = new HashSet<>();
 ```
