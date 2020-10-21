@@ -77,12 +77,12 @@ el _merge_ del PR en main.
 Para configurar GitHub Actions basta con añadir un fichero de flujo de
 trabajo en el directorio `.github/workflows`.
 
-El fichero con el flujo de trabajo inicial lo llamaremos `db-tests.yml`:
+El fichero con el flujo de trabajo inicial lo llamaremos `tests.yml`:
 
-**Fichero `.github/workflows/db-tests.yml`**
+**Fichero `.github/workflows/tests.yml`**
 
 ```yml
-name: Tests DB
+name: Tests
 
 on: [push]
 
@@ -102,7 +102,7 @@ jobs:
 
 Puntos interesantes a destacar:
 
-- El nombre del flujo de trabajo es _Tests DB_.
+- El nombre del flujo de trabajo es _Tests_.
 - Con la palabra clave `on` se define el evento que causa que se lance
   el flujo de trabajo. Es en cualquier commit subido a GitHub
   (push).
@@ -144,7 +144,7 @@ naranja significa que el proceso está en ejecución.
   Actions`. Abre una rama `integracion-continua-actions`, súbela a GitHub y abre un pull
   request.
 
-- Añade el fichero `.github/workflows/db-tests.yml`. Haz un
+- Añade el fichero `.github/workflows/tests.yml`. Haz un
   commit y súbelo a GitHub.
 
 - Comprueba que se pasan los tests y que se marca como correcto el
