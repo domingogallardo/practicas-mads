@@ -1396,9 +1396,7 @@ especificar cómo se mapea en la base de datos:</p>
  9
 10
 11
-12
-13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    private String nombre;
-<span class="gi">+    @ManyToMany</span>
+12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    private String nombre;
 <span class="gi">+    Set&lt;Usuario&gt; usuarios = new HashSet&lt;&gt;();</span>
 
 ...
@@ -1422,11 +1420,9 @@ especificar cómo se mapea en la base de datos:</p>
  7
  8
  9
-10
-11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    @OneToMany(mappedBy = &quot;usuario&quot;, fetch = FetchType.EAGER)
+10</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    @OneToMany(mappedBy = &quot;usuario&quot;, fetch = FetchType.EAGER)
     Set&lt;Tarea&gt; tareas = new HashSet&lt;&gt;();
 
-<span class="gi">+    @ManyToMany</span>
 <span class="gi">+    Set&lt;Equipo&gt; equipos = new HashSet&lt;&gt;();</span>
 
 ...
@@ -1502,7 +1498,7 @@ las entidades:</p>
 2
 3
 4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    @ManyToMany
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="gi">+    @ManyToMany</span>
 <span class="gi">+    @JoinTable(name = &quot;equipo_usuario&quot;,</span>
 <span class="gi">+            joinColumns = { @JoinColumn(name = &quot;fk_equipo&quot;) },</span>
 <span class="gi">+            inverseJoinColumns = {@JoinColumn(name = &quot;fk_usuario&quot;)})</span>
@@ -1511,9 +1507,7 @@ las entidades:</p>
 </td></tr></table>
 
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="gd">-    @ManyToMany</span>
-<span class="gi">+    @ManyToMany(mappedBy = &quot;usuarios&quot;)</span>
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="gi">+    @ManyToMany(mappedBy = &quot;usuarios&quot;)</span>
     Set&lt;Equipo&gt; equipos = new HashSet&lt;&gt;();
 </code></pre></div>
 </td></tr></table>
