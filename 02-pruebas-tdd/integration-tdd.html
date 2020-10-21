@@ -658,8 +658,8 @@ el <em>merge</em> del PR en main.</p>
 <h3 id="el-fichero-de-configuracion">El fichero de configuración<a class="headerlink" href="#el-fichero-de-configuracion" title="Permanent link">&para;</a></h3>
 <p>Para configurar GitHub Actions basta con añadir un fichero de flujo de
 trabajo en el directorio <code>.github/workflows</code>.</p>
-<p>El fichero con el flujo de trabajo inicial lo llamaremos <code>db-tests.yml</code>:</p>
-<p><strong>Fichero <code>.github/workflows/db-tests.yml</code></strong></p>
+<p>El fichero con el flujo de trabajo inicial lo llamaremos <code>tests.yml</code>:</p>
+<p><strong>Fichero <code>.github/workflows/tests.yml</code></strong></p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -675,7 +675,7 @@ trabajo en el directorio <code>.github/workflows</code>.</p>
 13
 14
 15
-16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="n">Tests</span><span class="w"> </span><span class="n">DB</span><span class="w"></span>
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="n">Tests</span><span class="w"></span>
 
 <span class="k">on</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">push</span><span class="o">]</span><span class="w"></span>
 
@@ -696,7 +696,7 @@ trabajo en el directorio <code>.github/workflows</code>.</p>
 
 <p>Puntos interesantes a destacar:</p>
 <ul>
-<li>El nombre del flujo de trabajo es <em>Tests DB</em>.</li>
+<li>El nombre del flujo de trabajo es <em>Tests</em>.</li>
 <li>Con la palabra clave <code>on</code> se define el evento que causa que se lance
   el flujo de trabajo. Es en cualquier commit subido a GitHub
   (push).</li>
@@ -734,7 +734,7 @@ naranja significa que el proceso está en ejecución.</p>
   request.</p>
 </li>
 <li>
-<p>Añade el fichero <code>.github/workflows/db-tests.yml</code>. Haz un
+<p>Añade el fichero <code>.github/workflows/tests.yml</code>. Haz un
   commit y súbelo a GitHub.</p>
 </li>
 <li>
