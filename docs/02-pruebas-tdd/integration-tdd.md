@@ -705,12 +705,16 @@ anotaciones mínimas para que JPA no se queje:
 ```
 
 Para que este test funcione hay que crear la relación muchos-a-muchos
-entre equipos y usuarios. Por sólo la definimos en memoria, sin
-especificar cómo se mapea en la base de datos:
+entre equipos y usuarios.  Es necesario definir la
+anotación `@ManyToMany` para indicar a JPA cómo construir las
+tablas en la base de datos. Por ahora no especificamos ninguna
+característica de las columnas, dejamos la anotación para que JPA
+las gestione con los valores por defecto.
 
 **Fichero `src/main/java/madstodolist/model/Equipo.java`**:
 ```diff
     private String nombre;
++    @ManyToMany
 +    Set<Usuario> usuarios = new HashSet<>();
 
 ...
@@ -730,6 +734,7 @@ especificar cómo se mapea en la base de datos:
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     Set<Tarea> tareas = new HashSet<>();
 
++    @ManyToMany
 +    Set<Equipo> equipos = new HashSet<>();
 
 ...
@@ -741,10 +746,10 @@ especificar cómo se mapea en la base de datos:
 
 Comprueba el test, haz un commit en la rama y súbelo a GitHub.
 
-#### Sexto test - Relación entre usuarios y equipos en base de datos ####
+#### Sexto test - Especificamos la relación entre usuarios y equipos en base de datos ####
 
 En este test se va a especificar la relación muchos-a-muchos en base
-de datos. Para definir la relación se va a definir la tabla
+de datos. Para definir la relación JPA define la tabla
 `equipo_usuario` en la que cada fila va a representar una relación de
 un usuario con un equipo. Las columnas definen las claves ajenas que
 contienen el identificador de equipo y el del usuario.
@@ -787,7 +792,7 @@ Para solucionar el test actualizamos la definición de la relación en
 las entidades:
 
 ```diff
-+    @ManyToMany
+    @ManyToMany
 +    @JoinTable(name = "equipo_usuario",
 +            joinColumns = { @JoinColumn(name = "fk_equipo") },
 +            inverseJoinColumns = {@JoinColumn(name = "fk_usuario")})
@@ -795,6 +800,7 @@ las entidades:
 ```
 
 ```diff
+-    @ManyToMany
 +    @ManyToMany(mappedBy = "usuarios")
     Set<Equipo> equipos = new HashSet<>();
 ```
