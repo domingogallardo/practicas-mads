@@ -1104,8 +1104,8 @@ estructura de la empresa.
   
 ## Entrega y evaluación ##
 
-- La práctica tiene una duración de 2 semanas y debe estar terminada
-  el martes 29 de octubre.
+- La práctica tiene una duración de 3 semanas y la fecha límite de
+  entrega es el martes 10 de noviembre.
 - La parte obligatoria puntúa sobre 8 y la opcional sobre 2 puntos.
 - La calificación de la práctica tiene un peso de un 7% en la nota
   final de la asignatura. 
