@@ -1382,8 +1382,11 @@ anotaciones mínimas para que JPA no se queje:</p>
 </td></tr></table>
 
 <p>Para que este test funcione hay que crear la relación muchos-a-muchos
-entre equipos y usuarios. Por sólo la definimos en memoria, sin
-especificar cómo se mapea en la base de datos:</p>
+entre equipos y usuarios.  Es necesario definir la
+anotación <code>@ManyToMany</code> para indicar a JPA cómo construir las
+tablas en la base de datos. Por ahora no especificamos ninguna
+característica de las columnas, dejamos la anotación para que JPA
+las gestione con los valores por defecto.</p>
 <p><strong>Fichero <code>src/main/java/madstodolist/model/Equipo.java</code></strong>:
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -1396,7 +1399,9 @@ especificar cómo se mapea en la base de datos:</p>
  9
 10
 11
-12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    private String nombre;
+12
+13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    private String nombre;
+<span class="gi">+    @ManyToMany</span>
 <span class="gi">+    Set&lt;Usuario&gt; usuarios = new HashSet&lt;&gt;();</span>
 
 ...
@@ -1420,9 +1425,11 @@ especificar cómo se mapea en la base de datos:</p>
  7
  8
  9
-10</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    @OneToMany(mappedBy = &quot;usuario&quot;, fetch = FetchType.EAGER)
+10
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    @OneToMany(mappedBy = &quot;usuario&quot;, fetch = FetchType.EAGER)
     Set&lt;Tarea&gt; tareas = new HashSet&lt;&gt;();
 
+<span class="gi">+    @ManyToMany</span>
 <span class="gi">+    Set&lt;Equipo&gt; equipos = new HashSet&lt;&gt;();</span>
 
 ...
@@ -1433,9 +1440,9 @@ especificar cómo se mapea en la base de datos:</p>
 </code></pre></div>
 </td></tr></table></p>
 <p>Comprueba el test, haz un commit en la rama y súbelo a GitHub.</p>
-<h4>Sexto test - Relación entre usuarios y equipos en base de datos</h4>
+<h4>Sexto test - Especificamos la relación entre usuarios y equipos en base de datos</h4>
 <p>En este test se va a especificar la relación muchos-a-muchos en base
-de datos. Para definir la relación se va a definir la tabla
+de datos. Para definir la relación JPA define la tabla
 <code>equipo_usuario</code> en la que cada fila va a representar una relación de
 un usuario con un equipo. Las columnas definen las claves ajenas que
 contienen el identificador de equipo y el del usuario.</p>
@@ -1498,7 +1505,7 @@ las entidades:</p>
 2
 3
 4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="gi">+    @ManyToMany</span>
+5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    @ManyToMany
 <span class="gi">+    @JoinTable(name = &quot;equipo_usuario&quot;,</span>
 <span class="gi">+            joinColumns = { @JoinColumn(name = &quot;fk_equipo&quot;) },</span>
 <span class="gi">+            inverseJoinColumns = {@JoinColumn(name = &quot;fk_usuario&quot;)})</span>
@@ -1507,7 +1514,9 @@ las entidades:</p>
 </td></tr></table>
 
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="gi">+    @ManyToMany(mappedBy = &quot;usuarios&quot;)</span>
+2
+3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="gd">-    @ManyToMany</span>
+<span class="gi">+    @ManyToMany(mappedBy = &quot;usuarios&quot;)</span>
     Set&lt;Equipo&gt; equipos = new HashSet&lt;&gt;();
 </code></pre></div>
 </td></tr></table>
