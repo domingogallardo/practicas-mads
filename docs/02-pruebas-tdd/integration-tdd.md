@@ -679,82 +679,20 @@ necesario para que pase.
 
 Haz un commit en la rama y súbelo a GitHub.
 
-#### Quinto test - Relación en memoria muchos-a-muchos entre equipos y usuarios ####
+#### Quinto test - Relación muchos-a-muchos entre equipos y usuarios ####
 
 Vamos ahora a diseñar un test que introduzca la relación entre equipos
 y usuarios. Debe ser una relación muchos-a-muchos: un equipo contiene
 muchos usuarios y un usuario puede pertenecer a 0, 1 o muchos equipos.
 
-Empezamos por un test para crear la relación en memoria, con las
-anotaciones mínimas para que JPA no se queje:
+Para definir la relación, JPA define la tabla `equipo_usuario` en la
+que cada fila va a representar una relación de un usuario con un
+equipo. Las columnas definen las claves ajenas que contienen el
+identificador de equipo y el del usuario.
 
-```java
-    @Test
-    public void relaciónMuchosAMuchosVacia() {
-        // GIVEN
-
-        Equipo equipo = new Equipo("Proyecto P1");
-        Usuario usuario = new Usuario("prueba@gmail.com");
-
-        // WHEN
-        // THEN
-
-        assertThat(equipo.getUsuarios()).isEmpty();
-        assertThat(usuario.getEquipos()).isEmpty();
-    }
-```
-
-Para que este test funcione hay que crear la relación muchos-a-muchos
-entre equipos y usuarios.  Es necesario definir la
-anotación `@ManyToMany` para indicar a JPA cómo construir las
-tablas en la base de datos. Por ahora no especificamos ninguna
-característica de las columnas, dejamos la anotación para que JPA
-las gestione con los valores por defecto.
-
-**Fichero `src/main/java/madstodolist/model/Equipo.java`**:
-```diff
-    private String nombre;
-+    @ManyToMany
-+    Set<Usuario> usuarios = new HashSet<>();
-
-...
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-+    public Set<Usuario> getUsuarios() {
-+        return usuarios;
-+    }
-```
-
-
-**Fichero `src/main/java/madstodolist/model/Usuario.java`**:
-```diff
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    Set<Tarea> tareas = new HashSet<>();
-
-+    @ManyToMany
-+    Set<Equipo> equipos = new HashSet<>();
-
-...
-
-+    public Set<Equipo> getEquipos() {
-+        return equipos;
-+    }
-```
-
-Comprueba el test, haz un commit en la rama y súbelo a GitHub.
-
-#### Sexto test - Especificamos la relación entre usuarios y equipos en base de datos ####
-
-En este test se va a especificar la relación muchos-a-muchos en base
-de datos. Para definir la relación JPA define la tabla
-`equipo_usuario` en la que cada fila va a representar una relación de
-un usuario con un equipo. Las columnas definen las claves ajenas que
-contienen el identificador de equipo y el del usuario.
-
-Para definir el test, creamos una relación en la base de datos de prueba:
+Para definir el test, creamos una relación en la base de datos de
+prueba, en la que definimos que el equipo 1 tiene como usuario al
+usuario 1:
 
 ```diff
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
@@ -788,26 +726,59 @@ _repository_ tienen actualizada esa relación:
     }
 ```
 
-Para solucionar el test actualizamos la definición de la relación en
-las entidades:
 
+Para que este test funcione hay que crear la relación muchos-a-muchos
+entre equipos y usuarios.  Es necesario definir la anotación
+`@ManyToMany` para indicar a JPA cómo construir las tablas en la base
+de datos.
+
+En `Equipo.java` definimos la tabla en la que se va a guardar la
+relación, e indicamos el papel de cada una de sus dos columnas.
+
+También creamos el getter para obtener los usuarios.
+
+**Fichero `src/main/java/madstodolist/model/Equipo.java`**:
 ```diff
-    @ManyToMany
+    private String nombre;
++    @ManyToMany
 +    @JoinTable(name = "equipo_usuario",
 +            joinColumns = { @JoinColumn(name = "fk_equipo") },
 +            inverseJoinColumns = {@JoinColumn(name = "fk_usuario")})
-    Set<Usuario> usuarios = new HashSet<>();
++    Set<Usuario> usuarios = new HashSet<>();
+
+...
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
++    public Set<Usuario> getUsuarios() {
++        return usuarios;
++    }
 ```
 
+En el fichero `Usuario.java` definimos la parte inversa de la
+relación. El `mappedBy` indica que la especificación de la tabla join
+está en el otro lado de la relación.
+
+**Fichero `src/main/java/madstodolist/model/Usuario.java`**:
 ```diff
--    @ManyToMany
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    Set<Tarea> tareas = new HashSet<>();
+
 +    @ManyToMany(mappedBy = "usuarios")
-    Set<Equipo> equipos = new HashSet<>();
++    Set<Equipo> equipos = new HashSet<>();
+
+...
+
++    public Set<Equipo> getEquipos() {
++        return equipos;
++    }
 ```
 
 Comprueba el test, haz un commit en la rama y súbelo a GitHub.
 
-#### Séptimo test - listado de equipos ####
+#### Sexto test - listado de equipos ####
 
 Ya por fin tenemos todo lo necesario para definir un test para obtener
 una lista de equipos en el _repository_:
@@ -854,7 +825,7 @@ public interface EquipoRepository extends CrudRepository<Equipo, Long> {
 
 ```
 
-#### Octavo test - Método de servicio para el listado de equipos ####
+#### Séptimo test - Método de servicio para el listado de equipos ####
 
 ¡Y por fin llegamos a la capa de servicio!
 
@@ -906,7 +877,7 @@ package madstodolist;
 Escribe el código estríctamente necesario para que pase. Haz un commit
 en la rama y súbelo a GitHub.
 
-#### Noveno test - Método de servicio para recuperar un equipo ####
+#### Octavo test - Método de servicio para recuperar un equipo ####
 
 Vamos a centrar este test en la forma de traer a memoria los objetos
 que participan en la relación `USUARIO-EQUIPO`. 
@@ -981,7 +952,7 @@ entre equipos y usuarios es `LAZY`.
 Comprueba si hay que modificar el código, haz un commit y súbelo a
 GitHub.
 
-#### Décimo test - comprobación de recuperación _eager_ de equipos ####
+#### Noveno test - comprobación de recuperación _eager_ de equipos ####
 
 Hacemos ahora un test para que un usuario recupere de forma _eager_
 sus equipos:
@@ -1007,7 +978,7 @@ Comprueba que el test falla (por un error "failed to lazily initialize
 a collection"), arregla el código para que pase, haz un commit y
 súbelo a GitHub.
 
-#### Onceavo test - Método de servicio para obtener los usuarios de un equipo ####
+#### Décimo test - Método de servicio para obtener los usuarios de un equipo ####
 
 El último test que sirve para definir el método de servicio
 `usuariosEquipo(Long idEquipo)` que devuelve la lista de usuarios de
