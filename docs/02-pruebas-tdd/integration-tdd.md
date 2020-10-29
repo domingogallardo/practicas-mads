@@ -201,7 +201,7 @@ para lanzar la aplicación y los tests usando la base de datos MySQL.
 
 La configuración de tests con base de datos MySQL la utilizaremos para
 ejecutar los tests de integración en el proceso de integración
-continua de Travis.
+continua de GitHub Actions.
 
 ### Ficheros de configuración de la aplicación ###
 
@@ -1021,9 +1021,9 @@ terminado el _issue_ y testeado e implementado los métodos necesarios
 para la clase de servicio que gestiona el listado de equipos y
 usuarios de esos equipos.
 
-- Crea un pull request que cierre el _issue_, comprueba que Travis pasa
-correctamente los tests e intégralo en `main` en GitHub. Baja los
-cambios al repositorio local.
+- Crea un pull request que cierre el _issue_, comprueba que GitHub
+Actions pasa correctamente los tests e intégralo en `main` en
+GitHub. Baja los cambios al repositorio local.
 
 
 #### Vista y controller listado de equipos ####
