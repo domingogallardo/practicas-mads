@@ -1347,106 +1347,17 @@ de la base de datos. Añadimos un equipo a la tabla en el fichero
 <p>Comprueba el test y si es necesario escribe el código estríctamente
 necesario para que pase.</p>
 <p>Haz un commit en la rama y súbelo a GitHub.</p>
-<h4>Quinto test - Relación en memoria muchos-a-muchos entre equipos y usuarios</h4>
+<h4>Quinto test - Relación muchos-a-muchos entre equipos y usuarios</h4>
 <p>Vamos ahora a diseñar un test que introduzca la relación entre equipos
 y usuarios. Debe ser una relación muchos-a-muchos: un equipo contiene
 muchos usuarios y un usuario puede pertenecer a 0, 1 o muchos equipos.</p>
-<p>Empezamos por un test para crear la relación en memoria, con las
-anotaciones mínimas para que JPA no se queje:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">relaciónMuchosAMuchosVacia</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// GIVEN</span>
-
-        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
-        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;prueba@gmail.com&quot;</span><span class="p">);</span>
-
-        <span class="c1">// WHEN</span>
-        <span class="c1">// THEN</span>
-
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">()).</span><span class="na">isEmpty</span><span class="p">();</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getEquipos</span><span class="p">()).</span><span class="na">isEmpty</span><span class="p">();</span>
-    <span class="p">}</span>
-</code></pre></div>
-</td></tr></table>
-
-<p>Para que este test funcione hay que crear la relación muchos-a-muchos
-entre equipos y usuarios.  Es necesario definir la
-anotación <code>@ManyToMany</code> para indicar a JPA cómo construir las
-tablas en la base de datos. Por ahora no especificamos ninguna
-característica de las columnas, dejamos la anotación para que JPA
-las gestione con los valores por defecto.</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/model/Equipo.java</code></strong>:
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    private String nombre;
-<span class="gi">+    @ManyToMany</span>
-<span class="gi">+    Set&lt;Usuario&gt; usuarios = new HashSet&lt;&gt;();</span>
-
-...
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-<span class="gi">+    public Set&lt;Usuario&gt; getUsuarios() {</span>
-<span class="gi">+        return usuarios;</span>
-<span class="gi">+    }</span>
-</code></pre></div>
-</td></tr></table></p>
-<p><strong>Fichero <code>src/main/java/madstodolist/model/Usuario.java</code></strong>:
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    @OneToMany(mappedBy = &quot;usuario&quot;, fetch = FetchType.EAGER)
-    Set&lt;Tarea&gt; tareas = new HashSet&lt;&gt;();
-
-<span class="gi">+    @ManyToMany</span>
-<span class="gi">+    Set&lt;Equipo&gt; equipos = new HashSet&lt;&gt;();</span>
-
-...
-
-<span class="gi">+    public Set&lt;Equipo&gt; getEquipos() {</span>
-<span class="gi">+        return equipos;</span>
-<span class="gi">+    }</span>
-</code></pre></div>
-</td></tr></table></p>
-<p>Comprueba el test, haz un commit en la rama y súbelo a GitHub.</p>
-<h4>Sexto test - Especificamos la relación entre usuarios y equipos en base de datos</h4>
-<p>En este test se va a especificar la relación muchos-a-muchos en base
-de datos. Para definir la relación JPA define la tabla
-<code>equipo_usuario</code> en la que cada fila va a representar una relación de
-un usuario con un equipo. Las columnas definen las claves ajenas que
-contienen el identificador de equipo y el del usuario.</p>
-<p>Para definir el test, creamos una relación en la base de datos de prueba:</p>
+<p>Para definir la relación, JPA define la tabla <code>equipo_usuario</code> en la
+que cada fila va a representar una relación de un usuario con un
+equipo. Las columnas definen las claves ajenas que contienen el
+identificador de equipo y el del usuario.</p>
+<p>Para definir el test, creamos una relación en la base de datos de
+prueba, en la que definimos que el equipo 1 tiene como usuario al
+usuario 1:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>INSERT INTO tareas (id, titulo, usuario_id) VALUES(&#39;2&#39;, &#39;Renovar DNI&#39;, &#39;1&#39;);
@@ -1499,30 +1410,76 @@ contienen el identificador de equipo y el del usuario.</p>
 </code></pre></div>
 </td></tr></table>
 
-<p>Para solucionar el test actualizamos la definición de la relación en
-las entidades:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    @ManyToMany
+<p>Para que este test funcione hay que crear la relación muchos-a-muchos
+entre equipos y usuarios.  Es necesario definir la anotación
+<code>@ManyToMany</code> para indicar a JPA cómo construir las tablas en la base
+de datos.</p>
+<p>En <code>Equipo.java</code> definimos la tabla en la que se va a guardar la
+relación, e indicamos el papel de cada una de sus dos columnas.</p>
+<p>También creamos el getter para obtener los usuarios.</p>
+<p><strong>Fichero <code>src/main/java/madstodolist/model/Equipo.java</code></strong>:
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    private String nombre;
+<span class="gi">+    @ManyToMany</span>
 <span class="gi">+    @JoinTable(name = &quot;equipo_usuario&quot;,</span>
 <span class="gi">+            joinColumns = { @JoinColumn(name = &quot;fk_equipo&quot;) },</span>
 <span class="gi">+            inverseJoinColumns = {@JoinColumn(name = &quot;fk_usuario&quot;)})</span>
-    Set&lt;Usuario&gt; usuarios = new HashSet&lt;&gt;();
-</code></pre></div>
-</td></tr></table>
+<span class="gi">+    Set&lt;Usuario&gt; usuarios = new HashSet&lt;&gt;();</span>
 
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="gd">-    @ManyToMany</span>
+...
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+<span class="gi">+    public Set&lt;Usuario&gt; getUsuarios() {</span>
+<span class="gi">+        return usuarios;</span>
+<span class="gi">+    }</span>
+</code></pre></div>
+</td></tr></table></p>
+<p>En el fichero <code>Usuario.java</code> definimos la parte inversa de la
+relación. El <code>mappedBy</code> indica que la especificación de la tabla join
+está en el otro lado de la relación.</p>
+<p><strong>Fichero <code>src/main/java/madstodolist/model/Usuario.java</code></strong>:
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    @OneToMany(mappedBy = &quot;usuario&quot;, fetch = FetchType.EAGER)
+    Set&lt;Tarea&gt; tareas = new HashSet&lt;&gt;();
+
 <span class="gi">+    @ManyToMany(mappedBy = &quot;usuarios&quot;)</span>
-    Set&lt;Equipo&gt; equipos = new HashSet&lt;&gt;();
-</code></pre></div>
-</td></tr></table>
+<span class="gi">+    Set&lt;Equipo&gt; equipos = new HashSet&lt;&gt;();</span>
 
+...
+
+<span class="gi">+    public Set&lt;Equipo&gt; getEquipos() {</span>
+<span class="gi">+        return equipos;</span>
+<span class="gi">+    }</span>
+</code></pre></div>
+</td></tr></table></p>
 <p>Comprueba el test, haz un commit en la rama y súbelo a GitHub.</p>
-<h4>Séptimo test - listado de equipos</h4>
+<h4>Sexto test - listado de equipos</h4>
 <p>Ya por fin tenemos todo lo necesario para definir un test para obtener
 una lista de equipos en el <em>repository</em>:</p>
 <p>Actualizamos la base de datos de prueba con otro equipo:</p>
@@ -1575,7 +1532,7 @@ public interface EquipoRepository extends CrudRepository&lt;Equipo, Long&gt; {
 </code></pre></div>
 </td></tr></table>
 
-<h4>Octavo test - Método de servicio para el listado de equipos</h4>
+<h4>Séptimo test - Método de servicio para el listado de equipos</h4>
 <p>¡Y por fin llegamos a la capa de servicio!</p>
 <p>Creamos el test que nos obliga a codificar en esa capa el método que
 lista todos los equipos existentes. Lo llamamos
@@ -1656,7 +1613,7 @@ sea una lista ordenada por los nombres de los equipos.</p>
 
 <p>Escribe el código estríctamente necesario para que pase. Haz un commit
 en la rama y súbelo a GitHub.</p>
-<h4>Noveno test - Método de servicio para recuperar un equipo</h4>
+<h4>Octavo test - Método de servicio para recuperar un equipo</h4>
 <p>Vamos a centrar este test en la forma de traer a memoria los objetos
 que participan en la relación <code>USUARIO-EQUIPO</code>. </p>
 <p>En JPA hay dos formas de definir una relación a-muchos:</p>
@@ -1746,7 +1703,7 @@ entre equipos y usuarios es <code>LAZY</code>.</p>
 
 <p>Comprueba si hay que modificar el código, haz un commit y súbelo a
 GitHub.</p>
-<h4>Décimo test - comprobación de recuperación <em>eager</em> de equipos</h4>
+<h4>Noveno test - comprobación de recuperación <em>eager</em> de equipos</h4>
 <p>Hacemos ahora un test para que un usuario recupere de forma <em>eager</em>
 sus equipos:</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
@@ -1779,7 +1736,7 @@ sus equipos:</p>
 <p>Comprueba que el test falla (por un error "failed to lazily initialize
 a collection"), arregla el código para que pase, haz un commit y
 súbelo a GitHub.</p>
-<h4>Onceavo test - Método de servicio para obtener los usuarios de un equipo</h4>
+<h4>Décimo test - Método de servicio para obtener los usuarios de un equipo</h4>
 <p>El último test que sirve para definir el método de servicio
 <code>usuariosEquipo(Long idEquipo)</code> que devuelve la lista de usuarios de
 un equipo.</p>
