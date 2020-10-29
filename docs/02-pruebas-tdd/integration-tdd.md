@@ -685,10 +685,10 @@ Vamos ahora a diseñar un test que introduzca la relación entre equipos
 y usuarios. Debe ser una relación muchos-a-muchos: un equipo contiene
 muchos usuarios y un usuario puede pertenecer a 0, 1 o muchos equipos.
 
-Para definir la relación, JPA define la tabla `equipo_usuario` en la
-que cada fila va a representar una relación de un usuario con un
-equipo. Las columnas definen las claves ajenas que contienen el
-identificador de equipo y el del usuario.
+Para definir la relación, JPA utiliza una tabla (la llamamos
+`equipo_usuario`) en la que cada fila va a representar una relación de
+un usuario con un equipo. Las columnas definen las claves ajenas que
+contienen el identificador de equipo y el del usuario.
 
 Para definir el test, creamos una relación en la base de datos de
 prueba, en la que definimos que el equipo 1 tiene como usuario al
