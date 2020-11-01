@@ -868,8 +868,8 @@ package madstodolist;
 
          // THEN
          assertThat(equipos).hasSize(2);
-         assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto P3");
-         assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto P1");
+         assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto P1");
+         assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto P3");
      }
  }
 ```
