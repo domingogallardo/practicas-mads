@@ -1076,7 +1076,35 @@ estructura de la empresa.
   la práctica.
 
   
-## Entrega y evaluación ##
+## Documentación, entrega y evaluación ##
+
+Deberás añadir una página de documentación `/doc/practica2.md` en la
+que, al igual que en la práctica anterior, debes realizar una **breve
+documentación técnica** de lo implementado en las historias de usuario
+009 y 010.
+
+En la documentación debes incluir también una **captura de pantalla**
+en la que se muestren las tablas y datos de la base de datos MySQL del
+contenedor docker. Puedes mostrar, por ejempo, una pantalla con MySQL
+workbench, o la herramienta que hayas utilizado.
+
+Por ejemplo, puedes incluir en la documentación lo siguiente. Los
+puntos 2 en adelante son sobre las **historias de usuario 009 y 010**.
+
+1. Pantalla de la base de datos MySQL.
+2. Listado de nuevas clases y métodos implementados y breve explicación.
+3. Listado de plantillas thymeleaf modficadas y breve explicación.
+4. Tests implementados.
+5. Explicación de algunos fragmentos de código fuente que consideres
+   interesante en las nuevas funcionalidades implementadas.
+
+Intenta que el documento tenga un formato limpio y se pueda leer
+fácilmente. Para eso utiliza los bloques de código de Markdown. Puedes
+mirar como ejemplo el código Markdown de estas prácticas.
+
+Por ejemplo, el código Markdown de la [introducción a Spring
+Boot](https://github.com/domingogallardo/practicas-mads/blob/main/docs/01-intro-spring-boot/intro-spring-boot.md)
+se puede ver pulsando el botón `Raw`. Verás el [texto Markdown](https://raw.githubusercontent.com/domingogallardo/practicas-mads/main/docs/01-intro-spring-boot/intro-spring-boot.md).
 
 - La práctica tiene una duración de 3 semanas y la fecha límite de
   entrega es el martes 10 de noviembre.
