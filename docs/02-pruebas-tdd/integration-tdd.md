@@ -1125,4 +1125,4 @@ Para la evaluación se tendrá en cuenta:
 - Correcto desarrollo de la metodología.
 - Diseño e implementación del código y de los tests de las
   características desarrolladas.
-
+- Documentación.

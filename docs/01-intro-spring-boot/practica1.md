@@ -1900,9 +1900,9 @@ Por ejemplo, la documentación podría contener:
 
 - Listado de nuevas clases y métodos implementados.
 - Listado de plantillas thyemeleaf añadidas.
+- Tests implementados.
 - Explicación de código fuente relevante de las nuevas funcionalidades
   implementadas. 
-- Tests implementados.
 
 Deberás escribir esta documentación en Markdown. Tienes disponible en
 GitHub una breve pero útil [introducción a
