@@ -1256,7 +1256,7 @@ También sobre la capa de servicio:
 - `TareaServiceTest.java`
 - `UsuarioServiceTest.java`
 
-Y sobre las vistas:
+Y sobre los controllers:
 
 - `UsuarioWebTest.java`
 - `TareaWebTest.java`
@@ -1265,14 +1265,109 @@ En los tests sobre repository se debe usar la anotación
 `@Transactional` para definir el contexto transaccional en el que se
 realiza la llamada a las acciones sobre la base de datos.
 
-En los tests sobre las vistas se _mockean_ los servicios para que
-devuelvan los datos que nos interesan.
-
 Hay que ser cuidadoso al hacer pruebas que afectan a la base de datos,
 porque podemos insertar o modificar datos que se comprueban en otros
 tests. Tenemos que tener cuidado en que cada test sea independiente de
-los demás.
+los demás. 
 
+En Spring Boot una forma muy sencilla de asegurase de que un test no
+afecta a los demás es añadir la anotación `@Transactional` en los
+tests que modifican la base de datos. Por ejemplo:
+
+```java
+    @Test
+    @Transactional
+    public void testNuevaTareaUsuario() {
+        // GIVEN
+        // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
+
+        // WHEN
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS");
+
+        // THEN
+
+        Usuario usuario = usuarioService.findByEmail("ana.garcia@gmail.com");
+        assertThat(usuario.getTareas()).contains(tarea);
+    }
+```
+
+
+En los tests sobre los controllers se comprueba que el resultado de
+realizar un `GET` o un `POST` sobre los endpoints correspondientes
+devuelven un HTML que contiene alguna cadena que coincide con lo
+esperado.
+
+En estos tests también es posible usar los datos de la base de datos
+`datos-test.sql` o _mockear_ los servicios para que devuelvan los
+datos que nos interesan.
+
+Por ejemplo, en el siguiente test se comprueba que cuando se hace un
+`POST` a la URL de login con un usuario registrado, se obtiene una
+redirección a URL de la lista de tareas de ese usuario.
+
+```java
+    @Test
+    public void servicioLoginUsuarioOK() throws Exception {
+        // GIVEN
+        // Datos cargados de datos-test.sql
+
+        this.mockMvc.perform(post("/login")
+                .param("eMail", "ana.garcia@gmail.com")
+                .param("password", "12345678"))
+                //.andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/usuarios/1/tareas"));
+    }
+```
+
+En el siguiente ejemplo, se mockea el `ServicioTareas` para comprobar
+que se ha llamada al método `nuevaTareaUsuario` al hacer el `POST` que
+añade una tarea. Esto se hace al final del test con el método `verify`.
+
+También se mockea `ManagerUserSesion` para que no se lance la
+excepción de usuario no logeado. Y `UsuarioService` para trabajar con
+el mock en lugar de con el método real y evitar que se tenga que
+llamar a la base de datos (de esta forma se acelera el test).
+
+
+```java
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+public class TareaWebTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private UsuarioService usuarioService;
+
+    @MockBean
+    private TareaService tareaService;
+
+    // Al mocker el manegerUserSession, no lanza la excepción cuando
+    // se intenta comprobar si un usuario está logeado
+    @MockBean
+    private ManagerUserSesion managerUserSesion;
+
+    @Test
+    public void postNuevaTareaDevuelveRedirectYAñadeTarea() throws Exception {
+        Usuario usuario = new Usuario("Usuario");
+        usuario.setId(1L);
+
+        when(usuarioService.findById(1L)).thenReturn(usuario);
+
+        this.mockMvc.perform(post("/usuarios/1/tareas/nueva")
+                    .param("titulo", "Estudiar examen MADS"))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(redirectedUrl("/usuarios/1/tareas"));
+
+        // Verificamos que se ha añadido el método para
+        // añadir una tarea con los parámetros correctos
+        verify(tareaService).nuevaTareaUsuario(1L, "Estudiar examen MADS");
+    }
+}
+```
 
 ## Antes de empezar la práctica
 
