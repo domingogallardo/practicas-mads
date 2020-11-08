@@ -1275,20 +1275,21 @@ afecta a los demás es añadir la anotación `@Transactional` en los
 tests que modifican la base de datos. Por ejemplo:
 
 ```java
-    @Test
-    @Transactional
-    public void testNuevaTareaUsuario() {
-        // GIVEN
-        // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
+@Test
+@Transactional
+public void testNuevaTareaUsuario() {
+    // GIVEN
+    // En el application.properties se cargan los datos de prueba 
+    // del fichero datos-test.sql
 
-        // WHEN
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS");
+    // WHEN
+    Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS");
 
-        // THEN
+    // THEN
 
-        Usuario usuario = usuarioService.findByEmail("ana.garcia@gmail.com");
-        assertThat(usuario.getTareas()).contains(tarea);
-    }
+    Usuario usuario = usuarioService.findByEmail("ana.garcia@gmail.com");
+    assertThat(usuario.getTareas()).contains(tarea);
+}
 ```
 
 
@@ -1306,18 +1307,17 @@ Por ejemplo, en el siguiente test se comprueba que cuando se hace un
 redirección a URL de la lista de tareas de ese usuario.
 
 ```java
-    @Test
-    public void servicioLoginUsuarioOK() throws Exception {
-        // GIVEN
-        // Datos cargados de datos-test.sql
+@Test
+public void servicioLoginUsuarioOK() throws Exception {
+    // GIVEN
+    // Datos cargados de datos-test.sql
 
-        this.mockMvc.perform(post("/login")
-                .param("eMail", "ana.garcia@gmail.com")
-                .param("password", "12345678"))
-                //.andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/usuarios/1/tareas"));
-    }
+    this.mockMvc.perform(post("/login")
+            .param("eMail", "ana.garcia@gmail.com")
+            .param("password", "12345678"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/usuarios/1/tareas"));
+}
 ```
 
 En el siguiente ejemplo, se mockea el `ServicioTareas` para comprobar
