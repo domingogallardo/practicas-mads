@@ -1251,19 +1251,14 @@ Se realizan tests automáticos sobre las entidades y repository:
 - `TareaTest.java`
 - `UsuarioTest.java`:
 
-También sobre la capa de servicio: 
-
-- `TareaServiceTest.java`
-- `UsuarioServiceTest.java`
-
-Y sobre los controllers:
-
-- `UsuarioWebTest.java`
-- `TareaWebTest.java`
-
 En los tests sobre repository se debe usar la anotación
 `@Transactional` para definir el contexto transaccional en el que se
 realiza la llamada a las acciones sobre la base de datos.
+
+También se realizan tests sobre la capa de servicio: 
+
+- `TareaServiceTest.java`
+- `UsuarioServiceTest.java`
 
 Hay que ser cuidadoso al hacer pruebas que afectan a la base de datos,
 porque podemos insertar o modificar datos que se comprueban en otros
@@ -1272,7 +1267,11 @@ los demás.
 
 En Spring Boot una forma muy sencilla de asegurase de que un test no
 afecta a los demás es añadir la anotación `@Transactional` en los
-tests que modifican la base de datos. Por ejemplo:
+tests que modifican la base de datos. Spring Boot abre una transacción
+y al terminar el test la transacción se deshace y los datos de la base
+de datos quedan como estaban al principio.
+
+Por ejemplo:
 
 ```java
 @Test
@@ -1292,6 +1291,10 @@ public void testNuevaTareaUsuario() {
 }
 ```
 
+Y también realizamos tests sobre los controllers:
+
+- `UsuarioWebTest.java`
+- `TareaWebTest.java`
 
 En los tests sobre los controllers se comprueba que el resultado de
 realizar un `GET` o un `POST` sobre los endpoints correspondientes
