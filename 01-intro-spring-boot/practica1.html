@@ -2325,20 +2325,22 @@ tests que modifican la base de datos. Por ejemplo:</p>
 11
 12
 13
-14</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    <span class="nd">@Test</span>
-    <span class="nd">@Transactional</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testNuevaTareaUsuario</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// GIVEN</span>
-        <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
+14
+15</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nd">@Test</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testNuevaTareaUsuario</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// GIVEN</span>
+    <span class="c1">// En el application.properties se cargan los datos de prueba </span>
+    <span class="c1">// del fichero datos-test.sql</span>
 
-        <span class="c1">// WHEN</span>
-        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+    <span class="c1">// WHEN</span>
+    <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
 
-        <span class="c1">// THEN</span>
+    <span class="c1">// THEN</span>
 
-        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
-    <span class="p">}</span>
+    <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">);</span>
+    <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
 
@@ -2362,19 +2364,17 @@ redirección a URL de la lista de tareas de ese usuario.</p>
  8
  9
 10
-11
-12</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioLoginUsuarioOK</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
-        <span class="c1">// GIVEN</span>
-        <span class="c1">// Datos cargados de datos-test.sql</span>
+11</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioLoginUsuarioOK</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+    <span class="c1">// GIVEN</span>
+    <span class="c1">// Datos cargados de datos-test.sql</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
-                <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span> <span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">)</span>
-                <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span> <span class="s">&quot;12345678&quot;</span><span class="p">))</span>
-                <span class="c1">//.andDo(print())</span>
-                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">is3xxRedirection</span><span class="p">())</span>
-                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">redirectedUrl</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">));</span>
-    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
+            <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span> <span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">)</span>
+            <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span> <span class="s">&quot;12345678&quot;</span><span class="p">))</span>
+            <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">is3xxRedirection</span><span class="p">())</span>
+            <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">redirectedUrl</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">));</span>
+<span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
 
