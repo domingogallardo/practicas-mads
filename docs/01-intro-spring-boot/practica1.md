@@ -1255,6 +1255,28 @@ En los tests sobre repository se debe usar la anotación
 `@Transactional` para definir el contexto transaccional en el que se
 realiza la llamada a las acciones sobre la base de datos.
 
+Por ejemplo:
+
+```java
+@Test
+@Transactional(readOnly = true)
+public void unUsuarioTieneUnaListaDeTareas() {
+    // GIVEN
+    // En el application.properties se cargan los datos de 
+    // prueba del fichero datos-test.sql
+
+    Usuario usuario = usuarioRepository.findById(1L).orElse(null);
+
+    // WHEN
+    Set<Tarea> tareas = usuario.getTareas();
+
+    // THEN
+
+    assertThat(tareas).isNotEmpty();
+}
+```
+
+
 También se realizan tests sobre la capa de servicio: 
 
 - `TareaServiceTest.java`
