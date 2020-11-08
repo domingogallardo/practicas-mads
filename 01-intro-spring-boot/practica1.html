@@ -2292,26 +2292,24 @@ comenzar.</p>
 <li><code>TareaTest.java</code></li>
 <li><code>UsuarioTest.java</code>:</li>
 </ul>
-<p>También sobre la capa de servicio: </p>
+<p>En los tests sobre repository se debe usar la anotación
+<code>@Transactional</code> para definir el contexto transaccional en el que se
+realiza la llamada a las acciones sobre la base de datos.</p>
+<p>También se realizan tests sobre la capa de servicio: </p>
 <ul>
 <li><code>TareaServiceTest.java</code></li>
 <li><code>UsuarioServiceTest.java</code></li>
 </ul>
-<p>Y sobre los controllers:</p>
-<ul>
-<li><code>UsuarioWebTest.java</code></li>
-<li><code>TareaWebTest.java</code></li>
-</ul>
-<p>En los tests sobre repository se debe usar la anotación
-<code>@Transactional</code> para definir el contexto transaccional en el que se
-realiza la llamada a las acciones sobre la base de datos.</p>
 <p>Hay que ser cuidadoso al hacer pruebas que afectan a la base de datos,
 porque podemos insertar o modificar datos que se comprueban en otros
 tests. Tenemos que tener cuidado en que cada test sea independiente de
 los demás. </p>
 <p>En Spring Boot una forma muy sencilla de asegurase de que un test no
 afecta a los demás es añadir la anotación <code>@Transactional</code> en los
-tests que modifican la base de datos. Por ejemplo:</p>
+tests que modifican la base de datos. Spring Boot abre una transacción
+y al terminar el test la transacción se deshace y los datos de la base
+de datos quedan como estaban al principio.</p>
+<p>Por ejemplo:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
@@ -2344,6 +2342,11 @@ tests que modifican la base de datos. Por ejemplo:</p>
 </code></pre></div>
 </td></tr></table>
 
+<p>Y también realizamos tests sobre los controllers:</p>
+<ul>
+<li><code>UsuarioWebTest.java</code></li>
+<li><code>TareaWebTest.java</code></li>
+</ul>
 <p>En los tests sobre los controllers se comprueba que el resultado de
 realizar un <code>GET</code> o un <code>POST</code> sobre los endpoints correspondientes
 devuelven un HTML que contiene alguna cadena que coincide con lo
