@@ -2295,6 +2295,41 @@ comenzar.</p>
 <p>En los tests sobre repository se debe usar la anotación
 <code>@Transactional</code> para definir el contexto transaccional en el que se
 realiza la llamada a las acciones sobre la base de datos.</p>
+<p>Por ejemplo:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code><span class="nd">@Test</span>
+<span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">unUsuarioTieneUnaListaDeTareas</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// GIVEN</span>
+    <span class="c1">// En el application.properties se cargan los datos de </span>
+    <span class="c1">// prueba del fichero datos-test.sql</span>
+
+    <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+
+    <span class="c1">// WHEN</span>
+    <span class="n">Set</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span> <span class="n">tareas</span> <span class="o">=</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">();</span>
+
+    <span class="c1">// THEN</span>
+
+    <span class="n">assertThat</span><span class="p">(</span><span class="n">tareas</span><span class="p">).</span><span class="na">isNotEmpty</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+
 <p>También se realizan tests sobre la capa de servicio: </p>
 <ul>
 <li><code>TareaServiceTest.java</code></li>
