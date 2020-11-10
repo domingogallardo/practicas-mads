@@ -20,13 +20,8 @@ En esta práctica comenzamos a trabajar en equipos de 3 personas (de
 forma excepcional podrían ser 2 o 4 personas).
 
 Cada equipo trabajará con un repositorio común seleccionado de uno de
-los miembros del equipo. Se formará también un _team_ en la
-organización `mads-ua` en el que participarán todos los miembros
-del equipo.
-
-<img src="imagenes/equipos-mads-ua.png" width="700px"/>
-
-Utilizaremos _GitHub Classroom_ para crear el _team_ y el repositorio.
+los miembros del equipo. Utilizaremos _GitHub Classroom_ para crear el
+_team_ y el repositorio.
 
 ### Pasos a seguir ###
 
