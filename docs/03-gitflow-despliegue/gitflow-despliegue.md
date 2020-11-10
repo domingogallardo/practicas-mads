@@ -871,4 +871,4 @@ Para la evaluación se tendrá en cuenta:
 - Desarrollo continuo (los _commits_ deben realizarse a lo largo de
   las semanas y no dejar todo para la última).
 - Correcto desarrollo de la metodología.
-- Corrección del código.
+- Correcta especificación de las funcionalidades
