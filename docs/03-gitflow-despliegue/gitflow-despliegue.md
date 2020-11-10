@@ -10,10 +10,9 @@ En esta práctica se pretende conseguir:
     - Implementar GitFlow.
     - Desarrollar nuevas features con GitFlow.
     - Lanzamiento de una versión nueva usando GitFlow.
-3. Despliegue en producción de la aplicación, construyendo una imagen
-   docker y lanzándola junto con la base de datos con `docker
-   compose`.
-
+3. Preparar el _backlog_ del producto con las nuevas historias de
+   usuario a implementar en la siguiente iteración de la aplicación
+   que se realizará en la práctica 4.
 
 ## Formación de equipos ##
 
@@ -28,22 +27,6 @@ del equipo.
 <img src="imagenes/equipos-mads-ua.png" width="700px"/>
 
 Utilizaremos _GitHub Classroom_ para crear el _team_ y el repositorio.
-
-### Roles en el equipo ###
-
-Cada una de las tres personas del equipo tendrá un papel
-diferente. 
-
-- **Responsable de GitHub**: encargado de gestionar el flujo de Git y
-  de supervisar los pull requests, issues y tablero de GitHub.
-- **Resposable de integración continua (devop)**: encargado
-  de gestionar Travis, Docker y configuraciones del proyecto.
-- **Responsable del producto**: encargado de conocer y gestionar las
-  historias de usuario, el tablero Trello y las pruebas de usuario del
-  producto. 
-
-Debéis elegir quién va a tener cada papel.
-
 
 ### Pasos a seguir ###
 
@@ -83,7 +66,7 @@ Debéis elegir quién va a tener cada papel.
     repositorio local y haciendo un push:
 
         $ git remote set-url origin https://github.com/mads-ua/todolistgrupo-2019-NOMBRE-EQUIPO.git
-        $ git push -u origin master
+        $ git push -u origin main
 
     Por último, los otros miembros del equipo deberán clonar el
     repositorio para que los tres podáis trabajar con él en local.
@@ -91,7 +74,7 @@ Debéis elegir quién va a tener cada papel.
 - Cambiad el nombre del proyecto (en el fichero `POM.xml` y en el
   `about.html` a `mads-todolist-equipo-XX`.
 
-    Haced un commit directamente en `master` con estos cambios.
+    Haced un commit directamente en `main` con estos cambios.
   
     Para conectar el repositorio con Travis el responsable de
     integración continua debe acceder a su cuenta personal en
@@ -208,20 +191,20 @@ en repositorios y ramas remotas.
     (si están actualizadas o hay cambios en algunas no bajadas o
     subidas).
 
-- Borrado de ramas remotas desde el terminar:
+- Borrado de ramas remotas desde el terminal:
 
         $ git push origin --delete nueva-rama
         $ git remote prune origin
 
 - Si necesitamos en la rama de _feature_ código que se haya añadido en
-  la rama `master`.
+  la rama `main`.
   
-    Podemos hacer un _merge_ de la rama `master` en la rama de
+    Podemos hacer un _merge_ de la rama `main` en la rama de
     _feature_ para incorporar los avances de código que se han hecho
-    en `master` y que necesitamos en nuestra nueva rama:
+    en `main` y que necesitamos en nuestra nueva rama:
     
         $ git checkout nueva-rama
-        $ git merge master
+        $ git merge main
 
 
 - Solución de conflictos en un _pull request_:
@@ -230,13 +213,13 @@ en repositorios y ramas remotas.
     conflictos detectados en un _pull request_.
     
     Supongamos que hay un conflicto entre la nueva rama y
-    `master`. GitHub detectará el conflicto en la página de _pull
+    `main`. GitHub detectará el conflicto en la página de _pull
     request_. Para arreglar el conflicto:
     
-        $ git checkout master
+        $ git checkout main
         $ git pull
         $ git checkout nueva-rama
-        $ git merge master
+        $ git merge main
         # arreglar el conflicto
         $ git push
         # ya se puede hacer el merge en GitHub
@@ -251,7 +234,7 @@ en repositorios y ramas remotas.
 
 - Escoged una persona del equipo como responsable del _issue_. El
   responsable del _issue_ será el responsable de integrarlo en
-  `master` y de solucionar los conflictos que puedan surgir.
+  `main` y de solucionar los conflictos que puedan surgir.
 
 - Probad los comandos Git anteriores en una rama en la que se resuelva
   el _issue_. Cada miembro del equipo deberá realizar un commit en el
@@ -262,11 +245,11 @@ en repositorios y ramas remotas.
   mismo responsable del _issue_.
 
 - Provocad un conflicto y arregladlo. Para ello se debe añadir un
-  commit en `master` que entre en conflicto con los cambios realizados
+  commit en `main` que entre en conflicto con los cambios realizados
   en la rama. Después se arreglará el conflicto y se subirá la
   solución al pull request.
 
-- Por último, revisad el código, aceptadlo e integrad el PR en _master_.
+- Por último, revisad el código, aceptadlo e integrad el PR en _main_.
 
 
 ## Configuración de GitFlow ##
@@ -278,9 +261,9 @@ teoría](https://github.com/domingogallardo/apuntes-mads/blob/master/sesiones/07
 ### Ramas de largo recorrido ###
 
 En GitFlow se publican las distintas versiones del proyecto en la rama
-_long-lived_ `master` y se hace el desarrollo en la rama
+_long-lived_ `main` y se hace el desarrollo en la rama
 `develop`. A partir de ahora no desarrollaremos directamente en
-`master` sino en `develop`.
+`main` sino en `develop`.
 
 En la página de configuración del repositorio en GitHub en `Settings >
 Branches > Default branch` se puede configurar la rama por defecto
@@ -298,29 +281,12 @@ integrarán en `develop`. La diferencia es que en GitFlow estas ramas
 se integran con la rama de desarrollo manualmente haciendo `merge`,
 mientras que nosotros las integramos haciendo un pull request.
 
-### Ramas de release ###
-
-Hasta ahora hemos hecho los _releases_ en la rama `master`. A partir
-de ahora seguiremos la estrategia de GitFlow y haremos ramas de
-_release_ que salen de `develop` y se integran en `master` y en
-`develop`.
-
-Haremos también la integración haciendo pull request.
-
 ### Pasos a seguir ###
 
-- El **responsable de GitHub** se debe encargar de
-crear la rama **`develop`** y configurarla como rama principal del
+- Cread la rama **`develop`** y configurarla como rama principal del
 proyecto en GitHub. Todos los otros miembros deberán descargarla y
 moverse a ella en sus repositorios locales. Esta rama pasará a ser la
-de desarrollo principal. 
-
-- El **responsable de integración continua** modificará el fichero de
-configuración de Travis, para que también se lancen los builds en la
-rama `develop` (además de en la rama `master`).
-
-- Haced un PR de prueba en la rama `develop` para comprobar que todo
-  funciona bien.
+de desarrollo principal.
 
 - Cread tres _issues_ distintos, simulando tres nuevas
   funcionalidades. Deben ser issues muy sencillos (cambiar el color de
@@ -328,49 +294,167 @@ rama `develop` (además de en la rama `master`).
   similar). Cada uno de los miembros del equipo será el responsable de
   uno de los issues. 
   
--  El **responsable de GitHub** configurará el repositorio para obligar
-  a que cualquier _pull request_ tenga que tener la revisión de una
-  persona distinta del responsable del PR.
+- Configurad el repositorio GitHub para obligar a que cualquier _pull
+  request_ tenga que tener la revisión de una persona distinta del
+  responsable del PR.
   
-  Desarrollar e integrar los issues en `develop` siguiendo el flujo de
-  trabajo planteado anteriormente. El **responsable de GitHub** se
-  asegurará de que el tablero de GitHub se actualiza correctamente.
+- Desarrollad e integrar los issues en `develop` siguiendo el flujo de
+  trabajo planteado anteriormente. Debéis ir actualizando el tablero
+  de GitHub se actualiza correctamente.
 
-- Por último, vamos a probar el lanzamiento de una release usando el flujo de
-  trabajo. Cread un _issue_ con la tarea _Lanzar release 1.3.0_ que
-  tendrá como responsable al responsable de GitHub.
+### Ramas de release ###
 
-- El **responsable de GitHub** deberá **publicar la nueva versión** siguiendo
-  los pasos de GitFlow:
+Hasta ahora hemos hecho los _releases_ en la rama `main`. A partir
+de ahora seguiremos la estrategia de GitFlow y haremos ramas de
+_release_ que salen de `develop` y se integran en `main` y en
+`develop`.
+
+Haremos también la integración haciendo pull request.
+
+### Pasos a seguir ###
+
+Vamos a probar el lanzamiento de una release usando el flujo de
+trabajo. 
+
+- Cread un _issue_ con la tarea _Lanzar release 1.3.0_.
+
+- Debéis **publicar la nueva versión** siguiendo los pasos de GitFlow:
   
-    - Crear la rama local `release-1.3.0` a partir de `develop`.
-    - Realizar en esta rama los cambios específicos de la versión. En
+    - Cread la rama local `release-1.3.0` a partir de `develop`.
+    - Realizad en esta rama los cambios específicos de la versión. En
       nuestro caso:
         - Cambiar en la página `Acerca de` "Versión 1.3.0-SNAPSHOT" a
           "Versión 1.3.0" y añadir la fecha de publicación.
         - Cambiar el fichero `pom.xml`.
-    - Publicar la rama `release-1.3.0` en GitHub y hacer un pull
-      request sobre `master`. Una vez mezclado el PR añadir la
-      etiqueta con la nueva versión `1.3.0` en `master` creando la
+    - Publicad la rama `release-1.3.0` en GitHub y hacer un pull
+      request sobre `main`. Una vez mezclado el PR añadir la
+      etiqueta con la nueva versión `1.3.0` en `main` creando la
       página de release en GitHub.
     - Mezclar también la rama de release con `develop` (se puede hacer
       también con un PR).
 
 - Una vez hecho esto ya se puede borrar la rama `release-1.3.0` y las
-  ramas `master` y `develop` estarán actualizadas a la nueva
+  ramas `main` y `develop` estarán actualizadas a la nueva
   versión. Hacer por último un commit en `develop` (no hace falta PR)
   cambiando la versión a `1.4.0-SNAPSHOT`.
 
-- La rama `develop` también será integrada por Travis. Debemos
-  comprobar que pasan todos los tests de las nuevas características
-  que se añaden.
+- Debemos comprobar que GitHub Actions pasa correctamente todos los
+  tests de las nuevas características que se añaden.
 
-- Por último, deberéis **realizar un _hot fix_**, simulando la resolución
-  de un error, siguiendo el flujo de trabajo de GitFlow, y
-  actualizando el número de versión a `1.3.1`.
+### Ramas de hot-fix ###
+
+Las ramas de hotfix son ramas en las que se solucionan defectos
+encontrados en la última versión publicada. Salen de `main` y se
+mezclan de nuevo en `main` y en `develop`.
+
+En nuestro caso l
+
+### Pasos a seguir ###
+
+- Debéis **realizar un _hot fix_**, simulando la resolución de un
+  error, y actualizando el número de versión a `1.3.1`. Haced la
+  integración con `main` y `develop` haciendo también pull
+  requests. La integración con develop producirá un conflicto en el
+  número de versión. Mantened el número `1.4.0-SNAPSHOT` de `develop`.
+
+## Nuevas funcionalidades para la aplicación  ##
+
+Cambiamos totalmente de asunto. Tenemos ahora que dejar de pensar como
+desarrolladores y pensar como **responsables del producto**. Tenemos
+que pensar en las próximas funcionalidades a implementar en la
+aplicación. Las desarrollaremos en las 3 semanas que durará la
+práctica 4.
+
+Deberéis reuniros y pensar en cómo hacer el producto más interesante
+para los usuarios. Pensad que queréis poner la aplicación en
+producción y que estáis buscando funcionalidades que la hagan
+interesante para que los usuarios se suscriban a ella.
+
+Tenéis que poneros **en el lugar de los usuarios** y pensar en
+funcionalidades que les puedan ser útiles, resolver algún problema. No
+es cuestión de añadir funcionalidades porque sí, sino que tenéis que
+intentar hacer en 3 semanas un producto lo más coherente y útil
+posible. 
+
+Si os quedáis sin ideas, podéis mirar la aplicación
+[todoist](https://todoist.com/features). Se trata de una aplicación
+completa de gestión de tareas pendientes similar a la que estamos
+desarrollando (aunque ellos tienen muchos más desarrolladores y
+presupuesto que nosotros 😀).
+
+El resultado será un tablero Trello con columnas denominadas _Backlog
+(1)_ y _Backlog (2): en la que se encuentren las descripciones de las
+funcionalidades candidatas a implementarse en la siguiente práctica,
+ordenadas de más interesante a menos (de arriba a abajo y de izquierda
+a derecha) y etiquetadas con su tamaño. La imagen de abajo es un
+ejemplo, con los títulos de la mayoría de las funcionalidades borradas
+para no dar demasiadas ideas.
+
+<img src="imagenes/tablero.png" width="700px"/>
+
+En la primera semana de la práctica 4 el profesor se reunirá con el
+equipo y podrá pediros alguna aclaración sobre las propuestas y la
+estimación de tamaño de las funcionalidades antes de validarlas.
+
+## Pasos a seguir ##
+
+- Haced una reunión, generar ideas en un _brainstorming_, organizarlas
+  y estimar su dificultad. Sólo podréis definir funcionalidades de
+  tamaño de uno y dos puntos. Si alguna funcionalidad es mayor,
+  deberéis descomponerla en otras más pequeñas.
+
+    Los puntos indican un tamaño relativo. Si estimáis una historia de
+    usuario en 2 puntos es porque pensáis que tardaréis el doble en
+    terminarla que otra de 1 punto.
+
+    Para estimar la dificultad podéis usar _planning pocker_: se
+    explica la funcionalidad y cada miembro del equipo elige un
+    número: 1, 2, más de 2. Se enseñan simultáneamente y se explican
+    las diferencias. Se siguen haciendo rondas hasta que hay un
+    consenso.
+          
+- Debéis seleccionar historias que sumen entre 12 y 15 puntos para
+  implementar en la siguiente práctica 4. La práctica 4 tendrá una
+  duración de 3 semanas.
+  
+    Seleccionar las historias que penséis que hacen un producto
+    atractivo, coherente y útil para el usuario. Ordenar las historias
+    según su valor Para estimar el valor podéis hacer algo similar al
+    _planning pocker_ pero usando los números 1, 2 y 3 como forma de
+    identificar la utilidad o valor de cada historia.
+
+- Cread un tablero Trello compartido e invitad al profesor
+  (`domingo.gallardo@ua.es`). Cread las etiquetas `1` y `2` con
+  distintos colores que indican el tamaño de cada funcionalidad.
+
+- Añadir historias de usuario, ordenadas de mayor a menor importancia
+  (arriba a la izquierda la más importante y abajo a la derecha la
+  menos) con el formato:
+
+    - **Título**.
+    - **Descripción**. Muy breve, debe caber en una tarjeta. Podéis
+      usar el estándar "Como XXX quiero XXX para XXX", o cualquier
+      estilo. Pero siempre debe quedar claro que la característica
+      debe ser una nueva funcionalidad que pueda usar o que note un
+      usuario de la aplicación.
+    - **Borrador de la interfaz de usuario**. Puede ser un dibujo
+      hecho a mano o un mockup hecho con alguna aplicación. No hace
+      falta mucho detalle, sólo para que el cliente (el profesor)
+      entienda la historia.
+    - **Condiciones de satisfacción**: condiciones que deben cumplirse
+      para considerar que la historia está terminada. Las pruebas
+      se definen a partir de estas condiciones de satisfacción.
+  
+En la primera semana de la práctica 4 el profesor se reunirá con el
+equipo y podrá pediros alguna aclaración sobre las propuestas y la
+estimación de tamaño de las funcionalidades antes de validarlas.
+
+
+<!--
 
 
 ## Despliegue en producción con Docker ##
+
 
 Este apartado lo realizará el **responsable de integración continua**,
 pero todos los miembros del equipo deben conocer y entender todos los
@@ -771,20 +855,21 @@ entorno hay que utilizar el flag `-e VARIABLE=valor`.
   comprobar si se ponen en marcha las imágenes docker y nuestra
   aplicación funciona correctamente. 
 
+-->
+
 
 ## Entrega y evaluación ##
 
-- La práctica tiene una duración de 3 semanas y debe estar terminada
-  el martes 26 de noviembre.
-- La calificación de la práctica tiene un peso de un 5% en la nota
+- La práctica tiene una duración de 2 semanas y debe estar terminada
+  el martes 1 de diciembre.
+- La calificación de la práctica tiene un peso de un 7% en la nota
   final de la asignatura.
 - Para realizar la entrega uno de los miembros del equipo debe subir a
   Moodle un ZIP que contenga todo el proyecto, incluyendo el
   directorio `.git` que contiene la historia Git. Para ello comprime
   tu directorio local del proyecto **después de haber hecho un `mvn
   clean`** para eliminar el directorio `target` que contiene los
-  binarios compilados. Debes dejar también en Moodle la URL del
-  repositorio en GitHub.
+  binarios compilados.
 
 Para la evaluación se tendrá en cuenta:
 
@@ -792,4 +877,3 @@ Para la evaluación se tendrá en cuenta:
   las semanas y no dejar todo para la última).
 - Correcto desarrollo de la metodología.
 - Corrección del código.
-

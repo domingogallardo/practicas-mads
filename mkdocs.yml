@@ -9,7 +9,7 @@ nav:
    - 'Aplicación ToDoList': '01-intro-spring-boot/practica1.md'
 
 - 'Práctica 2': '02-pruebas-tdd/integration-tdd.md'
-# - 'Práctica 3': '03-gitflow-despliegue/gitflow-despliegue.md'
+- 'Práctica 3': '03-gitflow-despliegue/gitflow-despliegue.md'
 # - 'Práctica 4': '04-iteracion-scrum/iteracion-scrum.md'
 
 theme:
