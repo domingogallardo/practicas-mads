@@ -1,5 +1,5 @@
 
-# Práctica 3: Trabajo en equipo con GitFlow y despliegue de la aplicación
+# Práctica 3: Trabajo en equipo con GitFlow y diseño de nuevas funcionalidades
 
 ## Objetivos y resumen de la práctica ##
 
