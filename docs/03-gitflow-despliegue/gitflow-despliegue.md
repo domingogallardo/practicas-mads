@@ -276,7 +276,7 @@ integrarán en `develop`. La diferencia es que en GitFlow estas ramas
 se integran con la rama de desarrollo manualmente haciendo `merge`,
 mientras que nosotros las integramos haciendo un pull request.
 
-### Pasos a seguir ###
+#### Pasos a seguir ####
 
 - Cread la rama **`develop`** y configurarla como rama principal del
 proyecto en GitHub. Todos los otros miembros deberán descargarla y
@@ -306,7 +306,7 @@ _release_ que salen de `develop` y se integran en `main` y en
 
 Haremos también la integración haciendo pull request.
 
-### Pasos a seguir ###
+#### Pasos a seguir ####
 
 Vamos a probar el lanzamiento de una release usando el flujo de
 trabajo. 
@@ -344,7 +344,7 @@ mezclan de nuevo en `main` y en `develop`.
 
 En nuestro caso l
 
-### Pasos a seguir ###
+#### Pasos a seguir ####
 
 - Debéis **realizar un _hot fix_**, simulando la resolución de un
   error, y actualizando el número de versión a `1.3.1`. Haced la
@@ -391,7 +391,7 @@ En la primera semana de la práctica 4 el profesor se reunirá con el
 equipo y podrá pediros alguna aclaración sobre las propuestas y la
 estimación de tamaño de las funcionalidades antes de validarlas.
 
-## Pasos a seguir ##
+### Pasos a seguir ###
 
 - Haced una reunión, generar ideas en un _brainstorming_, organizarlas
   y estimar su dificultad. Sólo podréis definir funcionalidades de
