@@ -244,7 +244,7 @@ en repositorios y ramas remotas.
 
 El flujo de trabajo Git que vamos a seguir es muy similar al flujo de
 trabajo GitFlow (recordad la [clase de
-teoría](https://github.com/domingogallardo/apuntes-mads/blob/master/sesiones/07-git-workflows/git-workflows.md)). 
+teoría](https://github.com/domingogallardo/apuntes-mads/blob/main/apuntes/git-workflows/git-workflow.md#gitflow)
 
 ### Ramas de largo recorrido ###
 
@@ -371,7 +371,7 @@ desarrollando (aunque ellos tienen muchos más desarrolladores y
 presupuesto que nosotros 😀).
 
 El resultado será un tablero Trello con columnas denominadas _Backlog
-(1)_ y _Backlog (2): en la que se encuentren las descripciones de las
+(1)_ y _Backlog (2)_: en la que se encuentren las descripciones de las
 funcionalidades candidatas a implementarse en la siguiente práctica,
 ordenadas de más interesante a menos (de arriba a abajo y de izquierda
 a derecha) y etiquetadas con su tamaño. La imagen de abajo es un
@@ -402,12 +402,13 @@ estimación de tamaño de las funcionalidades antes de validarlas.
     consenso.
           
 - Debéis seleccionar historias que sumen entre 12 y 15 puntos para
-  implementar en la siguiente práctica 4. La práctica 4 tendrá una
+  implementar en la siguiente práctica 4. Para los equipos de 2
+  personas seleccionar entre 8 y 10 puntos. La práctica 4 tendrá una
   duración de 3 semanas.
   
     Seleccionar las historias que penséis que hacen un producto
     atractivo, coherente y útil para el usuario. Ordenar las historias
-    según su valor Para estimar el valor podéis hacer algo similar al
+    según su valor. Para estimar el valor podéis hacer algo similar al
     _planning pocker_ pero usando los números 1, 2 y 3 como forma de
     identificar la utilidad o valor de cada historia.
 
@@ -417,21 +418,23 @@ estimación de tamaño de las funcionalidades antes de validarlas.
 
 - Añadir historias de usuario, ordenadas de mayor a menor importancia
   (arriba a la izquierda la más importante y abajo a la derecha la
-  menos) con el formato:
+  menos). Cada tarjeta de Trello debe contener:
 
-    - **Título**.
-    - **Descripción**. Muy breve, debe caber en una tarjeta. Podéis
-      usar el estándar "Como XXX quiero XXX para XXX", o cualquier
-      estilo. Pero siempre debe quedar claro que la característica
-      debe ser una nueva funcionalidad que pueda usar o que note un
-      usuario de la aplicación.
+    - **Título**. Aparece en la tarjeta.
+    - **Descripción**. Muy breve, al estilo de las historias de
+      XP. Podéis usar el estándar "Como XXX quiero XXX para XXX", o
+      cualquier otro estilo. Pero siempre debe quedar claro que la
+      característica debe ser una nueva funcionalidad que pueda usar o
+      que note un usuario de la aplicación.
     - **Borrador de la interfaz de usuario**. Puede ser un dibujo
       hecho a mano o un mockup hecho con alguna aplicación. No hace
       falta mucho detalle, sólo para que el cliente (el profesor)
       entienda la historia.
     - **Condiciones de satisfacción**: condiciones que deben cumplirse
-      para considerar que la historia está terminada. Las pruebas
-      se definen a partir de estas condiciones de satisfacción.
+      para considerar que la historia está terminada. Son
+      fundamentales a la hora de definir pruebas automáticas y
+      manuales. Las pruebas se definen a partir de estas condiciones
+      de satisfacción.
   
 En la primera semana de la práctica 4 el profesor se reunirá con el
 equipo y podrá pediros alguna aclaración sobre las propuestas y la
@@ -864,4 +867,4 @@ Para la evaluación se tendrá en cuenta:
 - Desarrollo continuo (los _commits_ deben realizarse a lo largo de
   las semanas y no dejar todo para la última).
 - Correcto desarrollo de la metodología.
-- Correcta especificación de las funcionalidades
+- Correcta especificación de las funcionalidades.
