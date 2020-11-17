@@ -858,8 +858,8 @@ $ git push
 </ul>
 <h2 id="configuracion-de-gitflow">Configuración de GitFlow<a class="headerlink" href="#configuracion-de-gitflow" title="Permanent link">&para;</a></h2>
 <p>El flujo de trabajo Git que vamos a seguir es muy similar al flujo de
-trabajo GitFlow (recordad la <a href="https://github.com/domingogallardo/apuntes-mads/blob/master/sesiones/07-git-workflows/git-workflows.md">clase de
-teoría</a>). </p>
+trabajo GitFlow (recordad la <a href="https://github.com/domingogallardo/apuntes-mads/blob/main/apuntes/git-workflows/git-workflow.md#gitflow">clase de
+teoría</a></p>
 <h3 id="ramas-de-largo-recorrido">Ramas de largo recorrido<a class="headerlink" href="#ramas-de-largo-recorrido" title="Permanent link">&para;</a></h3>
 <p>En GitFlow se publican las distintas versiones del proyecto en la rama
 <em>long-lived</em> <code>main</code> y se hace el desarrollo en la rama
@@ -980,7 +980,7 @@ completa de gestión de tareas pendientes similar a la que estamos
 desarrollando (aunque ellos tienen muchos más desarrolladores y
 presupuesto que nosotros 😀).</p>
 <p>El resultado será un tablero Trello con columnas denominadas <em>Backlog
-(1)</em> y _Backlog (2): en la que se encuentren las descripciones de las
+(1)</em> y <em>Backlog (2)</em>: en la que se encuentren las descripciones de las
 funcionalidades candidatas a implementarse en la siguiente práctica,
 ordenadas de más interesante a menos (de arriba a abajo y de izquierda
 a derecha) y etiquetadas con su tamaño. La imagen de abajo es un
@@ -1008,11 +1008,12 @@ consenso.</p>
 </li>
 <li>
 <p>Debéis seleccionar historias que sumen entre 12 y 15 puntos para
-  implementar en la siguiente práctica 4. La práctica 4 tendrá una
+  implementar en la siguiente práctica 4. Para los equipos de 2
+  personas seleccionar entre 8 y 10 puntos. La práctica 4 tendrá una
   duración de 3 semanas.</p>
 <p>Seleccionar las historias que penséis que hacen un producto
 atractivo, coherente y útil para el usuario. Ordenar las historias
-según su valor Para estimar el valor podéis hacer algo similar al
+según su valor. Para estimar el valor podéis hacer algo similar al
 <em>planning pocker</em> pero usando los números 1, 2 y 3 como forma de
 identificar la utilidad o valor de cada historia.</p>
 </li>
@@ -1024,21 +1025,23 @@ identificar la utilidad o valor de cada historia.</p>
 <li>
 <p>Añadir historias de usuario, ordenadas de mayor a menor importancia
   (arriba a la izquierda la más importante y abajo a la derecha la
-  menos) con el formato:</p>
+  menos). Cada tarjeta de Trello debe contener:</p>
 <ul>
-<li><strong>Título</strong>.</li>
-<li><strong>Descripción</strong>. Muy breve, debe caber en una tarjeta. Podéis
-  usar el estándar "Como XXX quiero XXX para XXX", o cualquier
-  estilo. Pero siempre debe quedar claro que la característica
-  debe ser una nueva funcionalidad que pueda usar o que note un
-  usuario de la aplicación.</li>
+<li><strong>Título</strong>. Aparece en la tarjeta.</li>
+<li><strong>Descripción</strong>. Muy breve, al estilo de las historias de
+  XP. Podéis usar el estándar "Como XXX quiero XXX para XXX", o
+  cualquier otro estilo. Pero siempre debe quedar claro que la
+  característica debe ser una nueva funcionalidad que pueda usar o
+  que note un usuario de la aplicación.</li>
 <li><strong>Borrador de la interfaz de usuario</strong>. Puede ser un dibujo
   hecho a mano o un mockup hecho con alguna aplicación. No hace
   falta mucho detalle, sólo para que el cliente (el profesor)
   entienda la historia.</li>
 <li><strong>Condiciones de satisfacción</strong>: condiciones que deben cumplirse
-  para considerar que la historia está terminada. Las pruebas
-  se definen a partir de estas condiciones de satisfacción.</li>
+  para considerar que la historia está terminada. Son
+  fundamentales a la hora de definir pruebas automáticas y
+  manuales. Las pruebas se definen a partir de estas condiciones
+  de satisfacción.</li>
 </ul>
 </li>
 </ul>
@@ -1516,7 +1519,7 @@ $ docker-compose up
 <li>Desarrollo continuo (los <em>commits</em> deben realizarse a lo largo de
   las semanas y no dejar todo para la última).</li>
 <li>Correcto desarrollo de la metodología.</li>
-<li>Correcta especificación de las funcionalidades</li>
+<li>Correcta especificación de las funcionalidades.</li>
 </ul>
                 
                   
