@@ -613,8 +613,8 @@ escribiendo el nombre del equipo, como se muestra en la siguiente
 imagen.</p>
 <p><img src="imagenes/nombre-repo-github-classroom.png" width="600px"/></p>
 <p>El equipo trabajará con un repositorio creado por GitHub Classroom
-con el nombre <code>todolistgrupo-2019-NOMBRE-EQUIPO</code>. Al igual que en
-la práctica 1, el repositorio se creará en el grupo <code>mads-ua</code>.</p>
+con el nombre <code>todolist-final-NOMBRE-EQUIPO</code>. Al igual que en
+la práctica 1, el repositorio se creará en el grupo <code>mads-ua-20-21</code>.</p>
 <p><img src="imagenes/repo-creado-github-classroom.png" width="700px"/></p>
 <p>Una vez que la primera persona ha creado el equipo y el
 repositorio, las siguientes personas que usan el enlace pueden
@@ -634,7 +634,7 @@ unirse al equipo creado o crear un nuevo equipo:</p>
 <p>Subidlo al nuevo repositorio, cambiando la URL del <code>origin</code> del
 repositorio local y haciendo un push:</p>
 <table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git remote set-url origin https://github.com/mads-ua/todolistgrupo-2019-NOMBRE-EQUIPO.git
+2</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git remote set-url origin https://github.com/mads-ua-20-21/todolist-final-NOMBRE-EQUIPO.git
 $ git push -u origin main
 </code></pre></div>
 </td></tr></table>
@@ -644,15 +644,10 @@ repositorio para que los tres podáis trabajar con él en local.</p>
 </li>
 <li>
 <p>Cambiad el nombre del proyecto (en el fichero <code>POM.xml</code> y en el
-  <code>about.html</code> a <code>mads-todolist-equipo-XX</code>.</p>
-<p>Haced un commit directamente en <code>main</code> con estos cambios.</p>
-<p>Para conectar el repositorio con Travis el responsable de
-integración continua debe acceder a su cuenta personal en
-Travis.com y sincronizar el nuevo repositorio <code>todolistgrupo</code> en
-la organización <code>mads-ua</code>. Puedes acceder a la página para
-sincronizar este nuevo repositorio desde la página principal de
-Travis, pulsando el botón <code>+</code>:</p>
-<p><img src="imagenes/builds-travis-add.png" width="600px"/></p>
+  <code>about.html</code> a <code>todolist-final-equipo-XX</code>.</p>
+<p>Haced un commit directamente en <code>main</code> con estos
+cambios. Comprobad que GitHub Actions sigue funcionando
+correctamente. </p>
 </li>
 </ul>
 <h2 id="nuevo-flujo-de-trabajo-para-los-issues">Nuevo flujo de trabajo para los <em>issues</em><a class="headerlink" href="#nuevo-flujo-de-trabajo-para-los-issues" title="Permanent link">&para;</a></h2>
@@ -676,7 +671,8 @@ lo siguiente:</p>
   proposed changes in a pull
   request</a>). Al
   menos uno de los miembros del equipo deben dar el OK, añadiendo una
-  reacción.</li>
+  reacción. Debéis configurar la opción de GitHub que obliga a que
+  haya un <a href="https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/enabling-required-reviews-for-pull-requests">mínimo de revisores</a> en el pull request.</li>
 <li><strong>Integración del pull request</strong>: Cuando un miembro da el OK, el
   responsable de la tarea integra el pull request.</li>
 </ul>
