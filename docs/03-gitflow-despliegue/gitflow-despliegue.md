@@ -37,8 +37,8 @@ _team_ y el repositorio.
     <img src="imagenes/nombre-repo-github-classroom.png" width="600px"/>
 
     El equipo trabajará con un repositorio creado por GitHub Classroom
-    con el nombre `todolistgrupo-2019-NOMBRE-EQUIPO`. Al igual que en
-    la práctica 1, el repositorio se creará en el grupo `mads-ua`.
+    con el nombre `todolist-final-NOMBRE-EQUIPO`. Al igual que en
+    la práctica 1, el repositorio se creará en el grupo `mads-ua-20-21`.
 
     <img src="imagenes/repo-creado-github-classroom.png" width="700px"/>
 
@@ -60,27 +60,19 @@ _team_ y el repositorio.
     Subidlo al nuevo repositorio, cambiando la URL del `origin` del
     repositorio local y haciendo un push:
 
-        $ git remote set-url origin https://github.com/mads-ua/todolistgrupo-2019-NOMBRE-EQUIPO.git
+        $ git remote set-url origin https://github.com/mads-ua-20-21/todolist-final-NOMBRE-EQUIPO.git
         $ git push -u origin main
 
     Por último, los otros miembros del equipo deberán clonar el
     repositorio para que los tres podáis trabajar con él en local.
 
 - Cambiad el nombre del proyecto (en el fichero `POM.xml` y en el
-  `about.html` a `mads-todolist-equipo-XX`.
+  `about.html` a `todolist-final-equipo-XX`.
 
-    Haced un commit directamente en `main` con estos cambios.
+    Haced un commit directamente en `main` con estos
+    cambios. Comprobad que GitHub Actions sigue funcionando
+    correctamente. 
   
-    Para conectar el repositorio con Travis el responsable de
-    integración continua debe acceder a su cuenta personal en
-    Travis.com y sincronizar el nuevo repositorio `todolistgrupo` en
-    la organización `mads-ua`. Puedes acceder a la página para
-    sincronizar este nuevo repositorio desde la página principal de
-    Travis, pulsando el botón `+`:
-    
-    <img src="imagenes/builds-travis-add.png" width="600px"/>
-
-
 ## Nuevo flujo de trabajo para los _issues_ ##
 
 Debemos adaptar el flujo de trabajo en GitHub al trabajo en equipo. En
@@ -103,7 +95,8 @@ lo siguiente:
   proposed changes in a pull
   request](https://help.github.com/articles/reviewing-proposed-changes-in-a-pull-request/)). Al
   menos uno de los miembros del equipo deben dar el OK, añadiendo una
-  reacción.
+  reacción. Debéis configurar la opción de GitHub que obliga a que
+  haya un [mínimo de revisores](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/enabling-required-reviews-for-pull-requests) en el pull request.
 - **Integración del pull request**: Cuando un miembro da el OK, el
   responsable de la tarea integra el pull request.
 
