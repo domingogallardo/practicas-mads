@@ -89,7 +89,7 @@ lo siguiente:
   sobre la rama.
 - **Pull request**: Cuando el ticket se ha terminado, el responsable
   abre un pull request en GitHub y pone la tarjeta en la columna
-  `In pull request`. Se archiva la tarjeta del _issue_.
+  `In pull request`.
 - **Revisión de código**: Los miembros del equipo revisan el código en
   el pull request (consultar documentación en GitHub: [Reviewing
   proposed changes in a pull
@@ -226,8 +226,7 @@ en repositorios y ramas remotas.
 
 - Probad los comandos Git anteriores en una rama en la que se resuelva
   el _issue_. Cada miembro del equipo deberá realizar un commit en el
-  que se añada su nombre a la lista de autores de la aplicación,
-  indicando también su papel en el equipo.
+  que se añada su nombre a la lista de autores de la aplicación.
 
 - Cread el pull request en GitHub, poniendo como responsable del PR al
   mismo responsable del _issue_.
