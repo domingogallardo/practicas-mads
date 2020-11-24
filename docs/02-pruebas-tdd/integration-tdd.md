@@ -1103,7 +1103,7 @@ Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las **historias de usuario 009 y 010**.
 
 1. Pantalla de la base de datos MySQL.
-2. Endpoints definidos y, para cada endpoint o grupo de endpoints,
+2. Rutas (endpoints) definidas para las acciones y, para cada endpoint o grupo de endpoints,
    explicación sobre:
     1. Clases y métodos
     2. Plantillas thymeleaf
