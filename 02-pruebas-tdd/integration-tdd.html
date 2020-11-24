@@ -1822,16 +1822,24 @@ permita listar los equipos y sus miembros.</p>
 <p>Debes implementar la historia de usuario de la misma forma que hemos
 implementado la anterior.</p>
 <ul>
-<li>
-<p><strong>009 Gestionar pertenencia al equipo</strong>: Como usuario podré crear
+<li><strong>009 Gestionar pertenencia al equipo</strong>: Como usuario podré crear
 nuevos equipos y añadirme y eliminarme de cualquiera de ellos para poder
-participar y dejar de participar en ellos.</p>
-</li>
-<li>
-<p><strong>010 Gestión de equipos (opcional)</strong>: Como administrador cambiar el
+participar y dejar de participar en ellos.</li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Importante detalle de implementación</p>
+<p>En una relación muchos-a-muchos como la que
+existe entre <code>Usuario</code> y <code>Equipo</code> cuando se añade un usuario a un
+equipo hay que actualizar ambos lados de la relación, porque
+JPA/Hibernate no lo hace automáticamente. Hay que añadir el
+usuario a la colección de usuarios del equipo y también añadir el
+equipo a la colección de equipos del usuario.</p>
+<p>Lo mismo habría que hacer cuando se elimina un usuario de un equipo.</p>
+</div>
+<ul>
+<li><strong>010 Gestión de equipos (opcional)</strong>: Como administrador cambiar el
 nombre y eliminar los equipos para adaptarlos a los proyectos y
-estructura de la empresa.</p>
-</li>
+estructura de la empresa.</li>
 </ul>
 <h3 id="pasos-a-seguir_4">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_4" title="Permanent link">&para;</a></h3>
 <ul>
