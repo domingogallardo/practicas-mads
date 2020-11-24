@@ -1044,6 +1044,17 @@ implementado la anterior.
 nuevos equipos y añadirme y eliminarme de cualquiera de ellos para poder
 participar y dejar de participar en ellos.
 
+
+!!! Important "Importante detalle de implementación"
+    En una relación muchos-a-muchos como la que
+    existe entre `Usuario` y `Equipo` cuando se añade un usuario a un
+    equipo hay que actualizar ambos lados de la relación, porque
+    JPA/Hibernate no lo hace automáticamente. Hay que añadir el
+    usuario a la colección de usuarios del equipo y también añadir el
+    equipo a la colección de equipos del usuario.
+  
+    Lo mismo habría que hacer cuando se elimina un usuario de un equipo.
+  
 - **010 Gestión de equipos (opcional)**: Como administrador cambiar el
 nombre y eliminar los equipos para adaptarlos a los proyectos y
 estructura de la empresa.
