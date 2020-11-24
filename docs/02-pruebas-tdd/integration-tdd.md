@@ -1134,7 +1134,7 @@ se puede ver pulsando el botón `Raw`. Verás el [texto Markdown](https://raw.gi
 Para la evaluación se tendrá en cuenta:
 
 - Desarrollo continuo (los _commits_ deben realizarse a lo largo de
-  las 2 semanas y no dejar todo para la última semana).
+  las 3 semanas y no dejar todo para la última semana).
 - Correcto desarrollo de la metodología.
 - Diseño e implementación del código y de los tests de las
   características desarrolladas.
