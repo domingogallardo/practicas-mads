@@ -1103,10 +1103,12 @@ Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las **historias de usuario 009 y 010**.
 
 1. Pantalla de la base de datos MySQL.
-2. Listado de nuevas clases y métodos implementados y breve explicación.
-3. Listado de plantillas thymeleaf modficadas y breve explicación.
-4. Tests implementados.
-5. Explicación de algunos fragmentos de código fuente que consideres
+2. Endpoints definidos y, para cada endpoint o grupo de endpoints,
+   explicación sobre:
+    1. Clases y métodos
+    2. Plantillas thymeleaf
+    3. Tests
+3. Explicación de algunos fragmentos de código fuente que consideres
    interesante en las nuevas funcionalidades implementadas.
 
 Intenta que el documento tenga un formato limpio y se pueda leer
