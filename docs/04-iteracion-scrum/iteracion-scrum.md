@@ -38,11 +38,14 @@ El tablero Trello contendrá el **backlog del producto** y servirá para
 trabajar con estas historias de usuario en formato de tarjeta,
 escribirlas rápidamente, estimarlas y ordenarlas.
 
-Cada tarjeta Trello contendrá:
+Cada tarjeta Trello contendrá lo que ya habéis hecho para la práctica 3:
 
 - Título de la historia de usuario
 - Descripción 
 - Estimación del tamaño de la historia (definido con una etiqueta)
+  
+Y se deberá añadir
+
 - Responsable de la historia de usuario (otra etiqueta) : miembro del
   equipo que liderará el desarrollo de la historia. Puede que más de
   una persona intervenga en el desarrollo de la historia, pero una
