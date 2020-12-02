@@ -607,11 +607,11 @@ usuario: <code>Backlog</code>, <code>Listas</code>, <code>En marcha</code>, <cod
 </tr>
 <tr>
 <td><strong>En prueba</strong></td>
-<td>La historia completa está integrada en <code>develop</code> y publicada en la última versión de Docker Hub.</td>
+<td>La historia completa está integrada en <code>develop</code>. En la tarjeta se debe añadir un enlace al commit.</td>
 </tr>
 <tr>
 <td><strong>Terminadas</strong></td>
-<td>Se han comprobado las condiciones de satisfacción en la imagen descargada de Docker Hub.</td>
+<td>Se han comprobado las condiciones de satisfacción de la historia.</td>
 </tr>
 </tbody>
 </table>
@@ -729,7 +729,7 @@ un informe con la fecha de la reunión, su duración y su desarrollo:</p>
 </li>
 <li>
 <p>Se deben crear ramas para los issues y pull requests con revisión de
-  código para integrar los pull requests en master. Es suficiente con
+  código para integrar los pull requests en <code>main</code>. Es suficiente con
   que haya una única aprobación para integrar el pull request.</p>
 </li>
 <li>
@@ -753,8 +753,7 @@ un informe con la fecha de la reunión, su duración y su desarrollo:</p>
 </ul>
 <h3 id="publicacion-de-nueva-version">Publicación de nueva versión<a class="headerlink" href="#publicacion-de-nueva-version" title="Permanent link">&para;</a></h3>
 <p>Al final del desarrollo se deberá lanzar una nueva release (1.4.0) en
-la rama <code>master</code>, y subir a DockerHub la imagen resultante con la
-etiqueta <code>1.4.0</code>.</p>
+la rama <code>main</code>.</p>
 <h3 id="documentacion-del-desarrollo">Documentación del desarrollo<a class="headerlink" href="#documentacion-del-desarrollo" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Documentar las sesiones de <em>pair programming</em>.</li>
@@ -772,7 +771,7 @@ etiqueta <code>1.4.0</code>.</p>
 <li>Presentación con diapositivas en la que se explicará la
   <strong>metodología seguida</strong> en el sprint y las <strong>nuevas funcionalidades</strong> introducidas.</li>
 <li>Demostración de las nuevas funcionalidades utilizando la última
-  imagen docker subida a Docker Hub.</li>
+  versión subida a GitHub.</li>
 </ul>
 </li>
 <li>
