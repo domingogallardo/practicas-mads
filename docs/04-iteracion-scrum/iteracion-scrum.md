@@ -44,16 +44,16 @@ Cada tarjeta Trello contendrá lo que ya habéis hecho para la práctica 3:
 - Descripción 
 - Estimación del tamaño de la historia (definido con una etiqueta)
   
-Y se deberá añadir
+Y se deberá añadir:
 
 - Responsable de la historia de usuario (otra etiqueta) : miembro del
   equipo que liderará el desarrollo de la historia. Puede que más de
   una persona intervenga en el desarrollo de la historia, pero una
   persona será la responsable.
-- Enlace a una **página Google Docs** con los **detalles de la historia de
-  usuario** realizada por el responsable de la historia de usuario en
-  la que se ampliarán los detalles de la historia. La descripción en
-  Trello hay que dejarla tal cual, sin modificar.
+- Enlace a una **página Google Docs** en la que el responsable de la
+  historia copiará, y ampliará y/o modificará sus detalles. La
+  descripción en Trello hay que dejarla tal cual, sin modificar. En la
+  página de Google Docs deberá incluirse:
     - Título de historia de usuario
     - Descripción y detalles
     - Borrador del aspecto de la interfaz de usuario resultante
