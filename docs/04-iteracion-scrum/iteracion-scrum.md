@@ -68,7 +68,7 @@ Y se deberá añadir:
     escribirán sólo cuando la historia haya sido seleccionada y esté
     en la columna `Seleccionadas`. Es recomendable que el paso de una
     historia a seleccionada se haga cuando se haya terminado la
-    anterior. De esta forma, cuando escribamos los detalles de la
+    historia anterior con la que se estaba trabajando. De esta forma, cuando escribamos los detalles de la
     siguiente historia seleccionada ya tendremos el proyecto más
     avanzado y podremos elaborar mejor los detalles de la nueva
     historia. 
@@ -159,7 +159,7 @@ equipo y podrá pediros alguna aclaración sobre las propuestas y la
 estimación de tamaño de las funcionalidades antes de validarlas.
 
 El profesor añadirá una nota en el tablero Trello con el resultado de
-esta validación, pudiendo realizar alguna aclaración sobre el alcance
+esta revisión, pudiendo realizar alguna aclaración sobre el alcance
 de las historias de usuario.
 
 ## Responsables de historia de usuario ##
