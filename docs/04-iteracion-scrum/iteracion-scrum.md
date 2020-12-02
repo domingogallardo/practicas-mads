@@ -52,23 +52,42 @@ Cada tarjeta Trello contendrá:
   equipo que liderará el desarrollo de la historia. Puede que más de
   una persona intervenga en el desarrollo de la historia, pero una
   persona será la responsable.
-- Enlace a una página Google Docs con los **detalles de la historia de
-  usuario** realizada por el responsable de la historia de usuario:
+- Enlace a una **página Google Docs** con los **detalles de la historia de
+  usuario** realizada por el responsable de la historia de usuario en
+  la que se ampliarán los detalles de la historia. La descripción en
+  Trello hay que dejarla tal cual, sin modificar.
     - Título de historia de usuario
     - Descripción y detalles
     - Borrador del aspecto de la interfaz de usuario resultante
     - Condiciones de satisfacción (COS). Estas condiciones de
       satisfacción son esenciales a la hora de determinar el alcance
-      de la historia y de darla por acabada.
+      de la historia y de darla por acabada. Deben estar lo
+      suficientemente claras como para poder elaborar a partir de
+      ellas las **pruebas manuales** de la historia de usuario.
+
+!!! Important "Importante"
+    Los detalles de la historia de usuario en Google Docs se
+    escribirán sólo cuando la historia haya sido seleccionada y esté
+    en la columna `Seleccionadas`. Es recomendable que el paso de una
+    historia a seleccionada se haga cuando se haya terminado la
+    anterior. De esta forma, cuando escribamos los detalles de la
+    siguiente historia seleccionada ya tendremos el proyecto más
+    avanzado y podremos elaborar mejor los detalles de la nueva
+    historia. 
+    
+    Es posible cambiar cosas en la página de Google Docs con respecto a la descripción
+    de la tarjeta en Trello. Dejad la descripción sin modificar, para
+    tener una referencia de la evolución del diseño del proyecto.
+
 
 Utilizaremos un tablero en formato Kanban, definiendo cinco columnas
 que representarán las fases por las que pasará cada historia de
-usuario: `Backlog`, `Listas`, `En marcha`, `En prueba` y `Terminadas`.
+usuario: `Backlog`, `Seleccionadas`, `En marcha`, `En prueba` y `Terminadas`.
 
 |Tipo de columna | Características de las historias                                                                 |
 |----------------|--------------------------------------------------------------------------------------------------|
 | **Backlog**    | Estimado el tamaño de la historia y pendiente de elaborar detalles.                              |
-| **Listas**     | Se han elaborado todos los detalles de la historia (página Google Docs).                         |
+| **Seleccionadas**  | Se están elaborando todos los detalles de la historia (página Google Docs).                         |
 | **En marcha**  | Se ha abierto el primer _issue_ en GitHub y el equipo ha comenzado a desarrollar la historia.    |
 | **En prueba**  | La historia completa está integrada en `develop`. En la tarjeta se debe añadir un enlace al commit. |
 | **Terminadas** | Se han comprobado las condiciones de satisfacción de la historia.         |
