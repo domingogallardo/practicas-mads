@@ -70,8 +70,8 @@ usuario: `Backlog`, `Listas`, `En marcha`, `En prueba` y `Terminadas`.
 | **Backlog**    | Estimado el tamaño de la historia y pendiente de elaborar detalles.                              |
 | **Listas**     | Se han elaborado todos los detalles de la historia (página Google Docs).                         |
 | **En marcha**  | Se ha abierto el primer _issue_ en GitHub y el equipo ha comenzado a desarrollar la historia.    |
-| **En prueba**  | La historia completa está integrada en `develop` y publicada en la última versión de Docker Hub. |
-| **Terminadas** | Se han comprobado las condiciones de satisfacción en la imagen descargada de Docker Hub.         |
+| **En prueba**  | La historia completa está integrada en `develop`. En la tarjeta se debe añadir un enlace al commit. |
+| **Terminadas** | Se han comprobado las condiciones de satisfacción de la historia.         |
 
 Se debe documentar la evolución del tablero realizando 4 capturas de
 pantalla y registrando la fecha de cada una.
@@ -183,7 +183,7 @@ un informe con la fecha de la reunión, su duración y su desarrollo:
   no puede terminarse por estar bloqueado por otro).
 
 - Se deben crear ramas para los issues y pull requests con revisión de
-  código para integrar los pull requests en master. Es suficiente con
+  código para integrar los pull requests en `main`. Es suficiente con
   que haya una única aprobación para integrar el pull request.
 
 - Seguimos usando GitHub Actions  para la integración continua.
@@ -204,8 +204,7 @@ un informe con la fecha de la reunión, su duración y su desarrollo:
 ### Publicación de nueva versión  ###
 
 Al final del desarrollo se deberá lanzar una nueva release (1.4.0) en
-la rama `master`, y subir a DockerHub la imagen resultante con la
-etiqueta `1.4.0`.
+la rama `main`.
 
 ### Documentación del desarrollo ###
 
@@ -223,7 +222,7 @@ La práctica tiene una duración de 4 semanas.
     - Presentación con diapositivas en la que se explicará la
       **metodología seguida** en el sprint y las **nuevas funcionalidades** introducidas.
     - Demostración de las nuevas funcionalidades utilizando la última
-      imagen docker subida a Docker Hub.
+      versión subida a GitHub.
 
 - En la fecha límite del **10 de enero** deberá entregar la práctica y
   tener disponible:
