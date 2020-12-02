@@ -555,10 +555,6 @@ el mismo flujo de trabajo que en la práctica anterior.</p>
 <p>El equipo utilizará un tablero Trello para documentar el backlog del
 producto y el tablero de GitHub para el backlog del sprint.</p>
 <h3 id="tablero-trello">Tablero Trello<a class="headerlink" href="#tablero-trello" title="Permanent link">&para;</a></h3>
-<p>Cada equipo creará un tablero Trello compartido en el que se anotarán
-en forma de tarjeta las historias de usuario candidatas para realizar en el
-sprint. El tablero debe ser público y su enlace se incluirá en el
-título del proyecto en GitHub, para que el profesor pueda consultarlo.</p>
 <p>El tablero Trello contendrá el <strong>backlog del producto</strong> y servirá para
 trabajar con estas historias de usuario en formato de tarjeta,
 escribirlas rápidamente, estimarlas y ordenarlas.</p>
@@ -571,20 +567,38 @@ escribirlas rápidamente, estimarlas y ordenarlas.</p>
   equipo que liderará el desarrollo de la historia. Puede que más de
   una persona intervenga en el desarrollo de la historia, pero una
   persona será la responsable.</li>
-<li>Enlace a una página Google Docs con los <strong>detalles de la historia de
-  usuario</strong> realizada por el responsable de la historia de usuario:<ul>
+<li>Enlace a una <strong>página Google Docs</strong> con los <strong>detalles de la historia de
+  usuario</strong> realizada por el responsable de la historia de usuario en
+  la que se ampliarán los detalles de la historia. La descripción en
+  Trello hay que dejarla tal cual, sin modificar.<ul>
 <li>Título de historia de usuario</li>
 <li>Descripción y detalles</li>
 <li>Borrador del aspecto de la interfaz de usuario resultante</li>
 <li>Condiciones de satisfacción (COS). Estas condiciones de
   satisfacción son esenciales a la hora de determinar el alcance
-  de la historia y de darla por acabada.</li>
+  de la historia y de darla por acabada. Deben estar lo
+  suficientemente claras como para poder elaborar a partir de
+  ellas las <strong>pruebas manuales</strong> de la historia de usuario.</li>
 </ul>
 </li>
 </ul>
+<div class="admonition important">
+<p class="admonition-title">Importante</p>
+<p>Los detalles de la historia de usuario en Google Docs se
+escribirán sólo cuando la historia haya sido seleccionada y esté
+en la columna <code>Seleccionadas</code>. Es recomendable que el paso de una
+historia a seleccionada se haga cuando se haya terminado la
+anterior. De esta forma, cuando escribamos los detalles de la
+siguiente historia seleccionada ya tendremos el proyecto más
+avanzado y podremos elaborar mejor los detalles de la nueva
+historia. </p>
+<p>Es posible cambiar cosas en la página de Google Docs con respecto a la descripción
+de la tarjeta en Trello. Dejad la descripción sin modificar, para
+tener una referencia de la evolución del diseño del proyecto.</p>
+</div>
 <p>Utilizaremos un tablero en formato Kanban, definiendo cinco columnas
 que representarán las fases por las que pasará cada historia de
-usuario: <code>Backlog</code>, <code>Listas</code>, <code>En marcha</code>, <code>En prueba</code> y <code>Terminadas</code>.</p>
+usuario: <code>Backlog</code>, <code>Seleccionadas</code>, <code>En marcha</code>, <code>En prueba</code> y <code>Terminadas</code>.</p>
 <table>
 <thead>
 <tr>
@@ -598,8 +612,8 @@ usuario: <code>Backlog</code>, <code>Listas</code>, <code>En marcha</code>, <cod
 <td>Estimado el tamaño de la historia y pendiente de elaborar detalles.</td>
 </tr>
 <tr>
-<td><strong>Listas</strong></td>
-<td>Se han elaborado todos los detalles de la historia (página Google Docs).</td>
+<td><strong>Seleccionadas</strong></td>
+<td>Se están elaborando todos los detalles de la historia (página Google Docs).</td>
 </tr>
 <tr>
 <td><strong>En marcha</strong></td>
