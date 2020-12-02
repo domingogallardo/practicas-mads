@@ -135,7 +135,7 @@ desarrollando.
 | **Done**           | El pull request que se ha resuelto y el issue está integrado en `develop`.|
 
 Al igual que el tablero de Trello, se debe documentar la evolución del
-tabler de issues realizando 4 capturas de pantalla y registrando la
+tablero de issues realizando 4 capturas de pantalla y registrando la
 fecha de cada una.
 
 
@@ -164,16 +164,17 @@ de las historias de usuario.
 
 ## Responsables de historia de usuario ##
 
-Una vez realizada la validación los miembros del equipo elegirán
-responsables para cada historia, se creará su página Google Docs, y se
-detallará allí las condiciones de satisfacción y el borrador de la
-interfaz de usuario definitivas. No debéis borrar lo escrito en la
-tarjeta de Trello. Utilizad el documento Google Docs para ampliar o
-detallar más aquellos elementos que consideréis oportuno.
+Una vez realizada la revisión los miembros del equipo elegirán
+responsables para cada historia, se seleccionara la primera de ellas a
+realizar, se creará su página Google Docs, y se detallará allí las
+condiciones de satisfacción y el borrador de la interfaz de usuario
+definitivas. No debéis borrar lo escrito en la tarjeta de
+Trello. Utilizad el documento Google Docs para ampliar o detallar más
+aquellos elementos que consideréis oportuno.
 
 Una vez creado el documento Google de la historia de usuario ya se
 puede comenzar a realizar la implementación de la misma abriendo el o
-los issues en GitHuab y añadiendo al mismo el responsable de su
+los issues en GitHub y añadiendo al mismo el responsable de su
 desarrollo.
 
 Todos los miembros del equipo deberán realizar un trabajo equitativo,
