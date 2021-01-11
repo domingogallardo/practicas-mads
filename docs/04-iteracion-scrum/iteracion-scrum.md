@@ -251,7 +251,7 @@ La práctica tiene una duración de 4 semanas.
         - **Sprint Backlog**: historias de usuario escogidas para el
           sprint (copiar la descripción, las condiciones de
           satisfacción y el borrador de interfaz de usuario tal y
-          como aparecen en la Wiki).
+          como aparecen en los documentos subidos a GoogleDocs).
         - **Funcionalidades implementadas**: breve descripción para el
           usuario y breve descripción técnica.
         - **Informe sobre la evolución del desarrollo**: instantáneas
