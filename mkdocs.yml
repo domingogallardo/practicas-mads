@@ -11,6 +11,7 @@ nav:
 - 'Práctica 2': '02-pruebas-tdd/integration-tdd.md'
 - 'Práctica 3': '03-gitflow-despliegue/gitflow-despliegue.md'
 - 'Práctica 4': '04-iteracion-scrum/iteracion-scrum.md'
+- 'Práctica C4': '05-practica-c4/practica-c4.md'
 
 theme:
     language: es
