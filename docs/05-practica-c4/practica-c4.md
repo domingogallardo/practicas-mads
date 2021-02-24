@@ -35,7 +35,7 @@ Spring Boot. Puedes empezar haciendo un fork del repositorio
 [domingogallardo/spring-boot-demoapp](https://github.com/domingogallardo/spring-boot-demoapp)
 y añadir las dependencias necesarias para trabajar con Hibernate y con
 la base de datos H2 (consultar el repositorio inicial de la práctica
-[domingogallardo/mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial).
+[domingogallardo/mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial)).
 
 
 ## Metodología de desarrollo ##
@@ -43,8 +43,8 @@ la base de datos H2 (consultar el repositorio inicial de la práctica
 Deberás usar la misma metodología que la usada en las prácticas de la
 convocatoria ordinaria. Consulta los apuntes de las prácticas.
 
-En concreto, deberás las siguientes metodologías para el desarrollo
-completo de la práctica:
+En concreto, deberás las siguientes metodologías desde el principio
+del desarrollo de la práctica:
 
 - Flujo de trabajo GitFlow con Pull Requests (como en la práctica 3).
 - GitHub actions y al menos 2 historias de usuario realizadas con TDD (similar a la práctica 2).
