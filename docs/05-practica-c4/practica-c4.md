@@ -16,6 +16,17 @@ La aplicación debe tener como mínimo:
 Para el desarrollo de la aplicación deberás usar las mismas tecnologías que
 en la práctica ToDoList: SpringBoot, Thymeleaf, Hibernate.
 
+El total de puntos de historias de usuario deberá ser similar a los
+realizados la práctica de la convocatoria ordinaria, alrededor de 20
+puntos.
+
+- Historias relacionadas con la gestión básica de recetas, libros,
+  etc. (alrededor de 8 puntos).
+- Historias  relacionadas con la gestión de usuarios (alrededor de 4 puntos).
+- Historias adicionales que incluyan la relación muchos-a-muchos
+  (alrededor de 8 puntos).
+
+
 ## Repositorio en GitHub ##
 
 A diferencia de la práctica 1 en la que usábamos Github Classroom,
@@ -32,10 +43,11 @@ la base de datos H2 (consultar el repositorio inicial de la práctica
 Deberás usar la misma metodología que la usada en las prácticas de la
 convocatoria ordinaria. Consulta los apuntes de las prácticas.
 
-En concreto, deberás usar:
+En concreto, deberás las siguientes metodologías para el desarrollo
+completo de la práctica:
 
 - Flujo de trabajo GitFlow con Pull Requests (como en la práctica 3).
-- GitHub actions y 2 historias de usuario realizadas con TDD (similar  a la práctica 2).
+- GitHub actions y al menos 2 historias de usuario realizadas con TDD (similar a la práctica 2).
 - Historias  de usuario en Trello, descripción extendida de cada historia de
   usuario en Google Docs, tablero de issues en GitHub y dividir cada
   historia de usuario en uno o más issues.
