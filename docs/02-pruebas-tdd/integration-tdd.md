@@ -317,20 +317,32 @@ cargar la configuración por defecto definida en `application.properties`.
 
 - Añade la siguiente dependencia en el fichero `pom.xml` para que se
   descargue el driver `mysql-connector-java` y poder utilizar una base
-  de datos MySQL en la aplicación:
+  de datos MySQL en la aplicación. También añade las líneas para poder
+  especificar perfiles desde línea de comando. La variable `profiles`
+  se definirá desde línea de comando cuando se llame a Maven:
 
     Fichero `pom.xml`:
 
-    ```diff
+    ```xml hl_lines="4 5 6 7 16 17 18"
                 <artifactId>h2</artifactId>
                  <scope>runtime</scope>
              </dependency>
-    +         <dependency>
-    +             <groupId>mysql</groupId>
-    +             <artifactId>mysql-connector-java</artifactId>
-    +         </dependency>
+             <dependency>
+                 <groupId>mysql</groupId>
+                 <artifactId>mysql-connector-java</artifactId>
+             </dependency>
              <dependency>
                  <groupId>org.springframework.boot</groupId>
+
+            ...
+            
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <profiles>${profiles}</profiles>
+                    </configuration>
+                </plugin>
     ```
 
 
@@ -360,7 +372,7 @@ cargar la configuración por defecto definida en `application.properties`.
 - Arranca la aplicación con el siguiente comando:
 
     ```
-    ./mvnw spring-boot:run -Dspring.profiles.active=mysql
+    ./mvnw spring-boot:run -Dprofiles=mysql
     ```
 
     Se activará el perfil `mysql` y se cargarán las preferencias de
