@@ -916,17 +916,29 @@ spring.jpa.hibernate.ddl-auto=create
 <li>
 <p>Añade la siguiente dependencia en el fichero <code>pom.xml</code> para que se
   descargue el driver <code>mysql-connector-java</code> y poder utilizar una base
-  de datos MySQL en la aplicación:</p>
+  de datos MySQL en la aplicación. También añade las líneas para poder
+  especificar perfiles desde línea de comando. La variable <code>profiles</code>
+  se definirá desde línea de comando cuando se llame a Maven:</p>
 <p>Fichero <code>pom.xml</code>:</p>
-<div class="highlight"><pre><span></span><code>            &lt;artifactId&gt;h2&lt;/artifactId&gt;
-             &lt;scope&gt;runtime&lt;/scope&gt;
-         &lt;/dependency&gt;
-<span class="gi">+         &lt;dependency&gt;</span>
-<span class="gi">+             &lt;groupId&gt;mysql&lt;/groupId&gt;</span>
-<span class="gi">+             &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span>
-<span class="gi">+         &lt;/dependency&gt;</span>
-         &lt;dependency&gt;
-             &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+<div class="highlight"><pre><span></span><code>            <span class="nt">&lt;artifactId&gt;</span>h2<span class="nt">&lt;/artifactId&gt;</span>
+             <span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+         <span class="nt">&lt;/dependency&gt;</span>
+<span class="hll">         <span class="nt">&lt;dependency&gt;</span>
+</span><span class="hll">             <span class="nt">&lt;groupId&gt;</span>mysql<span class="nt">&lt;/groupId&gt;</span>
+</span><span class="hll">             <span class="nt">&lt;artifactId&gt;</span>mysql-connector-java<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class="hll">         <span class="nt">&lt;/dependency&gt;</span>
+</span>         <span class="nt">&lt;dependency&gt;</span>
+             <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+
+        ...
+
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="hll">                <span class="nt">&lt;configuration&gt;</span>
+</span><span class="hll">                    <span class="nt">&lt;profiles&gt;</span>${profiles}<span class="nt">&lt;/profiles&gt;</span>
+</span><span class="hll">                <span class="nt">&lt;/configuration&gt;</span>
+</span>            <span class="nt">&lt;/plugin&gt;</span>
 </code></pre></div>
 </li>
 <li>
@@ -949,7 +961,7 @@ $ docker container rm nombre o id de contenedor&gt; (elimina un contenedor)
 </li>
 <li>
 <p>Arranca la aplicación con el siguiente comando:</p>
-<div class="highlight"><pre><span></span><code>./mvnw spring-boot:run -Dspring.profiles.active=mysql
+<div class="highlight"><pre><span></span><code>./mvnw spring-boot:run -Dprofiles=mysql
 </code></pre></div>
 <p>Se activará el perfil <code>mysql</code> y se cargarán las preferencias de
 <code>src/main/resource/application.properties</code> y
