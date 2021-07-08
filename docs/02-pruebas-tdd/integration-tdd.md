@@ -7,7 +7,7 @@ En esta práctica 2 de la asignatura realizaremos dos tareas principales:
   _actions_ del repositorio de GitHub. En este sistema se lanzarán los
   tests automáticamente en cada _pull request_. Después definiremos
   una nueva configuración del proyecto en la que se lanzarán los tests
-  sobre la base de datos  MySQL.
+  sobre la base de datos [PostgreSQL](https://www.postgresql.org).
 - Añadiremos nuevas funcionalidades usando la práctica XP de TDD
   (_Test Driven Design_).
 
@@ -175,11 +175,11 @@ Hasta ahora hemos trabajado con la aplicación en una configuración
 local con nuestro ordenador de desarrollo trabajando sobre una base de
 datos H2 en memoria. Pero el objetivo final es poner la aplicación en
 producción, en un servidor en Internet y usando una base de datos
-MySQL de producción. 
+Postgres en producción. 
 
 En esta práctica vamos a configurar un perfil de la aplicación para
 poder lanzar los tests y ejecutar la aplicación usando una base de
-datos MySQL. En la práctica 3 veremos cómo definir un perfil para
+datos Postgres. En la práctica 3 veremos cómo definir un perfil para
 trabajar con una base de datos de producción.
 
 !!! Note "Nota"
@@ -197,10 +197,10 @@ trabajar con una base de datos de producción.
 Vamos a ver en este apartado cómo definir distintas configuraciones de
 ejecución de la aplicación, utilizando los denominados
 _perfiles_. Definiremos, además del perfil base, un perfil adicional
-para lanzar la aplicación y los tests usando la base de datos MySQL.
+para lanzar la aplicación y los tests usando la base de datos Postgres.
 
-La configuración de tests con base de datos MySQL la utilizaremos para
-ejecutar los tests de integración en el proceso de integración
+La configuración de tests con base de datos Postgres la utilizaremos
+para ejecutar los tests de integración en el proceso de integración
 continua de GitHub Actions.
 
 ### Ficheros de configuración de la aplicación ###
@@ -221,9 +221,9 @@ pueden sobreescribir y añadir propiedades a las definidas en el
 fichero de configuración por defecto. El nombre de estos ficheros de
 configuración debe ser `application-xxx.properties` donde `xxx` define
 el nombre del perfil. En nuestro caso definiremos los ficheros
-`application-mysql.properties` (uno en el directorio `main` y otro en
+`application-postgres.properties` (uno en el directorio `main` y otro en
 `test`) para definir las configuraciones de ejecución y de test con
-MySQL.
+Postgres.
 
 Estos ficheros de configuración adicionales se cargan después de
 cargar la configuración por defecto definida en `application.properties`.
@@ -240,7 +240,7 @@ cargar la configuración por defecto definida en `application.properties`.
   rápida que con sistemas de virtualización tradicionales como
   VirtualBox.
   
-  Lo vamos a utilizar para **lanzar el servidor MySQL de base de
+  Lo vamos a utilizar para **lanzar el servidor Postgres de base de
   datos** y también para la futura práctica 3.
   
   **Si tienes Windows, Docker no es compatible con VirtualBox**. Si
@@ -259,11 +259,11 @@ cargar la configuración por defecto definida en `application.properties`.
   como lanzar un contenedor a partir de esa imagen.
   
   En esta práctica vamos a usar Docker sólo para poner en marcha
-  MySQL. En la práctica siguiente ya veremos cómo usarlo para
+  Postgres. En la práctica siguiente ya veremos cómo usarlo para
   _dockerizar_ nuestra aplicación.
 
 - Crea un nuevo _issue_ llamado `Añadir perfiles y permitir trabajar
-  con MySQL`. Crea una rama nueva (llámala `perfiles`, por ejemplo) y
+  con Postgres`. Crea una rama nueva (llámala `perfiles`, por ejemplo) y
   abre un pull request. 
   
     ```
@@ -272,21 +272,21 @@ cargar la configuración por defecto definida en `application.properties`.
     ```
     
 
-- Copia el siguiente fichero en `src/main/resources/application-mysql.properties`:
+- Copia el siguiente fichero en `src/main/resources/application-postgres.properties`:
 
     ```
-    spring.datasource.url=jdbc:mysql://localhost:3306/mads
-    spring.datasource.username=root
-    spring.datasource.password=
-    spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+    spring.datasource.url=jdbc:postgres://localhost:5432/mads
+    spring.datasource.username=mads
+    spring.datasource.password=mads
+    spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
     spring.jpa.hibernate.ddl-auto=update
     spring.datasource.initialization-mode=never
     ```
 
    En este fichero de configuración se define la URL de conexión a la
-   base de datos MySQL `mads`, su usuario (`root`) y contraseña (vacía) y el
+   base de datos `mads`, su usuario (`mads`) y contraseña (`mads`) y el
    dialecto que se va a utilizar para trabajar desde JPA con la base
-   de datos (`org.hibernate.dialect.MySQL5InnoDBDialect`). 
+   de datos (`org.hibernate.dialect.PostgreSQL9Dialect`). 
    
    La propiedad `spring.datasource.initialization-mode=never` indica
    que no se debe cargar ningún fichero de datos inicial. Deberás
@@ -297,13 +297,13 @@ cargar la configuración por defecto definida en `application.properties`.
    datos.
     
 - Vamos ahora a añadir el perfil de test. Copia el siguiente fichero
-  en `src/test/resources/application-mysql.properties`:
+  en `src/test/resources/application-postgres.properties`:
     
     ```
-    spring.datasource.url=jdbc:mysql://localhost:3306/mads_test
-    spring.datasource.username=root
-    spring.datasource.password=
-    spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+    spring.datasource.url=jdbc:postgres://localhost:5432/mads_test
+    spring.datasource.username=mads
+    spring.datasource.password=mads
+    spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
     spring.jpa.hibernate.ddl-auto=create
     ```
      
@@ -316,20 +316,21 @@ cargar la configuración por defecto definida en `application.properties`.
    definida en el perfil de ejecución.
 
 - Añade la siguiente dependencia en el fichero `pom.xml` para que se
-  descargue el driver `mysql-connector-java` y poder utilizar una base
-  de datos MySQL en la aplicación. También añade las líneas para poder
+  descargue el driver `postgres` y poder utilizar una base
+  de datos Postgres en la aplicación. También añade las líneas para poder
   especificar perfiles desde línea de comando. La variable `profiles`
   se definirá desde línea de comando cuando se llame a Maven:
 
     Fichero `pom.xml`:
 
-    ```xml hl_lines="4 5 6 7 16 17 18"
+    ```xml hl_lines="4 5 6 7 8 17 18 19"
                 <artifactId>h2</artifactId>
                  <scope>runtime</scope>
              </dependency>
              <dependency>
-                 <groupId>mysql</groupId>
-                 <artifactId>mysql-connector-java</artifactId>
+                 <groupId>org.postgresql</groupId>
+                 <artifactId>postgresql</artifactId>
+                 <version>42.2.22</version>
              </dependency>
              <dependency>
                  <groupId>org.springframework.boot</groupId>
@@ -346,19 +347,19 @@ cargar la configuración por defecto definida en `application.properties`.
     ```
 
 
-- Para lanzar la aplicación necesitarás un servidor MySQL en el puerto
-  3306 con el usuario `root` sin contraseña. Es muy sencillo
-  descargarlo y ejecutarlo si tienes instalado Docker. Ejecuta desde
-  el terminal:
+- Para lanzar la aplicación necesitarás un servidor Postgres en el
+  puerto 5432 con el usuario `mads`, la contraseña `mads` y la base de
+  datos `mads`. Es muy sencillo descargarlo y ejecutarlo si tienes
+  instalado Docker. Ejecuta desde el terminal:
 
     ```
-    docker run -d -p 3306:3306 --name mysql-develop -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=mads mysql:5 
+    docker run -d -p 5432:5432 --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
     ```
 
-    Docker se descarga la imagen `mysql:5` y lanza el contenedor (una
-    instancia en marcha de una imagen) conectado al puerto 3306 (no debe
+    Docker se descarga la imagen `postgres:13` y lanza el contenedor (una
+    instancia en marcha de una imagen) conectado al puerto 5432 (no debe
     estar ocupado) y sobre la base de datos `mads`. Le da como nombre
-    `mysql-develop`.
+    `postgres-develop`.
    
     Puedes ejecutar los siguientes comandos de Docker:
     
@@ -366,24 +367,26 @@ cargar la configuración por defecto definida en `application.properties`.
       $ docker container ls -a (comprueba todos los contenedores en marcha)
       $ docker container stop <nombre o id de contenedor> (para un contenedor)
       $ docker container start <nombre o id de contenedor> (pone en marcha un contenedor)
+      $ docker container logs <mombre o id de contenedor> (muestra logs del contenedor)
       $ docker container rm nombre o id de contenedor> (elimina un contenedor)
       ```
 
 - Arranca la aplicación con el siguiente comando:
 
     ```
-    ./mvnw spring-boot:run -Dprofiles=mysql
+    ./mvnw spring-boot:run -Dprofiles=postgres
     ```
 
-    Se activará el perfil `mysql` y se cargarán las preferencias de
+    Se activará el perfil `docker` y se cargarán las preferencias de
     `src/main/resource/application.properties` y
-    `src/main/resource/application-mysql.properties`.
+    `src/main/resource/application-postgres.properties`.
 
     Prueba a introducir datos en la aplicación y comprueba que se
-    están guardando en la base de datos con _MySQL Workbench_ o alguna
-    aplicación similar.
+    están guardando en la base de datos utilizando por ejemplo el
+    panel `Database` de IntelliJ:
 
-    <img src="imagenes/mysql-workbench.png" width="700px"/>
+    <img src="imagenes/panel-database.png" width="700px"/>
+
 
 - Cierra la aplicación y vuelve a abrirla. Comprueba que los datos que
   se han creado en la ejecución anterior siguen estando. Podemos
@@ -396,43 +399,43 @@ cargar la configuración por defecto definida en `application.properties`.
 
     ```
     $ docker container ls -a 
-    CONTAINER ID        IMAGE     ...    NAME
-    520fee61d51e        mysql:5   ...    mysql-develop
-    $ docker container stop mysql-develop
+    CONTAINER ID        IMAGE        ...    NAME
+    520fee61d51e        posgres:13   ...    postgres-develop
+    $ docker container stop postgres-develop
     ```
 
     Además de por línea de comando, también es posible gestionar los
     contenedores usando la aplicación _Docker Desktop_ que se
     encuentra en la propia instalación de Docker.
 
-- Lanzamos ahora otro contenedor con la base de datos de test:
+- Lanzamos ahora otro contenedor con la base de datos de test (`mads_test`):
 
     ```
-    docker run -d -p 3306:3306 --name mysql-test -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=mads_test mysql:5 
+    docker run -d -p 5432:5432 --name postgres-test -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads_test postgres:13
     ```
 
-    Y lanzamos los tests usando el perfil `mysql` con la base de datos MySQL con el siguiente comando:
+    Y lanzamos los tests usando el perfil `postgres` con la base de datos Postgres con el siguiente comando:
   
       ```
-      ./mvnw test -Dspring.profiles.active=mysql
+      ./mvnw test -Dspring.profiles.active=postgres
       ```
   
-    Nos conectamos con MySQL Workbench a la base de datos `mads_test`
+    Nos conectamos con el panel `Database` de IntelliJ a la base de datos `mads_test`
     y comprobamos que los datos que hay en la base de datos
     corresponden con los introducidos en el fichero `datos-test.sql`
     que se carga antes de ejecutar los tests.
 
-- Podemos parar y arrancar el contenedor MySQL que necesitemos con
+- Podemos parar y arrancar el contenedor Postgres que necesitemos con
   `docker container stop` y `docker container start`. Como hemos dicho
   antes, mientras que no borres el contenedor los datos siguen estando
-  en él. Por ejemplo, para parar el contenedor MySQL con la base de
+  en él. Por ejemplo, para parar el contenedor Postgres con la base de
   datos de test y arrancar el contenedor con la base de datos de
   desarrollo:
   
     ```
     $ docker container ls -a 
-    $ docker container stop mysql-test
-    $ docker container start mysql-develop
+    $ docker container stop postgres-test
+    $ docker container start postgres-develop
     ```
 
 - Realiza un commit con los cambios, súbelos a la rama y cierra el
@@ -440,7 +443,7 @@ cargar la configuración por defecto definida en `application.properties`.
   
       ```
       $ (perfiles) git add .
-      $ (perfiles) git commit -m "Añadidos perfiles para trabajar con MySQL"
+      $ (perfiles) git commit -m "Añadidos perfiles para trabajar con Postgres"
       $ (perfiles) git push
       // Mezclamos el Pull Request en GitHub
       $ (perfiles) git checkout main
@@ -1107,14 +1110,14 @@ documentación técnica** de lo implementado en las historias de usuario
 009 y 010.
 
 En la documentación debes incluir también una **captura de pantalla**
-en la que se muestren las tablas y datos de la base de datos MySQL del
-contenedor docker. Puedes mostrar, por ejempo, una pantalla con MySQL
-workbench, o la herramienta que hayas utilizado.
+en la que se muestren las tablas y datos de la base de datos Postgres del
+contenedor docker. Puedes mostrar, por ejempo, una pantalla con el
+panel `Database` de IntelliJ o la herramienta que hayas utilizado.
 
 Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las **historias de usuario 009 y 010**.
 
-1. Pantalla de la base de datos MySQL.
+1. Pantalla de la base de datos Postgres.
 2. Rutas (endpoints) definidas para las acciones y, para cada endpoint o grupo de endpoints,
    explicación sobre:
     1. Clases y métodos
