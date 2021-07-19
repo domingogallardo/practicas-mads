@@ -504,7 +504,7 @@ Detalles
 ```
 
 Vamos a utilizar la técnica de TDD para construir la funcionalidad
-**de abajo a arriba**. Comenzaremos con tests que construyan la capa
+**de dentro a fuera**. Comenzaremos con tests que construyan la capa
 de modelo (clases de entidad y repository) y después pasaremos a tests
 que construyan la capa de servicio.
 
@@ -554,7 +554,7 @@ implementar por ti mismo.
 El primer test es para crear la entidad `Equipo`. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo
 
-**Fichero `src/test/java/madstodolist/EquipoTest.java**:
+**Fichero `src/test/java/madstodolist/EquipoTest.java`**:
 ```java
 package madstodolist;
 
