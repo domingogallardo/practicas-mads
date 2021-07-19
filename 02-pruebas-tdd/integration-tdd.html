@@ -1074,7 +1074,7 @@ Detalles
     * Un usuario podrá pertenecer a más de un equipo.
 </code></pre></div>
 <p>Vamos a utilizar la técnica de TDD para construir la funcionalidad
-<strong>de abajo a arriba</strong>. Comenzaremos con tests que construyan la capa
+<strong>de dentro a fuera</strong>. Comenzaremos con tests que construyan la capa
 de modelo (clases de entidad y repository) y después pasaremos a tests
 que construyan la capa de servicio.</p>
 <p>Por último, una vez implementados los métodos de servicios necesarios,
@@ -1122,7 +1122,7 @@ implementar por ti mismo. </p>
 <h4 id="primer-test-entidad-equipo">Primer test - Entidad <code>Equipo</code><a class="headerlink" href="#primer-test-entidad-equipo" title="Permanent link">&para;</a></h4>
 <p>El primer test es para crear la entidad <code>Equipo</code>. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
-<p><strong>Fichero `src/test/java/madstodolist/EquipoTest.java</strong>:
+<p><strong>Fichero <code>src/test/java/madstodolist/EquipoTest.java</code></strong>:
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">madstodolist.model.Equipo</span><span class="p">;</span>
