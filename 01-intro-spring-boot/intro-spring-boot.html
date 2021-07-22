@@ -541,6 +541,9 @@
                 
                 
                 <h1 id="introduccion-a-spring-boot">Introducción a Spring Boot<a class="headerlink" href="#introduccion-a-spring-boot" title="Permanent link">&para;</a></h1>
+<p>Vamos a trabajar con la versión 2.4.8 de Spring Boot. Se puede
+consultar toda la documentación oficial sobre esta versión en <a href="https://docs.spring.io/spring-boot/docs/2.4.8/reference/html/index.html">este
+enlace</a>. </p>
 <h2 id="descarga-de-la-aplicacion-ejemplo">Descarga de la aplicación ejemplo<a class="headerlink" href="#descarga-de-la-aplicacion-ejemplo" title="Permanent link">&para;</a></h2>
 <p>Es muy sencillo crear aplicaciones de Spring Boot <strong>desde cero</strong> usando la
 web <a href="https://start.spring.io">Spring initializr</a>. En esa página puedes
@@ -845,6 +848,7 @@ diccionario (la variable <code>model</code> que recibe como parámetro):</p>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h3>
+<p>En Spring Boot 2.4 se usa JUnit 5 como librería de tests.</p>
 <p>En la aplicación de demostración hay varios ejemplos que muestran
 posibles formas de realizar pruebas en una aplicación Spring Boot.</p>
 <p>Spring Boot incluye el framework
@@ -866,15 +870,11 @@ servicio <code>saluda</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">demoapp</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">demoapp.service.SaludoService</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.test.context.junit4.SpringRunner</span><span class="p">;</span>
-
 <span class="kn">import static</span> <span class="nn">org.assertj.core.api.Assertions.assertThat</span><span class="p">;</span>
 
-<span class="nd">@RunWith</span><span class="p">(</span><span class="n">SpringRunner</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
 <span class="nd">@SpringBootTest</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServiceTest</span> <span class="p">{</span>
 
@@ -897,36 +897,37 @@ servicio <code>saluda</code>.</p>
 realmente el servidor web ni ejecutar realmente las peticiones
 HTTP. Se obtiene por inyección de dependencias un <em>mock</em> de
 la clase <code>MockMvc</code> y se usan métodos como <code>perform(get("/"))</code>.</p>
-<p>En el ejemplo siguiente se comprueba que una petición <code>GET</code> a la URL
-<code>/</code> devuelve un código HTTP OK (200) y una página HTML con la cadena
-esperada.</p>
+<p>En el primer test del ejemplo siguiente se comprueba que una petición
+<code>GET</code> a la URL <code>/</code> devuelve un código HTTP OK (200) y una página HTML
+con la cadena esperada.</p>
 <p>En este test lo único que se moquea es el servidor web, y se ejecuta
 el código real del servicio, del controlador y de la plantilla.</p>
 <p>Se utilizan los métodos <code>andDo</code> y <code>andExpect</code> de la propia librería de
 testeo de Spring Framework y el método <code>conteainsString</code> de la
 librería de testeo <a href="http://hamcrest.org/JavaHamcrest/tutorial">Hamcrest</a>.</p>
-<p><strong>Fichero <code>src/test/demoapp/AutoConfigureWebMockTest.java</code></strong></p>
+<p>También es posible realizar un test únicamente del controlador y la
+plantilla de presentación, moqueando el servicio. Se muestra en el
+segundo test del ejemplo.</p>
+<p><strong>Fichero <code>src/test/demoapp/WebMockTest.java</code></strong></p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">demoapp</span><span class="p">;</span>
 
-
-<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">demoapp.service.SaludoService</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.test.context.junit4.SpringRunner</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.mock.mockito.MockBean</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.test.web.servlet.MockMvc</span><span class="p">;</span>
 
 <span class="kn">import static</span> <span class="nn">org.hamcrest.Matchers.containsString</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.mockito.Mockito.when</span><span class="p">;</span>
 <span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultHandlers.print</span><span class="p">;</span>
 <span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultMatchers.content</span><span class="p">;</span>
 <span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultMatchers.status</span><span class="p">;</span>
 
-<span class="nd">@RunWith</span><span class="p">(</span><span class="n">SpringRunner</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
 <span class="nd">@SpringBootTest</span>
 <span class="nd">@AutoConfigureMockMvc</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AutoConfigureWebMockTest</span> <span class="p">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebMockTest</span> <span class="p">{</span>
 
     <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="p">;</span>
@@ -934,53 +935,21 @@ librería de testeo <a href="http://hamcrest.org/JavaHamcrest/tutorial">Hamcrest
     <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">shouldReturnDefaultMessage</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">))</span>
-                <span class="p">.</span><span class="na">andDo</span><span class="p">(</span><span class="n">print</span><span class="p">())</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">isOk</span><span class="p">())</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">)));</span>
     <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>También es posible realizar un test únicamente del controlador y la
-plantilla de presentación, moqueando el servicio. Se muestra en el
-siguiente ejemplo.</p>
-<p><strong>Fichero <code>src/test/java/WebMockTest.java</code></strong></p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">demoapp</span><span class="p">;</span>
 
-
-<span class="kn">import</span> <span class="nn">demoapp.controller.SaludoController</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">demoapp.service.SaludoService</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.test.mock.mockito.MockBean</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.test.context.junit4.SpringRunner</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.test.web.servlet.MockMvc</span><span class="p">;</span>
-
-<span class="kn">import static</span> <span class="nn">org.hamcrest.Matchers.containsString</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.mockito.Mockito.when</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultHandlers.print</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultMatchers.content</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultMatchers.status</span><span class="p">;</span>
-
-<span class="nd">@RunWith</span><span class="p">(</span><span class="n">SpringRunner</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-<span class="nd">@WebMvcTest</span><span class="p">(</span><span class="n">SaludoController</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebMockTest</span> <span class="p">{</span>
-
-    <span class="nd">@Autowired</span>
-    <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="p">;</span>
-
+    <span class="c1">// Podemos también mockear el servicio</span>
     <span class="nd">@MockBean</span>
     <span class="kd">private</span> <span class="n">SaludoService</span> <span class="n">service</span><span class="p">;</span>
 
     <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">greetingShouldReturnMessageFromService</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
 
+        <span class="c1">// Y especificar lo que debe devolver una llamada a uno de sus métodos</span>
         <span class="n">when</span><span class="p">(</span><span class="n">service</span><span class="p">.</span><span class="na">saluda</span><span class="p">(</span><span class="s">&quot;Domingo&quot;</span><span class="p">)).</span><span class="na">thenReturn</span><span class="p">(</span><span class="s">&quot;Hola Mock Domingo&quot;</span><span class="p">);</span>
 
         <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/saludo/Domingo&quot;</span><span class="p">))</span>
-                <span class="p">.</span><span class="na">andDo</span><span class="p">(</span><span class="n">print</span><span class="p">())</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">isOk</span><span class="p">())</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Hola Mock Domingo&quot;</span><span class="p">)));</span>
     <span class="p">}</span>
@@ -995,32 +964,25 @@ web y realizar completamente el procesamiento de la petición. </p>
 <p><strong>Fichero <code>src/test/java/demoapp/HttpRequestTest</code></strong></p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">demoapp</span><span class="p">;</span>
 
-
-<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest.WebEnvironment</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.test.web.client.TestRestTemplate</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.web.server.LocalServerPort</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.test.context.junit4.SpringRunner</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest.WebEnvironment</span><span class="p">;</span>
 
 <span class="kn">import static</span> <span class="nn">org.assertj.core.api.Assertions.assertThat</span><span class="p">;</span>
 
-<span class="nd">@RunWith</span><span class="p">(</span><span class="n">SpringRunner</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
 <span class="nd">@SpringBootTest</span><span class="p">(</span><span class="n">webEnvironment</span> <span class="o">=</span> <span class="n">WebEnvironment</span><span class="p">.</span><span class="na">RANDOM_PORT</span><span class="p">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HttpRequestTest</span> <span class="p">{</span>
-
-    <span class="nd">@LocalServerPort</span>
-    <span class="kd">private</span> <span class="kt">int</span> <span class="n">port</span><span class="p">;</span>
 
     <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">TestRestTemplate</span> <span class="n">restTemplate</span><span class="p">;</span>
 
     <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">greetingShouldReturnDefaultMessage</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="na">restTemplate</span><span class="p">.</span><span class="na">getForObject</span><span class="p">(</span><span class="s">&quot;http://localhost:&quot;</span> <span class="o">+</span> <span class="n">port</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span><span class="p">,</span>
-                <span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">)).</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">);</span>
+        <span class="n">String</span> <span class="n">body</span> <span class="o">=</span> <span class="n">restTemplate</span><span class="p">.</span><span class="na">getForObject</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">body</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">));</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1028,8 +990,8 @@ web y realizar completamente el procesamiento de la petición. </p>
 <ul>
 <li>Getting Started Guide <a href="https://spring.io/guides/gs/spring-boot/">Building an Application with Spring Boot</a></li>
 <li>Getting Started Guide <a href="https://spring.io/guides/gs/serving-web-content/">Serving Web Content with Spring MVC</a></li>
-<li>Spring Boot Reference Guide 2.1.16.RELEASE
-  (<a href="https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/htmlsingle/">HTML</a>, <a href="https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/pdf/spring-boot-reference.pdf">PDF</a>)</li>
+<li>Spring Boot Reference Guide 2.4.8
+  (<a href="https://docs.spring.io/spring-boot/docs/2.4.8/reference/htmlsingle/">HTML</a>, <a href="https://docs.spring.io/spring-boot/docs/2.4.8/reference/pdf/spring-boot-reference.pdf">PDF</a>)</li>
 </ul>
                 
               
