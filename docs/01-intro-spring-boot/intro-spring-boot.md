@@ -1,5 +1,9 @@
 # Introducción a Spring Boot #
 
+Vamos a trabajar con la versión 2.4.8 de Spring Boot. Se puede
+consultar toda la documentación oficial sobre esta versión en [este
+enlace](https://docs.spring.io/spring-boot/docs/2.4.8/reference/html/index.html). 
+
 ## Descarga de la aplicación ejemplo ##
 
 Es muy sencillo crear aplicaciones de Spring Boot **desde cero** usando la
@@ -393,6 +397,8 @@ public class SaludoControllerPlantilla {
 
 ### Tests ###
 
+En Spring Boot 2.4 se usa JUnit 5 como librería de tests.
+
 En la aplicación de demostración hay varios ejemplos que muestran
 posibles formas de realizar pruebas en una aplicación Spring Boot.
 
@@ -429,15 +435,11 @@ servicio `saluda`.
 package demoapp;
 
 import demoapp.service.SaludoService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class ServiceTest {
 
@@ -464,9 +466,9 @@ realmente el servidor web ni ejecutar realmente las peticiones
 HTTP. Se obtiene por inyección de dependencias un _mock_ de
 la clase `MockMvc` y se usan métodos como `perform(get("/"))`.
 
-En el ejemplo siguiente se comprueba que una petición `GET` a la URL
-`/` devuelve un código HTTP OK (200) y una página HTML con la cadena
-esperada.
+En el primer test del ejemplo siguiente se comprueba que una petición
+`GET` a la URL `/` devuelve un código HTTP OK (200) y una página HTML
+con la cadena esperada.
 
 En este test lo único que se moquea es el servidor web, y se ejecuta
 el código real del servicio, del controlador y de la plantilla.
@@ -475,30 +477,33 @@ Se utilizan los métodos `andDo` y `andExpect` de la propia librería de
 testeo de Spring Framework y el método `conteainsString` de la
 librería de testeo [Hamcrest](http://hamcrest.org/JavaHamcrest/tutorial).
 
-**Fichero `src/test/demoapp/AutoConfigureWebMockTest.java`**
+
+También es posible realizar un test únicamente del controlador y la
+plantilla de presentación, moqueando el servicio. Se muestra en el
+segundo test del ejemplo.
+
+**Fichero `src/test/demoapp/WebMockTest.java`**
 
 ```java
 package demoapp;
 
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import demoapp.service.SaludoService;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AutoConfigureWebMockTest {
+public class WebMockTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -506,58 +511,21 @@ public class AutoConfigureWebMockTest {
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
         this.mockMvc.perform(get("/"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Hello World")));
     }
-}
-```
 
-
-También es posible realizar un test únicamente del controlador y la
-plantilla de presentación, moqueando el servicio. Se muestra en el
-siguiente ejemplo.
-
-**Fichero `src/test/java/WebMockTest.java`**
-
-```java
-package demoapp;
-
-
-import demoapp.controller.SaludoController;
-import demoapp.service.SaludoService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-@RunWith(SpringRunner.class)
-@WebMvcTest(SaludoController.class)
-public class WebMockTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
+    // Podemos también mockear el servicio
     @MockBean
     private SaludoService service;
 
     @Test
     public void greetingShouldReturnMessageFromService() throws Exception {
 
+        // Y especificar lo que debe devolver una llamada a uno de sus métodos
         when(service.saluda("Domingo")).thenReturn("Hola Mock Domingo");
 
         this.mockMvc.perform(get("/saludo/Domingo"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Hola Mock Domingo")));
     }
@@ -578,32 +546,25 @@ web y realizar completamente el procesamiento de la petición.
 ```java
 package demoapp;
 
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class HttpRequestTest {
-
-    @LocalServerPort
-    private int port;
 
     @Autowired
     private TestRestTemplate restTemplate;
 
     @Test
     public void greetingShouldReturnDefaultMessage() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/",
-                String.class)).contains("Hello World");
+        String body = restTemplate.getForObject("/", String.class);
+        assertThat(body.contains("Hello World"));
     }
 }
 ```
@@ -613,6 +574,6 @@ public class HttpRequestTest {
 
 - Getting Started Guide [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
 - Getting Started Guide [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-- Spring Boot Reference Guide 2.1.16.RELEASE
-  ([HTML](https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/htmlsingle/), [PDF](https://docs.spring.io/spring-boot/docs/2.1.16.RELEASE/reference/pdf/spring-boot-reference.pdf))
+- Spring Boot Reference Guide 2.4.8
+  ([HTML](https://docs.spring.io/spring-boot/docs/2.4.8/reference/htmlsingle/), [PDF](https://docs.spring.io/spring-boot/docs/2.4.8/reference/pdf/spring-boot-reference.pdf))
   
