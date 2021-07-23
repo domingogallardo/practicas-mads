@@ -10,10 +10,10 @@ https://classroom.github.com/help/upgrade-your-organization
 
 -->
 
-# Primera aplicación con Spring Boot#
+# Práctica 1: Primera aplicación con Spring Boot#
 
-Esta es la **primera parte** de la práctica 1. En esta parte tendremos un
-primer contacto con Spring Boot. También usaremos Git.
+En esta práctica tendremos un primer contacto con Spring Boot. También
+usaremos Git.
 
 Los objetivos principales son:
 

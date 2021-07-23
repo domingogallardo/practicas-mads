@@ -3,10 +3,10 @@ use_directory_urls: false
 
 nav:
 - 'Práctica 1':
-   - 'Primera aplicación con Spring Boot': '01-intro-spring-boot/practica0.md'
+   - 'Primera aplicación con Spring Boot': '01-intro-spring-boot/practica1.md'
    - 'Introducción a Spring Boot': '01-intro-spring-boot/intro-spring-boot.md'
    - 'Comandos Git': '01-intro-spring-boot/comandos-git.md'
-- 'Práctica 2': '02-todolist/practica1.md'
+- 'Práctica 2': '02-todolist/practica2.md'
 - 'Práctica 3': '03-pruebas-tdd/integration-tdd.md'
 - 'Práctica 4': '04-gitflow-despliegue/gitflow-despliegue.md'
 - 'Práctica 5': '05-iteracion-scrum/iteracion-scrum.md'

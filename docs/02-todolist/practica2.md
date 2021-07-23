@@ -1,7 +1,5 @@
 
-# Aplicación ToDoList
-
-Esta es la **segunda parte** de la práctica 1.
+# Práctica 2: Aplicación ToDoList
 
 ## Objetivos
 
