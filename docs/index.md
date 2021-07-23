@@ -6,10 +6,10 @@ Software de la Universidad de Alicante.
     - [Introducción a Spring Boot](01-intro-spring-boot/intro-spring-boot.md)
     - [Comandos Git](01-intro-spring-boot/comandos-git.md)
     - [Primera aplicación con Spring Boot](01-intro-spring-boot/practica0.md)
-    - [Aplicación ToDoList](01-intro-spring-boot/practica1.md)
-- [Práctica 2](02-pruebas-tdd/integration-tdd.md)
-- [Práctica 3](03-gitflow-despliegue/gitflow-despliegue.md)
-- [Práctica 4](04-iteracion-scrum/iteracion-scrum.md)
+- [Práctica 2](02-todolist/practica1.md)
+- [Práctica 3](03-pruebas-tdd/integration-tdd.md)
+- [Práctica 4](04-gitflow-despliegue/gitflow-despliegue.md)
+- [Práctica 5](05-iteracion-scrum/iteracion-scrum.md)
 
 
 #### Construido con MkDocs ####

@@ -16,7 +16,7 @@ desarrollando _issues_, _pull requests_, _releases_ y actualizando la
 wiki del proyecto.
 
 Igual que en la primera parte, debes leer la [introducción a Spring
-Boot](./intro-spring-boot.md) para entender los conceptos
+Boot](../01-intro-spring-boot/intro-spring-boot.md) para entender los conceptos
 fundamentales del framework. 
 
 ## Aplicación inicial ##
@@ -99,7 +99,7 @@ de trabajo e ideal para una metodología de desarrollo en
 equipo. Suponemos que ya tienes cierta experiencia con su uso. Puedes
 usar los siguientes enlaces para repasar su funcionamiento.
 
-- [Resumen de comandos de Git](comandos-git.md): Resumen de comandos
+- [Resumen de comandos de Git](../01-intro-spring-boot/comandos-git.md): Resumen de comandos
   principales para empezar a trabajar con Git.
 - [Atlassian Git Tutorials](https://www.atlassian.com/git/tutorials/):
   Tutoriales muy orientados al uso de Git con gran cantidad de
