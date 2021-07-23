@@ -1,18 +1,18 @@
-# Práctica 4: Sprint 
+# Práctica 5: Sprint 
 
 ## Objetivos y resumen de la práctica
 
 En esta práctica seguiremos trabajando con los mismos equipos y
-proyecto que en la práctica 3.
+proyecto que en la práctica 4.
 
 Durante las 3 semanas de la práctica el equipo realizará una iteración
 para desarrollar un incremento de la aplicación
-`TodoList`. Usaremos el mismo flujo de trabajo de la práctica 3 para
+`TodoList`. Usaremos el mismo flujo de trabajo de la práctica 4 para
 desarrollar sobre la rama `develop`:
 
 - Una tarjeta en el tablero de Trello para cada historia de
   usuario. Cada historia de usuario continuará la numeración que
-  comenzamos en la práctica 2. 
+  comenzamos en la práctica 3. 
 - La historia de usuario se puede descomponer en mas de un issue en
   GitHub o hacerla en un único issue si es corta. En cualquier caso,
   se deberán etiquetar los issues con la etiqueta asociada a la
@@ -38,7 +38,7 @@ El tablero Trello contendrá el **backlog del producto** y servirá para
 trabajar con estas historias de usuario en formato de tarjeta,
 escribirlas rápidamente, estimarlas y ordenarlas.
 
-Cada tarjeta Trello contendrá lo que ya habéis hecho para la práctica 3:
+Cada tarjeta Trello contendrá lo que ya habéis hecho para la práctica 4:
 
 - Título de la historia de usuario
 - Descripción 

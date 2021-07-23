@@ -1,5 +1,5 @@
 
-# Práctica 3: Trabajo en equipo con GitFlow y diseño de nuevas funcionalidades
+# Práctica 4: Trabajo en equipo con GitFlow y diseño de nuevas funcionalidades
 
 ## Objetivos y resumen de la práctica ##
 
@@ -12,7 +12,7 @@ En esta práctica se pretende conseguir:
     - Lanzamiento de una versión nueva usando GitFlow.
 3. Preparar el _backlog_ del producto con las nuevas historias de
    usuario a implementar en la siguiente iteración de la aplicación
-   que se realizará en la práctica 4.
+   que se realizará en la práctica 5.
 
 ## Formación de equipos ##
 
@@ -38,7 +38,7 @@ _team_ y el repositorio.
 
     El equipo trabajará con un repositorio creado por GitHub Classroom
     con el nombre `todolist-final-NOMBRE-EQUIPO`. Al igual que en
-    la práctica 1, el repositorio se creará en el grupo `mads-ua-20-21`.
+    la práctica 2, el repositorio se creará en el grupo `mads-ua-20-21`.
 
     <img src="imagenes/repo-creado-github-classroom.png" width="700px"/>
 
@@ -50,7 +50,7 @@ _team_ y el repositorio.
 
 - Una vez creado el repositorio debéis crear en él un tablero para
   gestionar las tarjetas con los _issues_ y los pull
-  requests. Creadlos con las mismas columnas que en las prácticas 1 y 2.
+  requests. Creadlos con las mismas columnas que en las prácticas 2 y 3.
 
 - Escoged el proyecto que vais a usar como punto de partida de estas
   dos últimas prácticas de entre los proyectos de los miembros del
@@ -259,7 +259,7 @@ página del proyecto. Tendréis que definir `develop`.
 
 ### Ramas de feature ###
 
-Desde el comienzo de trabajo con Git en las prácticas 1 y 2 estamos
+Desde el comienzo de trabajo con Git en las prácticas 2 y 3 estamos
 haciendo un desarrollo basado en ramas de corto recorrido,
 equivalentes a las ramas de _features_ de GitFlow. 
 
@@ -379,7 +379,7 @@ para no dar demasiadas ideas.
 
 <img src="imagenes/tablero.png" width="700px"/>
 
-En la primera semana de la práctica 4 el profesor se reunirá con el
+En la primera semana de la práctica 5 el profesor se reunirá con el
 equipo y podrá pediros alguna aclaración sobre las propuestas y la
 estimación de tamaño de las funcionalidades antes de validarlas.
 
@@ -401,7 +401,7 @@ estimación de tamaño de las funcionalidades antes de validarlas.
     consenso.
           
 - Debéis seleccionar historias que sumen entre 12 y 15 puntos para
-  implementar en la siguiente práctica 4. Para los equipos de 2
+  implementar en la siguiente práctica 5. Para los equipos de 2
   personas seleccionar entre 8 y 10 puntos. La práctica 4 tendrá una
   duración de 3 semanas.
   
@@ -435,7 +435,7 @@ estimación de tamaño de las funcionalidades antes de validarlas.
       manuales. Las pruebas se definen a partir de estas condiciones
       de satisfacción.
   
-En la primera semana de la práctica 4 el profesor se reunirá con el
+En la primera semana de la práctica 5 el profesor se reunirá con el
 equipo y podrá pediros alguna aclaración sobre las propuestas y la
 estimación de tamaño de las funcionalidades antes de validarlas.
 

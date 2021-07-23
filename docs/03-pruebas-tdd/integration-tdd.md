@@ -1,7 +1,7 @@
 
-# Práctica 2: Integración con GitHub Actions y TDD
+# Práctica 3: Integración con GitHub Actions y TDD
 
-En esta práctica 2 de la asignatura realizaremos dos tareas principales:
+En esta práctica 3 de la asignatura realizaremos dos tareas principales:
 
 - Configuraremos un sistema de integración continua usando las
   _actions_ del repositorio de GitHub. En este sistema se lanzarán los
@@ -179,7 +179,7 @@ Postgres en producción.
 
 En esta práctica vamos a configurar un perfil de la aplicación para
 poder lanzar los tests y ejecutar la aplicación usando una base de
-datos Postgres. En la práctica 3 veremos cómo definir un perfil para
+datos Postgres. En la práctica 4 veremos cómo definir un perfil para
 trabajar con una base de datos de producción.
 
 !!! Note "Nota"
@@ -187,7 +187,7 @@ trabajar con una base de datos de producción.
     introducidos por los usuarios de la misma. Hay que prestar una
     atención especial a esta base de datos y definir políticas de
     respaldo y de control de cambios para evitar que se produzca
-    cualquier pérdida de información. Veremos en la práctica 3 que una
+    cualquier pérdida de información. Veremos en la práctica 4 que una
     de las cuestiones que hay que asegurar es que la aplicación no
     puede modificar el esquema de datos de esta base de datos. Habrá
     que definir un flujo de trabajo para implementar en el esquema de
@@ -241,7 +241,7 @@ cargar la configuración por defecto definida en `application.properties`.
   VirtualBox.
   
   Lo vamos a utilizar para **lanzar el servidor Postgres de base de
-  datos** y también para la futura práctica 3.
+  datos** y también para la futura práctica 4.
   
   **Si tienes Windows, Docker no es compatible con VirtualBox**. Si
   quieres usar ambos programas puedes usar una versión limitada de

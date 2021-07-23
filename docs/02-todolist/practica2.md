@@ -3,8 +3,7 @@
 
 ## Objetivos
 
-En esta segunda parte de la práctica vamos a
-trabajar sobre la aplicación inicial
+En práctica 2 vamos a trabajar sobre la aplicación inicial
 [domingogallardo/mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial).
 
 Esta parte tendrá una duración de cuatro semanas. Deberás realizarla de
@@ -49,7 +48,7 @@ largo de las prácticas. El nombre de la aplicación es **ToDo List**.
 
 ## Metodología de desarrollo ##
 
-En cuanto a la metodología de desarrollo, en esta primera práctica
+En cuanto a la metodología de desarrollo, en esta práctica
 repasaremos e introduciremos el uso de:
 
 - [Git](https://git-scm.com) como sistema de control de versiones que nos permitirá
@@ -252,7 +251,7 @@ es la versión inicial de la aplicación que se va a desarrollar
 durante todo el cuatrimestre en la asignatura.
 
 Es una aplicación bastante más compleja que la vista en la
-parte anterior de la práctica. Entre otros, tiene los siguientes elementos:
+práctica 1. Entre otros, tiene los siguientes elementos:
 
 - Gestiona distintos comandos HTTP: GET, POST, DELETE.
 - Recogida de datos en formularios HTML y validación de los datos.
@@ -316,7 +315,7 @@ deberá ser `validate` para no modificar la base de datos de producción.
 
 Es posible definir otras configuraciones e indicar en el comando de
 ejecución de la aplicación Spring Boot qué fichero de configuración
-usar. Lo veremos en la práctica 2.
+usar. Lo veremos en la práctica 3.
 
 En esta práctica se define otra configuración en el directorio de
 test, que es la que se carga cuando se lanzan los tests:
