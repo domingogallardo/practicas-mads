@@ -268,8 +268,8 @@ La práctica tiene una duración de 4 semanas.
     - Entrega en Moodle la última versión del proyecto subida a
       GitHub.
 
-La calificación de la práctica tiene un peso de un 13% en la nota
-final de la asignatura.
+La calificación de la práctica tiene un peso de un 25% en la nota
+final de prácticas.
 
 Para la evaluación se tendrá en cuenta:
 

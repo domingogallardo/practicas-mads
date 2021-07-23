@@ -1137,8 +1137,8 @@ se puede ver pulsando el botón `Raw`. Verás el [texto Markdown](https://raw.gi
 - La práctica tiene una duración de 3 semanas y la fecha límite de
   entrega es el martes 10 de noviembre.
 - La parte obligatoria puntúa sobre 8 y la opcional sobre 2 puntos.
-- La calificación de la práctica tiene un peso de un 7% en la nota
-  final de la asignatura. 
+- La calificación de la práctica tiene un peso de un 15% en la nota
+  final de prácticas. 
 - Para realizar la entrega se debe subir a Moodle un ZIP que contenga
   todo el proyecto, incluyendo el directorio `.git` que contiene la
   historia Git. Para ello comprime tu directorio local del proyecto

@@ -2028,8 +2028,8 @@ Markdown](https://guides.github.com/features/mastering-markdown/).
 - La práctica tiene una duración de 4 semanas y debe estar terminada
   el martes 20 de octubre.
 - La parte obligatoria puntúa sobre 6 y la opcional sobre 4 puntos.
-- La calificación de la práctica tiene un peso de un 10% en la nota
-  final de la asignatura.
+- La calificación de la práctica tiene un peso de un 25% en la nota
+  final de prácticas.
 - Para realizar la entrega se debe subir a Moodle un ZIP que contenga
   todo el proyecto, incluyendo el directorio `.git` que contiene la
   historia Git. Para ello comprime tu directorio local del proyecto

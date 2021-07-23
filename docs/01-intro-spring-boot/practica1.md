@@ -244,8 +244,8 @@ asignatura.
 
 - La práctica tiene una duración de 1 semana y debe estar terminada
   el martes 22 de septiembre.
-- La calificación de la práctica tiene un peso de un 3% en la nota
-  final de la asignatura.
+- La calificación de la práctica tiene un peso de un 10% en la nota
+  final de prácticas.
 
 Para realizar la entrega debes hacer lo siguiente:
 

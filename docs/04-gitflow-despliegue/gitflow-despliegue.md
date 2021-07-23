@@ -852,8 +852,8 @@ entorno hay que utilizar el flag `-e VARIABLE=valor`.
 
 - La práctica tiene una duración de 2 semanas y debe estar terminada
   el martes 1 de diciembre.
-- La calificación de la práctica tiene un peso de un 7% en la nota
-  final de la asignatura.
+- La calificación de la práctica tiene un peso de un 15% en la nota
+  final de prácticas.
 - Para realizar la entrega uno de los miembros del equipo debe subir a
   Moodle un ZIP que contenga todo el proyecto, incluyendo el
   directorio `.git` que contiene la historia Git. Para ello comprime
