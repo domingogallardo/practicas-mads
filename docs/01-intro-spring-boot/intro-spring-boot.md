@@ -4,7 +4,7 @@ Vamos a trabajar con la versión 2.4.8 de Spring Boot. Se puede
 consultar toda la documentación oficial sobre esta versión en [este
 enlace](https://docs.spring.io/spring-boot/docs/2.4.8/reference/html/index.html). 
 
-## Descarga de la aplicación ejemplo ##
+## Aplicación ejemplo ##
 
 Es muy sencillo crear aplicaciones de Spring Boot **desde cero** usando la
 web [Spring initializr](https://start.spring.io). En esa página puedes
@@ -13,13 +13,11 @@ el proyecto como un ZIP con la estructura de directorios y el POM
 ya configurados. 
 
 Nosotros vamos a hacerlo más fácil todavía usando una aplicación
-ejemplo en
-GitHub [domingogallardo/spring-boot-demoapp](https://github.com/domingogallardo/spring-boot-demoapp). Puedes
-descargarla usando Git:
+ejemplo en GitHub
+[domingogallardo/spring-boot-demoapp](https://github.com/domingogallardo/spring-boot-demoapp). 
 
-```
-$ git clone https://github.com/domingogallardo/spring-boot-demoapp.git
-```
+En el [enunciado de la práctica](./practica1.md) se encuentran las instrucciones para
+crear un repositorio GitHub y descargarla en tu ordenador local.
 
 La aplicación es un sencillo `Hola mundo`. En los siguientes apartados
 explicamos cómo lanzarla y cómo funciona.
@@ -101,7 +99,6 @@ aplicación, volverla a lanzar, etc:
 <img src="imagenes/panel-ejecucion.png" width="900px"/>
 
 ## Conceptos de Spring Boot ##
-
 
 ### Estructura de la aplicación ###
 
@@ -418,8 +415,13 @@ O también, usando el comando de Maven Wrapper:
 $ .mvnw test
 ```
 
+También se pueden lanzar desde el propio IntelliJ, pulsando en el
+panel del proyecto sobre el directorio de tests con el botón
+derecho. Los tests se lanzarán y aparecerá un panel en el que se
+mostrará si pasan correctamente (verde) o no.
 
-También se pueden lanzar desde el propio IntelliJ.
+<img src="imagenes/tests-intellij.png" width="600px" />
+
 
 #### Tests sobre clases de servicio ####
 
@@ -571,6 +573,19 @@ public class HttpRequestTest {
 
 
 ## Referencias ##
+
+Puedes encontrar la documentación de referencia de Spring Boot y
+Spring en las siguientes páginas, en la pestaña _Learn_:
+
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Spring](https://spring.io/projects/spring-framework) 
+
+También podemos encontrar también una extensa cantidad de tutoriales y guías
+rápidas en la web de Spring, en la url
+[https://spring.io/guides](https://spring.io/guides).
+
+En concreto, hemos usado las siguientes referencias para construir
+esta primera aplicación ejemplo:
 
 - Getting Started Guide [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
 - Getting Started Guide [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
