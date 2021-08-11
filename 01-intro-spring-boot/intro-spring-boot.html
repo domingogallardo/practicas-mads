@@ -195,7 +195,7 @@
   
     <li class="md-nav__item">
       <a href="practica1.html" class="md-nav__link">
-        Primera aplicación con Spring Boot
+        Enunciado de la práctica
       </a>
     </li>
   
@@ -239,8 +239,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#descarga-de-la-aplicacion-ejemplo" class="md-nav__link">
-    Descarga de la aplicación ejemplo
+  <a href="#aplicacion-ejemplo" class="md-nav__link">
+    Aplicación ejemplo
   </a>
   
 </li>
@@ -335,7 +335,7 @@
   
     <li class="md-nav__item">
       <a href="comandos-git.html" class="md-nav__link">
-        Comandos Git
+        Resumen de comandos Git
       </a>
     </li>
   
@@ -448,8 +448,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#descarga-de-la-aplicacion-ejemplo" class="md-nav__link">
-    Descarga de la aplicación ejemplo
+  <a href="#aplicacion-ejemplo" class="md-nav__link">
+    Aplicación ejemplo
   </a>
   
 </li>
@@ -547,18 +547,17 @@
 <p>Vamos a trabajar con la versión 2.4.8 de Spring Boot. Se puede
 consultar toda la documentación oficial sobre esta versión en <a href="https://docs.spring.io/spring-boot/docs/2.4.8/reference/html/index.html">este
 enlace</a>. </p>
-<h2 id="descarga-de-la-aplicacion-ejemplo">Descarga de la aplicación ejemplo<a class="headerlink" href="#descarga-de-la-aplicacion-ejemplo" title="Permanent link">&para;</a></h2>
+<h2 id="aplicacion-ejemplo">Aplicación ejemplo<a class="headerlink" href="#aplicacion-ejemplo" title="Permanent link">&para;</a></h2>
 <p>Es muy sencillo crear aplicaciones de Spring Boot <strong>desde cero</strong> usando la
 web <a href="https://start.spring.io">Spring initializr</a>. En esa página puedes
 configurar los metadatos del proyecto y sus dependencias y descargar
 el proyecto como un ZIP con la estructura de directorios y el POM
 ya configurados. </p>
 <p>Nosotros vamos a hacerlo más fácil todavía usando una aplicación
-ejemplo en
-GitHub <a href="https://github.com/domingogallardo/spring-boot-demoapp">domingogallardo/spring-boot-demoapp</a>. Puedes
-descargarla usando Git:</p>
-<div class="highlight"><pre><span></span><code>$ git clone https://github.com/domingogallardo/spring-boot-demoapp.git
-</code></pre></div>
+ejemplo en GitHub
+<a href="https://github.com/domingogallardo/spring-boot-demoapp">domingogallardo/spring-boot-demoapp</a>. </p>
+<p>En el <a href="practica1.html">enunciado de la práctica</a> se encuentran las instrucciones para
+crear un repositorio GitHub y descargarla en tu ordenador local.</p>
 <p>La aplicación es un sencillo <code>Hola mundo</code>. En los siguientes apartados
 explicamos cómo lanzarla y cómo funciona.</p>
 <h2 id="ejecucion-de-aplicaciones-spring-boot">Ejecución de aplicaciones Spring Boot<a class="headerlink" href="#ejecucion-de-aplicaciones-spring-boot" title="Permanent link">&para;</a></h2>
@@ -863,7 +862,11 @@ expresiones de prueba con un lenguaje muy expresivo.</p>
 <p>O también, usando el comando de Maven Wrapper:</p>
 <div class="highlight"><pre><span></span><code>$ .mvnw test
 </code></pre></div>
-<p>También se pueden lanzar desde el propio IntelliJ.</p>
+<p>También se pueden lanzar desde el propio IntelliJ, pulsando en el
+panel del proyecto sobre el directorio de tests con el botón
+derecho. Los tests se lanzarán y aparecerá un panel en el que se
+mostrará si pasan correctamente (verde) o no.</p>
+<p><img src="imagenes/tests-intellij.png" width="600px" /></p>
 <h4 id="tests-sobre-clases-de-servicio">Tests sobre clases de servicio<a class="headerlink" href="#tests-sobre-clases-de-servicio" title="Permanent link">&para;</a></h4>
 <p>Podemos realizar pruebas sobre la capa de servicio, obteniendo una
 instancia del servicio mediante inyección de dependencias.</p>
@@ -990,6 +993,17 @@ web y realizar completamente el procesamiento de la petición. </p>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="referencias">Referencias<a class="headerlink" href="#referencias" title="Permanent link">&para;</a></h2>
+<p>Puedes encontrar la documentación de referencia de Spring Boot y
+Spring en las siguientes páginas, en la pestaña <em>Learn</em>:</p>
+<ul>
+<li><a href="https://spring.io/projects/spring-boot">Spring Boot</a></li>
+<li><a href="https://spring.io/projects/spring-framework">Spring</a> </li>
+</ul>
+<p>También podemos encontrar también una extensa cantidad de tutoriales y guías
+rápidas en la web de Spring, en la url
+<a href="https://spring.io/guides">https://spring.io/guides</a>.</p>
+<p>En concreto, hemos usado las siguientes referencias para construir
+esta primera aplicación ejemplo:</p>
 <ul>
 <li>Getting Started Guide <a href="https://spring.io/guides/gs/spring-boot/">Building an Application with Spring Boot</a></li>
 <li>Getting Started Guide <a href="https://spring.io/guides/gs/serving-web-content/">Serving Web Content with Spring MVC</a></li>
@@ -1023,7 +1037,7 @@ web y realizar completamente el procesamiento de la petición. </p>
               <span class="md-footer__direction">
                 Anterior
               </span>
-              Primera aplicación con Spring Boot
+              Enunciado de la práctica
             </div>
           </div>
         </a>
@@ -1035,7 +1049,7 @@ web y realizar completamente el procesamiento de la petición. </p>
               <span class="md-footer__direction">
                 Siguiente
               </span>
-              Comandos Git
+              Resumen de comandos Git
             </div>
           </div>
           <div class="md-footer__button md-icon">

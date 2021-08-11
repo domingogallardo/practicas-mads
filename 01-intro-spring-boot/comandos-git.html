@@ -14,7 +14,7 @@
     
     
       
-        <title>Comandos Git - Prácticas MADS</title>
+        <title>Resumen de comandos Git - Prácticas MADS</title>
       
     
     
@@ -92,7 +92,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Comandos Git
+              Resumen de comandos Git
             
           </span>
         </div>
@@ -195,7 +195,7 @@
   
     <li class="md-nav__item">
       <a href="practica1.html" class="md-nav__link">
-        Primera aplicación con Spring Boot
+        Enunciado de la práctica
       </a>
     </li>
   
@@ -224,20 +224,24 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Comandos Git
+          Resumen de comandos Git
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="comandos-git.html" class="md-nav__link md-nav__link--active">
-        Comandos Git
+        Resumen de comandos Git
       </a>
       
         
 <nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
   
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">
@@ -247,43 +251,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#resumen-de-comandos-git" class="md-nav__link">
-    Resumen de comandos Git
-  </a>
-  
-    <nav class="md-nav" aria-label="Resumen de comandos Git">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#comandos-basicos" class="md-nav__link">
     Comandos básicos
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#ramas" class="md-nav__link">
     Ramas
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#modificar-la-historia" class="md-nav__link">
     Modificar la historia
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#mas-informacion" class="md-nav__link">
     Más información
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -392,6 +383,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -400,43 +393,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#resumen-de-comandos-git" class="md-nav__link">
-    Resumen de comandos Git
-  </a>
-  
-    <nav class="md-nav" aria-label="Resumen de comandos Git">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#comandos-basicos" class="md-nav__link">
     Comandos básicos
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#ramas" class="md-nav__link">
     Ramas
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#modificar-la-historia" class="md-nav__link">
     Modificar la historia
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#mas-informacion" class="md-nav__link">
     Más información
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -453,9 +433,7 @@
               
                 
                 
-                  <h1>Comandos Git</h1>
-                
-                <h2 id="resumen-de-comandos-git">Resumen de comandos Git<a class="headerlink" href="#resumen-de-comandos-git" title="Permanent link">&para;</a></h2>
+                <h1 id="resumen-de-comandos-git">Resumen de comandos Git<a class="headerlink" href="#resumen-de-comandos-git" title="Permanent link">&para;</a></h1>
 <p>Comandos principales para trabajar con Git de forma individual. Los
 comandos relacionados con el trabajo en equipo los veremos en la
 práctica 2.</p>
@@ -464,7 +442,7 @@ práctica 2.</p>
 recomendable, deberías bajártelo y guardarlo como material de
 aprendizaje y de referencia. Está disponible de forma gratuita en
 múltiples versiones (PDF, eBook, HTML y mobi).</p>
-<h3 id="comandos-basicos">Comandos básicos<a class="headerlink" href="#comandos-basicos" title="Permanent link">&para;</a></h3>
+<h2 id="comandos-basicos">Comandos básicos<a class="headerlink" href="#comandos-basicos" title="Permanent link">&para;</a></h2>
 <ul>
 <li>
 <p>Configurar el usuario y dirección de correo en git:</p>
@@ -474,27 +452,19 @@ $ git config --global user.email johndoe@example.com
 </li>
 <li>
 <p>Inicializar git en un directorio:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ <span class="nb">cd</span> /ruta/a/mi/directorio
+<div class="highlight"><pre><span></span><code>$ cd /ruta/a/mi/directorio
 $ git config --global user.name &lt;nombre-usuario&gt;
 $ git config --global user.email &lt;email&gt;
 $ git init
 $ git add .
-$ git commit -m <span class="s2">&quot;Versión inicial&quot;</span>
+$ git commit -m &quot;Versión inicial&quot;
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Publicar por primera vez el repositorio local en el remoto (en GitHub):</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git remote add origin &lt;url-repo&gt;.git
+<div class="highlight"><pre><span></span><code>$ git remote add origin &lt;url-repo&gt;.git
 $ git push -u origin main
 </code></pre></div>
-</td></tr></table>
 <p>El nombre del repositorio remoto será <code>origin</code> (nombre estándar
 del repositorio remoto en el caso en el que sólo haya
 uno). Subimos al repositorio la rama <code>main</code> (la rama por defecto
@@ -502,24 +472,21 @@ que se crea al inicializar el repositorio local).</p>
 </li>
 <li>
 <p>Comprobar el estado del repositorio local: </p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git status
+<div class="highlight"><pre><span></span><code>$ git status
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Comprobar las diferencias entre los ficheros modificados en el
   directorio de trabajo y el último commit:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git diff
+<div class="highlight"><pre><span></span><code>$ git diff
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Añadir un fichero al
   <a href="http://programmers.stackexchange.com/questions/119782/what-does-stage-mean-in-git"><em>stage</em></a>
   (añadirlo para el próximo commit):</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git add &lt;fichero o directorio&gt;
+<div class="highlight"><pre><span></span><code>$ git add &lt;fichero o directorio&gt;
 </code></pre></div>
-</td></tr></table>
 <p>El área de <em>stage</em> también se llama el <em>index</em>. Es muy importante
 entender su funcionamiento para trabajar con Git. El siguiente
 dibujo muestra su funcionamiento:</p>
@@ -527,42 +494,35 @@ dibujo muestra su funcionamiento:</p>
 </li>
 <li>
 <p>Hacer un commit de los ficheros en el <em>stage</em>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git commit -m <span class="s2">&quot;Mensaje&quot;</span>
+<div class="highlight"><pre><span></span><code>$ git commit -m &quot;Mensaje&quot;
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Eliminar un fichero del <em>stage</em> (si lo hemos añadido, pero al final
   decidimos no añadirlo en el siguiente commit):</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git reset HEAD &lt;fichero&gt;
+<div class="highlight"><pre><span></span><code>$ git reset HEAD &lt;fichero&gt;
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Se puede combinar en un único comando el <code>add</code> y el <code>commit</code> en
   ficheros ya añadidos al control de versiones:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git commit -a -m <span class="s2">&quot;Mensaje&quot;</span>
+<div class="highlight"><pre><span></span><code>$ git commit -a -m &quot;Mensaje&quot;
 </code></pre></div>
-</td></tr></table>
 <p>Se puede abreviar como </p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git commit -am <span class="s2">&quot;Mensaje&quot;</span><span class="sb">`</span>
+<div class="highlight"><pre><span></span><code>$ git commit -am &quot;Mensaje&quot;`
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Eliminar todos los cambios realizados en el directorio, volviendo al
   último commit:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git reset --hard HEAD
-$ git clean -fd <span class="o">(</span>si se ha añadido algún fichero<span class="o">)</span>
+<div class="highlight"><pre><span></span><code>$ git reset --hard HEAD
+$ git clean -fd (si se ha añadido algún fichero)
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Publicar los cambios en el repositorio remoto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git push
+<div class="highlight"><pre><span></span><code>$ git push
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Consultar los mensajes de los commits (toda la historia de la rama
@@ -570,20 +530,18 @@ $ git clean -fd <span class="o">(</span>si se ha añadido algún fichero<span cl
   mensaje, la opción <code>--graph</code> muestra el grafo de dependencias y la
   opción <code>--all</code>muestra el grafo completo, no sólo aquel en el que
   estamos (<code>HEAD</code>).</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git log <span class="o">[</span>--oneline<span class="o">]</span> <span class="o">[</span>--graph<span class="o">]</span> <span class="o">[</span>--all<span class="o">]</span>
+<div class="highlight"><pre><span></span><code>$ git log [--oneline] [--graph] [--all]
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Comprobar las diferencias entre dos commits:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git diff &lt;hash-previo&gt; &lt;hash-nuevo&gt;
+<div class="highlight"><pre><span></span><code>$ git diff &lt;hash-previo&gt; &lt;hash-nuevo&gt;
 </code></pre></div>
-</td></tr></table>
 <p>Devuelve las cambios que se han introducido desde el commit
 identificado por <hash-previo> y hasta el <hash-nuevo>.</p>
 </li>
 </ul>
-<h3 id="ramas">Ramas<a class="headerlink" href="#ramas" title="Permanent link">&para;</a></h3>
+<h2 id="ramas">Ramas<a class="headerlink" href="#ramas" title="Permanent link">&para;</a></h2>
 <p>Es muy importante entender que las ramas en Git son como etiquetas
 móviles. La rama en la que estamos se actualiza de posición cada vez
 que hacemos un nuevo commit. Git mantiene en la referencia <code>HEAD</code> la
@@ -592,56 +550,43 @@ rama actual.</p>
 <ul>
 <li>
 <p>Crear una rama nueva:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout -b nueva-rama
-M   hola.txt <span class="o">(</span>si hay cambios en el espacio de trabajo se llevan a la nueva rama<span class="o">)</span>
-Switched to a new branch <span class="s1">&#39;nueva-rama&#39;</span>
+<div class="highlight"><pre><span></span><code>$ git checkout -b nueva-rama
+M   hola.txt (si hay cambios en el espacio de trabajo se llevan a la nueva rama)
+Switched to a new branch &#39;nueva-rama&#39;
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Listar todas las ramas de un repositorio (incluyendo ramas remotas)</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git branch -av
+<div class="highlight"><pre><span></span><code>$ git branch -av
 main
 * nueva-rama
-$ git commit -a -m <span class="s2">&quot;Confirmamos los cambios en la nueva rama&quot;</span>
+$ git commit -a -m &quot;Confirmamos los cambios en la nueva rama&quot;
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Moverse a otra rama:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout main
-Switched to branch <span class="s1">&#39;main&#39;</span>
+<div class="highlight"><pre><span></span><code>$ git checkout main
+Switched to branch &#39;main&#39;
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Mostrar un fichero de una rama (o commit) dado:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git show &lt;commit o rama&gt;:&lt;nombre-fichero&gt;
+<div class="highlight"><pre><span></span><code>$ git show &lt;commit o rama&gt;:&lt;nombre-fichero&gt;
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Comparar dos ramas:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git diff main nueva-rama
+<div class="highlight"><pre><span></span><code>$ git diff main nueva-rama
 </code></pre></div>
-</td></tr></table>
 <p>El comando <code>git diff main nueva-rama</code> devuelve las diferencias
 entre las ramas <code>main</code> y <code>nueva-rama</code>: las modificaciones que
 resultarían de mezclar la rama <code>nueva-rama</code> en la rama <code>main</code>.</p>
 </li>
 <li>
 <p><strong><em>Merge</em> de ramas</strong>: Mezclar la rama <code>nueva-rama</code> en la rama <code>main</code> (añade a la <code>main</code> los commits adicionales de la rama <code>nueva-rama</code>):</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout main
-$ git merge <span class="o">[</span>--no-ff<span class="o">]</span> nueva-rama -m <span class="s2">&quot;Mensaje de commit&quot;</span>
+<div class="highlight"><pre><span></span><code>$ git checkout main
+$ git merge [--no-ff] nueva-rama -m &quot;Mensaje de commit&quot;
 </code></pre></div>
-</td></tr></table>
 <p>La opción <code>--no-ff</code> no hace un fast forward y mantiene separados
 los commits de la rama en el log de commits. Es útil para revisar
 la historia del repositorio.</p>
@@ -652,19 +597,13 @@ la historia del repositorio.</p>
   esas líneas conservando las dos versiones y añadiendo la información
   de la procedencia. Debemos resolver el conflicto: editarlos a mano y
   volver a hacer add y commit.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git merge nueva-rama
-CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict <span class="k">in</span> hola.txt  
-Automatic merge failed<span class="p">;</span> fix conflicts and <span class="k">then</span> commit the result.  
-<span class="c1"># editar a mano el fichero con conflictos</span>
-$ git commit -a -m <span class="s2">&quot;Arreglado el conflicto en el merge&quot;</span>
+<div class="highlight"><pre><span></span><code>$ git merge nueva-rama
+CONFLICT (content): Merge conflict in hola.txt  
+Automatic merge failed; fix conflicts and then commit the result.  
+# editar a mano el fichero con conflictos
+$ git commit -a -m &quot;Arreglado el conflicto en el merge&quot;
 $ git merge nueva-rama
 </code></pre></div>
-</td></tr></table>
 <p>El comando <code>git status</code> después de un merge nos indica qué
 ficheros no se han mezclado y hay que editar manualmente.</p>
 </li>
@@ -672,95 +611,72 @@ ficheros no se han mezclado y hay que editar manualmente.</p>
 <p><strong><em>Rebase</em> de una rama</strong>. Si la rama main ha avanzado después de
   separar una rama alternativa y queremos incorporar esos cambios en
   la rama alternativa podemos hacer un <code>git rebase</code>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout -b experiment
-<span class="c1"># hacemos cambios</span>
-$ git commit -m <span class="s2">&quot;Cambios en experiment&quot;</span>
+<div class="highlight"><pre><span></span><code>$ git checkout -b experiment
+# hacemos cambios
+$ git commit -m &quot;Cambios en experiment&quot;
 $ git checkout main  
-<span class="c1"># hacemos cambios  </span>
-$ git commit -a -m <span class="s2">&quot;Cambios en main&quot;</span>  
+# hacemos cambios  
+$ git commit -a -m &quot;Cambios en main&quot;  
 $ git checkout experiment
 $ git rebase main  
 First, rewinding head to replay your work on top of it...  
 Applying: Corregido bug1  
 Applying: Corregido bug2
 </code></pre></div>
-</td></tr></table>
 <p><img src="imagenes/rebase.png" width="600px"></p>
 <p>El comando cambia la historia de la rama: primero la mueve al
 final de la rama main (<em>rewind head</em>) y a partir de ahí aplica
 los cambios propios de la rama.</p>
-<p><strong>IMPORTANTE</strong>: No se debe hacer un <em>rebase</em> de commits que
+<div class="admonition danger">
+<p class="admonition-title">¡Cuidado!</p>
+<p>No se debe hacer un <em>rebase</em> de commits que
 existan en otros repositorios locales de compañeros. Al volver a
 aplicar los commits sobre los commits rebobinados, se cambia su
 número de hash (identificador) y se convierten en commits
 distintos.</p>
+</div>
 <p>Una vez que hemos hecho el <em>rebase</em> ya podemos añadir mover la
 rama <code>main</code> y tener una historia lineal:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout main
+<div class="highlight"><pre><span></span><code>$ git checkout main
 $ git merge nueva-rama
-<span class="c1"># Borramos la rama una vez mezclada</span>
+# Borramos la rama una vez mezclada
 $ git branch -d nueva-rama
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Igual que en el <em>merge</em>, al hacer un rebase pueden aparecer
   conflictos al hacer el <em>rebase</em>, basta con modificar los ficheros
   con conflictos, añadirlos y continuar el <em>rebase</em>:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git rebase main
-CONFLICT <span class="o">(</span>content<span class="o">)</span>: Merge conflict <span class="k">in</span> &lt;some-file&gt;
-<span class="c1"># hacemos git status para comprobar donde están los conflictos</span>
+<div class="highlight"><pre><span></span><code>$ git rebase main
+CONFLICT (content): Merge conflict in &lt;some-file&gt;
+# hacemos git status para comprobar donde están los conflictos
 $ git status
-<span class="c1"># Unmerged paths:</span>
-<span class="c1"># (use &quot;git reset HEAD &lt;some-file&gt;...&quot; to unstage)</span>
-<span class="c1"># (use &quot;git add/rm &lt;some-file&gt;...&quot; as appropriate to mark resolution)</span>
-<span class="c1">#</span>
-<span class="c1"># Editamos los ficheros para corregir los conflictos</span>
+# Unmerged paths:
+# (use &quot;git reset HEAD &lt;some-file&gt;...&quot; to unstage)
+# (use &quot;git add/rm &lt;some-file&gt;...&quot; as appropriate to mark resolution)
+#
+# Editamos los ficheros para corregir los conflictos
 $ git add &lt;some-file&gt;
 $ git rebase --continue
 </code></pre></div>
-</td></tr></table>
-<p><strong>IMPORTANTE</strong>: Es posible integrar los cambios de una rama
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Es posible integrar los cambios de una rama
 haciendo un <em>merge</em> o haciendo un <em>rebase</em>. Ambas estrategias son
 correctas y cada una tiene sus pros y contras. Nosotros vamos a
 usar ambas para aprender su funcionamiento.</p>
+</div>
 </li>
 <li>
 <p>Log en forma de grafo:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git log --graph --oneline
+<div class="highlight"><pre><span></span><code>$ git log --graph --oneline 
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Borrar una rama:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git branch -d nueva-rama  
-Deleted branch nueva-rama <span class="o">(</span>was c241d7b<span class="o">)</span>
+<div class="highlight"><pre><span></span><code>$ git branch -d nueva-rama  
+Deleted branch nueva-rama (was c241d7b)
 </code></pre></div>
-</td></tr></table>
 <p>Sólo podemos borrar de la forma anterior ramas en las que no
 estamos y que se han mezclado con alguna otra. El comando anterior
 no permite borrar ramas activas que tienen commits sin mezclar con
@@ -768,41 +684,30 @@ otras.</p>
 </li>
 <li>
 <p>Borrar una rama descartando sus commits:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git branch -D rama
+<div class="highlight"><pre><span></span><code>$ git branch -D rama
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Subir una rama al repositorio remoto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git push -u origin &lt;rama&gt;
+<div class="highlight"><pre><span></span><code>$ git push -u origin &lt;rama&gt;
 </code></pre></div>
-</td></tr></table>
-<p><strong>Para no tener que escribir la contraseña del repositorio remoto cada
-vez</strong> puedes utilizar el siguiente comando que la guarda en una caché:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git config --global credential.helper cache.
-</code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Descargar una rama del repositorio remoto (origin, por ejemplo, el
   repositorio remoto por defecto)</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git fetch 
+<div class="highlight"><pre><span></span><code>$ git fetch 
 $ git checkout -b &lt;rama&gt; origin/&lt;rama&gt;
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Consultar ramas locales y conexiones repositorio remoto (origin, por ejemplo)</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git remote show origin
+<div class="highlight"><pre><span></span><code>$ git remote show origin
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Subir todas las ramas y etiquetas:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git push -u -all origin
+<div class="highlight"><pre><span></span><code>$ git push -u -all origin
 </code></pre></div>
-</td></tr></table>
 <p>Al poner la opción -u hacemos tracking del repositorio remoto y
 las referencias quedan almacenadas en el fichero de configuración
 .git/config. A partir de ahora sólo es necesario hacer <code>git push</code>
@@ -810,71 +715,54 @@ para subir los cambios en cualquiera de las ramas presentes.</p>
 </li>
 <li>
 <p>Borrar una rama en repositorio remoto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git push origin --delete &lt;branchName&gt;
+<div class="highlight"><pre><span></span><code>$ git push origin --delete &lt;branchName&gt;
 </code></pre></div>
-</td></tr></table>
 </li>
 </ul>
-<h3 id="modificar-la-historia">Modificar la historia<a class="headerlink" href="#modificar-la-historia" title="Permanent link">&para;</a></h3>
+<h2 id="modificar-la-historia">Modificar la historia<a class="headerlink" href="#modificar-la-historia" title="Permanent link">&para;</a></h2>
 <ul>
 <li>
 <p>Modificar el mensaje del último commit. Se abrirá un editor en el
   que modificar el mensaje. También se puede escribir el mensaje a
   mano:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git commit --amend <span class="o">[</span>--m <span class="s2">&quot;Nuevo mensaje&quot;</span><span class="o">]</span>
+<div class="highlight"><pre><span></span><code>$ git commit --amend [--m &quot;Nuevo mensaje&quot;]
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Deshacer el último commit (sólo la acción del commit, dejando los cambios en el <em>stage</em>):</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git reset --soft HEAD^
+<div class="highlight"><pre><span></span><code>$ git reset --soft HEAD^
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Descartar el último merge y volver a la situación anterior al hacer el merge:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git reset --merge ORIG_HEAD
+<div class="highlight"><pre><span></span><code>$ git reset --merge ORIG_HEAD
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Movernos atrás a un commit pasado, mirar los ficheros, crear una
   nueva rama allí (o no) y volver al commit actual:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout &lt;hash&gt; <span class="o">(</span>o tag, por ejemplo v2.0<span class="o">)</span>
-You are <span class="k">in</span> <span class="s1">&#39;detached HEAD&#39;</span> state.
-<span class="c1"># Ahora estás en un detached HEAD</span>
+<div class="highlight"><pre><span></span><code>$ git checkout &lt;hash&gt; (o tag, por ejemplo v2.0)
+You are in &#39;detached HEAD&#39; state.
+# Ahora estás en un detached HEAD
 $ git branch
-* <span class="o">(</span>HEAD detached at 594b606<span class="o">)</span>
+* (HEAD detached at 594b606)
 main
 $ git checkout -b v2.0.1
-Switched to a new branch <span class="s1">&#39;v2.0.1&#39;</span>
+Switched to a new branch &#39;v2.0.1&#39;
 $ git branch
 main
 * v2.0.1
 $ git checkout main
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Movernos atrás a un commit pasado, descartando todos los commits
   realizados después (<strong>peligroso</strong>)</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git reset --hard &lt;hash&gt;
+<div class="highlight"><pre><span></span><code>$ git reset --hard &lt;hash&gt;
 </code></pre></div>
-</td></tr></table>
 </li>
 </ul>
-<h3 id="mas-informacion">Más información<a class="headerlink" href="#mas-informacion" title="Permanent link">&para;</a></h3>
+<h2 id="mas-informacion">Más información<a class="headerlink" href="#mas-informacion" title="Permanent link">&para;</a></h2>
 <p>Puedes encontrar más información en los siguientes documentos:</p>
 <ul>
 <li><em>Pro Git</em> - <a href="https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository">Recording Changes to the Repository</a></li>
