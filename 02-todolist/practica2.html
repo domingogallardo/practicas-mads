@@ -656,16 +656,16 @@
 <p>Esta parte tendrá una duración de cuatro semanas. Deberás realizarla de
 forma individual, siguiendo las indicaciones que encontrarás en este
 documento. Tendrás que desarrollar código y trabajar en GitHub
-desarrollando <em>issues</em>, <em>pull requests</em>, <em>releases</em> y actualizando la
-wiki del proyecto.</p>
+desarrollando <em>issues</em>, <em>pull requests</em>, <em>releases</em> y actualizando los
+tableros del proyecto (en Trello y en GitHub).</p>
 <p>Igual que en la primera parte, debes leer la <a href="../01-intro-spring-boot/intro-spring-boot.html">introducción a Spring
 Boot</a> para entender los conceptos
 fundamentales del framework. </p>
 <h2 id="aplicacion-inicial">Aplicación inicial<a class="headerlink" href="#aplicacion-inicial" title="Permanent link">&para;</a></h2>
-<p>La aplicación inicial es una aplicación para gestionar listas de
-tareas pendientes de los usuarios de la aplicación. Se pueden registrar
-y logear usuarios y los usuarios registrados pueden añadir, modificar
-y borrar tareas pendientes de hacer.</p>
+<p>La aplicación con la que vamos a trabajar es una típica aplicación
+ToDo que sirve para gestionar tareas pendientes. Se pueden registrar y
+logear usuarios y los usuarios registrados pueden añadir, modificar y
+borrar tareas pendientes de hacer.</p>
 <p>A continuación puedes ver dos de las pantallas de la aplicación.</p>
 <table>
 <tr>
@@ -684,7 +684,7 @@ y borrar tareas pendientes de hacer.</p>
 </table>
 
 <p>Iremos desarrollando características adicionales de la aplicación a lo
-largo de las prácticas. El nombre de la aplicación es <strong>ToDo List</strong>.</p>
+largo de las prácticas. El nombre de la aplicación es <strong>ToDoList</strong>.</p>
 <h2 id="metodologia-de-desarrollo">Metodología de desarrollo<a class="headerlink" href="#metodologia-de-desarrollo" title="Permanent link">&para;</a></h2>
 <p>En cuanto a la metodología de desarrollo, en esta práctica
 repasaremos e introduciremos el uso de:</p>
@@ -870,7 +870,7 @@ durante todo el cuatrimestre en la asignatura.</p>
 <p>Es una aplicación bastante más compleja que la vista en la
 práctica 1. Entre otros, tiene los siguientes elementos:</p>
 <ul>
-<li>Gestiona distintos comandos HTTP: GET, POST, DELETE.</li>
+<li>Distintos comandos HTTP: GET, POST, DELETE.</li>
 <li>Recogida de datos en formularios HTML y validación de los datos.</li>
 <li>Base de datos gestionada con JPA (<em>Java Persisence API</em>), un ORM (<em>Object Relational
   Mapping</em>) implementado por la librería Hibernate. Se utiliza una
@@ -1841,7 +1841,7 @@ llamar a la base de datos (de esta forma se acelera el test).</p>
     <span class="nd">@MockBean</span>
     <span class="kd">private</span> <span class="n">TareaService</span> <span class="n">tareaService</span><span class="p">;</span>
 
-    <span class="c1">// Al mocker el manegerUserSession, no lanza la excepción cuando</span>
+    <span class="c1">// Al mocker el managerUserSession, no lanza la excepción cuando</span>
     <span class="c1">// se intenta comprobar si un usuario está logeado</span>
     <span class="nd">@MockBean</span>
     <span class="kd">private</span> <span class="n">ManagerUserSesion</span> <span class="n">managerUserSesion</span><span class="p">;</span>
@@ -1869,8 +1869,8 @@ llamar a la base de datos (de esta forma se acelera el test).</p>
 <li>
 <p>Una vez logeado en GitHub, copia el enlace con una invitación que
    compartiremos en el foro de Moodle. Con esa invitación se creará
-   automáticamente el repositorio <code>todolist-&lt;usuario&gt;</code> en la
-   organización <a href="https://github.com/mads-ua-20-21">mads-ua</a>. Al igual
+   automáticamente tu repositorio <code>todolist-&lt;usuario&gt;</code> en la
+   organización <a href="https://github.com/mads-ua-21-22">mads-ua</a>. Al igual
    que el repositorio de la primera parte de la práctica es un
    repositorio privado al que tienes acceso tú y el profesor. Contiene
    el código inicial de un proyecto base (es una copia del repositorio
@@ -1878,19 +1878,16 @@ llamar a la base de datos (de esta forma se acelera el test).</p>
    en la que se han comprimido todos los commits en uno.</p>
 <p>Es importante que tengas en cuenta que el repositorio recién
 creado no reside en tu cuenta, sino en la organización
-<code>mads-ua-20-21</code>. Puedes acceder a él desde el <em>dashboard</em> de GitHub que
+<code>mads-ua-21-22</code>. Puedes acceder a él desde el <em>dashboard</em> de GitHub que
 aparece cuando te logeas.</p>
 </li>
 <li>
 <p>Descarga el proyecto y comprueba que se compila y ejecuta
    correctamente:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git clone https://github.com/mads-ua/todolist-&lt;usuario&gt;.git
-$ <span class="nb">cd</span> todolist-&lt;usuario&gt;
+<div class="highlight"><pre><span></span><code>$ git clone https://github.com/mads-ua/todolist-&lt;usuario&gt;.git
+$ cd todolist-&lt;usuario&gt;
 $ ./mvnw spring-boot:run
 </code></pre></div>
-</td></tr></table>
 <p>Comprueba que la aplicación está funcionando en
 <a href="http://localhost:8080/login">http://localhost:8080/login</a> en la máquina host.</p>
 <p><img src="./imagenes/login.png" width="600px"/></p>
@@ -2092,8 +2089,20 @@ necesarios para la página <em>acerca de</em>:</p>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
-<p>Prueba la página accediendo a la url <a href="http://localhost:9000/about">http://localhost:9000/about</a>.</p>
+<p>Prueba la página accediendo a la url
+<a href="http://localhost:9000/about">http://localhost:9000/about</a>. </p>
 <p><img src="./imagenes/pagina-acerca-de.png" width="400px"/></p>
+<p>Lanza también todos los tests para comprobar que no se ha roto nada.</p>
+<div class="highlight"><pre><span></span><code>(acerca-de) $ ./mvnw test
+...
+[INFO] 
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21.879 s
+</code></pre></div>
 <p>Por último, confirma el commit en la rama y súbelo a GitHub. En el
 panel <code>Git</code>:</p>
 <div class="highlight"><pre><span></span><code>(acerca-de) $ git add .
@@ -2111,7 +2120,8 @@ login de la aplicación.</p>
                      &lt;/div&gt;
              &lt;/form&gt;
 </code></pre></div>
-<p>Prueba que funciona correctamente, haz el commit y súbelo a GitHub:</p>
+<p>Prueba que funciona correctamente, prueba los tests, haz el commit y
+súbelo a GitHub:</p>
 <div class="highlight"><pre><span></span><code>(acerca-de) $ git status
 (acerca-de) $ git add .
 (acerca-de) $ git commit -m &quot;Añadido enlace a página &#39;about&#39; en página &#39;login&#39;&quot;
@@ -2122,22 +2132,70 @@ login de la aplicación.</p>
 creamos un pull request en GitHub para indicar que estamos listos
 para mezclar la rama con la feature con la rama principal de
 desarrollo (<em>main</em>).</p>
-<p>Más adelante añadiremos al pull request una comprobación automática
-de las pruebas y una revisión de código por parte de compañeros del
-equipo. Por ahora haremos nosotros ambas tareas.</p>
+<h5 id="creacion-del-pull-request">Creación del pull request<a class="headerlink" href="#creacion-del-pull-request" title="Permanent link">&para;</a></h5>
+<p>Accede en GitHub a la rama <code>acerca-de</code> y comprueba que se han subido
+todos los cambios pulsando <code>Compare</code>.</p>
+<p><img src="./imagenes/rama-acerca-de.png" width="700px"/></p>
+<p>Aparecerá la siguiente página, con la información de los cambios que
+introducen todos los commits de la rama:</p>
+<p><img src="./imagenes/compara-cambios-pr.png" width="700px"/></p>
+<p>Pulsa después el botón <em>Create pull request</em> para crear el pull request.</p>
+<p>Escribe como título del PR: <code>Añadida página 'Acerca de'</code> y </p>
+<p>En el comentario escribe:</p>
+<div class="highlight"><pre><span></span><code>Closes #1
+</code></pre></div>
+<p>Verás que al escribir <code>#1</code> aparecerá el nombre del issue. Si escribes
+sólo <code>#</code> verás una lista de los últimos issues. </p>
+<p>De esta forma estamos enlazando el PR con el issue. Cuando se cierre
+el pull request se cerrará automáticamente el issue. También podremos
+acceder desde el issue al PR enlazado.</p>
+<p>Pulsa en el botón para crear el pull request. Debe quedar la
+siguiente pantalla en la que informa del PR recién creado:</p>
+<p><img src="./imagenes/pull-request-practica.png" width="700px"/></p>
+<p>En el proyecto mueve la tarjeta con el issue a la columna <code>In
+Pull Request</code>. Verás que se ha añadido en la parte inferior de la
+tarjeta un desplegable con la información sobre el PR enlazado.</p>
+<p><img src="./imagenes/movido-a-in-pull-request.png" width="700px"/></p>
+<p>En este momento los compañeros del equipo podrían revisar el pull
+request y el código que se va a introducir. En la propia página del
+pull request es posible conversar y realizar comentarios que puede
+aclarar el autor del PR. Y también es posible subir nuevos commits con
+modificaciones o ampliaciones correspondientes a las sugerencias
+indicadas.</p>
+<p>Haremos esto en futuras prácticas.</p>
+<p>Podemos ver que GitHub informa de que no hay conflictos con la rama
+<code>main</code> y que es posible hacer el merge en GitHub.</p>
+<h5 id="comprobacion-de-tests-en-main">Comprobación de tests en main<a class="headerlink" href="#comprobacion-de-tests-en-main" title="Permanent link">&para;</a></h5>
+<p>Antes de pulsar el botón para que GitHub mezcle la rama <code>acerca-de</code> en
+la rama <code>main</code> debemos comprobar que todos los tests pasarían
+correctamente después de la mezcla. Podría ser que algún test
+funcionara en la rama, pero se rompiera después de hacer la mezcla en
+<code>main</code> porque fuera incompatible con alguna modificación de código que
+se ha hecho esa rama. </p>
+<p>Veremos en la próxima práctica cómo configurar GitHub para que esta
+comprobación se haga de forma automática, pero en esta práctica vamos
+a hacerlo manualmente en nuestro ordenador.</p>
+<p>Una opción sería mezclar la rama <code>acerca-de</code> en <code>main</code>, lanzar los
+tests y después deshacer la mezcla. Pero vamos a usar otra opción:
+mezclaremos la rama <code>main</code> en la rama <code>acerca-de</code> y lanzaremos los
+tests ahí. Así dejamos la rama <code>main</code> limpia y no tenemos que deshacer
+nada. El código de <code>main</code> en la rama de <code>acerca-de</code> no va a molestar
+porque Git lo identifica correctamente como un código que no es de la
+rama <code>acerca-de</code> y en el caso de tener que hacer algún commit
+adicional y subirlo a GitHub, en GitHub se va a mostrar correctamente
+sólo el código adicional (no el de la rama <code>main</code>).</p>
 <p>Vamos a verlo paso a paso.</p>
-<p>Empezamos por mezclar la rama de forma local con <code>main</code>, antes de
-hacer el pull request en GitHub, para probar que no se ha roto nada
-(todos los tests deben seguir pasando) y que los tests que hemos
-añadido también funcionan correctamente (en este caso no hemos añadido
-ninguno).</p>
+<p>Mezclamos la rama <code>main</code> en la rama de desarrollo <code>acerca-de</code>, para
+probar que no se ha roto nada (todos los tests deben seguir pasando) y
+que los tests que hemos añadido también funcionan correctamente (en
+este caso no hemos añadido ninguno).</p>
 <p>En el terminal:</p>
 <div class="highlight"><pre><span></span><code>(acerca-de) $ git checkout main
 (main) $ git pull (bajamos cambios que se hayan subido main. En
                      este caso no habrá ninguno, pero los habrán cuando
                      trabajemos en equipo)
 (main) $ git checkout acerca-de
-(main) $ git merge main (actualizamos la rama de desarrollo con los
+(acerca-de) $ git merge main (actualizamos la rama de desarrollo con los
                          cambios que se hayan incluido en la rama
                          principal. En este caso no habrá ninguno,
                          pero los habrán cuando trabajemos en equipo)
@@ -2153,43 +2211,13 @@ ninguno).</p>
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time:  21.879 s
 </code></pre></div>
-<p>Ya podemos crear el pull request en GitHub. </p>
-<p>Accede a la rama y comprueba que están todos los cambios pulsando
-<code>Compare</code>. </p>
-<p><img src="./imagenes/rama-acerca-de.png" width="700px"/></p>
-<p>Aparecerá la siguiente página, con la información de los cambios que
-introducen todos los commits de la rama:</p>
-<p><img src="./imagenes/compara-cambios-pr.png" width="700px"/></p>
-<p>Pulsa después el botón <em>Create pull request</em> para crear el pull request.</p>
-<p>Escribe como título del PR: <code>Añadida página 'Acerca de'</code> y </p>
-<p>En el comentario escribe:</p>
-<div class="highlight"><pre><span></span><code>Closes #1
-</code></pre></div>
-<p>Verás que al escribir <code>#1</code> aparecerá el nombre del issue. Si escribes
-sólo <code>#</code> verás una lista de los últimos issues. </p>
-<p>De esta forma estamos enlazando el PR con el issue. Cuando se cierre
-el pull request se cerrará automáticamente el issue. Y podremos en
-todas las pantallas en las que aparece el issue acceder al PR enlazado.</p>
-<p>UPulsa en el botón para crear el pull request. Debe quedar la
-siguiente pantalla en la que informa del PR recién creado:</p>
-<p><img src="./imagenes/pull-request-practica.png" width="700px"/></p>
-<p>En el proyecto mueve la tarjeta con el issue a la columna <code>In
-Pull Request</code>. Verás que se ha añadido en la parte inferior de la
-tarjeta un desplegable con la información sobre el PR enlazado.</p>
-<p><img src="./imagenes/movido-a-in-pull-request.png" width="700px"/></p>
-<p>En este momento los compañeros del equipo deberían revisar el pull
-request y su código. En la propia página del pull request es posible
-conversar y realizar comentarios que puede aclarar el autor del PR. Y
-también es posible subir nuevos commits con modificaciones
-o ampliaciones correspondientes a las sugerencias indicadas.</p>
-<p>También es posible configurar un sistema de integración continua que
-de forma automática compruebe que la integración con <em>main</em> no
-introduce errores en los tests.</p>
-<p>Tanto la discusión en la página del pull request como los tests
-automáticos son funcionalidades que utilizaremos en las próximas
-prácticas.</p>
-<p>Podemos ver que GitHub informa de que no hay conflictos con la rama
-<code>main</code> y que es posible hacer el merge. Pulsa el botón de <code>Merge pull
+<p>Si algún test fallara, debemos corregirlo en la rama de desarrollo y
+subir el commit a la rama. Veremos que se actualizará el pull request
+y aparecerá la información del nuevo commit.</p>
+<p>Una vez que hemos comprobados que los tests pasan correctamente
+podemos confirmar la mezcla del PR en GitHub.</p>
+<h5 id="confirmacion-de-la-mezcla-del-pr">Confirmación de la mezcla del PR<a class="headerlink" href="#confirmacion-de-la-mezcla-del-pr" title="Permanent link">&para;</a></h5>
+<p>Pulsa el botón de <code>Merge pull
 request</code> (con la opción por defecto <code>Create a merge commit</code>) y confírmalo.</p>
 <p><img src="./imagenes/merge-pull-request.png" width="600px"/></p>
 <p>Borra la rama en GitHub, pulsando el botón correspondiente.</p>
@@ -2220,11 +2248,14 @@ la tarjeta a la columna <code>Done</code>.</p>
 <p>Actualizamos el tablero Trello moviendo la historia de usuario a la
 columna <em>Terminadas</em>.</p>
 <p><img src="./imagenes/trello-terminadas.png" width="600px"/></p>
-<h4 id="version-101_1">Versión 1.0.1<a class="headerlink" href="#version-101_1" title="Permanent link">&para;</a></h4>
-<p>Por último creamos el release 1.0.1. Haremos un commit directamente
-sobre la rama <code>main</code> (más adelante explicaremos una forma más
-elaborada de hacer un release, cuando expliquemos el flujo de
-trabajo de GitFlow).</p>
+<h4 id="release-101">Release 1.0.1<a class="headerlink" href="#release-101" title="Permanent link">&para;</a></h4>
+<p>Vamos a ver por último cómo crear un <em>release</em> y poner en producción
+la aplicación. Lo vamos a hacer ahora como ejemplo, creando el release
+1.0.1 y tendrás que hacerlo al final de la práctica, creando el
+release 1.1.0.</p>
+<p>Para hacer el release haremos un commit directamente sobre la rama
+<code>main</code> (más adelante explicaremos una forma más elaborada de hacer un
+release, cuando expliquemos el flujo de trabajo de GitFlow).</p>
 <p>Crea un commit con la confirmación del número de versión y fecha en
 los ficheros <code>pom.xml</code> y <code>about.html</code></p>
 <p><strong>Fichero <code>pom.xml</code></strong>:</p>
@@ -2251,8 +2282,8 @@ los ficheros <code>pom.xml</code> y <code>about.html</code></p>
 (main) $ git commit -m &quot;Cambio de versión a 1.0.1&quot;
 (main) $ git push
 </code></pre></div>
-<p>Y, por último, creamos la versión 1.0.1 en GitHub pulsando en el
-enlace <code>Create a new release</code> en la página principal:</p>
+<p>Y creamos la versión 1.0.1 en GitHub pulsando en el enlace <code>Create a
+new release</code> en la página principal:</p>
 <p><img src="./imagenes/release-practica1.png" width="700px"/></p>
 <p>Un release en GitHub se guarda como una una etiqueta Git, junto con
 información asociada. Se suelen indicar las nuevas features añadidas
@@ -2261,6 +2292,11 @@ añadidos. </p>
 <p><img src="./imagenes/primer-release-practica1.png" width="700px"/></p>
 <p>El resultado será:</p>
 <p><img src="./imagenes/release-practica1-terminado.png" width="400px"/></p>
+<h4 id="puesta-en-produccion">Puesta en producción<a class="headerlink" href="#puesta-en-produccion" title="Permanent link">&para;</a></h4>
+<p>Debes por último poner en producción la nueva versión, igual que
+hicimos en la práctica 1, creando una imagen Docker, subiéndola a
+Docker Hub y poniéndola en ejecución en el servidor de la asignatura.</p>
+<p>En clase de prácticas el profesor revisará que funciona correctamente.</p>
 <h3 id="resto-de-la-practica-version-110">Resto de la práctica (versión 1.1.0)<a class="headerlink" href="#resto-de-la-practica-version-110" title="Permanent link">&para;</a></h3>
 <p>El resto de la práctica consistirá en desarrollar la versión 1.1.0,
 usando la misma metodología vista anteriormente.</p>
@@ -2339,7 +2375,7 @@ usuario para que sólo las pueda consultar el administrador.</li>
   aparecerá un mensaje de error indicándoselo.</li>
 </ul>
 <h2 id="documentacion-entrega-y-evaluacion">Documentación, entrega y evaluación<a class="headerlink" href="#documentacion-entrega-y-evaluacion" title="Permanent link">&para;</a></h2>
-<p>Deberás añadir una página documentación <code>/doc/practica1.md</code> en la que
+<p>Deberás añadir una página documentación <code>/doc/practica2.md</code> en la que
 debes realizar una breve <strong>documentación técnica</strong>. Puedes suponer que
 estás trabajando con un equipo de desarrollo y que debes dejar una
 breve documentación para que el resto del equipo sepa cómo ha
@@ -2358,7 +2394,8 @@ GitHub una breve pero útil <a href="https://guides.github.com/features/masterin
 Markdown</a>.</p>
 <ul>
 <li>La práctica tiene una duración de 4 semanas y debe estar terminada
-  el martes 20 de octubre.</li>
+  el martes 19 de octubre. El profesor comprobará en clase de
+  prácticas el funcionamiento de la práctica en producción.</li>
 <li>La parte obligatoria puntúa sobre 6 y la opcional sobre 4 puntos.</li>
 <li>La calificación de la práctica tiene un peso de un 25% en la nota
   final de prácticas.</li>
@@ -2375,7 +2412,7 @@ Markdown</a>.</p>
   las 4 semanas y no dejar todo para la última semana).</li>
 <li>Correcto desarrollo de la metodología.</li>
 <li>Diseño e implementación del código y de los tests de las
-  características desarrolladas.</li>
+  características desarrolladas. Correcto funcionamiento.</li>
 <li>Documentación.</li>
 </ul>
                 
