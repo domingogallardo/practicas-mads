@@ -273,12 +273,21 @@ utilizarás para publicar estas imágenes.
     ./target/demoapp-0.0.1-SNAPSHOT.jar
     ```
 
+    Tal y como se explica en la [introducción a Spring
+    Boot](./intro-spring-boot.md), el fichero `.jar` es el ejecutable
+    Java de la aplicación, que se crea cuando con el objetivo
+    `package` de Maven:
+    
+    ```
+    $ ./mvnw package
+    ```
+
 4. Ya puedes construir la máquina Docker con el siguiente comando,
   desde el directorio raíz de la aplicación (en el que debe estar el
   fichero `Dockerfile` anterior):
 
     ```bash
-    $ docker build -t <usuario-docker>/spring-boot-demoapp
+    $ docker build -t <usuario-docker>/spring-boot-demoapp . 
     ```
 
     Comprueba que la imagen se ha creado correctamente. Debe aparecer
