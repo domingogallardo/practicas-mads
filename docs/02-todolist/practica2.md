@@ -9,8 +9,8 @@ En práctica 2 vamos a trabajar sobre la aplicación inicial
 Esta parte tendrá una duración de cuatro semanas. Deberás realizarla de
 forma individual, siguiendo las indicaciones que encontrarás en este
 documento. Tendrás que desarrollar código y trabajar en GitHub
-desarrollando _issues_, _pull requests_, _releases_ y actualizando la
-wiki del proyecto.
+desarrollando _issues_, _pull requests_, _releases_ y actualizando los
+tableros del proyecto (en Trello y en GitHub).
 
 Igual que en la primera parte, debes leer la [introducción a Spring
 Boot](../01-intro-spring-boot/intro-spring-boot.md) para entender los conceptos
@@ -18,10 +18,10 @@ fundamentales del framework.
 
 ## Aplicación inicial ##
 
-La aplicación inicial es una aplicación para gestionar listas de
-tareas pendientes de los usuarios de la aplicación. Se pueden registrar
-y logear usuarios y los usuarios registrados pueden añadir, modificar
-y borrar tareas pendientes de hacer.
+La aplicación con la que vamos a trabajar es una típica aplicación
+ToDo que sirve para gestionar tareas pendientes. Se pueden registrar y
+logear usuarios y los usuarios registrados pueden añadir, modificar y
+borrar tareas pendientes de hacer.
 
 A continuación puedes ver dos de las pantallas de la aplicación.
 
@@ -43,7 +43,7 @@ A continuación puedes ver dos de las pantallas de la aplicación.
 </table>
 
 Iremos desarrollando características adicionales de la aplicación a lo
-largo de las prácticas. El nombre de la aplicación es **ToDo List**.
+largo de las prácticas. El nombre de la aplicación es **ToDoList**.
 
 
 ## Metodología de desarrollo ##
@@ -253,7 +253,7 @@ durante todo el cuatrimestre en la asignatura.
 Es una aplicación bastante más compleja que la vista en la
 práctica 1. Entre otros, tiene los siguientes elementos:
 
-- Gestiona distintos comandos HTTP: GET, POST, DELETE.
+- Distintos comandos HTTP: GET, POST, DELETE.
 - Recogida de datos en formularios HTML y validación de los datos.
 - Base de datos gestionada con JPA (_Java Persisence API_), un ORM (_Object Relational
   Mapping_) implementado por la librería Hibernate. Se utiliza una
@@ -1367,7 +1367,7 @@ public class TareaWebTest {
     @MockBean
     private TareaService tareaService;
 
-    // Al mocker el manegerUserSession, no lanza la excepción cuando
+    // Al mocker el managerUserSession, no lanza la excepción cuando
     // se intenta comprobar si un usuario está logeado
     @MockBean
     private ManagerUserSesion managerUserSesion;
@@ -1395,8 +1395,8 @@ public class TareaWebTest {
 
 1. Una vez logeado en GitHub, copia el enlace con una invitación que
    compartiremos en el foro de Moodle. Con esa invitación se creará
-   automáticamente el repositorio `todolist-<usuario>` en la
-   organización [mads-ua](https://github.com/mads-ua-20-21). Al igual
+   automáticamente tu repositorio `todolist-<usuario>` en la
+   organización [mads-ua](https://github.com/mads-ua-21-22). Al igual
    que el repositorio de la primera parte de la práctica es un
    repositorio privado al que tienes acceso tú y el profesor. Contiene
    el código inicial de un proyecto base (es una copia del repositorio
@@ -1405,15 +1405,17 @@ public class TareaWebTest {
 
     Es importante que tengas en cuenta que el repositorio recién
     creado no reside en tu cuenta, sino en la organización
-    `mads-ua-20-21`. Puedes acceder a él desde el _dashboard_ de GitHub que
+    `mads-ua-21-22`. Puedes acceder a él desde el _dashboard_ de GitHub que
     aparece cuando te logeas.
    
 2. Descarga el proyecto y comprueba que se compila y ejecuta
    correctamente:
    
-        $ git clone https://github.com/mads-ua/todolist-<usuario>.git
-        $ cd todolist-<usuario>
-        $ ./mvnw spring-boot:run
+    ```
+    $ git clone https://github.com/mads-ua/todolist-<usuario>.git
+    $ cd todolist-<usuario>
+    $ ./mvnw spring-boot:run
+    ```
    
     Comprueba que la aplicación está funcionando en
     <http://localhost:8080/login> en la máquina host.
@@ -1674,9 +1676,25 @@ public class HomeController {
 </html>
 ```
 
-Prueba la página accediendo a la url <http://localhost:9000/about>.
+Prueba la página accediendo a la url
+<http://localhost:9000/about>. 
 
 <img src="./imagenes/pagina-acerca-de.png" width="400px"/>
+
+Lanza también todos los tests para comprobar que no se ha roto nada.
+
+```
+(acerca-de) $ ./mvnw test
+...
+[INFO] 
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21.879 s
+```
+
 
 Por último, confirma el commit en la rama y súbelo a GitHub. En el
 panel `Git`:
@@ -1687,7 +1705,6 @@ panel `Git`:
 (acerca-de) $ git commit -m "Añadida vista y controller 'about'"
 (acerca-de) $ git push
 ```
-
 
 ##### Tercer commit #####
 
@@ -1705,7 +1722,8 @@ Realiza el siguiente cambio:
              </form>
 ```
 
-Prueba que funciona correctamente, haz el commit y súbelo a GitHub:
+Prueba que funciona correctamente, prueba los tests, haz el commit y
+súbelo a GitHub:
 
 ```text
 (acerca-de) $ git status
@@ -1722,50 +1740,10 @@ creamos un pull request en GitHub para indicar que estamos listos
 para mezclar la rama con la feature con la rama principal de
 desarrollo (_main_).
 
-Más adelante añadiremos al pull request una comprobación automática
-de las pruebas y una revisión de código por parte de compañeros del
-equipo. Por ahora haremos nosotros ambas tareas.
+##### Creación del pull request #####
 
-Vamos a verlo paso a paso.
-
-Empezamos por mezclar la rama de forma local con `main`, antes de
-hacer el pull request en GitHub, para probar que no se ha roto nada
-(todos los tests deben seguir pasando) y que los tests que hemos
-añadido también funcionan correctamente (en este caso no hemos añadido
-ninguno).
-
-En el terminal:
-
-```text
-(acerca-de) $ git checkout main
-(main) $ git pull (bajamos cambios que se hayan subido main. En
-                     este caso no habrá ninguno, pero los habrán cuando
-                     trabajemos en equipo)
-(main) $ git checkout acerca-de
-(main) $ git merge main (actualizamos la rama de desarrollo con los
-                         cambios que se hayan incluido en la rama
-                         principal. En este caso no habrá ninguno,
-                         pero los habrán cuando trabajemos en equipo)
-```
-
-Lanzamos los tests (lo podemos hacer en el terminal o en IntelliJ):
-
-```text
-(main) $ ./mvnw test
-...
-[INFO] 
-[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
-[INFO] 
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  21.879 s
-```
-
-Ya podemos crear el pull request en GitHub. 
-
-Accede a la rama y comprueba que están todos los cambios pulsando
-`Compare`. 
+Accede en GitHub a la rama `acerca-de` y comprueba que se han subido
+todos los cambios pulsando `Compare`.
 
 <img src="./imagenes/rama-acerca-de.png" width="700px"/>
 
@@ -1788,10 +1766,10 @@ Verás que al escribir `#1` aparecerá el nombre del issue. Si escribes
 sólo `#` verás una lista de los últimos issues. 
 
 De esta forma estamos enlazando el PR con el issue. Cuando se cierre
-el pull request se cerrará automáticamente el issue. Y podremos en
-todas las pantallas en las que aparece el issue acceder al PR enlazado.
+el pull request se cerrará automáticamente el issue. También podremos
+acceder desde el issue al PR enlazado.
 
-UPulsa en el botón para crear el pull request. Debe quedar la
+Pulsa en el botón para crear el pull request. Debe quedar la
 siguiente pantalla en la que informa del PR recién creado:
 
 <img src="./imagenes/pull-request-practica.png" width="700px"/>
@@ -1802,22 +1780,88 @@ tarjeta un desplegable con la información sobre el PR enlazado.
 
 <img src="./imagenes/movido-a-in-pull-request.png" width="700px"/>
 
-En este momento los compañeros del equipo deberían revisar el pull
-request y su código. En la propia página del pull request es posible
-conversar y realizar comentarios que puede aclarar el autor del PR. Y
-también es posible subir nuevos commits con modificaciones
-o ampliaciones correspondientes a las sugerencias indicadas.
+En este momento los compañeros del equipo podrían revisar el pull
+request y el código que se va a introducir. En la propia página del
+pull request es posible conversar y realizar comentarios que puede
+aclarar el autor del PR. Y también es posible subir nuevos commits con
+modificaciones o ampliaciones correspondientes a las sugerencias
+indicadas.
 
-También es posible configurar un sistema de integración continua que
-de forma automática compruebe que la integración con _main_ no
-introduce errores en los tests.
-
-Tanto la discusión en la página del pull request como los tests
-automáticos son funcionalidades que utilizaremos en las próximas
-prácticas.
+Haremos esto en futuras prácticas.
 
 Podemos ver que GitHub informa de que no hay conflictos con la rama
-`main` y que es posible hacer el merge. Pulsa el botón de `Merge pull
+`main` y que es posible hacer el merge en GitHub.
+
+##### Comprobación de tests en main #####
+
+Antes de pulsar el botón para que GitHub mezcle la rama `acerca-de` en
+la rama `main` debemos comprobar que todos los tests pasarían
+correctamente después de la mezcla. Podría ser que algún test
+funcionara en la rama, pero se rompiera después de hacer la mezcla en
+`main` porque fuera incompatible con alguna modificación de código que
+se ha hecho esa rama. 
+
+Veremos en la próxima práctica cómo configurar GitHub para que esta
+comprobación se haga de forma automática, pero en esta práctica vamos
+a hacerlo manualmente en nuestro ordenador.
+
+Una opción sería mezclar la rama `acerca-de` en `main`, lanzar los
+tests y después deshacer la mezcla. Pero vamos a usar otra opción:
+mezclaremos la rama `main` en la rama `acerca-de` y lanzaremos los
+tests ahí. Así dejamos la rama `main` limpia y no tenemos que deshacer
+nada. El código de `main` en la rama de `acerca-de` no va a molestar
+porque Git lo identifica correctamente como un código que no es de la
+rama `acerca-de` y en el caso de tener que hacer algún commit
+adicional y subirlo a GitHub, en GitHub se va a mostrar correctamente
+sólo el código adicional (no el de la rama `main`).
+
+Vamos a verlo paso a paso.
+
+Mezclamos la rama `main` en la rama de desarrollo `acerca-de`, para
+probar que no se ha roto nada (todos los tests deben seguir pasando) y
+que los tests que hemos añadido también funcionan correctamente (en
+este caso no hemos añadido ninguno).
+
+En el terminal:
+
+```text
+(acerca-de) $ git checkout main
+(main) $ git pull (bajamos cambios que se hayan subido main. En
+                     este caso no habrá ninguno, pero los habrán cuando
+                     trabajemos en equipo)
+(main) $ git checkout acerca-de
+(acerca-de) $ git merge main (actualizamos la rama de desarrollo con los
+                         cambios que se hayan incluido en la rama
+                         principal. En este caso no habrá ninguno,
+                         pero los habrán cuando trabajemos en equipo)
+```
+
+Lanzamos los tests (lo podemos hacer en el terminal o en IntelliJ):
+
+```text
+(main) $ ./mvnw test
+...
+[INFO] 
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21.879 s
+```
+
+Si algún test fallara, debemos corregirlo en la rama de desarrollo y
+subir el commit a la rama. Veremos que se actualizará el pull request
+y aparecerá la información del nuevo commit.
+
+Una vez que hemos comprobados que los tests pasan correctamente
+podemos confirmar la mezcla del PR en GitHub.
+
+
+##### Confirmación de la mezcla del PR #####
+
+
+Pulsa el botón de `Merge pull
 request` (con la opción por defecto `Create a merge commit`) y confírmalo.
 
 <img src="./imagenes/merge-pull-request.png" width="600px"/>
@@ -1854,6 +1898,7 @@ principal de desarrollo. El issue ligado al PR se habrá cerrado
 automáticamente y en el tablero de proyecto debe haber cambiado
 la tarjeta a la columna `Done`.
 
+
 #### Actualizamos tablero Trello ####
 
 Actualizamos el tablero Trello moviendo la historia de usuario a la
@@ -1862,13 +1907,16 @@ columna _Terminadas_.
 <img src="./imagenes/trello-terminadas.png" width="600px"/>
 
 
-#### Versión 1.0.1 ####
+#### Release 1.0.1 ####
 
-Por último creamos el release 1.0.1. Haremos un commit directamente
-sobre la rama `main` (más adelante explicaremos una forma más
-elaborada de hacer un release, cuando expliquemos el flujo de
-trabajo de GitFlow).
+Vamos a ver por último cómo crear un _release_ y poner en producción
+la aplicación. Lo vamos a hacer ahora como ejemplo, creando el release
+1.0.1 y tendrás que hacerlo al final de la práctica, creando el
+release 1.1.0.
 
+Para hacer el release haremos un commit directamente sobre la rama
+`main` (más adelante explicaremos una forma más elaborada de hacer un
+release, cuando expliquemos el flujo de trabajo de GitFlow).
 
 Crea un commit con la confirmación del número de versión y fecha en
 los ficheros `pom.xml` y `about.html`
@@ -1907,8 +1955,8 @@ Añadimos el commit y lo subimos a GitHub
 (main) $ git push
 ```
 
-Y, por último, creamos la versión 1.0.1 en GitHub pulsando en el
-enlace `Create a new release` en la página principal:
+Y creamos la versión 1.0.1 en GitHub pulsando en el enlace `Create a
+new release` en la página principal:
 
 <img src="./imagenes/release-practica1.png" width="700px"/>
 
@@ -1923,6 +1971,13 @@ El resultado será:
 
 <img src="./imagenes/release-practica1-terminado.png" width="400px"/>
 
+#### Puesta en producción ####
+
+Debes por último poner en producción la nueva versión, igual que
+hicimos en la práctica 1, creando una imagen Docker, subiéndola a
+Docker Hub y poniéndola en ejecución en el servidor de la asignatura.
+
+En clase de prácticas el profesor revisará que funciona correctamente.
 
 ### Resto de la práctica (versión 1.1.0) ###
 
@@ -2006,7 +2061,7 @@ usuario para que sólo las pueda consultar el administrador.
 
 ## Documentación, entrega y evaluación ##
 
-Deberás añadir una página documentación `/doc/practica1.md` en la que
+Deberás añadir una página documentación `/doc/practica2.md` en la que
 debes realizar una breve **documentación técnica**. Puedes suponer que
 estás trabajando con un equipo de desarrollo y que debes dejar una
 breve documentación para que el resto del equipo sepa cómo ha
@@ -2026,7 +2081,8 @@ GitHub una breve pero útil [introducción a
 Markdown](https://guides.github.com/features/mastering-markdown/).
 
 - La práctica tiene una duración de 4 semanas y debe estar terminada
-  el martes 20 de octubre.
+  el martes 19 de octubre. El profesor comprobará en clase de
+  prácticas el funcionamiento de la práctica en producción.
 - La parte obligatoria puntúa sobre 6 y la opcional sobre 4 puntos.
 - La calificación de la práctica tiene un peso de un 25% en la nota
   final de prácticas.
@@ -2043,5 +2099,5 @@ Para la evaluación se tendrá en cuenta:
   las 4 semanas y no dejar todo para la última semana).
 - Correcto desarrollo de la metodología.
 - Diseño e implementación del código y de los tests de las
-  características desarrolladas.
+  características desarrolladas. Correcto funcionamiento.
 - Documentación.
