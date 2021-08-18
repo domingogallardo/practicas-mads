@@ -557,11 +557,12 @@ Para realizar la entrega debes hacer lo siguiente:
   commits a GitHub conforme se van realizando.
 - Actualizar el fichero `README.md` con la URL del repositorio Docker
   Hub donde se ha subido la máquina Docker final.
-- Realizar un breve documento técnico PDF en el que se explique la
-  funcionalidad y el código añadido. Incluir en él la URL de los
-  repositorios en GitHub y en Docker Hub. Incluir el documento en el
-  proyecto proyecto con el nombre `doc/practica1.pdf` y subirlo a
-  GitHub.
+- Añadir una página de documentación `doc/practica1.md` en la que se
+  explique la funcionalidad y el código añadido. Incluir en la
+  documentación la URL  de los repositorios en GitHub y en Docker
+  Hub. Deberás escribir esta documentación en Markdown. Tienes
+  disponible en GitHub una breve pero útil [introducción a
+  Markdown](https://guides.github.com/features/mastering-markdown/).
 - Entregar en Moodle un ZIP con el directorio del proyecto (incluyendo el
   directorio .git con el repositorio git), después de haber hecho
   `./mvnw clean` para eliminar los binarios compilados.
