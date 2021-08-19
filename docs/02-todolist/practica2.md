@@ -1631,7 +1631,7 @@ necesarios para la página _acerca de_:
 
 Añade los siguientes ficheros:
 
-**Controller `HomeController.java`**
+**Controller `main/java/madstodolist/controller/HomeController.java`**
 
 ```java
 package madstodolist.controller;
@@ -1651,20 +1651,20 @@ public class HomeController {
 }
 ```
 
-**Vista `about.html`**:
+**Vista `main/resources/templates/about.html`**:
 
 ```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments :: head (titulo='Login')"></head>
+<head th:replace="fragments :: head (titulo='Acerca de')"></head>
 
 <body>
 <div class="container-fluid">
     <div class="container-fluid">
-        <h1>ToDo List</h1>
+        <h1>ToDoList</h1>
         <ul>
-            <li>Desarrollada por Domingo Gallardo</li>
+            <li>Desarrollada por TU NOMBRE </li>
             <li>Versión 1.0.1 (en desarrollo)</li>
             <li>Fecha de release: pendiente de release</li>
         </ul>
@@ -1679,17 +1679,56 @@ public class HomeController {
 ```
 
 Prueba la página accediendo a la url
-<http://localhost:9000/about>. 
+<http://localhost:8080/about>. 
 
 <img src="./imagenes/pagina-acerca-de.png" width="400px"/>
 
-Lanza también todos los tests para comprobar que no se ha roto nada.
+
+Añade un test que automatiza la comprobación de que la URL `/about`
+debe devolver el nombre de la aplicación.
+
+**Test `test/java/madstodolist/AcercaDeWebTest.java`**:
+
+```java
+package madstodolist;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class AcercaDeWebTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    public void getAboutDevuelveNombreAplicacion() throws Exception {
+        this.mockMvc.perform(get("/about"))
+                .andExpect(content().string(containsString("ToDoList")));
+    }
+}
+```
+
+Puedes lanzar el test pulsando en IntelliJ con el botón derecho en el
+fichero (en el panel del proyecto) y seleccionando la opción _Run
+AcercaDeWebTest_.
+
+Puedes lanzar también todos los tests en el terminal para comprobar
+que no se ha roto nada.
 
 ```
 (acerca-de) $ ./mvnw test
 ...
 [INFO] 
-[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -1803,7 +1842,7 @@ añadido ninguno).
 (acerca-de) $ ./mvnw test
 ...
 [INFO] 
-[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
