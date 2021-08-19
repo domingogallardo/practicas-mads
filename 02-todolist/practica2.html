@@ -684,7 +684,7 @@ borrar tareas pendientes de hacer.</p>
 </table>
 
 <p>Iremos desarrollando características adicionales de la aplicación a lo
-largo de las prácticas. El nombre de la aplicación es <strong>ToDoList</strong>.</p>
+largo de las prácticas. El nombre de la aplicación es <strong>mads-todolist</strong>.</p>
 <h2 id="metodologia-de-desarrollo">Metodología de desarrollo<a class="headerlink" href="#metodologia-de-desarrollo" title="Permanent link">&para;</a></h2>
 <p>En cuanto a la metodología de desarrollo, en esta práctica
 repasaremos e introduciremos el uso de:</p>
@@ -901,7 +901,7 @@ código todos estos elementos.</p>
 fichero de propiedades. El fichero de propiedades por defecto es
 <code>application.properties</code>.</p>
 <p><strong>Fichero <code>/src/main/resources/application.properties</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">spring</span><span class="p">.</span><span class="na">application</span><span class="p">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">madstodolist</span>
+<div class="highlight"><pre><span></span><code><span class="n">spring</span><span class="p">.</span><span class="na">application</span><span class="p">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">mads</span><span class="o">-</span><span class="n">todolist</span>
 <span class="n">spring</span><span class="p">.</span><span class="na">datasource</span><span class="p">.</span><span class="na">url</span><span class="o">=</span><span class="n">jdbc</span><span class="p">:</span><span class="n">h2</span><span class="p">:</span><span class="n">mem</span><span class="p">:</span><span class="n">dev</span>
 <span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">properties</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">dialect</span> <span class="o">=</span> <span class="n">org</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">dialect</span><span class="p">.</span><span class="na">H2Dialect</span>
 <span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">ddl</span><span class="o">-</span><span class="n">auto</span><span class="o">=</span><span class="n">update</span>
@@ -1582,8 +1582,10 @@ fichero <code>fragments.html</code>.</p>
 <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 /html&gt;
 </code></pre></div>
-<p>Vemos que las vistas usan el framework CSS <em>Bootstrap</em> y varias
-librerías JavaScript. Ambos se encuentran en el directorio
+<p>Vemos que las vistas usan el framework CSS <em>Bootstrap</em> (en concreto,
+la versión <a href="https://getbootstrap.com/docs/4.6/getting-started/introduction/">Bootstrap
+4.6</a>)
+y varias librerías JavaScript. Ambos se encuentran en el directorio
 <code>src/main/resources/static/</code>, el directorio por defecto en el que se
 guardan los recursos estáticos de una aplicación Spring Boot.</p>
 <p>La vista principal de la aplicación es el listado de tareas que vemos
@@ -1869,7 +1871,7 @@ llamar a la base de datos (de esta forma se acelera el test).</p>
 <li>
 <p>Una vez logeado en GitHub, copia el enlace con una invitación que
    compartiremos en el foro de Moodle. Con esa invitación se creará
-   automáticamente tu repositorio <code>todolist-&lt;usuario&gt;</code> en la
+   automáticamente tu repositorio <code>mads-todolist-&lt;usuario&gt;</code> en la
    organización <a href="https://github.com/mads-ua-21-22">mads-ua</a>. Al igual
    que el repositorio de la primera parte de la práctica es un
    repositorio privado al que tienes acceso tú y el profesor. Contiene
@@ -1884,8 +1886,8 @@ aparece cuando te logeas.</p>
 <li>
 <p>Descarga el proyecto y comprueba que se compila y ejecuta
    correctamente:</p>
-<div class="highlight"><pre><span></span><code>$ git clone https://github.com/mads-ua/todolist-&lt;usuario&gt;.git
-$ cd todolist-&lt;usuario&gt;
+<div class="highlight"><pre><span></span><code>$ git clone https://github.com/mads-ua/mads-todolist-&lt;usuario&gt;.git
+$ cd mads-todolist-&lt;usuario&gt;
 $ ./mvnw spring-boot:run
 </code></pre></div>
 <p>Comprueba que la aplicación está funcionando en
@@ -2165,31 +2167,56 @@ indicadas.</p>
 <p>Haremos esto en futuras prácticas.</p>
 <p>Podemos ver que GitHub informa de que no hay conflictos con la rama
 <code>main</code> y que es posible hacer el merge en GitHub.</p>
-<h5 id="comprobacion-de-tests-en-main">Comprobación de tests en main<a class="headerlink" href="#comprobacion-de-tests-en-main" title="Permanent link">&para;</a></h5>
-<p>Antes de pulsar el botón para que GitHub mezcle la rama <code>acerca-de</code> en
-la rama <code>main</code> debemos comprobar que todos los tests pasarían
+<p>Antes de pulsar el botón para realizar el merge, lanzamos en local
+(estando en la rama) para comprobar que no se ha roto nada y que los
+tests que se han añadido pasan correctamente (en este caso no hemos
+añadido ninguno).</p>
+<div class="highlight"><pre><span></span><code>(acerca-de) $ ./mvnw test
+...
+[INFO] 
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21.879 s
+</code></pre></div>
+<p>Veremos en la próxima práctica cómo configurar GitHub para que esta
+comprobación se haga de forma automática en GitHub.</p>
+<!--
+
+##### Comprobación de tests en main #####
+
+Antes de pulsar el botón para que GitHub mezcle la rama `acerca-de` en
+la rama `main` debemos comprobar que todos los tests pasarían
 correctamente después de la mezcla. Podría ser que algún test
 funcionara en la rama, pero se rompiera después de hacer la mezcla en
-<code>main</code> porque fuera incompatible con alguna modificación de código que
-se ha hecho esa rama. </p>
-<p>Veremos en la próxima práctica cómo configurar GitHub para que esta
+`main` porque fuera incompatible con alguna modificación de código que
+se ha hecho esa rama. 
+
+Veremos en la próxima práctica cómo configurar GitHub para que esta
 comprobación se haga de forma automática, pero en esta práctica vamos
-a hacerlo manualmente en nuestro ordenador.</p>
-<p>Una opción sería mezclar la rama <code>acerca-de</code> en <code>main</code>, lanzar los
+a hacerlo manualmente en nuestro ordenador.
+
+Una opción sería mezclar la rama `acerca-de` en `main`, lanzar los
 tests y después deshacer la mezcla. Pero vamos a usar otra opción:
-mezclaremos la rama <code>main</code> en la rama <code>acerca-de</code> y lanzaremos los
-tests ahí. Así dejamos la rama <code>main</code> limpia y no tenemos que deshacer
-nada. El código de <code>main</code> en la rama de <code>acerca-de</code> no va a molestar
+mezclaremos la rama `main` en la rama `acerca-de` y lanzaremos los
+tests ahí. Así dejamos la rama `main` limpia y no tenemos que deshacer
+nada. El código de `main` en la rama de `acerca-de` no va a molestar
 porque Git lo identifica correctamente como un código que no es de la
-rama <code>acerca-de</code> y en el caso de tener que hacer algún commit
+rama `acerca-de` y en el caso de tener que hacer algún commit
 adicional y subirlo a GitHub, en GitHub se va a mostrar correctamente
-sólo el código adicional (no el de la rama <code>main</code>).</p>
-<p>Vamos a verlo paso a paso.</p>
-<p>Mezclamos la rama <code>main</code> en la rama de desarrollo <code>acerca-de</code>, para
+sólo el código adicional (no el de la rama `main`).
+
+Vamos a verlo paso a paso.
+
+Mezclamos la rama `main` en la rama de desarrollo `acerca-de`, para
 probar que no se ha roto nada (todos los tests deben seguir pasando) y
 que los tests que hemos añadido también funcionan correctamente (en
-este caso no hemos añadido ninguno).</p>
-<p>En el terminal:</p>
+este caso no hemos añadido ninguno).
+
+En el terminal:
+
 <div class="highlight"><pre><span></span><code>(acerca-de) $ git checkout main
 (main) $ git pull (bajamos cambios que se hayan subido main. En
                      este caso no habrá ninguno, pero los habrán cuando
@@ -2200,7 +2227,9 @@ este caso no hemos añadido ninguno).</p>
                          principal. En este caso no habrá ninguno,
                          pero los habrán cuando trabajemos en equipo)
 </code></pre></div>
-<p>Lanzamos los tests (lo podemos hacer en el terminal o en IntelliJ):</p>
+
+Lanzamos los tests (lo podemos hacer en el terminal o en IntelliJ):
+
 <div class="highlight"><pre><span></span><code>(main) $ ./mvnw test
 ...
 [INFO] 
@@ -2211,12 +2240,16 @@ este caso no hemos añadido ninguno).</p>
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time:  21.879 s
 </code></pre></div>
-<p>Si algún test fallara, debemos corregirlo en la rama de desarrollo y
+
+Si algún test fallara, debemos corregirlo en la rama de desarrollo y
 subir el commit a la rama. Veremos que se actualizará el pull request
-y aparecerá la información del nuevo commit.</p>
-<p>Una vez que hemos comprobados que los tests pasan correctamente
-podemos confirmar la mezcla del PR en GitHub.</p>
-<h5 id="confirmacion-de-la-mezcla-del-pr">Confirmación de la mezcla del PR<a class="headerlink" href="#confirmacion-de-la-mezcla-del-pr" title="Permanent link">&para;</a></h5>
+y aparecerá la información del nuevo commit.
+
+Una vez que hemos comprobados que los tests pasan correctamente
+podemos confirmar la mezcla del PR en GitHub.
+
+-->
+
 <p>Pulsa el botón de <code>Merge pull
 request</code> (con la opción por defecto <code>Create a merge commit</code>) y confírmalo.</p>
 <p><img src="./imagenes/merge-pull-request.png" width="600px"/></p>
@@ -2296,7 +2329,22 @@ añadidos. </p>
 <p>Debes por último poner en producción la nueva versión, igual que
 hicimos en la práctica 1, creando una imagen Docker, subiéndola a
 Docker Hub y poniéndola en ejecución en el servidor de la asignatura.</p>
-<p>En clase de prácticas el profesor revisará que funciona correctamente.</p>
+<p>Para crear la imagen Docker:</p>
+<div class="highlight"><pre><span></span><code>$ docker build -t &lt;usuario-docker&gt;/mads-todolist .
+</code></pre></div>
+<p>Sube la máquina a Docker Hub (automáticamente se etiquetara como
+<code>latest</code>). Y etiqueta la máquina docker con la versión <code>1.0.1</code> y
+súbela también.</p>
+<div class="highlight"><pre><span></span><code>$ docker push &lt;usuario-docker&gt;/mads-todolist 
+Using default tag: latest
+$ docker tag &lt;usuario-docker&gt;/mads-todolist &lt;usuario-docker&gt;/mads-todolist:1.0.1
+$ docker push &lt;usuario-docker&gt;/mads-todolist:1.0.1
+</code></pre></div>
+<p>Conéctate al servidor de la asignatura, descarga en él la máquina
+Docker y pon en producción la aplicación. Comprueba que todo funciona
+correctamente y después para y borra el contenedor y la imagen.</p>
+<p>En clase de prácticas deberás hacer lo mismo y el profesor revisará
+que la aplicación en producción funciona correctamente.</p>
 <h3 id="resto-de-la-practica-version-110">Resto de la práctica (versión 1.1.0)<a class="headerlink" href="#resto-de-la-practica-version-110" title="Permanent link">&para;</a></h3>
 <p>El resto de la práctica consistirá en desarrollar la versión 1.1.0,
 usando la misma metodología vista anteriormente.</p>
