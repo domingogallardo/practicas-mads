@@ -446,7 +446,7 @@ aplicación.
 
     ```
     $ docker pull <usuario-docker>/spring-boot-demoapp
-    $ docker run -p 8080:8080 <usuario-docker>/spring-boot-demoapp
+    $ docker run 8080:8080 <usuario-docker>/spring-boot-demoapp
     ```
     
     En el caso en que otro compañero tenga la aplicación en marcha en

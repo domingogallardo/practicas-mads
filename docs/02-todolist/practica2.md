@@ -43,7 +43,7 @@ A continuación puedes ver dos de las pantallas de la aplicación.
 </table>
 
 Iremos desarrollando características adicionales de la aplicación a lo
-largo de las prácticas. El nombre de la aplicación es **ToDoList**.
+largo de las prácticas. El nombre de la aplicación es **mads-todolist**.
 
 
 ## Metodología de desarrollo ##
@@ -288,7 +288,7 @@ fichero de propiedades. El fichero de propiedades por defecto es
 **Fichero `/src/main/resources/application.properties`**:
 
 ```java
-spring.application.name = madstodolist
+spring.application.name = mads-todolist
 spring.datasource.url=jdbc:h2:mem:dev
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
@@ -1065,8 +1065,10 @@ fichero `fragments.html`.
 /html>
 ```
 
-Vemos que las vistas usan el framework CSS _Bootstrap_ y varias
-librerías JavaScript. Ambos se encuentran en el directorio
+Vemos que las vistas usan el framework CSS _Bootstrap_ (en concreto,
+la versión [Bootstrap
+4.6](https://getbootstrap.com/docs/4.6/getting-started/introduction/))
+y varias librerías JavaScript. Ambos se encuentran en el directorio
 `src/main/resources/static/`, el directorio por defecto en el que se
 guardan los recursos estáticos de una aplicación Spring Boot.
 
@@ -1395,7 +1397,7 @@ public class TareaWebTest {
 
 1. Una vez logeado en GitHub, copia el enlace con una invitación que
    compartiremos en el foro de Moodle. Con esa invitación se creará
-   automáticamente tu repositorio `todolist-<usuario>` en la
+   automáticamente tu repositorio `mads-todolist-<usuario>` en la
    organización [mads-ua](https://github.com/mads-ua-21-22). Al igual
    que el repositorio de la primera parte de la práctica es un
    repositorio privado al que tienes acceso tú y el profesor. Contiene
@@ -1412,8 +1414,8 @@ public class TareaWebTest {
    correctamente:
    
     ```
-    $ git clone https://github.com/mads-ua/todolist-<usuario>.git
-    $ cd todolist-<usuario>
+    $ git clone https://github.com/mads-ua/mads-todolist-<usuario>.git
+    $ cd mads-todolist-<usuario>
     $ ./mvnw spring-boot:run
     ```
    
@@ -1792,6 +1794,28 @@ Haremos esto en futuras prácticas.
 Podemos ver que GitHub informa de que no hay conflictos con la rama
 `main` y que es posible hacer el merge en GitHub.
 
+Antes de pulsar el botón para realizar el merge, lanzamos en local
+(estando en la rama) para comprobar que no se ha roto nada y que los
+tests que se han añadido pasan correctamente (en este caso no hemos
+añadido ninguno).
+
+```text
+(acerca-de) $ ./mvnw test
+...
+[INFO] 
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21.879 s
+```
+
+Veremos en la próxima práctica cómo configurar GitHub para que esta
+comprobación se haga de forma automática en GitHub.
+
+<!--
+
 ##### Comprobación de tests en main #####
 
 Antes de pulsar el botón para que GitHub mezcle la rama `acerca-de` en
@@ -1857,9 +1881,7 @@ y aparecerá la información del nuevo commit.
 Una vez que hemos comprobados que los tests pasan correctamente
 podemos confirmar la mezcla del PR en GitHub.
 
-
-##### Confirmación de la mezcla del PR #####
-
+-->
 
 Pulsa el botón de `Merge pull
 request` (con la opción por defecto `Create a merge commit`) y confírmalo.
@@ -1977,7 +1999,29 @@ Debes por último poner en producción la nueva versión, igual que
 hicimos en la práctica 1, creando una imagen Docker, subiéndola a
 Docker Hub y poniéndola en ejecución en el servidor de la asignatura.
 
-En clase de prácticas el profesor revisará que funciona correctamente.
+Para crear la imagen Docker:
+
+```
+$ docker build -t <usuario-docker>/mads-todolist .
+```
+
+Sube la máquina a Docker Hub (automáticamente se etiquetara como
+`latest`). Y etiqueta la máquina docker con la versión `1.0.1` y
+súbela también.
+
+```
+$ docker push <usuario-docker>/mads-todolist 
+Using default tag: latest
+$ docker tag <usuario-docker>/mads-todolist <usuario-docker>/mads-todolist:1.0.1
+$ docker push <usuario-docker>/mads-todolist:1.0.1
+```
+
+Conéctate al servidor de la asignatura, descarga en él la máquina
+Docker y pon en producción la aplicación. Comprueba que todo funciona
+correctamente y después para y borra el contenedor y la imagen.
+
+En clase de prácticas deberás hacer lo mismo y el profesor revisará
+que la aplicación en producción funciona correctamente.
 
 ### Resto de la práctica (versión 1.1.0) ###
 
