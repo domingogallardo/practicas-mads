@@ -2050,7 +2050,7 @@ necesarios para la página <em>acerca de</em>:</p>
 <li>Vista</li>
 </ul>
 <p>Añade los siguientes ficheros:</p>
-<p><strong>Controller <code>HomeController.java</code></strong></p>
+<p><strong>Controller <code>main/java/madstodolist/controller/HomeController.java</code></strong></p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist.controller</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="p">;</span>
@@ -2067,18 +2067,18 @@ necesarios para la página <em>acerca de</em>:</p>
 
 <span class="p">}</span>
 </code></pre></div>
-<p><strong>Vista <code>about.html</code></strong>:</p>
+<p><strong>Vista <code>main/resources/templates/about.html</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:th</span><span class="o">=</span><span class="s">&quot;http://www.thymeleaf.org&quot;</span><span class="p">&gt;</span>
 
-<span class="p">&lt;</span><span class="nt">head</span> <span class="na">th:replace</span><span class="o">=</span><span class="s">&quot;fragments :: head (titulo=&#39;Login&#39;)&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span> <span class="na">th:replace</span><span class="o">=</span><span class="s">&quot;fragments :: head (titulo=&#39;Acerca de&#39;)&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
 
 <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container-fluid&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;container-fluid&quot;</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>ToDo List<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>ToDoList<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
         <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
-            <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Desarrollada por Domingo Gallardo<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Desarrollada por TU NOMBRE <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
             <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Versión 1.0.1 (en desarrollo)<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
             <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>Fecha de release: pendiente de release<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
         <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
@@ -2092,13 +2092,46 @@ necesarios para la página <em>acerca de</em>:</p>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
 <p>Prueba la página accediendo a la url
-<a href="http://localhost:9000/about">http://localhost:9000/about</a>. </p>
+<a href="http://localhost:8080/about">http://localhost:8080/about</a>. </p>
 <p><img src="./imagenes/pagina-acerca-de.png" width="400px"/></p>
-<p>Lanza también todos los tests para comprobar que no se ha roto nada.</p>
+<p>Añade un test que automatiza la comprobación de que la URL <code>/about</code>
+debe devolver el nombre de la aplicación.</p>
+<p><strong>Test <code>test/java/madstodolist/AcercaDeWebTest.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.web.servlet.MockMvc</span><span class="p">;</span>
+
+<span class="kn">import static</span> <span class="nn">org.hamcrest.Matchers.containsString</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultMatchers.content</span><span class="p">;</span>
+
+<span class="nd">@SpringBootTest</span>
+<span class="nd">@AutoConfigureMockMvc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AcercaDeWebTest</span> <span class="p">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="p">;</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">getAboutDevuelveNombreAplicacion</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/about&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;ToDoList&quot;</span><span class="p">)));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Puedes lanzar el test pulsando en IntelliJ con el botón derecho en el
+fichero (en el panel del proyecto) y seleccionando la opción <em>Run
+AcercaDeWebTest</em>.</p>
+<p>Puedes lanzar también todos los tests en el terminal para comprobar
+que no se ha roto nada.</p>
 <div class="highlight"><pre><span></span><code>(acerca-de) $ ./mvnw test
 ...
 [INFO] 
-[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
@@ -2174,7 +2207,7 @@ añadido ninguno).</p>
 <div class="highlight"><pre><span></span><code>(acerca-de) $ ./mvnw test
 ...
 [INFO] 
-[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
