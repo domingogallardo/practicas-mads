@@ -910,16 +910,36 @@ fichero de propiedades. El fichero de propiedades por defecto es
 <span class="n">spring</span><span class="p">.</span><span class="na">datasource</span><span class="p">.</span><span class="na">initialization</span><span class="o">-</span><span class="n">mode</span><span class="o">=</span><span class="n">always</span>
 </code></pre></div>
 <p>Se define las características de la fuente de datos con la que trabaja
-la aplicación (la base de datos en memoria H2) y el fichero que
+la aplicación (la base de datos en memoria H2). El parámetro
+<code>spring.datasource.data</code> define el fichero que
 contiene los datos iniciales que se van a cargar en la base de datos
-al arrancar la aplicación, el fichero <code>datos-dev.sql</code>.</p>
-<p>También se define la característica de JPA
-<code>spring.jpa.hibernate.ddl-auto</code> que define cómo se debe inicializar
-el esquema de datos de la aplicación cuando haya un cambio en el
-código fuente que define las entidades. En este caso tenemos un valor
-de <code>update</code> para indicar que se el esquema de datos debe
+al arrancar la aplicación. En este caso se trata del fichero
+<code>datos-dev.sql</code>:</p>
+<p><strong>Fichero <code>/src/main/resources/datos-dev.sql</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="cm">/* Populate tables */</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;domingo@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Domingo Gallardo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Base de datos H2 en memoria</p>
+<p>En esta práctica vamos a trabajar únicamente con la base de datos en
+memoria. Esto significa que los datos que introduzcamos van a estar
+presentes mientras que la aplicación esté funcionando. Cuando matemos
+la aplicación y la volvamos a reiniciar sólo estarán los datos
+iniciales, los datos que se cargan del fichero <code>datos-dev.sql</code>.</p>
+<p>En la práctica 3 utilizaremos una base de datos real, que deberemos
+gestionar también en producción. En concreto, se tratará de una base
+de datos PostgresSQL.</p>
+</div>
+<p>En el fichero de configuración también se define la característica de
+JPA <code>spring.jpa.hibernate.ddl-auto</code> que define cómo se debe
+inicializar el esquema de datos de la aplicación cuando haya un cambio
+en el código fuente que define las entidades. En este caso tenemos un
+valor de <code>update</code> para indicar que se el esquema de datos debe
 actualizarse. En un entorno de producción el valor de esta propiedad
-deberá ser <code>validate</code> para no modificar la base de datos de producción.</p>
+deberá ser <code>validate</code> para no modificar la base de datos de
+producción.</p>
 <h4 id="otras-configuraciones">Otras configuraciones<a class="headerlink" href="#otras-configuraciones" title="Permanent link">&para;</a></h4>
 <p>Es posible definir otras configuraciones e indicar en el comando de
 ejecución de la aplicación Spring Boot qué fichero de configuración
