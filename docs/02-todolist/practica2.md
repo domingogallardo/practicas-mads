@@ -1058,7 +1058,7 @@ fichero `fragments.html`.
 
 <div th:fragment="javascript">
     <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/js/popper.min.js.css}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <span th:text="${scripts}"></span>
 </div>
