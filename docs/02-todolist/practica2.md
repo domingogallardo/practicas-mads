@@ -298,17 +298,41 @@ spring.datasource.initialization-mode=always
 ```
 
 Se define las características de la fuente de datos con la que trabaja
-la aplicación (la base de datos en memoria H2) y el fichero que
+la aplicación (la base de datos en memoria H2). El parámetro
+`spring.datasource.data` define el fichero que
 contiene los datos iniciales que se van a cargar en la base de datos
-al arrancar la aplicación, el fichero `datos-dev.sql`.
+al arrancar la aplicación. En este caso se trata del fichero
+`datos-dev.sql`:
 
-También se define la característica de JPA
-`spring.jpa.hibernate.ddl-auto` que define cómo se debe inicializar
-el esquema de datos de la aplicación cuando haya un cambio en el
-código fuente que define las entidades. En este caso tenemos un valor
-de `update` para indicar que se el esquema de datos debe
+**Fichero `/src/main/resources/datos-dev.sql`**:
+
+```sql
+/* Populate tables */
+INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'domingo@ua', 'Domingo Gallardo', '123', '2001-02-10');
+INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
+INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
+```
+
+!!! Note "Base de datos H2 en memoria"
+    En esta práctica vamos a trabajar únicamente con la base de datos en
+    memoria. Esto significa que los datos que introduzcamos van a estar
+    presentes mientras que la aplicación esté funcionando. Cuando matemos
+    la aplicación y la volvamos a reiniciar sólo estarán los datos
+    iniciales, los datos que se cargan del fichero `datos-dev.sql`.
+
+    En la práctica 3 utilizaremos una base de datos real, que deberemos
+    gestionar también en producción. En concreto, se tratará de una base
+    de datos PostgresSQL.
+
+
+En el fichero de configuración también se define la característica de
+JPA `spring.jpa.hibernate.ddl-auto` que define cómo se debe
+inicializar el esquema de datos de la aplicación cuando haya un cambio
+en el código fuente que define las entidades. En este caso tenemos un
+valor de `update` para indicar que se el esquema de datos debe
 actualizarse. En un entorno de producción el valor de esta propiedad
-deberá ser `validate` para no modificar la base de datos de producción.
+deberá ser `validate` para no modificar la base de datos de
+producción.
 
 
 #### Otras configuraciones ####
