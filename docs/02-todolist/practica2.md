@@ -1,7 +1,7 @@
 
 # Práctica 2: Aplicación ToDoList
 
-## Objetivos
+## 1. Objetivos
 
 En práctica 2 vamos a trabajar sobre la aplicación inicial
 [domingogallardo/mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial).
@@ -16,7 +16,7 @@ Igual que en la primera parte, debes leer la [introducción a Spring
 Boot](../01-intro-spring-boot/intro-spring-boot.md) para entender los conceptos
 fundamentales del framework. 
 
-## Aplicación inicial ##
+## 2. Aplicación inicial ##
 
 La aplicación con la que vamos a trabajar es una típica aplicación
 ToDo que sirve para gestionar tareas pendientes. Se pueden registrar y
@@ -46,7 +46,7 @@ Iremos desarrollando características adicionales de la aplicación a lo
 largo de las prácticas. El nombre de la aplicación es **mads-todolist**.
 
 
-## Metodología de desarrollo ##
+## 3. Metodología de desarrollo ##
 
 En cuanto a la metodología de desarrollo, en esta práctica
 repasaremos e introduciremos el uso de:
@@ -243,7 +243,7 @@ de GitHub](https://help.github.com/categories/writing-on-github/).
     funcionamiento de estos tipos de sistemas basados en incidencias.
 
 
-## La aplicación ToDoList ##
+## 4. La aplicación ToDoList ##
 
 La aplicación
 [mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial)
@@ -1393,7 +1393,7 @@ public class TareaWebTest {
 }
 ```
 
-## Antes de empezar la práctica
+## 5. Antes de empezar la práctica
 
 1. Una vez logeado en GitHub, copia el enlace con una invitación que
    compartiremos en el foro de Moodle. Con esa invitación se creará
@@ -1461,7 +1461,7 @@ public class TareaWebTest {
    Un ejemplo de tablero es el [Trello del proyecto mads-todolist-inicial](https://trello.com/b/5zWOT6uO/todolist-inicial).
 
 
-## Desarrollo de la práctica
+## 6. Desarrollo de la práctica
 
 En esta primera práctica vamos a desarrollar las siguientes historias de usuario o features:
 
@@ -2142,7 +2142,7 @@ usuario para que sólo las pueda consultar el administrador.
 - Si el usuario tiene bloqueado el acceso cuando intente logearse
   aparecerá un mensaje de error indicándoselo.
 
-## Documentación, entrega y evaluación ##
+## 7. Documentación, entrega y evaluación ##
 
 Deberás añadir una página documentación `/doc/practica2.md` en la que
 debes realizar una breve **documentación técnica**. Puedes suponer que
