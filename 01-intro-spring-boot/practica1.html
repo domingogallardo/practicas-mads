@@ -920,7 +920,7 @@ aplicación.</p>
 </li>
 <li>
 <p>Conéctate al servidor con tu usuario y cambia tu contraseña. Por
-   ejemplo, si tu usuario es <code>alu14</code> y la dirección IP del servidor es
+   ejemplo, si tu usuario es <code>alu02</code> y la dirección IP del servidor es
    <code>161.35.65.197</code>:</p>
 <p><div class="highlight"><pre><span></span><code>$ ssh alu02@161.35.65.197
 $ passwd
@@ -937,8 +937,11 @@ puerto diferente para poner la aplicación en producción.</p>
 <li>
 <p>Descarga tu imagen de la aplicación y ponla en funcionamiento:</p>
 <div class="highlight"><pre><span></span><code>$ docker pull &lt;usuario-docker&gt;/spring-boot-demoapp
-$ docker run 8080:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
+$ docker run --rm -p 8080:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
 </code></pre></div>
+<p>El indicador <code>--rm</code> hace que cuando se pare el contenedor
+automáticamente se borre. De esta forma evitamos tener que
+borrarlo a mano después.</p>
 <p>En el caso en que otro compañero tenga la aplicación en marcha en
 ese puerto aparecerá el siguiente mensaje de error:</p>
 <div class="highlight"><pre><span></span><code>docker: Error response from daemon: driver failed programming ...
@@ -965,10 +968,11 @@ funciona correctamente. Lo haremos en el horario de clase de prácticas.</p>
 </li>
 <li>
 <p>Por último, para permitir que otros compañeros puedan trabajar con
-   fluidez en el servidor, debes cerrar el contenedor, borrar la
-   imagen y salir del servidor:</p>
+   fluidez en el servidor, debes cerrar el contenedor, comprobar que
+   se ha borrado, borrar la imagen y salir del servidor:</p>
 <div class="highlight"><pre><span></span><code>$ docker container ls -a 
-$ docker container rm &lt;container-id&gt;
+$ docker container rm &lt;container-id&gt; 
+(en el caso en que no se ubiera borrado)
 $ docker image ls -a 
 $ docker image rm &lt;nombre-imagen&gt; o &lt;image-id&gt;
 $ exit
