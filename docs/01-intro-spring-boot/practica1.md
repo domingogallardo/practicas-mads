@@ -423,7 +423,7 @@ aplicación.
    la asignatura y tu usuario.
 
 2. Conéctate al servidor con tu usuario y cambia tu contraseña. Por
-   ejemplo, si tu usuario es `alu14` y la dirección IP del servidor es
+   ejemplo, si tu usuario es `alu02` y la dirección IP del servidor es
    `161.35.65.197`:
 
     ```
@@ -446,8 +446,12 @@ aplicación.
 
     ```
     $ docker pull <usuario-docker>/spring-boot-demoapp
-    $ docker run 8080:8080 <usuario-docker>/spring-boot-demoapp
+    $ docker run --rm -p 8080:8080 <usuario-docker>/spring-boot-demoapp
     ```
+    
+    El indicador `--rm` hace que cuando se pare el contenedor
+    automáticamente se borre. De esta forma evitamos tener que
+    borrarlo a mano después.
     
     En el caso en que otro compañero tenga la aplicación en marcha en
     ese puerto aparecerá el siguiente mensaje de error:
@@ -478,12 +482,13 @@ aplicación.
         funciona correctamente. Lo haremos en el horario de clase de prácticas.
 
 6. Por último, para permitir que otros compañeros puedan trabajar con
-   fluidez en el servidor, debes cerrar el contenedor, borrar la
-   imagen y salir del servidor:
+   fluidez en el servidor, debes cerrar el contenedor, comprobar que
+   se ha borrado, borrar la imagen y salir del servidor:
    
     ```
     $ docker container ls -a 
-    $ docker container rm <container-id>
+    $ docker container rm <container-id> 
+    (en el caso en que no se ubiera borrado)
     $ docker image ls -a 
     $ docker image rm <nombre-imagen> o <image-id>
     $ exit
