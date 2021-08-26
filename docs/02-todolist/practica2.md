@@ -12,9 +12,22 @@ documento. Tendrás que desarrollar código y trabajar en GitHub
 desarrollando _issues_, _pull requests_, _releases_ y actualizando los
 tableros del proyecto (en Trello y en GitHub).
 
-Igual que en la primera parte, debes leer la [introducción a Spring
-Boot](../01-intro-spring-boot/intro-spring-boot.md) para entender los conceptos
-fundamentales del framework. 
+Al igual que en la práctica 1 usaremos GitHub Classroom para crear un
+repositorio individual con el que realizarás la práctica. El proyecto
+base será la aplicación inicial
+[domingogallardo/mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial). En
+este repositorio se ha seguido una metodología similar a la que vamos
+a utilizar en este práctica y puedes examinarlo para ver distintos
+elementos:
+
+- [Issues cerrados](https://github.com/domingogallardo/mads-todolist-inicial/issues?q=is%3Aissue+is%3Aclosed)
+- [Pull Requests mezclados](https://github.com/domingogallardo/mads-todolist-inicial/pulls?q=is%3Apr+is%3Aclosed)
+- [Tablero de issues](https://github.com/domingogallardo/mads-todolist-inicial/projects/1)
+- [Tablero Trello de historias de usuario](https://trello.com/b/5zWOT6uO/todolist-inicial)
+
+Debes leer la [introducción a Spring
+Boot](../01-intro-spring-boot/intro-spring-boot.md) para entender los
+conceptos fundamentales del framework.
 
 ## 2. Aplicación inicial ##
 
