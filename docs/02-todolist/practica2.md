@@ -1097,7 +1097,6 @@ fichero `fragments.html`.
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/js/popper.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <span th:text="${scripts}"></span>
 </div>
 /html>
 ```
@@ -1170,6 +1169,7 @@ a continuación.
 </div>
 
 <div th:replace="fragments::javascript"/>
+
 
 <!-- Ejemplo de uso de Ajax para lanzar una petición DELETE y borrar una tarea -->
 
