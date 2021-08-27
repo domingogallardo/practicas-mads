@@ -767,7 +767,7 @@ utilizarás para publicar estas imágenes.</p>
 <p><strong>Fichero <code>./Dockerfile</code>:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">openjdk:8-jdk-alpine</span>
 <span class="k">COPY</span> target/*.jar app.jar
-<span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&quot;java&quot;</span><span class="p">,</span><span class="s2">&quot;-jar&quot;</span><span class="p">,</span><span class="s2">&quot;/app.jar&quot;</span><span class="p">]</span>
+<span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&quot;java&quot;</span><span class="p">,</span><span class="s2">&quot;-Djava.security.egd=file:/dev/urandom&quot;</span><span class="p">,</span><span class="s2">&quot;-jar&quot;</span><span class="p">,</span><span class="s2">&quot;/app.jar&quot;</span><span class="p">]</span>
 </code></pre></div>
 <p>El fichero <code>Dockerfile</code> consiste en un conjunto secuencial de
 instrucciones con las que se construye la máquina Docker:</p>
@@ -787,8 +787,15 @@ instrucciones con las que se construye la máquina Docker:</p>
   nombre <code>app.jar</code>.</li>
 <li><code>ENTRYPOINT</code>: este comando indica el comando a ejecutar cuando se
   pone en marcha la máquina Docker. En este caso se lanza la
-  aplicación (<code>app.jar</code>) con el comando <code>java</code>.</li>
+  aplicación (<code>app.jar</code>) con el comando <code>java -jar</code>. </li>
 </ul>
+<p>El modificador <code>-Djava.security.egd</code> hace que se inicialice el
+  generador de números aleatorios de Java usando el fichero del
+  sistema <code>/dev/urandom</code> en lugar del fichero por defecto
+  <code>/dev/random</code>. Es necesario para resolver un bug que aparece al
+  ejecutar el contenedor en un servidor alojado DigitalOcean (el
+  servidor de la asignatura, en el que pondrás la
+  aplicación en producción, usa ese servicio).</p>
 </li>
 <li>
 <p>Asegúrate de que en el directorio raíz de la aplicación está
