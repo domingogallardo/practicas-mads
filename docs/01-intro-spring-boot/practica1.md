@@ -242,7 +242,7 @@ utilizarás para publicar estas imágenes.
       ```docker
       FROM openjdk:8-jdk-alpine
       COPY target/*.jar app.jar
-      ENTRYPOINT ["java","-jar","/app.jar"]
+      ENTRYPOINT ["java","-Djava.security.egd=file:/dev/urandom","-jar","/app.jar"]
       ```
 
     El fichero `Dockerfile` consiste en un conjunto secuencial de
@@ -263,7 +263,15 @@ utilizarás para publicar estas imágenes.
       nombre `app.jar`.
     - `ENTRYPOINT`: este comando indica el comando a ejecutar cuando se
       pone en marcha la máquina Docker. En este caso se lanza la
-      aplicación (`app.jar`) con el comando `java`.
+      aplicación (`app.jar`) con el comando `java -jar`. 
+      
+      El modificador `-Djava.security.egd` hace que se inicialice el
+      generador de números aleatorios de Java usando el fichero del
+      sistema `/dev/urandom` en lugar del fichero por defecto
+      `/dev/random`. Es necesario para resolver un bug que aparece al
+      ejecutar el contenedor en un servidor alojado DigitalOcean (el
+      servidor de la asignatura, en el que pondrás la
+      aplicación en producción, usa ese servicio).
 
 3. Asegúrate de que en el directorio raíz de la aplicación está
   el fichero JAR resultado de la compilación:
