@@ -785,17 +785,19 @@ instrucciones con las que se construye la máquina Docker:</p>
   JAR que constituye nuestra aplicación que está situado en el
   directorio <code>./target</code> y se copia en la máquina Docker con el
   nombre <code>app.jar</code>.</li>
-<li><code>ENTRYPOINT</code>: este comando indica el comando a ejecutar cuando se
+<li>
+<p><code>ENTRYPOINT</code>: este comando indica el comando a ejecutar cuando se
   pone en marcha la máquina Docker. En este caso se lanza la
-  aplicación (<code>app.jar</code>) con el comando <code>java -jar</code>. </li>
-</ul>
+  aplicación (<code>app.jar</code>) con el comando <code>java -jar</code>. </p>
 <p>El modificador <code>-Djava.security.egd</code> hace que se inicialice el
-  generador de números aleatorios de Java usando el fichero del
-  sistema <code>/dev/urandom</code> en lugar del fichero por defecto
-  <code>/dev/random</code>. Es necesario para resolver un bug que aparece al
-  ejecutar el contenedor en un servidor alojado DigitalOcean (el
-  servidor de la asignatura, en el que pondrás la
-  aplicación en producción, usa ese servicio).</p>
+generador de números aleatorios de Java usando el fichero del
+sistema <code>/dev/urandom</code> en lugar del fichero por defecto
+<code>/dev/random</code>. Es necesario para resolver un bug que aparece
+al ejecutar el contenedor en un servidor alojado DigitalOcean
+(el servidor de la asignatura, en el que pondrás la aplicación
+en producción, usa ese servicio).</p>
+</li>
+</ul>
 </li>
 <li>
 <p>Asegúrate de que en el directorio raíz de la aplicación está
