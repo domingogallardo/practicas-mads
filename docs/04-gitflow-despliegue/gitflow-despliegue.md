@@ -73,6 +73,45 @@ _team_ y el repositorio.
     cambios. Comprobad que GitHub Actions sigue funcionando
     correctamente. 
   
+## Despliegue en producción con BD ##
+
+Vamos a ver cómo ejecutar en producción el contenedor con la
+aplicación de forma que se conecte con una base de datos postgres.
+
+<img src="imagenes/contenedores-produccion.png" width="600px"/>
+
+
+!!! Note "Base de datos de producción"
+    La base de datos de producción es la que mantiene los datos
+    introducidos por los usuarios de la misma. Hay que prestar una
+    atención especial a esta base de datos y definir políticas de
+    respaldo y de control de cambios para evitar que se produzca
+    cualquier pérdida de información. Veremos que una
+    de las cuestiones que hay que asegurar es que la aplicación no
+    puede modificar el esquema de datos de esta base de datos. 
+    
+    Habrá que definir también un flujo de trabajo para actualizar la base de
+    datos de producción con los cambios del modelo de datos
+    introducidos por la nuevas funcionalidades (nuevas tablas y nuevas
+    relaciones).
+
+Comandos:
+
+```
+$ docker network create mads-todolist 
+$ docker volume create datos-equipo01
+$ docker run -d --network mads-todolist --network-alias postgres -v ${PWD}:/mi-host -v datos-equipo01:/var/lib/postgresql -p 5432:5432 --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+$ docker run --rm --network mads-todolist -p8080:8080 domingogallardo/mads-todolist:solucion --spring.profiles.active=postgres --POSTGRES_HOST=postgres
+$ docker exec -it postgres-develop psql -U mads -W mads
+# \l
+# \dt
+SELECT * FROM usuarios;
+$ docker exec -it postgres-develop pg_dump -U mads --clean mads > backup03092021.sql
+$ docker exec -it postgres-develop bash 
+$ psql -U mads mads < /mi-host/backup03092021.sql
+```
+
+
 ## Nuevo flujo de trabajo para los _issues_ ##
 
 Debemos adaptar el flujo de trabajo en GitHub al trabajo en equipo. En
@@ -449,6 +488,7 @@ estimación de tamaño de las funcionalidades antes de validarlas.
 Este apartado lo realizará el **responsable de integración continua**,
 pero todos los miembros del equipo deben conocer y entender todos los
 pasos.
+
 
 ### Sobreescribir propiedades desde la línea de comando ###
 

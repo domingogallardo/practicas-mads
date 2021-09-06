@@ -321,7 +321,7 @@ al arrancar la aplicación. En este caso se trata del fichero
 
 ```sql
 /* Populate tables */
-INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'domingo@ua', 'Domingo Gallardo', '123', '2001-02-10');
+INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
 ```
@@ -1264,7 +1264,7 @@ comenzar.
 **Fichero `src/main/resources/datos-dev.sql`**:
 
 ```sql
-INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'domingo@ua', 'Domingo Gallardo', '123', '2001-02-10');
+INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
 ```
@@ -1276,7 +1276,7 @@ Para los tests automáticos se cargan los datos definidos en el fichero
 **Fichero `src/test/resources/datos-test.sql`**:
 
 ```sql
-INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'ana.garcia@gmail.com', 'Ana García', '12345678', '2001-02-10');
+INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'user@ua', 'UsuarioEjemplo', '123', '2001-02-10');
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI',
 '1');
@@ -1344,7 +1344,7 @@ public void testNuevaTareaUsuario() {
 
     // THEN
 
-    Usuario usuario = usuarioService.findByEmail("ana.garcia@gmail.com");
+    Usuario usuario = usuarioService.findByEmail("user@ua");
     assertThat(usuario.getTareas()).contains(tarea);
 }
 ```
@@ -1374,8 +1374,8 @@ public void servicioLoginUsuarioOK() throws Exception {
     // Datos cargados de datos-test.sql
 
     this.mockMvc.perform(post("/login")
-            .param("eMail", "ana.garcia@gmail.com")
-            .param("password", "12345678"))
+            .param("eMail", "user@ua")
+            .param("password", "123"))
             .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrl("/usuarios/1/tareas"));
 }

@@ -209,13 +209,21 @@ Una vez leído el documento [Introducción a Spring
   
 ### _Dockerización_ de la aplicación ###
 
-La tecnología Docker [Docker](https://www.docker.com) permite
-construir binarios (máquinas Docker) que pueden ser distribuidos y
-ejecutados en ordenadores que tengan instalados el _Docker
-Engine_. Las máquinas Docker son máquinas virtualizadas muy eficientes
-que comparten los servicios del sistema operativo en el que se
-ejecutan y utilizan menos recursos que las máquinas virtuales
-tradicionales.
+[Docker](https://www.docker.com) es un software de virtualización que
+utiliza el propio sistema operativo compartimentado y permite
+gestionar _contenedores_ (similares a las máquinas virtuales) de forma
+mucho menos pesada y rápida que con sistemas de virtualización
+tradicionales como VirtualBox. 
+
+Las máquinas Docker son muy eficientes porque comparten los servicios
+del sistema operativo en el que se ejecutan, utilizando menos recursos
+que las máquinas virtuales tradicionales. 
+
+Docker proporciona un sistema muy sencillo de distribución y puesta en
+producción de software, ya que las máquinas Docker pueden ser
+distribuidas usando repositorios (como [Docker
+Hub](https://hub.docker.com)) y ejecutadas en cualquier ordenador que
+tenga instalado el _Docker Engine_.
 
 La tecnología es muy popular y se usa en gran cantidad de empresas de
 desarrollo para simplificar la ejecución en en múltiples entornos y
@@ -228,13 +236,32 @@ En nuestro caso, vamos a construir una _máquina Docker_ basada en la
 aplicación demo. Posteriormente, la publicaremos en _Docker Hub_ y 
 la desplegaremos en un _host_ para ponerla en producción.
 
-1. Debes empezar por crear una cuenta de usuario en [Docker
-Hub](https://hub.docker.com). De esta forma tendrás un repositorio en
-el que podrás subir las imágenes de las máquinas Docker que
-construyas. Deberás dar un nombre de usuario que será el que
-utilizarás para publicar estas imágenes.
+1. Instala [Docker
+   Desktop](https://www.docker.com/products/docker-desktop). Los
+   usuarios de Linux debéis seguir las instrucciones de [esta
+   página](https://docs.docker.com/engine/install/ubuntu/) para
+   instalar Docker Engine. Usaremos la línea de comando para lanzar
+   los comandos Docker. La aplicación Docker Desktop permite usar una
+   interfaz de usuario para interactuar con imágenes y contenedores,
+   pero no proporciona ninguna funcionalidad que no esté disponible en
+   la línea de comando.
+   
+     Una vez instalado puedes probar el tutorial rápido (2 minutos)
+     desde Docker Desktop para comprobar que todo funciona
+     correctamente. También puedes desde el terminal comprobar la
+     versión de Docker instalada:
+   
+     ```
+     $ docker version
+     ```
 
-2. Crea un fichero llamado `Dockerfile` (sin extensión) en el
+2. Crea una cuenta de usuario en [Docker
+   Hub](https://hub.docker.com). De esta forma tendrás un repositorio
+   en el que podrás subir las imágenes de las máquinas Docker que
+   construyas. Deberás dar un nombre de usuario que será el que
+   utilizarás para publicar estas imágenes.
+
+3. Crea un fichero llamado `Dockerfile` (sin extensión) en el
   directorio raíz de la aplicación con el siguiente contenido:
   
     **Fichero `./Dockerfile`:**
@@ -273,7 +300,7 @@ utilizarás para publicar estas imágenes.
         (el servidor de la asignatura, en el que pondrás la aplicación
         en producción, usa ese servicio).
 
-3. Asegúrate de que en el directorio raíz de la aplicación está
+4. Asegúrate de que en el directorio raíz de la aplicación está
   el fichero JAR resultado de la compilación:
   
     ```bash
@@ -290,7 +317,7 @@ utilizarás para publicar estas imágenes.
     $ ./mvnw package
     ```
 
-4. Ya puedes construir la máquina Docker con el siguiente comando,
+5. Ya puedes construir la máquina Docker con el siguiente comando,
   desde el directorio raíz de la aplicación (en el que debe estar el
   fichero `Dockerfile` anterior):
 
@@ -307,7 +334,7 @@ utilizarás para publicar estas imágenes.
       domingogallardo/spring-boot-demoapp   latest 
       ```
 
-5. Pon en marcha un la imagen con la aplicación:
+6. Pon en marcha un la imagen con la aplicación:
 
     ```
     $ docker run -p 8080:8080 <usuario-docker>/spring-boot
@@ -366,7 +393,7 @@ utilizarás para publicar estas imágenes.
     estos comandos interactuando directamente con la
     interfaz. Pruébalo.
     
-6. Ahora que has comprobado que el fichero `Dockerfile` funciona
+7. Ahora que has comprobado que el fichero `Dockerfile` funciona
    correctamente debes añadirlo a git y subirlo al respositorio
    GitHub:
    
@@ -378,7 +405,7 @@ utilizarás para publicar estas imágenes.
      $ git push
      ```
     
-7. Vamos a terminar publicando la imagen en tu cuenta de Docker Hub.
+8. Vamos a terminar publicando la imagen en tu cuenta de Docker Hub.
 
     - Ve a [Docker Hub](https://hub.docker.com) y logéate.
     - Crea un repositorio con el nombre `spring-boot-demoapp`. En ese
@@ -454,12 +481,15 @@ aplicación.
 
     ```
     $ docker pull <usuario-docker>/spring-boot-demoapp
-    $ docker run --rm -p 8080:8080 <usuario-docker>/spring-boot-demoapp
+    $ docker run --rm --name spring-boot-alu02 -p 8080:8080 <usuario-docker>/spring-boot-demoapp
     ```
     
     El indicador `--rm` hace que cuando se pare el contenedor
     automáticamente se borre. De esta forma evitamos tener que
     borrarlo a mano después.
+    
+    El indicador `--name` define el nombre del contenedor. Ponemos
+    nuestro nombre, para poder identificar quiénes han creado cada contenedor.
     
     En el caso en que otro compañero tenga la aplicación en marcha en
     ese puerto aparecerá el siguiente mensaje de error:
@@ -474,7 +504,7 @@ aplicación.
     contenedor. Por ejemplo, puedes usar el puerto `8081`:
     
     ```
-    $ docker run -p 8081:8080 <usuario-docker>/spring-boot-demoapp
+    $ docker run --rm --name spring-boot-alu02 -p 8081:8080 <usuario-docker>/spring-boot-demoapp
     ```
     
 5. Comprueba que la aplicación funciona correctamente conectándote
@@ -489,27 +519,23 @@ aplicación.
         servidor de la asignatura y el profesor comprobará que
         funciona correctamente. Lo haremos en el horario de clase de prácticas.
 
-6. Por último, para permitir que otros compañeros puedan trabajar con
-   fluidez en el servidor, debes cerrar el contenedor, comprobar que
-   se ha borrado, borrar la imagen y salir del servidor:
+6. Si en algún momento tenemos problemas de espacio en el disco duro,
+   podemos borrar la imagen y el contenedor:
    
     ```
     $ docker container ls -a 
-    $ docker container rm <container-id> 
-    (en el caso en que no se ubiera borrado)
+    $ docker container rm spring-boot-alu02
     $ docker image ls -a 
     $ docker image rm <nombre-imagen> o <image-id>
     $ exit
     ```
 
-    !!! Danger "Importante"
-        El objetivo de borrar la imagen Docker es evitar que el servidor de
-        la asignatura se quede sin espacio de disco. El servidor tiene
-        un espacio limitado que se debe compartir entre todos los
-        estudiantes de la asignatura.
+    !!! Danger "No guardar ficheros en el servidor de la asignatura"
+        El servidor de la asignatura tiene una capacidad limitada de
+        disco duro y debemos tener cuidado de no sobrepasarla entre todos.
         
-        No debes guardar ningún fichero ajeno a la asignatura en este
-        servidor.
+        Por ello, no debes guardar ningún fichero ajeno a la
+        asignatura en este servidor.
         
 
 ## 4. Añadimos alguna funcionalidad sencilla a la aplicación ##

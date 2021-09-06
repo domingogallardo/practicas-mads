@@ -19,7 +19,7 @@ En esta práctica 3 de la asignatura realizaremos dos tareas principales:
 La duración de la práctica es de 3 semanas y la fecha límite de
 entrega es el día 10 de noviembre.
 
-## Desarrollo de la _release_ 1.2.0 ##
+## 1. Desarrollo de la _release_ 1.2.0 ##
 
 En esta práctica vamos a desarrollar la versión 1.2.0 de la aplicación
 `ToDoList`. A todos los _issues_ y _pull requests_ les debes poner este
@@ -34,7 +34,7 @@ esta _release_.
   final del desarrollo de la práctica, en su entrega.
 
 
-## Integración continua con GitHub Actions ##
+## 2. Integración continua con GitHub Actions ##
 
 [GitHub
 Actions](https://docs.github.com/en/free-pro-team@latest/actions) es
@@ -84,53 +84,54 @@ El fichero con el flujo de trabajo inicial lo llamaremos `tests.yml`:
 ```yml
 name: Tests
 
-on: [push]
+on: push
 
 jobs:
-  build:
+  # El nombre del job es launch-test
+  launch-tests:
     runs-on: ubuntu-latest
+    # Todos los pasos se ejecutan en el contenedor openjda:8-jdk-alpine
+    container: openjdk:8-jdk-alpine
 
     steps:
+      # Hacemos un checkout del código del repositorio 
       - uses: actions/checkout@v2
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
+      # Y lanzamos los tests
       - name: Launch tests with Maven
         run:  ./mvnw test
 ```
 
 Puntos interesantes a destacar:
 
-- El nombre del flujo de trabajo es _Tests_.
+- El nombre del flujo de trabajo es `Tests`.
+- El nombre del job es `launch-tests`.
 - Con la palabra clave `on` se define el evento que causa que se lance
-  el flujo de trabajo. Es en cualquier commit subido a GitHub
-  (push).
+  el flujo de trabajo. Es en cualquier commit subido a GitHub  (push).
 - En `jobs` se definen los trabajos en paralelo a realizar por el
   flujo de trabajo. En nuestro caso sólo habrá uno.
 - En `runs-on` se define la máquina base sobre la que se van a
   ejecutar los siguientes pasos del flujo.
+- En `container` se especifica el contenedor Docker que se va a usar
+  para ejecutar los pasos del flujo de trabajo.
 - En `uses: actions/checkout@v2` se especifica que se obtenga la
   versión 2 de la acción llamada `actions/checkout`. Esta acción se
   descarga el repositorio en la máquina especificada anteriormente y
   lo deja listo para ejecutar los tests o cualquier otra acción.
-- En `uses: actions/setup-java@v1` se especifica que se descargue los
-  paquetes básicos de Java, en concreto la versión 1.8 (definido por
-  la siguiente línea `with`).
 - Por último, con el comando `run: ./mvnw test` se indica que el flujo
   de trabajo debe lanzar este comando, que es el que lanza los
   tests. 
-- Los nombres (`name`) son nombres arbitrarios que indicamos y que
-  después aparecen en la interfaz de Actions y nos sirven para
-  localizar los distintos pasos.
+- Los nombres `Tests` y `launch-tests` son nombres arbitrarios que
+  indicamos y que después aparecen en la interfaz de Actions y nos
+  sirven para localizar los distintos pasos.
   
 
 ### Builds en Actions ###
 
-En Actions tenemos toda la información de los _builds_. Es posible
-visualizarla mientras que se está realizando el build o cuando ya ha
-terminado. Allí podremos ver el detalle de la ejecución de los tests y
-consultar la salida de los mismos para comprobar su resultado.
+En la pestaña Actions de GitHub tenemos toda la información de los
+_builds_. Es posible visualizarla mientras que se está realizando el
+build o cuando ya ha terminado. Allí podremos ver el detalle de la
+ejecución de los tests y consultar la salida de los mismos para
+comprobar su resultado.
 
 En la siguiente imagen se ha capturado el build en ejecución. El color
 naranja significa que el proceso está en ejecución.
@@ -156,9 +157,9 @@ naranja significa que el proceso está en ejecución.
   subir el commit y comprueba que el nuevo commit y el PR pasan
   correctamente.
 
-- Cierra el _pull request_ con `main`. Se volverán a lanzar los tests
-  en GitHub y el commit aparecerá marcado como correcto. Baja los
-  cambios al repositorio local y borra la rama.
+- Cierra el _pull request_, mezclándolo con `main`. Se volverán a
+  lanzar los tests en GitHub y el commit aparecerá marcado como
+  correcto. Baja los cambios al repositorio local y borra la rama.
 
     ```
     $ (integracion-continua-actions) git checkout main
@@ -169,7 +170,7 @@ naranja significa que el proceso está en ejecución.
 
 
 
-## Configuración de la aplicación ##
+## 3. Configuración de la aplicación para usar una BD Postgres ##
 
 Hasta ahora hemos trabajado con la aplicación en una configuración
 local con nuestro ordenador de desarrollo trabajando sobre una base de
@@ -177,31 +178,29 @@ datos H2 en memoria. Pero el objetivo final es poner la aplicación en
 producción, en un servidor en Internet y usando una base de datos
 Postgres en producción. 
 
-En esta práctica vamos a configurar un perfil de la aplicación para
-poder lanzar los tests y ejecutar la aplicación usando una base de
-datos Postgres. En la práctica 4 veremos cómo definir un perfil para
-trabajar con una base de datos de producción.
+Además, te habrás dado cuenta de que es muy engorroso probar la
+aplicación con la base de datos de memoria. Tienes que volver a
+introducir todos los datos de prueba cada vez que paramos y ponemos en
+marcha la aplicación.
 
-!!! Note "Nota"
-    La **base de datos de producción** es la que mantiene los datos
-    introducidos por los usuarios de la misma. Hay que prestar una
-    atención especial a esta base de datos y definir políticas de
-    respaldo y de control de cambios para evitar que se produzca
-    cualquier pérdida de información. Veremos en la práctica 4 que una
-    de las cuestiones que hay que asegurar es que la aplicación no
-    puede modificar el esquema de datos de esta base de datos. Habrá
-    que definir un flujo de trabajo para implementar en el esquema de
-    datos de la base de datos un cambio en el modelo de datos de la
-    aplicación.
+En esta práctica vamos a ver cómo configurar la aplicación para poder
+trabajar con una base datos Postgres, tanto en su ejecución como en
+los tests.
 
-Vamos a ver en este apartado cómo definir distintas configuraciones de
-ejecución de la aplicación, utilizando los denominados
+Para configurar la aplicación vamos a utilizar los denominados
 _perfiles_. Definiremos, además del perfil base, un perfil adicional
-para lanzar la aplicación y los tests usando la base de datos Postgres.
+para lanzar la aplicación y los tests usando la base de datos
+Postgres.
 
 La configuración de tests con base de datos Postgres la utilizaremos
-para ejecutar los tests de integración en el proceso de integración
-continua de GitHub Actions.
+para ejecutar los tests de integración sobre la base de datos Postgres
+en el proceso de integración continua de GitHub Actions.
+
+Para lanzar un servidor de base de datos Postgres usaremos Docker, de
+forma que no tendremos que realizar ninguna instalación en nuestro
+ordenador.
+
+<img src="imagenes/app-contenedor.png" width="500px" />
 
 ### Ficheros de configuración de la aplicación ###
 
@@ -216,13 +215,13 @@ Tenemos dos ficheros `application.properties`: uno en el directorio
 en el directorio `src/test/resources` que define la configuración que
 se carga cuando se lanzan los tests.
 
-Spring Boot permite definir ficheros de configuración adicionales que
-pueden sobreescribir y añadir propiedades a las definidas en el
+Spring Boot permite definir ficheros de configuración adicionales
+que pueden **sobreescribir y añadir propiedades** a las definidas en el
 fichero de configuración por defecto. El nombre de estos ficheros de
 configuración debe ser `application-xxx.properties` donde `xxx` define
 el nombre del perfil. En nuestro caso definiremos los ficheros
-`application-postgres.properties` (uno en el directorio `main` y otro en
-`test`) para definir las configuraciones de ejecución y de test con
+`application-postgres.properties` (uno en el directorio `main` y otro
+en `test`) para definir las configuraciones de ejecución y de test con
 Postgres.
 
 Estos ficheros de configuración adicionales se cargan después de
@@ -231,38 +230,7 @@ cargar la configuración por defecto definida en `application.properties`.
 
 ### Pasos a seguir ###
 
-- Instala [Docker
-  Desktop](https://www.docker.com/products/docker-desktop). 
-  
-  Docker es un software de virtualización que utiliza el propio
-  sistema operativo compartimentado y permite gestionar _contenedores_
-  (similares a las máquinas virtuales) de forma mucho menos pesada y
-  rápida que con sistemas de virtualización tradicionales como
-  VirtualBox.
-  
-  Lo vamos a utilizar para **lanzar el servidor Postgres de base de
-  datos** y también para la futura práctica 4.
-  
-  **Si tienes Windows, Docker no es compatible con VirtualBox**. Si
-  quieres usar ambos programas puedes usar una versión limitada de
-  Docker llamada [Docker
-  Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/).
-
-
-  **Si tienes Ubuntu** debes instalar Docker usando `apt`. Aquí tienes
-  un tutorial para [instalar Docker en Ubuntu
-  18.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04).
-
-  Prueba el tutorial rápido de 2 minutos que viene junto con la
-  instalación de docker y que puedes lanzar desde el _docker
-  dashboard_. Ese tutorial te enseña cómo crear una imagen Docker y
-  como lanzar un contenedor a partir de esa imagen.
-  
-  En esta práctica vamos a usar Docker sólo para poner en marcha
-  Postgres. En la práctica siguiente ya veremos cómo usarlo para
-  _dockerizar_ nuestra aplicación.
-
-- Crea un nuevo _issue_ llamado `Añadir perfiles y permitir trabajar
+1. Crea un nuevo _issue_ llamado `Añadir perfiles y permitir trabajar
   con Postgres`. Crea una rama nueva (llámala `perfiles`, por ejemplo) y
   abre un pull request. 
   
@@ -270,33 +238,30 @@ cargar la configuración por defecto definida en `application.properties`.
     $ (main) git checkout -b perfiles
     $ (perfiles) git push -u origin perfiles
     ```
-    
 
-- Copia el siguiente fichero en `src/main/resources/application-postgres.properties`:
+2. Copia el siguiente fichero en `src/main/resources/application-postgres.properties`:
 
     ```
     spring.datasource.url=jdbc:postgres://localhost:5432/mads
     spring.datasource.username=mads
     spring.datasource.password=mads
     spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-    spring.jpa.hibernate.ddl-auto=update
     spring.datasource.initialization-mode=never
     ```
 
-   En este fichero de configuración se define la URL de conexión a la
-   base de datos `mads`, su usuario (`mads`) y contraseña (`mads`) y el
-   dialecto que se va a utilizar para trabajar desde JPA con la base
-   de datos (`org.hibernate.dialect.PostgreSQL9Dialect`). 
-   
-   La propiedad `spring.datasource.initialization-mode=never` indica
-   que no se debe cargar ningún fichero de datos inicial. Deberás
-   registrar un usuario inicial para poder probar la aplicación.
-   
-   El esquema de la base de datos se actualizará si hay cambios en las
-   entidades de la aplicación, y los datos se mantendrán en la base de
-   datos.
+    Este va a ser el perfil que activemos para utilizar la conexión
+    con la BD Postgres.
     
-- Vamos ahora a añadir el perfil de test. Copia el siguiente fichero
+    En este fichero de configuración se define la URL de conexión a la
+    base de datos `mads`, su usuario (`mads`) y contraseña (`mads`) y
+    el dialecto que se va a utilizar para trabajar desde JPA con la
+    base de datos (`org.hibernate.dialect.PostgreSQL9Dialect`).
+   
+    La propiedad `spring.datasource.initialization-mode=never` indica
+    que no se debe cargar ningún fichero de datos inicial. Deberás
+    registrar un usuario inicial para poder probar la aplicación.
+    
+3. Vamos ahora a añadir el perfil de test. Copia el siguiente fichero
   en `src/test/resources/application-postgres.properties`:
     
     ```
@@ -304,22 +269,25 @@ cargar la configuración por defecto definida en `application.properties`.
     spring.datasource.username=mads
     spring.datasource.password=mads
     spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-    spring.jpa.hibernate.ddl-auto=create
     ```
      
-   En este perfil la conexión se hace con una base de datos diferente:
-   `mads_test`. La diferencia más importante del resto de parámetros
-   es el valor de `spring.jpa.hibernate.ddl-auto`, que es `create`. De
-   esta forma la base de datos se inicializa antes de cargar los datos
-   de los tests y de ejecutarlos. También usamos una base de datos
-   distinta (`mads_test`) para no sobreescribir la base de datos
-   definida en el perfil de ejecución.
+    En este perfil la conexión se hace con una base de datos
+    diferente: `mads_test`, para no sobreescribir la base de datos
+    definida en el perfil de ejecución.
 
-- Añade la siguiente dependencia en el fichero `pom.xml` para que se
-  descargue el driver `postgres` y poder utilizar una base
-  de datos Postgres en la aplicación. También añade las líneas para poder
-  especificar perfiles desde línea de comando. La variable `profiles`
-  se definirá desde línea de comando cuando se llame a Maven:
+    Recuerda que en el perfil por defecto
+    `resources/application.properties` se define el valor de
+    `spring.jpa.hibernate.ddl-auto` como `create`. De esta forma la
+    base de datos se inicializa antes de cargar los datos de los tests
+    y de ejecutarlos. También usamos una base de datos distinta
+    (`mads_test`) para no sobreescribir la base de datos definida en
+    el perfil de ejecución.
+
+4. Añade la siguiente dependencia en el fichero `pom.xml` para que se
+   descargue el driver `postgresql:42.2.22`. También añade las líneas
+   para poder especificar perfiles desde línea de comando. La variable
+   `profiles` se definirá desde línea de comando cuando se llame a
+   Maven:
 
     Fichero `pom.xml`:
 
@@ -346,11 +314,10 @@ cargar la configuración por defecto definida en `application.properties`.
                 </plugin>
     ```
 
-
-- Para lanzar la aplicación necesitarás un servidor Postgres en el
-  puerto 5432 con el usuario `mads`, la contraseña `mads` y la base de
-  datos `mads`. Es muy sencillo descargarlo y ejecutarlo si tienes
-  instalado Docker. Ejecuta desde el terminal:
+5. Para lanzar la aplicación necesitarás un servidor Postgres en el
+   puerto 5432 con el usuario `mads`, la contraseña `mads` y la base
+   de datos `mads`. Es muy sencillo descargarlo y ejecutarlo si tienes
+   instalado Docker. Ejecuta desde el terminal:
 
     ```
     docker run -d -p 5432:5432 --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
@@ -371,13 +338,13 @@ cargar la configuración por defecto definida en `application.properties`.
       $ docker container rm nombre o id de contenedor> (elimina un contenedor)
       ```
 
-- Arranca la aplicación con el siguiente comando:
+6. Arranca la aplicación con el siguiente comando:
 
     ```
     ./mvnw spring-boot:run -Dprofiles=postgres
     ```
 
-    Se activará el perfil `docker` y se cargarán las preferencias de
+    Se activará el perfil `postgres` y se cargarán las preferencias de
     `src/main/resource/application.properties` y
     `src/main/resource/application-postgres.properties`.
 
@@ -387,15 +354,22 @@ cargar la configuración por defecto definida en `application.properties`.
 
     <img src="imagenes/panel-database.png" width="700px"/>
 
+    También podemos arrancar la aplicación con el perfil de postgres
+    lanzando directamente el fichero JAR de la siguiente forma:
+    
+    ```
+    $ ./mvnw package
+    $ java -Dspring.profiles.active=postgres -jar target/*.jar 
+    ```
 
-- Cierra la aplicación y vuelve a abrirla. Comprueba que los datos que
-  se han creado en la ejecución anterior siguen estando. Podemos
-  también parar el contenedor y volverlo a reiniciar y los datos se
-  conservarán. Al parar el contenedor no se eliminan los datos, sólo
-  al borrarlo.
+7. Cierra la aplicación y vuelve a abrirla. Comprueba que los datos
+   que se han creado en la ejecución anterior siguen estando. Podemos
+   también parar el contenedor y volverlo a reiniciar y los datos se
+   conservarán. Al parar el contenedor no se eliminan los datos, sólo
+   al borrarlo.
 
-- Cierra la aplicación. Paramos el contenedor con la base de datos de
-  desarrollo haciendo `docker container stop`:
+8. Cierra la aplicación. Paramos el contenedor con la base de datos de
+   desarrollo haciendo `docker container stop`:
 
     ```
     $ docker container ls -a 
@@ -408,7 +382,7 @@ cargar la configuración por defecto definida en `application.properties`.
     contenedores usando la aplicación _Docker Desktop_ que se
     encuentra en la propia instalación de Docker.
 
-- Lanzamos ahora otro contenedor con la base de datos de test (`mads_test`):
+9. Lanzamos ahora otro contenedor con la base de datos de test (`mads_test`):
 
     ```
     docker run -d -p 5432:5432 --name postgres-test -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads_test postgres:13
@@ -417,7 +391,7 @@ cargar la configuración por defecto definida en `application.properties`.
     Y lanzamos los tests usando el perfil `postgres` con la base de datos Postgres con el siguiente comando:
   
       ```
-      ./mvnw test -Dspring.profiles.active=postgres
+      ./mvnw -Dspring.profiles.active=postgres test
       ```
   
     Nos conectamos con el panel `Database` de IntelliJ a la base de datos `mads_test`
@@ -425,12 +399,12 @@ cargar la configuración por defecto definida en `application.properties`.
     corresponden con los introducidos en el fichero `datos-test.sql`
     que se carga antes de ejecutar los tests.
 
-- Podemos parar y arrancar el contenedor Postgres que necesitemos con
-  `docker container stop` y `docker container start`. Como hemos dicho
-  antes, mientras que no borres el contenedor los datos siguen estando
-  en él. Por ejemplo, para parar el contenedor Postgres con la base de
-  datos de test y arrancar el contenedor con la base de datos de
-  desarrollo:
+10. Podemos parar y arrancar el contenedor Postgres que necesitemos
+    con `docker container stop` y `docker container start`. Como hemos
+    dicho antes, mientras que no borres el contenedor los datos siguen
+    estando en él. Por ejemplo, para parar el contenedor Postgres con
+    la base de datos de test y arrancar el contenedor con la base de
+    datos de desarrollo:
   
     ```
     $ docker container ls -a 
@@ -438,8 +412,8 @@ cargar la configuración por defecto definida en `application.properties`.
     $ docker container start postgres-develop
     ```
 
-- Realiza un commit con los cambios, súbelos a la rama y cierra el
-  pull request para integrarlo en `main`:
+11. Realiza un commit con los cambios, súbelos a la rama y cierra el
+    pull request para integrarlo en `main`:
   
       ```
       $ (perfiles) git add .
@@ -452,8 +426,110 @@ cargar la configuración por defecto definida en `application.properties`.
       $ (main) git remote prune origin
       ```
 
+## 4. Actualización de GitHub Actions ##
 
-## TDD ##
+Crea un nuevo issue llamado `Actualización de GitHub
+Actions`. Crea la rama `actualizar-gh-actions` y crea un PR en GitHub
+con ella. Sube a esa rama todos los cambios que veremos a
+continuación.
+
+
+### Tests del desarrollador vs. tests de integración ###
+
+Podemos considerar los tests que usan la base de datos real como
+_tests de integración_ y los tests que usan la base de datos en
+memoria como _tests del desarrollador_.
+
+No usamos el nombre de _tests unitarios_ de forma consciente, para
+evitar conflictos con la nomenclatura. Cuando hablamos de _tests del
+desarrollador_ nos referimos a tests que van a ejecutar continuamente
+los desarrolladores en su equipo local cuando están trabajando con la
+aplicación y añadiendo funcionalidades. Son tests rápidos, que se
+pueden lanzar desde el propio IDE, y que deben ser ejecutados antes de
+cada commit.
+
+Frente a estos tests, los tests de integración necesitan una
+configuración adicional (poner en marcha la base de datos de test en
+nuestro caso) y se ejecutan menos frecuentemente.
+
+Vamos a actualizar GitHub Actions para que se lancen allí los tests
+usando la base de datos Postgres. De esta forma nosotros lanzaremos en
+local los tests que usan la BD de memoria y los tests de integración
+se lanzarán en GitHub cada vez que vaya a mezclarse un pull request.
+
+### Acción para lanzar los tests con la BD postgres ###
+
+Para lanzar los tests de integración en GitHub debemos modificar el
+fichero de configuración del flujo de trabajo para que lance un
+contenedor de Postgres y después se ejecuten los tests sobre ese
+contenedor.
+
+Para tener más flexibilidad en la configuración de la conexión con
+Postgres vamos a modificar el perfil de Spring Boot, añadiendo unas
+variables con unos valores por defecto que se pueden modificar
+definiendo su valor en variables de entorno con el mismo nombre.
+
+En concreto, definimos las variables `POSTGRES_HOST`, `POSTGRES_PORT`,
+`DB_USER` y `DB_PASSWD`.
+
+**Fichero `src/test/resources/application-postgres.properties`**:
+
+```
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+DB_USER=mads
+DB_PASSWD=mads
+spring.datasource.url=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/mads_test
+spring.datasource.username=${DB_USER}
+spring.datasource.password=${DB_PASSWD}
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
+```
+
+Ya podemos modificar el fichero del flujo de trabajo de la acción:
+
+**Fichero `.github/workflows/tests.yml`**:
+
+```yml
+name: Integration tests
+
+on: push
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    container: openjdk:8-jdk-alpine
+    services:
+      # Etiqueta usada para acceder al contenedor del servicio
+      postgres:
+        # Imagen Docker Hub
+        image: postgres:13
+        # Variables para arrancar Postgres
+        env:
+          POSTGRES_USER: mads
+          POSTGRES_PASSWORD: mads
+          POSTGRES_DB: mads_test
+        # Definimos chequeos para esperar hasta que postgres ya ha comenzado
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch tests with Maven
+        run:  ./mvnw test -Dspring.profiles.active=postgres
+        env:
+          POSTGRES_HOST: postgres
+```
+
+Vemos que en la última línea se actualiza el parámetro `POSTGRES_HOST`
+usado por el perfil `postgres` para que la conexión se realice con el
+host `postgres` que es el que nombre que se ha definido en el
+servicio.
+
+
+## 5. TDD ##
 
 En la segunda parte de la práctica desarrollaremos, usando TDD (_Test
 Driven Design_), una nueva _feature_ de la aplicación: la posibilidad
@@ -1102,7 +1178,7 @@ estructura de la empresa.
   la práctica.
 
   
-## Documentación, entrega y evaluación ##
+## 6. Documentación, entrega y evaluación ##
 
 Deberás añadir una página de documentación `/doc/practica2.md` en la
 que, al igual que en la práctica anterior, debes realizar una **breve
