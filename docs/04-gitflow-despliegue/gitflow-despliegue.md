@@ -98,17 +98,17 @@ aplicación de forma que se conecte con una base de datos postgres.
 Comandos:
 
 ```
-$ docker network create mads-todolist 
-$ docker volume create datos-equipo01
-$ docker run -d --network mads-todolist --network-alias postgres -v ${PWD}:/mi-host -v datos-equipo01:/var/lib/postgresql -p 5432:5432 --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
-$ docker run --rm --network mads-todolist -p8080:8080 domingogallardo/mads-todolist:solucion --spring.profiles.active=postgres --POSTGRES_HOST=postgres
-$ docker exec -it postgres-develop psql -U mads -W mads
+$ docker network create network-equipo01
+$ docker run -d --network network-equipo01 --network-alias postgres -v ${PWD}:/mi-host --name db-equipo01 -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+$ docker run --rm --name spring-boot-equipo01 --network network-equipo01 -p8080:8080 <usuario>/mads-todolist --spring.profiles.active=postgres --POSTGRES_HOST=postgres
+$ docker exec -it db-equipo1 bash
+# psql -U mads -W mads
 # \l
 # \dt
-SELECT * FROM usuarios;
-$ docker exec -it postgres-develop pg_dump -U mads --clean mads > backup03092021.sql
-$ docker exec -it postgres-develop bash 
-$ psql -U mads mads < /mi-host/backup03092021.sql
+# SELECT * FROM usuarios;
+# pg_dump -U mads --clean mads > /mi-host/backup03092021.sql
+# psql -U mads mads < /mi-host/backup03092021.sql
+
 ```
 
 
