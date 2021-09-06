@@ -737,13 +737,19 @@ funcionamiento básico de este <em>framework</em>.</p>
   correctamente.</li>
 </ol>
 <h3 id="dockerizacion-de-la-aplicacion"><em>Dockerización</em> de la aplicación<a class="headerlink" href="#dockerizacion-de-la-aplicacion" title="Permanent link">&para;</a></h3>
-<p>La tecnología Docker <a href="https://www.docker.com">Docker</a> permite
-construir binarios (máquinas Docker) que pueden ser distribuidos y
-ejecutados en ordenadores que tengan instalados el <em>Docker
-Engine</em>. Las máquinas Docker son máquinas virtualizadas muy eficientes
-que comparten los servicios del sistema operativo en el que se
-ejecutan y utilizan menos recursos que las máquinas virtuales
-tradicionales.</p>
+<p><a href="https://www.docker.com">Docker</a> es un software de virtualización que
+utiliza el propio sistema operativo compartimentado y permite
+gestionar <em>contenedores</em> (similares a las máquinas virtuales) de forma
+mucho menos pesada y rápida que con sistemas de virtualización
+tradicionales como VirtualBox. </p>
+<p>Las máquinas Docker son muy eficientes porque comparten los servicios
+del sistema operativo en el que se ejecutan, utilizando menos recursos
+que las máquinas virtuales tradicionales. </p>
+<p>Docker proporciona un sistema muy sencillo de distribución y puesta en
+producción de software, ya que las máquinas Docker pueden ser
+distribuidas usando repositorios (como <a href="https://hub.docker.com">Docker
+Hub</a>) y ejecutadas en cualquier ordenador que
+tenga instalado el <em>Docker Engine</em>.</p>
 <p>La tecnología es muy popular y se usa en gran cantidad de empresas de
 desarrollo para simplificar la ejecución en en múltiples entornos y
 para que los contenedores
@@ -755,11 +761,28 @@ aplicación demo. Posteriormente, la publicaremos en <em>Docker Hub</em> y
 la desplegaremos en un <em>host</em> para ponerla en producción.</p>
 <ol>
 <li>
-<p>Debes empezar por crear una cuenta de usuario en <a href="https://hub.docker.com">Docker
-Hub</a>. De esta forma tendrás un repositorio en
-el que podrás subir las imágenes de las máquinas Docker que
-construyas. Deberás dar un nombre de usuario que será el que
-utilizarás para publicar estas imágenes.</p>
+<p>Instala <a href="https://www.docker.com/products/docker-desktop">Docker
+   Desktop</a>. Los
+   usuarios de Linux debéis seguir las instrucciones de <a href="https://docs.docker.com/engine/install/ubuntu/">esta
+   página</a> para
+   instalar Docker Engine. Usaremos la línea de comando para lanzar
+   los comandos Docker. La aplicación Docker Desktop permite usar una
+   interfaz de usuario para interactuar con imágenes y contenedores,
+   pero no proporciona ninguna funcionalidad que no esté disponible en
+   la línea de comando.</p>
+<p>Una vez instalado puedes probar el tutorial rápido (2 minutos)
+ desde Docker Desktop para comprobar que todo funciona
+ correctamente. También puedes desde el terminal comprobar la
+ versión de Docker instalada:</p>
+<div class="highlight"><pre><span></span><code>$ docker version
+</code></pre></div>
+</li>
+<li>
+<p>Crea una cuenta de usuario en <a href="https://hub.docker.com">Docker
+   Hub</a>. De esta forma tendrás un repositorio
+   en el que podrás subir las imágenes de las máquinas Docker que
+   construyas. Deberás dar un nombre de usuario que será el que
+   utilizarás para publicar estas imágenes.</p>
 </li>
 <li>
 <p>Crea un fichero llamado <code>Dockerfile</code> (sin extensión) en el
@@ -946,11 +969,13 @@ puerto diferente para poner la aplicación en producción.</p>
 <li>
 <p>Descarga tu imagen de la aplicación y ponla en funcionamiento:</p>
 <div class="highlight"><pre><span></span><code>$ docker pull &lt;usuario-docker&gt;/spring-boot-demoapp
-$ docker run --rm -p 8080:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
+$ docker run --rm --name spring-boot-alu02 -p 8080:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
 </code></pre></div>
 <p>El indicador <code>--rm</code> hace que cuando se pare el contenedor
 automáticamente se borre. De esta forma evitamos tener que
 borrarlo a mano después.</p>
+<p>El indicador <code>--name</code> define el nombre del contenedor. Ponemos
+nuestro nombre, para poder identificar quiénes han creado cada contenedor.</p>
 <p>En el caso en que otro compañero tenga la aplicación en marcha en
 ese puerto aparecerá el siguiente mensaje de error:</p>
 <div class="highlight"><pre><span></span><code>docker: Error response from daemon: driver failed programming ...
@@ -959,7 +984,7 @@ Bind for 0.0.0.0:8080 failed: port is already allocated.
 <p>En ese caso puedes usar otro puerto. El primer puerto es el que se
 refiere al host y el segundo a la aplicación corriendo en el
 contenedor. Por ejemplo, puedes usar el puerto <code>8081</code>:</p>
-<div class="highlight"><pre><span></span><code>$ docker run -p 8081:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
+<div class="highlight"><pre><span></span><code>$ docker run --rm --name spring-boot-alu02 -p 8081:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
 </code></pre></div>
 </li>
 <li>
@@ -976,24 +1001,20 @@ funciona correctamente. Lo haremos en el horario de clase de prácticas.</p>
 </div>
 </li>
 <li>
-<p>Por último, para permitir que otros compañeros puedan trabajar con
-   fluidez en el servidor, debes cerrar el contenedor, comprobar que
-   se ha borrado, borrar la imagen y salir del servidor:</p>
+<p>Si en algún momento tenemos problemas de espacio en el disco duro,
+   podemos borrar la imagen y el contenedor:</p>
 <div class="highlight"><pre><span></span><code>$ docker container ls -a 
-$ docker container rm &lt;container-id&gt; 
-(en el caso en que no se ubiera borrado)
+$ docker container rm spring-boot-alu02
 $ docker image ls -a 
 $ docker image rm &lt;nombre-imagen&gt; o &lt;image-id&gt;
 $ exit
 </code></pre></div>
 <div class="admonition danger">
-<p class="admonition-title">Importante</p>
-<p>El objetivo de borrar la imagen Docker es evitar que el servidor de
-la asignatura se quede sin espacio de disco. El servidor tiene
-un espacio limitado que se debe compartir entre todos los
-estudiantes de la asignatura.</p>
-<p>No debes guardar ningún fichero ajeno a la asignatura en este
-servidor.</p>
+<p class="admonition-title">No guardar ficheros en el servidor de la asignatura</p>
+<p>El servidor de la asignatura tiene una capacidad limitada de
+disco duro y debemos tener cuidado de no sobrepasarla entre todos.</p>
+<p>Por ello, no debes guardar ningún fichero ajeno a la
+asignatura en este servidor.</p>
 </div>
 </li>
 </ol>

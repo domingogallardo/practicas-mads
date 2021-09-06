@@ -327,6 +327,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#despliegue-en-produccion-con-bd" class="md-nav__link">
+    Despliegue en producción con BD
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nuevo-flujo-de-trabajo-para-los-issues" class="md-nav__link">
     Nuevo flujo de trabajo para los issues
   </a>
@@ -512,6 +519,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#despliegue-en-produccion-con-bd" class="md-nav__link">
+    Despliegue en producción con BD
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nuevo-flujo-de-trabajo-para-los-issues" class="md-nav__link">
     Nuevo flujo de trabajo para los issues
   </a>
@@ -688,6 +702,37 @@ cambios. Comprobad que GitHub Actions sigue funcionando
 correctamente. </p>
 </li>
 </ul>
+<h2 id="despliegue-en-produccion-con-bd">Despliegue en producción con BD<a class="headerlink" href="#despliegue-en-produccion-con-bd" title="Permanent link">&para;</a></h2>
+<p>Vamos a ver cómo ejecutar en producción el contenedor con la
+aplicación de forma que se conecte con una base de datos postgres.</p>
+<p><img src="imagenes/contenedores-produccion.png" width="600px"/></p>
+<div class="admonition note">
+<p class="admonition-title">Base de datos de producción</p>
+<p>La base de datos de producción es la que mantiene los datos
+introducidos por los usuarios de la misma. Hay que prestar una
+atención especial a esta base de datos y definir políticas de
+respaldo y de control de cambios para evitar que se produzca
+cualquier pérdida de información. Veremos que una
+de las cuestiones que hay que asegurar es que la aplicación no
+puede modificar el esquema de datos de esta base de datos. </p>
+<p>Habrá que definir también un flujo de trabajo para actualizar la base de
+datos de producción con los cambios del modelo de datos
+introducidos por la nuevas funcionalidades (nuevas tablas y nuevas
+relaciones).</p>
+</div>
+<p>Comandos:</p>
+<div class="highlight"><pre><span></span><code>$ docker network create mads-todolist 
+$ docker volume create datos-equipo01
+$ docker run -d --network mads-todolist --network-alias postgres -v ${PWD}:/mi-host -v datos-equipo01:/var/lib/postgresql -p 5432:5432 --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+$ docker run --rm --network mads-todolist -p8080:8080 domingogallardo/mads-todolist:solucion --spring.profiles.active=postgres --POSTGRES_HOST=postgres
+$ docker exec -it postgres-develop psql -U mads -W mads
+# \l
+# \dt
+SELECT * FROM usuarios;
+$ docker exec -it postgres-develop pg_dump -U mads --clean mads &gt; backup03092021.sql
+$ docker exec -it postgres-develop bash 
+$ psql -U mads mads &lt; /mi-host/backup03092021.sql
+</code></pre></div>
 <h2 id="nuevo-flujo-de-trabajo-para-los-issues">Nuevo flujo de trabajo para los <em>issues</em><a class="headerlink" href="#nuevo-flujo-de-trabajo-para-los-issues" title="Permanent link">&para;</a></h2>
 <p>Debemos adaptar el flujo de trabajo en GitHub al trabajo en equipo. En
 cuanto a la gestión de los <em>issues</em> y tablero del proyecto cambiaremos
@@ -1082,6 +1127,7 @@ estimación de tamaño de las funcionalidades antes de validarlas.</p>
 Este apartado lo realizará el **responsable de integración continua**,
 pero todos los miembros del equipo deben conocer y entender todos los
 pasos.
+
 
 ### Sobreescribir propiedades desde la línea de comando ###
 
