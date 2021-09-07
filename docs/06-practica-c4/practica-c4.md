@@ -1,6 +1,9 @@
 
 # Práctica extraordinaria para la convocatoria C4 #
 
+!!! Danger "Versión del curso 2020-21"
+    Pendiente de actualizar
+
 ## Aplicación a desarrollar ##
 
 Debes desarrollar una aplicación similar a ToDoList. Por ejemplo, una

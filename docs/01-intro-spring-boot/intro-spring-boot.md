@@ -4,7 +4,7 @@ Vamos a trabajar con la versión 2.4.8 de Spring Boot. Se puede
 consultar toda la documentación oficial sobre esta versión en [este
 enlace](https://docs.spring.io/spring-boot/docs/2.4.8/reference/html/index.html). 
 
-## Aplicación ejemplo ##
+## 1. Aplicación ejemplo ##
 
 Es muy sencillo crear aplicaciones de Spring Boot **desde cero** usando la
 web [Spring initializr](https://start.spring.io). En esa página puedes
@@ -22,7 +22,7 @@ crear un repositorio GitHub y descargarla en tu ordenador local.
 La aplicación es un sencillo `Hola mundo`. En los siguientes apartados
 explicamos cómo lanzarla y cómo funciona.
 
-## Ejecución de aplicaciones Spring Boot ##
+## 2. Ejecución de aplicaciones Spring Boot ##
 
 Spring Boot permite ejecutar aplicaciones Spring de forma
 _standalone_, sin necesidad de un servidor de aplicaciones. Una
@@ -66,7 +66,7 @@ siguientes páginas:
 - [http://localhost:8080/saludo/Pepito](http://localhost:8080/saludo/Pepito)
 - [http://localhost:8080/saludoplantilla/Pepito](http://localhost:8080/saludoplantilla/Pepito)
 
-## Desarrollo y ejecución con IntelliJ ##
+## 3. Desarrollo y ejecución con IntelliJ ##
 
 Recomendamos hacer el desarrollo usando el IDE [IntelliJ
 Ultimate](https://www.jetbrains.com/idea/download/). Aunque es de
@@ -98,7 +98,7 @@ aplicación, volverla a lanzar, etc:
 
 <img src="imagenes/panel-ejecucion.png" width="900px"/>
 
-## Conceptos de Spring Boot ##
+## 4. Conceptos de Spring Boot ##
 
 ### Estructura de la aplicación ###
 
@@ -572,7 +572,7 @@ public class HttpRequestTest {
 ```
 
 
-## Referencias ##
+## 5. Referencias ##
 
 Puedes encontrar la documentación de referencia de Spring Boot y
 Spring en las siguientes páginas, en la pestaña _Learn_:

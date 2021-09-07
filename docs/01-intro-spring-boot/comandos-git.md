@@ -12,7 +12,7 @@ recomendable, deberías bajártelo y guardarlo como material de
 aprendizaje y de referencia. Está disponible de forma gratuita en
 múltiples versiones (PDF, eBook, HTML y mobi).
 
-## Comandos básicos ##
+## 1. Comandos básicos ##
 
 - Configurar el usuario y dirección de correo en git:
 
@@ -132,7 +132,7 @@ múltiples versiones (PDF, eBook, HTML y mobi).
     identificado por <hash-previo> y hasta el <hash-nuevo>.
     
 
-## Ramas ##
+## 2. Ramas ##
 
 Es muy importante entender que las ramas en Git son como etiquetas
 móviles. La rama en la que estamos se actualiza de posición cada vez
@@ -337,7 +337,7 @@ rama actual.
     ```
 
 
-## Modificar la historia ##
+## 3. Modificar la historia ##
 
 - Modificar el mensaje del último commit. Se abrirá un editor en el
   que modificar el mensaje. También se puede escribir el mensaje a
@@ -384,7 +384,7 @@ rama actual.
     $ git reset --hard <hash>
     ```
 
-## Más información ##
+## 4. Más información ##
 
 Puedes encontrar más información en los siguientes documentos:
 

@@ -1,5 +1,8 @@
 # Práctica 5: Sprint 
 
+!!! Danger "Versión del curso 2020-21"
+    Pendiente de actualizar
+
 ## Objetivos y resumen de la práctica
 
 En esta práctica seguiremos trabajando con los mismos equipos y

@@ -1,7 +1,10 @@
 
 # Práctica 4: Trabajo en equipo con GitFlow y diseño de nuevas funcionalidades
 
-## Objetivos y resumen de la práctica ##
+!!! Danger "Versión en desarrollo"
+    Última actualización: 07/09/2021
+
+## 1. Objetivos y resumen de la práctica ##
 
 En esta práctica se pretende conseguir:
 
@@ -14,7 +17,7 @@ En esta práctica se pretende conseguir:
    usuario a implementar en la siguiente iteración de la aplicación
    que se realizará en la práctica 5.
 
-## Formación de equipos ##
+## 2. Formación de equipos ##
 
 En esta práctica comenzamos a trabajar en equipos de 3 personas (de
 forma excepcional podrían ser 2 o 4 personas).
@@ -60,9 +63,10 @@ _team_ y el repositorio.
     Subidlo al nuevo repositorio, cambiando la URL del `origin` del
     repositorio local y haciendo un push:
 
-        $ git remote set-url origin https://github.com/mads-ua-20-21/todolist-final-NOMBRE-EQUIPO.git
-        $ git push -u origin main
-
+    ```
+    $ git remote set-url origin https://github.com/mads-ua-20-21/todolist-final-NOMBRE-EQUIPO.git
+    $ git push -u origin main
+    ```
     Por último, los otros miembros del equipo deberán clonar el
     repositorio para que los tres podáis trabajar con él en local.
 
@@ -72,14 +76,118 @@ _team_ y el repositorio.
     Haced un commit directamente en `main` con estos
     cambios. Comprobad que GitHub Actions sigue funcionando
     correctamente. 
-  
-## Despliegue en producción con BD ##
+
+## 3. Contenedor con la aplicación ToDoList ##
+
+Una de las cosas que vamos a hacer en esta práctica (en el siguiente
+apartado) es poner en producción en el servidor de la asignatura la
+aplicación ToDoList conectándola con la base de datos. En las
+prácticas 1 y 2 ya hemos construido el contenedor Docker de la
+aplicación, con el siguiente fichero Dockerfile:
+
+```docker
+FROM openjdk:8-jdk-alpine
+COPY target/*.jar app.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/urandom","-jar","/app.jar"]
+```
+
+Este Dockerfile tiene un problema importante. El comando de ejecución
+es fijo y no permite definir ningún parámetro de ejecución. No es
+posible, por ejemplo, definir el perfil de Postgres, ni definir
+ningún parámetro de configuración.
+
+Debemos cambiarlo de la siguiente forma:
+
+```docker hl_lines="3"
+FROM openjdk:8-jdk-alpine
+COPY target/*.jar app.jar
+ENTRYPOINT ["sh","-c","java -Djava.security.egd=file:/dev/urandom -jar /app.jar ${0} ${@}"]
+```
+
+De esta forma podremos llamar al comando docker añadiendo al final
+parámetros que se van a pasar al comando java. La forma de añadir
+variables de entorno a ese comando java es precediéndolos con dos
+guiones `--`.
+
+Vamos a probarlo, creando y subiendo la nueva imagen a
+DockerHub y desplegándola en el servidor de la asignatura.
+
+### Pasos a seguir ###
+
+Debéis hacer lo siguiente:
+
+1. Cambiad el fichero Dockerfile de la aplicación tal y como se indica en el listado
+   anterior:
+   
+    **Fichero `Dockerfile`**:
+
+    ```docker
+    FROM openjdk:8-jdk-alpine
+    COPY target/*.jar app.jar
+    ENTRYPOINT ["sh","-c","java -Djava.security.egd=file:/dev/urandom -jar /app.jar ${0} ${@}"]
+    ```
+
+2. Cread la nueva imagen Docker con el nombre
+   `mads-todolist-equipoXX`. El usuario puede ser cualquier miembro
+   del equipo, no es necesario que sea el autor del proyecto original.
+   
+    ```
+    $ docker build -t <usuario-docker>/mads-todolist-equipoXX . 
+    ```
+
+3. Probad que funcionan correctamente los parámetros de configuración
+   en la imagen Docker. Una forma sencilla de hacerlo es comprobar que
+   se puede definir el perfil de Postgres y modificar alguno de sus
+   parámetros. Deberá aparecer un mensaje de error de que no se puede
+   conectar con la base de datos (lo que está bien, porque significa
+   que sí que se ha cargado el perfil).
+   
+    ```
+    $ docker run --rm <usuario>/mads-todolist-equipoXX --spring.profiles.active=postgres --POSTGRES_HOST=host-prueba 
+    ```
+
+    <img src="imagenes/perfil-contenedor.png" width="700px" />
+    <img src="imagenes/error-contenedor.png" width="700px" />
+
+4. Subid, por último, la imagen a Docker Hub:
+   
+    ````
+    $ docker login
+    $ docker push <usuario-docker>/mads-todolist-equipoXX
+    ````
+
+
+## 4. Despliegue en producción con BD ##
 
 Vamos a ver cómo ejecutar en producción el contenedor con la
 aplicación de forma que se conecte con una base de datos postgres.
 
+En las prácticas 1 y 2 vimos cómo construir una versión en forma de
+contenedor de nuestra aplicación Spring Boot y en la práctica 3 vimos
+como usar un contenedor de Postgres para definir un servicio de base
+de datos con el que conectar la aplicación.
+
+En esta práctica vamos a definir la configuración en producción
+definitiva de nuestra aplicación. Veremos cómo poner en marcha dos
+contenedores y conectarlos entre si. En nuestro caso un contenedor
+tendrá la base de datos postgres y el otro la aplicación Spring Boot.
+
 <img src="imagenes/contenedores-produccion.png" width="600px"/>
 
+La imagen anterior muestra los dos contenedores conectados por una
+red. Desde el contenedor con la aplicación se accederá a la dirección
+`postgres:5432` para conectarse con la base de datos. Veremos los
+comandos de docker para definir una red y para lanzar el contenedor de
+base de datos en esa dirección de la red.
+
+El contenedor de base de datos montará el directorio actual del host
+en el directorio `/mi-host`. De esta forma, cualquier fichero que
+coloquemos en ese directorio del contenedor será visible en el
+directorio actual del host (y viceversa). Usaremos este directorio
+para guardar la copia de seguridad de la base de datos.
+
+El contenedor de base de datos implementará la base de datos en
+producción. 
 
 !!! Note "Base de datos de producción"
     La base de datos de producción es la que mantiene los datos
@@ -95,24 +203,124 @@ aplicación de forma que se conecte con una base de datos postgres.
     introducidos por la nuevas funcionalidades (nuevas tablas y nuevas
     relaciones).
 
-Comandos:
+### Pasos a seguir ###
+
+Veamos paso a paso cómo crear la configuración anterior. En muchos
+casos tendremos que usar el nombre de nuestro equipo. En los ejemplos
+hemos usado `equipo01`. Debéis cambiarlo por el nombre de vuestro equipo.
+
+Nos conectamos al servidor de la asignatura con uno de los usuarios
+del equipo:
+
+```
+$ ssh alu02@<direccion-IP>
+```
+
+Creamos una red gestionada por Docker:
 
 ```
 $ docker network create network-equipo01
+```
+
+Lanzamos el contenedor con la base de datos usando la red creada
+anteriormente y con el nombre `db-equipo01`. Definimos el nombre del
+host creado en el contenedor como `postgres` con el modificador
+`--network-alias`.
+
+```
 $ docker run -d --network network-equipo01 --network-alias postgres -v ${PWD}:/mi-host --name db-equipo01 -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
-$ docker run --rm --name spring-boot-equipo01 --network network-equipo01 -p8080:8080 <usuario>/mads-todolist --spring.profiles.active=postgres --POSTGRES_HOST=postgres
-$ docker exec -it db-equipo1 bash
+```
+
+El modificador `-v` permite montar el directorio actual en el
+directorio `/mi-host` del contenedor. Vamos a probar que funciona
+correctamente. 
+
+Nos conectamos al contenedor lanzando un `bash` interactivo. Estando
+en el contenedor creamos un fichero en el directorio `/mi-host`,
+salimos del contenedor y comprobamos que está en el directorio actual
+
+```
+$ docker exec -it db-equipo01 bash
+root@e470db191dc6:/# cd /mi-host
+root@e470db191dc6:/mi-host# echo "Hola" > prueba.txt
+root@e470db191dc6:/mi-host# exit
+$ ls
+prueba.txt
+$ more prueba.txt
+Hola
+```
+
+Con esto ya tenemos configurado y en marcha el contenedor con la base
+de datos Postgres. Esta va a ser nuestra base de datos de
+producción. Vamos ahora a poner en marcha la aplicación. 
+
+Descargamos la última versión de nuestra aplicación y lanzamos el
+contenedor usando la red definida anteriormente. Los modificadores
+`--spring.profiles.active` y `--POSTGRES_HOST` permiten pasar al
+contenedor esas variables del entorno.
+
+```
+$ docker pull <usuario>/mads-todolist-equipo01
+$ docker run --rm --name spring-boot-equipo01 --network network-equipo01 -p8080:8080 <usuario>/mads-todolist-equipo01 --spring.profiles.active=postgres --POSTGRES_HOST=postgres
+```
+
+¡¡¡Enhorabuena!!! ¡Ya tenemos la aplicación en producción trabajando
+con la base de datos!
+
+Podremos conectarnos a la aplicación usando la dirección IP del
+servidor de la asignatura y el puerto 8080.
+
+Probamos la aplicación y creamos algún usuario de prueba. Por último
+paramos el contenedor y lo volvemos a arrancar para comprobar que los
+datos son persistentes.
+
+### Mantenimiento y copia de seguridad de la base de datos de producción ###
+
+Para comprobar que la base de datos está funcionando correctamente
+podemos conectarnos al contenedor y examinar la base de datos `mads` y
+alguna de sus tablas:
+
+```
+$ docker exec -it db-equipo01 bash
 # psql -U mads -W mads
 # \l
 # \dt
 # SELECT * FROM usuarios;
-# pg_dump -U mads --clean mads > /mi-host/backup03092021.sql
-# psql -U mads mads < /mi-host/backup03092021.sql
+```
 
+La base de datos se mantendrá mientras que no borremos el
+contenedor. Podemos pararlo y volver a ponerlo en marcha y seguiremos
+conservando los datos:
+
+```
+$ docker stop db-equipo01
+$ docker start db-equipo01
+```
+
+Si eliminamos el contenedor se perderán todos los datos. Con el
+contenedor en marcha podemos hacer una copia de seguridad de la base
+de datos `mads`:
+
+```
+$ docker exec -it db-equipo01 bash
+# pg_dump -U mads --clean mads > /mi-host/backup03092021.sql
+```
+
+La copia de seguridad se guarda en el directorio compartido. Podemos
+poner la fecha en el nombre del fichero. Por ejemplo, la copia
+anterior ha sido creada el 3 de septiembre del 2021.
+
+Para restaurar una copia de seguridad basta con ejecutar el fichero
+SQL:
+
+
+```
+$ docker exec -it db-equipo01 bash
+# psql -U mads mads < /mi-host/backup03092021.sql
 ```
 
 
-## Nuevo flujo de trabajo para los _issues_ ##
+## 5. Nuevo flujo de trabajo para los _issues_ ##
 
 Debemos adaptar el flujo de trabajo en GitHub al trabajo en equipo. En
 cuanto a la gestión de los _issues_ y tablero del proyecto cambiaremos
@@ -278,7 +486,7 @@ en repositorios y ramas remotas.
 - Por último, revisad el código, aceptadlo e integrad el PR en _main_.
 
 
-## Configuración de GitFlow ##
+## 6. Configuración de GitFlow ##
 
 El flujo de trabajo Git que vamos a seguir es muy similar al flujo de
 trabajo GitFlow (recordad la [clase de
@@ -383,7 +591,7 @@ En nuestro caso l
   requests. La integración con develop producirá un conflicto en el
   número de versión. Mantened el número `1.4.0-SNAPSHOT` de `develop`.
 
-## Nuevas funcionalidades para la aplicación  ##
+## 7. Nuevas funcionalidades para la aplicación  ##
 
 Cambiamos totalmente de asunto. Tenemos ahora que dejar de pensar como
 desarrolladores y pensar como **responsables del producto**. Tenemos
@@ -888,7 +1096,7 @@ entorno hay que utilizar el flag `-e VARIABLE=valor`.
 -->
 
 
-## Entrega y evaluación ##
+## 8. Entrega y evaluación ##
 
 - La práctica tiene una duración de 2 semanas y debe estar terminada
   el martes 1 de diciembre.

@@ -1,6 +1,9 @@
 
 # Práctica 2: Aplicación ToDoList
 
+!!! Danger "Versión en desarrollo"
+    Última actualización: 07/09/2021
+
 ## 1. Objetivos
 
 En práctica 2 vamos a trabajar sobre la aplicación inicial
