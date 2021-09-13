@@ -134,8 +134,10 @@ esta práctica debes seguir los siguientes pasos:
    usuario será el nombre que aparecerá en los _commits_. Pon tu nombre
    y apellido.
    
-        $ git config --global user.name "Pepe Perez"
-        $ git config --global user.email pepe.perez@example.com
+    ```
+    $ git config --global user.name "Pepe Perez"
+    $ git config --global user.email pepe.perez@example.com
+    ```
 
 2. Crea una cuenta en GitHub. Puedes usar el nombre de usuario que
    quieras (o usar el que ya tienes), pero **escribe correctamente tu
@@ -198,7 +200,7 @@ Una vez leído el documento [Introducción a Spring
     ```
   
 2. Importa la aplicación en IntelliJ, tal y como se explica en el
-  documento _Introducción a Spring Boot_.
+   documento [Introducción a Spring Boot](./intro-spring-boot.md).
 3. Prueba que se pasan todos los tests usando el comando Maven desde el terminal
   (`.mvnw`) y utilizando el panel de proyecto en IntelliJ.
 4. Ejecuta la aplicación desde línea de comando y desde IntelliJ.
@@ -540,7 +542,15 @@ aplicación.
 
 ## 4. Añadimos alguna funcionalidad sencilla a la aplicación ##
 
-Lee el siguiente documento:
+En el documento [Introducción a Spring Boot](./intro-spring-boot.md)
+se comenta el código fuente de la aplicación Spring Boot con la que
+estamos trabajando. Léelo despacio, revisando también el código
+fuente, para entender los aspectos básicos (controladores, servicios,
+inyección de dependencias, plantillas, tests) del funcionamiento de
+Spring Boot.
+
+Lee también el siguiente documento, en el que se explica cómo usar la
+validación de los campos de un formulario de entrada.
 
 - [Validating Form Input](https://spring.io/guides/gs/validating-form-input/)
 
