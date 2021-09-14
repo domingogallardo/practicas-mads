@@ -339,7 +339,7 @@ la desplegaremos en un _host_ para ponerla en producción.
 6. Pon en marcha un la imagen con la aplicación:
 
     ```
-    $ docker run -p 8080:8080 <usuario-docker>/spring-boot
+    $ docker run -p 8080:8080 <usuario-docker>/spring-boot-demoapp
     ```
     
     El comando `docker run` pone en marcha la imagen indicada, creando
