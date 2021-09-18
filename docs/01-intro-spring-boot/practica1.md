@@ -549,6 +549,11 @@ fuente, para entender los aspectos básicos (controladores, servicios,
 inyección de dependencias, plantillas, tests) del funcionamiento de
 Spring Boot.
 
+En el siguiente documento se explica cómo usar los formularios en
+Spring Boot:
+
+- [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
+
 Lee también el siguiente documento, en el que se explica cómo usar la
 validación de los campos de un formulario de entrada.
 
