@@ -567,7 +567,7 @@ realice lo siguiente:
 - Mostrar el resultado devuelto por el servicio en una página Thymeleaf.
 - Incluir al menos 2 tests:
     - 1 de la capa de servicio
-    - 1 de la capa de presentación usando MockMvc y moqueando el servicio
+    - 1 de la capa de presentación usando MockMvc.
 - En la página principal de la aplicación debe aparecer tu nombre y apellidos.
 
 Muy importante, debemos desarrollar la aplicación en **pequeños
