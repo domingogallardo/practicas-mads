@@ -2128,7 +2128,7 @@ características deberás también realizar algún test de la vista.
 #### Barra de menú ####
 
 La aplicación deberá tener una barra de menú común a todas sus
-páginas, menos en las páginas de login y registro.
+páginas, menos en las páginas de login, registro y _acerca de_.
 
 - La barra de menú estará situada en la parte superior de la página y
 será un [Navbar](https://getbootstrap.com/docs/4.0/components/navbar/).
