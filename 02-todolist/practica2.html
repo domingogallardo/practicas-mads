@@ -1344,6 +1344,12 @@ valor de la entidad.</p>
 Spring construya automáticamente una consulta sobre  la base de datos. Al
 usar como nombre del método el nombre de la propiedad de la entidad
 (<code>email</code>), Spring puede generar automáticamente la consulta.</p>
+<p>Puedes consultar una lista completa de las traducciones de nombres de
+métodos a consultas a la base de datos en <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation">este
+enlace</a>
+de la documentación de Spring Boot.</p>
+<p>También es posible definir explícitamente en el Repository la consulta
+a realizar a la base de datos utilizando la anotación <code>@Query</code>. Puedes encontrar varios ejemplos en <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.at-query">este enlace</a>.</p>
 <h3 id="servicios">Servicios<a class="headerlink" href="#servicios" title="Permanent link">&para;</a></h3>
 <p>La capa de servicios es la capa intermedia entre la capa de
 <em>controllers</em> y la de <em>repository</em>. Es la capa que implementa toda la
