@@ -1,3 +1,10 @@
+<!--
+En la explicación de los tests indicar que hay dos
+tipos de funcionamiento con los objetos service: o los inyectamos, con
+lo que funcionan correctamente conectándose a la base de datos de
+test, o los moqueamos, con lo que se quedan "vacíos" y tenemos que
+decir explícitamente que devuelven las llamadas a los métodos
+-->
 
 # Práctica 2: Aplicación ToDoList
 
@@ -2177,7 +2184,11 @@ administrador.
 #### Protección de listado de usuario y descripción de usuario (opcional) ####
 
 - Proteger las páginas con el listado de usuarios y la descripción de
-usuario para que sólo las pueda consultar el administrador.
+usuario para que sólo las pueda consultar el administrador. En el caso
+en que un usuario no administrador intente acceder a esas páginas,
+devolver un código de error HTTP "No autorizado" y un mensaje
+indicando que no se tiene suficiente permiso (de forma similar a como
+se gestionan los accesos a las páginas de tareas sin estar logeado).
 
 #### Bloqueo de usuarios por usuario administrador (opcional) ####
 
