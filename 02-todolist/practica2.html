@@ -649,7 +649,15 @@
               
                 
                 
-                <h1 id="practica-2-aplicacion-todolist">Práctica 2: Aplicación ToDoList<a class="headerlink" href="#practica-2-aplicacion-todolist" title="Permanent link">&para;</a></h1>
+                <!--
+En la explicación de los tests indicar que hay dos
+tipos de funcionamiento con los objetos service: o los inyectamos, con
+lo que funcionan correctamente conectándose a la base de datos de
+test, o los moqueamos, con lo que se quedan "vacíos" y tenemos que
+decir explícitamente que devuelven las llamadas a los métodos
+-->
+
+<h1 id="practica-2-aplicacion-todolist">Práctica 2: Aplicación ToDoList<a class="headerlink" href="#practica-2-aplicacion-todolist" title="Permanent link">&para;</a></h1>
 <h2 id="1-objetivos">1. Objetivos<a class="headerlink" href="#1-objetivos" title="Permanent link">&para;</a></h2>
 <p>En práctica 2 vamos a trabajar sobre la aplicación inicial
 <a href="https://github.com/domingogallardo/mads-todolist-inicial">domingogallardo/mads-todolist-inicial</a>.</p>
@@ -2484,7 +2492,11 @@ administrador.</p>
 <h4 id="proteccion-de-listado-de-usuario-y-descripcion-de-usuario-opcional">Protección de listado de usuario y descripción de usuario (opcional)<a class="headerlink" href="#proteccion-de-listado-de-usuario-y-descripcion-de-usuario-opcional" title="Permanent link">&para;</a></h4>
 <ul>
 <li>Proteger las páginas con el listado de usuarios y la descripción de
-usuario para que sólo las pueda consultar el administrador.</li>
+usuario para que sólo las pueda consultar el administrador. En el caso
+en que un usuario no administrador intente acceder a esas páginas,
+devolver un código de error HTTP "No autorizado" y un mensaje
+indicando que no se tiene suficiente permiso (de forma similar a como
+se gestionan los accesos a las páginas de tareas sin estar logeado).</li>
 </ul>
 <h4 id="bloqueo-de-usuarios-por-usuario-administrador-opcional">Bloqueo de usuarios por usuario administrador (opcional)<a class="headerlink" href="#bloqueo-de-usuarios-por-usuario-administrador-opcional" title="Permanent link">&para;</a></h4>
 <ul>
