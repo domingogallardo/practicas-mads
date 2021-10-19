@@ -1,10 +1,21 @@
 <!--
+
+Cambio 1:
+
 En la explicación de los tests indicar que hay dos
 tipos de funcionamiento con los objetos service: o los inyectamos, con
 lo que funcionan correctamente conectándose a la base de datos de
 test, o los moqueamos, con lo que se quedan "vacíos" y tenemos que
 decir explícitamente que devuelven las llamadas a los métodos
+
+Cambio 2:
+
+Cambiar las reglas del tablero de GitHub para solo tener que gestionar
+issues. Los pull requests están asociados a los issues y no hace falta
+gestionarlos con reglas, sino que siempre estarán junto al propio issue.
+
 -->
+
 
 # Práctica 2: Aplicación ToDoList
 

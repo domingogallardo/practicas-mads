@@ -1,8 +1,5 @@
 # Práctica 3: Integración con GitHub Actions y TDD
 
-!!! Danger "Versión en desarrollo"
-    Última actualización: 07/09/2021
-
 En esta práctica 3 de la asignatura realizaremos dos tareas principales:
 
 - Configuraremos un sistema de integración continua usando las
@@ -19,7 +16,7 @@ En esta práctica 3 de la asignatura realizaremos dos tareas principales:
     especificadas las acciones que debes realizar en la práctica.
 
 La duración de la práctica es de 3 semanas y la fecha límite de
-entrega es el día 10 de noviembre.
+entrega es el día 9 de noviembre.
 
 ## 1. Desarrollo de la _release_ 1.2.0 ##
 
@@ -129,7 +126,7 @@ Puntos interesantes a destacar:
 
 ### Builds en Actions ###
 
-En la pestaña Actions de GitHub tenemos toda la información de los
+En la pestaña `Actions` de GitHub tenemos toda la información de los
 _builds_. Es posible visualizarla mientras que se está realizando el
 build o cuando ya ha terminado. Allí podremos ver el detalle de la
 ejecución de los tests y consultar la salida de los mismos para
@@ -229,6 +226,38 @@ Postgres.
 Estos ficheros de configuración adicionales se cargan después de
 cargar la configuración por defecto definida en `application.properties`.
 
+### Cambios en los sentencias SQL de los datos iniciales ###
+
+Es posible que tengas que hacer algún cambio en las sentencias SQL del
+fichero `datos-test.sql` para adaptarlas a la nueva base de datos
+Postgres. No será necesario hacerlo en el fichero con datos iniciales
+`datos-dev.sql` porque cuando trabajemos la con base de datos real no
+vamos a cargar estos datos iniciales.
+
+Por ejemplo, un cambio que deberás hacer será eliminar las claves
+primarias de todos los registros, de forma que sea Postgres quien
+autogenere esas claves primarias. Por ejemplo, en el fichero
+`datos-tests.sql` en lugar de:
+
+```sql
+INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
+INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
+INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
+```
+
+las nuevas sentencias deben ser:
+
+```sql
+INSERT INTO usuarios (email, nombre, password, fecha_nacimiento) VALUES('user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
+INSERT INTO tareas (titulo, usuario_id) VALUES('Lavar coche', '1');
+INSERT INTO tareas (titulo, usuario_id) VALUES('Renovar DNI', '1');
+```
+
+Si no se hace esto surgen problemas en los tests, porque Postgres no
+actualiza el índice de clave primaria y los nuevos registros que se
+crean en algunos tests entran en conflicto con claves primarias
+idénticas ya existentes.
+
 
 ### Pasos a seguir ###
 
@@ -244,7 +273,7 @@ cargar la configuración por defecto definida en `application.properties`.
 2. Copia el siguiente fichero en `src/main/resources/application-postgres.properties`:
 
     ```
-    spring.datasource.url=jdbc:postgres://localhost:5432/mads
+    spring.datasource.url=jdbc:postgresql://localhost:5432/mads
     spring.datasource.username=mads
     spring.datasource.password=mads
     spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
@@ -260,14 +289,18 @@ cargar la configuración por defecto definida en `application.properties`.
     base de datos (`org.hibernate.dialect.PostgreSQL9Dialect`).
    
     La propiedad `spring.datasource.initialization-mode=never` indica
-    que no se debe cargar ningún fichero de datos inicial. Deberás
-    registrar un usuario inicial para poder probar la aplicación.
+    que no se debe cargar ningún fichero de datos inicial. Por esto,
+    el fichero `datos-dev.sql` no se va a cargar en la base de datos,
+    deberás registrar un usuario inicial para poder probar la
+    aplicación. La ventaja es que al trabajar con la base de datos
+    real todos los datos van a quedar grabados aunque se pare la
+    aplicación.
     
 3. Vamos ahora a añadir el perfil de test. Copia el siguiente fichero
   en `src/test/resources/application-postgres.properties`:
     
     ```
-    spring.datasource.url=jdbc:postgres://localhost:5432/mads_test
+    spring.datasource.url=jdbc:postgresql://localhost:5432/mads_test
     spring.datasource.username=mads
     spring.datasource.password=mads
     spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
@@ -352,7 +385,7 @@ cargar la configuración por defecto definida en `application.properties`.
 
     Prueba a introducir datos en la aplicación y comprueba que se
     están guardando en la base de datos utilizando por ejemplo el
-    panel `Database` de IntelliJ:
+    panel `Database` de _IntelliJ_:
 
     <img src="imagenes/panel-database.png" width="700px"/>
 
@@ -364,11 +397,19 @@ cargar la configuración por defecto definida en `application.properties`.
     $ java -Dspring.profiles.active=postgres -jar target/*.jar 
     ```
 
+    Para lanzar la aplicación desde _IntelliJ_ trabajando con el nuevo
+    perfil podemos seleccionar la opción `Edit Configurations...` del
+    menú de configuraciones, duplicar la configuración `Application`,
+    renombrándola por `Application Postgres` y añadir en el campo
+    `Active profiles` el nombre del perfil nuevo que acabamos de crear
+    `postgres`.
+
 7. Cierra la aplicación y vuelve a abrirla. Comprueba que los datos
-   que se han creado en la ejecución anterior siguen estando. Podemos
-   también parar el contenedor y volverlo a reiniciar y los datos se
-   conservarán. Al parar el contenedor no se eliminan los datos, sólo
-   al borrarlo.
+   que se han creado en la ejecución anterior siguen estando. 
+   
+    Podemos también parar el contenedor y volverlo a reiniciar y los
+    datos se conservarán. Al parar el contenedor no se eliminan los
+    datos, sólo al borrarlo.
 
 8. Cierra la aplicación. Paramos el contenedor con la base de datos de
    desarrollo haciendo `docker container stop`:
@@ -384,7 +425,22 @@ cargar la configuración por defecto definida en `application.properties`.
     contenedores usando la aplicación _Docker Desktop_ que se
     encuentra en la propia instalación de Docker.
 
-9. Lanzamos ahora otro contenedor con la base de datos de test (`mads_test`):
+9. Vamos ahora a preparar los tests para que se puedan lanzar con
+   Postgres. Serán tests de integración que trabajarán con la base de
+   datos real y, por tanto, su ejecución será más lenta que cuando los
+   lanzamos con la base de datos de memoria H2.
+
+    Modifica el fichero de datos `datos-test.sql` para eliminar la
+    creación explícita de las claves primarias y que sea el propio
+    Postgres el que las asigne:
+   
+    ```sql
+    INSERT INTO usuarios (email, nombre, password, fecha_nacimiento) VALUES('user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
+    INSERT INTO tareas (titulo, usuario_id) VALUES('Lavar coche', '1');
+    INSERT INTO tareas (titulo, usuario_id) VALUES('Renovar DNI', '1');
+    ```
+
+10. Lanzamos ahora otro contenedor con la base de datos de test (`mads_test`):
 
     ```
     docker run -d -p 5432:5432 --name postgres-test -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads_test postgres:13
@@ -396,17 +452,23 @@ cargar la configuración por defecto definida en `application.properties`.
       ./mvnw -Dspring.profiles.active=postgres test
       ```
   
-    Nos conectamos con el panel `Database` de IntelliJ a la base de datos `mads_test`
+    Nos conectamos con el panel `Database` de _IntelliJ_ a la base de datos `mads_test`
     y comprobamos que los datos que hay en la base de datos
     corresponden con los introducidos en el fichero `datos-test.sql`
-    que se carga antes de ejecutar los tests.
+    que se cargan antes de ejecutar los tests.
 
-10. Podemos parar y arrancar el contenedor Postgres que necesitemos
-    con `docker container stop` y `docker container start`. Como hemos
-    dicho antes, mientras que no borres el contenedor los datos siguen
-    estando en él. Por ejemplo, para parar el contenedor Postgres con
-    la base de datos de test y arrancar el contenedor con la base de
-    datos de desarrollo:
+11. Podemos lanzar también los tests desde _IntelliJ_ editando la
+    configuración de lanzamiento de test y añadiendo la variable de
+    entorno `spring.profiles.active=postgres`. Podríamos, por ejemplo,
+    llamar a esta configuración `Tests con Postgres`.
+
+12. Dado que las configuraciones de test y de ejecución utilizan
+    distintas bases de datos, debemos tener en funcionamiento la base
+    de datos correspondiente a lo que queremos hacer en cada
+    momento. Esto es muy fácil usando los contenedores de Docker. Por
+    ejemplo, podemos parar el contenedor Postgres con la base de datos
+    de test y arrancar el contenedor con la base de datos de
+    desarrollo:
   
     ```
     $ docker container ls -a 
@@ -414,7 +476,7 @@ cargar la configuración por defecto definida en `application.properties`.
     $ docker container start postgres-develop
     ```
 
-11. Realiza un commit con los cambios, súbelos a la rama y cierra el
+13. Realiza un commit con los cambios, súbelos a la rama y cierra el
     pull request para integrarlo en `main`:
   
       ```
@@ -428,13 +490,15 @@ cargar la configuración por defecto definida en `application.properties`.
       $ (main) git remote prune origin
       ```
 
-## 4. Actualización de GitHub Actions ##
+## 4. Tests de integración en GitHub Actions ##
 
-Crea un nuevo issue llamado `Actualización de GitHub
-Actions`. Crea la rama `actualizar-gh-actions` y crea un PR en GitHub
-con ella. Sube a esa rama todos los cambios que veremos a
-continuación.
+Vamos a modificar la configuración de GitHub Actions para conseguir un
+sistema de integración continua que ejecute los tests de integración
+usando la base de datos real Postgres.
 
+La ejecución de los tests usando la base de datos de memoria H2 será
+responsabilidad del desarrollador y se hará en el entorno de trabajo
+local, tal y como se ha hecho desde la primera práctica.
 
 ### Tests del desarrollador vs. tests de integración ###
 
@@ -529,6 +593,78 @@ Vemos que en la última línea se actualiza el parámetro `POSTGRES_HOST`
 usado por el perfil `postgres` para que la conexión se realice con el
 host `postgres` que es el que nombre que se ha definido en el
 servicio.
+
+
+### Pasos a seguir ###
+
+1. Crea un nuevo issue llamado `Tests de integraciónn en GitHub
+Actions`. Crea la rama `integracion-gh-actions`.
+
+    ```
+    $ git checkout -b integracion-gh-actions
+    $ git push -u origin integracion-gh-actions
+    ```
+    
+    
+2. Modifica el fichero del perfil postgres de test tal y como se
+   indica anteriormente, para usar variables de configuración que
+   puedan ser definidas mediante variables de entorno.
+
+3. Comprueba que siguen funcionando los tests lanzados sobre la base
+   de datos usando los valores por defecto de las variables de
+   entorno.
+   
+    ```
+    // Nos aseguramos de que la base de datos que está en marcha
+    // es la de test
+    $ docker container ls
+    CONTAINER ID   IMAGE         PORTS                    NAMES
+    411d8f2ea46c   postgres:13   0.0.0.0:5432->5432/tcp   postgres-test
+    ./mvnw -Dspring.profiles.active=postgres test
+    ```
+
+4. Comprueba que podemos modificar los parámetros definidos en las
+   variables de entorno. Por ejemplo, si se cambia el nombre del host
+   de la conexión con la base de datos los tests deben de fallar:
+   
+    ```
+    $ ./mvnw -Dspring.profiles.active=postgres -DPOSTGRES_HOST=postgres test
+    // Aparecerán errores debidos a que no se puede conectar con el
+    // host postgres:
+    org.postgresql.util.PSQLException: El intento de conexión falló.
+    ...
+    Caused by: java.net.UnknownHostException: postgres
+    ```
+   
+5. Crea un commit, súbelo a GitHub y crea el Pull Request
+
+    ```
+    $ git add .
+    $ git commit -m "Añadidas variables al perfil de test postgres"
+    $ git push
+    ```
+
+6. Modifica el fichero del flujo de trabajo de la acción de GitHub,
+   tal y como se indica anteriormente. Haz un commit, súbelo a GitHub
+   y comprueba que los tests pasan correctamente y se lanzan allí
+   usando la base de datos postgres.
+
+    <img src="imagenes/pr-tests-integracion.png" width="600px"/>
+
+    <img src="imagenes/pr-tests-integracion-2.png" width="600px"/>
+
+    <img src="imagenes/pr-tests-integracion-3.png" width="600px"/>
+
+    <img src="imagenes/pr-tests-integracion-4.png" width="750px"/>
+
+7. Una vez comprobado que funcionan los tests de integración en
+   GitHub, mezclamos el pull request y lo descargamos a
+   local. Comprobamos que también se lanzan los tests en el commit de
+   merge en GitHub. 
+   
+8. Con esto ya tenemos completado un sistema de integración continua y
+   GitHub se encargará de ejecutar todos los tests en un modo de
+   integración, usando la base de datos Postgres.
 
 
 ## 5. TDD ##
@@ -1190,7 +1326,7 @@ documentación técnica** de lo implementado en las historias de usuario
 En la documentación debes incluir también una **captura de pantalla**
 en la que se muestren las tablas y datos de la base de datos Postgres del
 contenedor docker. Puedes mostrar, por ejempo, una pantalla con el
-panel `Database` de IntelliJ o la herramienta que hayas utilizado.
+panel `Database` de _IntelliJ_ o la herramienta que hayas utilizado.
 
 Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las **historias de usuario 009 y 010**.
