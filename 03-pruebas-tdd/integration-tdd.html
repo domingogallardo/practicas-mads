@@ -361,6 +361,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#cambios-en-los-sentencias-sql-de-los-datos-iniciales" class="md-nav__link">
+    Cambios en los sentencias SQL de los datos iniciales
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pasos-a-seguir_2" class="md-nav__link">
     Pasos a seguir
   </a>
@@ -373,11 +380,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-actualizacion-de-github-actions" class="md-nav__link">
-    4. Actualización de GitHub Actions
+  <a href="#4-tests-de-integracion-en-github-actions" class="md-nav__link">
+    4. Tests de integración en GitHub Actions
   </a>
   
-    <nav class="md-nav" aria-label="4. Actualización de GitHub Actions">
+    <nav class="md-nav" aria-label="4. Tests de integración en GitHub Actions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -390,6 +397,13 @@
           <li class="md-nav__item">
   <a href="#accion-para-lanzar-los-tests-con-la-bd-postgres" class="md-nav__link">
     Acción para lanzar los tests con la BD postgres
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_3" class="md-nav__link">
+    Pasos a seguir
   </a>
   
 </li>
@@ -415,7 +429,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pasos-a-seguir_3" class="md-nav__link">
+  <a href="#pasos-a-seguir_4" class="md-nav__link">
     Pasos a seguir
   </a>
   
@@ -429,7 +443,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pasos-a-seguir_4" class="md-nav__link">
+  <a href="#pasos-a-seguir_5" class="md-nav__link">
     Pasos a seguir
   </a>
   
@@ -602,6 +616,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#cambios-en-los-sentencias-sql-de-los-datos-iniciales" class="md-nav__link">
+    Cambios en los sentencias SQL de los datos iniciales
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pasos-a-seguir_2" class="md-nav__link">
     Pasos a seguir
   </a>
@@ -614,11 +635,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-actualizacion-de-github-actions" class="md-nav__link">
-    4. Actualización de GitHub Actions
+  <a href="#4-tests-de-integracion-en-github-actions" class="md-nav__link">
+    4. Tests de integración en GitHub Actions
   </a>
   
-    <nav class="md-nav" aria-label="4. Actualización de GitHub Actions">
+    <nav class="md-nav" aria-label="4. Tests de integración en GitHub Actions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -631,6 +652,13 @@
           <li class="md-nav__item">
   <a href="#accion-para-lanzar-los-tests-con-la-bd-postgres" class="md-nav__link">
     Acción para lanzar los tests con la BD postgres
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_3" class="md-nav__link">
+    Pasos a seguir
   </a>
   
 </li>
@@ -656,7 +684,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pasos-a-seguir_3" class="md-nav__link">
+  <a href="#pasos-a-seguir_4" class="md-nav__link">
     Pasos a seguir
   </a>
   
@@ -670,7 +698,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pasos-a-seguir_4" class="md-nav__link">
+  <a href="#pasos-a-seguir_5" class="md-nav__link">
     Pasos a seguir
   </a>
   
@@ -702,10 +730,6 @@
                 
                 
                 <h1 id="practica-3-integracion-con-github-actions-y-tdd">Práctica 3: Integración con GitHub Actions y TDD<a class="headerlink" href="#practica-3-integracion-con-github-actions-y-tdd" title="Permanent link">&para;</a></h1>
-<div class="admonition danger">
-<p class="admonition-title">Versión en desarrollo</p>
-<p>Última actualización: 07/09/2021</p>
-</div>
 <p>En esta práctica 3 de la asignatura realizaremos dos tareas principales:</p>
 <ul>
 <li>Configuraremos un sistema de integración continua usando las
@@ -723,7 +747,7 @@ apartados con el título <code>Pasos a seguir</code>. Ahí están
 especificadas las acciones que debes realizar en la práctica.</p>
 </div>
 <p>La duración de la práctica es de 3 semanas y la fecha límite de
-entrega es el día 10 de noviembre.</p>
+entrega es el día 9 de noviembre.</p>
 <h2 id="1-desarrollo-de-la-release-120">1. Desarrollo de la <em>release</em> 1.2.0<a class="headerlink" href="#1-desarrollo-de-la-release-120" title="Permanent link">&para;</a></h2>
 <p>En esta práctica vamos a desarrollar la versión 1.2.0 de la aplicación
 <code>ToDoList</code>. A todos los <em>issues</em> y <em>pull requests</em> les debes poner este
@@ -811,7 +835,7 @@ jobs:
   sirven para localizar los distintos pasos.</li>
 </ul>
 <h3 id="builds-en-actions">Builds en Actions<a class="headerlink" href="#builds-en-actions" title="Permanent link">&para;</a></h3>
-<p>En la pestaña Actions de GitHub tenemos toda la información de los
+<p>En la pestaña <code>Actions</code> de GitHub tenemos toda la información de los
 <em>builds</em>. Es posible visualizarla mientras que se está realizando el
 build o cuando ya ha terminado. Allí podremos ver el detalle de la
 ejecución de los tests y consultar la salida de los mismos para
@@ -896,6 +920,29 @@ en <code>test</code>) para definir las configuraciones de ejecución y de test c
 Postgres.</p>
 <p>Estos ficheros de configuración adicionales se cargan después de
 cargar la configuración por defecto definida en <code>application.properties</code>.</p>
+<h3 id="cambios-en-los-sentencias-sql-de-los-datos-iniciales">Cambios en los sentencias SQL de los datos iniciales<a class="headerlink" href="#cambios-en-los-sentencias-sql-de-los-datos-iniciales" title="Permanent link">&para;</a></h3>
+<p>Es posible que tengas que hacer algún cambio en las sentencias SQL del
+fichero <code>datos-test.sql</code> para adaptarlas a la nueva base de datos
+Postgres. No será necesario hacerlo en el fichero con datos iniciales
+<code>datos-dev.sql</code> porque cuando trabajemos la con base de datos real no
+vamos a cargar estos datos iniciales.</p>
+<p>Por ejemplo, un cambio que deberás hacer será eliminar las claves
+primarias de todos los registros, de forma que sea Postgres quien
+autogenere esas claves primarias. Por ejemplo, en el fichero
+<code>datos-tests.sql</code> en lugar de:</p>
+<div class="highlight"><pre><span></span><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Usuario Ejemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
+</code></pre></div>
+<p>las nuevas sentencias deben ser:</p>
+<div class="highlight"><pre><span></span><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Usuario Ejemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
+</code></pre></div>
+<p>Si no se hace esto surgen problemas en los tests, porque Postgres no
+actualiza el índice de clave primaria y los nuevos registros que se
+crean en algunos tests entran en conflicto con claves primarias
+idénticas ya existentes.</p>
 <h3 id="pasos-a-seguir_2">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_2" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
@@ -908,7 +955,7 @@ $ (perfiles) git push -u origin perfiles
 </li>
 <li>
 <p>Copia el siguiente fichero en <code>src/main/resources/application-postgres.properties</code>:</p>
-<div class="highlight"><pre><span></span><code>spring.datasource.url=jdbc:postgres://localhost:5432/mads
+<div class="highlight"><pre><span></span><code>spring.datasource.url=jdbc:postgresql://localhost:5432/mads
 spring.datasource.username=mads
 spring.datasource.password=mads
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
@@ -921,13 +968,17 @@ base de datos <code>mads</code>, su usuario (<code>mads</code>) y contraseña (<
 el dialecto que se va a utilizar para trabajar desde JPA con la
 base de datos (<code>org.hibernate.dialect.PostgreSQL9Dialect</code>).</p>
 <p>La propiedad <code>spring.datasource.initialization-mode=never</code> indica
-que no se debe cargar ningún fichero de datos inicial. Deberás
-registrar un usuario inicial para poder probar la aplicación.</p>
+que no se debe cargar ningún fichero de datos inicial. Por esto,
+el fichero <code>datos-dev.sql</code> no se va a cargar en la base de datos,
+deberás registrar un usuario inicial para poder probar la
+aplicación. La ventaja es que al trabajar con la base de datos
+real todos los datos van a quedar grabados aunque se pare la
+aplicación.</p>
 </li>
 <li>
 <p>Vamos ahora a añadir el perfil de test. Copia el siguiente fichero
   en <code>src/test/resources/application-postgres.properties</code>:</p>
-<div class="highlight"><pre><span></span><code>spring.datasource.url=jdbc:postgres://localhost:5432/mads_test
+<div class="highlight"><pre><span></span><code>spring.datasource.url=jdbc:postgresql://localhost:5432/mads_test
 spring.datasource.username=mads
 spring.datasource.password=mads
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
@@ -1000,20 +1051,26 @@ $ docker container rm nombre o id de contenedor&gt; (elimina un contenedor)
 <code>src/main/resource/application-postgres.properties</code>.</p>
 <p>Prueba a introducir datos en la aplicación y comprueba que se
 están guardando en la base de datos utilizando por ejemplo el
-panel <code>Database</code> de IntelliJ:</p>
+panel <code>Database</code> de <em>IntelliJ</em>:</p>
 <p><img src="imagenes/panel-database.png" width="700px"/></p>
 <p>También podemos arrancar la aplicación con el perfil de postgres
 lanzando directamente el fichero JAR de la siguiente forma:</p>
 <div class="highlight"><pre><span></span><code>$ ./mvnw package
 $ java -Dspring.profiles.active=postgres -jar target/*.jar 
 </code></pre></div>
+<p>Para lanzar la aplicación desde <em>IntelliJ</em> trabajando con el nuevo
+perfil podemos seleccionar la opción <code>Edit Configurations...</code> del
+menú de configuraciones, duplicar la configuración <code>Application</code>,
+renombrándola por <code>Application Postgres</code> y añadir en el campo
+<code>Active profiles</code> el nombre del perfil nuevo que acabamos de crear
+<code>postgres</code>.</p>
 </li>
 <li>
 <p>Cierra la aplicación y vuelve a abrirla. Comprueba que los datos
-   que se han creado en la ejecución anterior siguen estando. Podemos
-   también parar el contenedor y volverlo a reiniciar y los datos se
-   conservarán. Al parar el contenedor no se eliminan los datos, sólo
-   al borrarlo.</p>
+   que se han creado en la ejecución anterior siguen estando. </p>
+<p>Podemos también parar el contenedor y volverlo a reiniciar y los
+datos se conservarán. Al parar el contenedor no se eliminan los
+datos, sólo al borrarlo.</p>
 </li>
 <li>
 <p>Cierra la aplicación. Paramos el contenedor con la base de datos de
@@ -1028,24 +1085,44 @@ contenedores usando la aplicación <em>Docker Desktop</em> que se
 encuentra en la propia instalación de Docker.</p>
 </li>
 <li>
+<p>Vamos ahora a preparar los tests para que se puedan lanzar con
+   Postgres. Serán tests de integración que trabajarán con la base de
+   datos real y, por tanto, su ejecución será más lenta que cuando los
+   lanzamos con la base de datos de memoria H2.</p>
+<p>Modifica el fichero de datos <code>datos-test.sql</code> para eliminar la
+creación explícita de las claves primarias y que sea el propio
+Postgres el que las asigne:</p>
+<div class="highlight"><pre><span></span><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Usuario Ejemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
+</code></pre></div>
+</li>
+<li>
 <p>Lanzamos ahora otro contenedor con la base de datos de test (<code>mads_test</code>):</p>
 <div class="highlight"><pre><span></span><code>docker run -d -p 5432:5432 --name postgres-test -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads_test postgres:13
 </code></pre></div>
 <p>Y lanzamos los tests usando el perfil <code>postgres</code> con la base de datos Postgres con el siguiente comando:</p>
 <div class="highlight"><pre><span></span><code>./mvnw -Dspring.profiles.active=postgres test
 </code></pre></div>
-<p>Nos conectamos con el panel <code>Database</code> de IntelliJ a la base de datos <code>mads_test</code>
+<p>Nos conectamos con el panel <code>Database</code> de <em>IntelliJ</em> a la base de datos <code>mads_test</code>
 y comprobamos que los datos que hay en la base de datos
 corresponden con los introducidos en el fichero <code>datos-test.sql</code>
-que se carga antes de ejecutar los tests.</p>
+que se cargan antes de ejecutar los tests.</p>
 </li>
 <li>
-<p>Podemos parar y arrancar el contenedor Postgres que necesitemos
-    con <code>docker container stop</code> y <code>docker container start</code>. Como hemos
-    dicho antes, mientras que no borres el contenedor los datos siguen
-    estando en él. Por ejemplo, para parar el contenedor Postgres con
-    la base de datos de test y arrancar el contenedor con la base de
-    datos de desarrollo:</p>
+<p>Podemos lanzar también los tests desde <em>IntelliJ</em> editando la
+    configuración de lanzamiento de test y añadiendo la variable de
+    entorno <code>spring.profiles.active=postgres</code>. Podríamos, por ejemplo,
+    llamar a esta configuración <code>Tests con Postgres</code>.</p>
+</li>
+<li>
+<p>Dado que las configuraciones de test y de ejecución utilizan
+    distintas bases de datos, debemos tener en funcionamiento la base
+    de datos correspondiente a lo que queremos hacer en cada
+    momento. Esto es muy fácil usando los contenedores de Docker. Por
+    ejemplo, podemos parar el contenedor Postgres con la base de datos
+    de test y arrancar el contenedor con la base de datos de
+    desarrollo:</p>
 <div class="highlight"><pre><span></span><code>$ docker container ls -a 
 $ docker container stop postgres-test
 $ docker container start postgres-develop
@@ -1065,11 +1142,13 @@ $ (main) git remote prune origin
 </code></pre></div>
 </li>
 </ol>
-<h2 id="4-actualizacion-de-github-actions">4. Actualización de GitHub Actions<a class="headerlink" href="#4-actualizacion-de-github-actions" title="Permanent link">&para;</a></h2>
-<p>Crea un nuevo issue llamado <code>Actualización de GitHub
-Actions</code>. Crea la rama <code>actualizar-gh-actions</code> y crea un PR en GitHub
-con ella. Sube a esa rama todos los cambios que veremos a
-continuación.</p>
+<h2 id="4-tests-de-integracion-en-github-actions">4. Tests de integración en GitHub Actions<a class="headerlink" href="#4-tests-de-integracion-en-github-actions" title="Permanent link">&para;</a></h2>
+<p>Vamos a modificar la configuración de GitHub Actions para conseguir un
+sistema de integración continua que ejecute los tests de integración
+usando la base de datos real Postgres.</p>
+<p>La ejecución de los tests usando la base de datos de memoria H2 será
+responsabilidad del desarrollador y se hará en el entorno de trabajo
+local, tal y como se ha hecho desde la primera práctica.</p>
 <h3 id="tests-del-desarrollador-vs-tests-de-integracion">Tests del desarrollador vs. tests de integración<a class="headerlink" href="#tests-del-desarrollador-vs-tests-de-integracion" title="Permanent link">&para;</a></h3>
 <p>Podemos considerar los tests que usan la base de datos real como
 <em>tests de integración</em> y los tests que usan la base de datos en
@@ -1147,6 +1226,73 @@ jobs:
 usado por el perfil <code>postgres</code> para que la conexión se realice con el
 host <code>postgres</code> que es el que nombre que se ha definido en el
 servicio.</p>
+<h3 id="pasos-a-seguir_3">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_3" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Crea un nuevo issue llamado <code>Tests de integraciónn en GitHub
+Actions</code>. Crea la rama <code>integracion-gh-actions</code>.</p>
+<div class="highlight"><pre><span></span><code>$ git checkout -b integracion-gh-actions
+$ git push -u origin integracion-gh-actions
+</code></pre></div>
+</li>
+<li>
+<p>Modifica el fichero del perfil postgres de test tal y como se
+   indica anteriormente, para usar variables de configuración que
+   puedan ser definidas mediante variables de entorno.</p>
+</li>
+<li>
+<p>Comprueba que siguen funcionando los tests lanzados sobre la base
+   de datos usando los valores por defecto de las variables de
+   entorno.</p>
+<div class="highlight"><pre><span></span><code>// Nos aseguramos de que la base de datos que está en marcha
+// es la de test
+$ docker container ls
+CONTAINER ID   IMAGE         PORTS                    NAMES
+411d8f2ea46c   postgres:13   0.0.0.0:5432-&gt;5432/tcp   postgres-test
+./mvnw -Dspring.profiles.active=postgres test
+</code></pre></div>
+</li>
+<li>
+<p>Comprueba que podemos modificar los parámetros definidos en las
+   variables de entorno. Por ejemplo, si se cambia el nombre del host
+   de la conexión con la base de datos los tests deben de fallar:</p>
+<div class="highlight"><pre><span></span><code>$ ./mvnw -Dspring.profiles.active=postgres -DPOSTGRES_HOST=postgres test
+// Aparecerán errores debidos a que no se puede conectar con el
+// host postgres:
+org.postgresql.util.PSQLException: El intento de conexión falló.
+...
+Caused by: java.net.UnknownHostException: postgres
+</code></pre></div>
+</li>
+<li>
+<p>Crea un commit, súbelo a GitHub y crea el Pull Request</p>
+<div class="highlight"><pre><span></span><code>$ git add .
+$ git commit -m &quot;Añadidas variables al perfil de test postgres&quot;
+$ git push
+</code></pre></div>
+</li>
+<li>
+<p>Modifica el fichero del flujo de trabajo de la acción de GitHub,
+   tal y como se indica anteriormente. Haz un commit, súbelo a GitHub
+   y comprueba que los tests pasan correctamente y se lanzan allí
+   usando la base de datos postgres.</p>
+<p><img src="imagenes/pr-tests-integracion.png" width="600px"/></p>
+<p><img src="imagenes/pr-tests-integracion-2.png" width="600px"/></p>
+<p><img src="imagenes/pr-tests-integracion-3.png" width="600px"/></p>
+<p><img src="imagenes/pr-tests-integracion-4.png" width="750px"/></p>
+</li>
+<li>
+<p>Una vez comprobado que funcionan los tests de integración en
+   GitHub, mezclamos el pull request y lo descargamos a
+   local. Comprobamos que también se lanzan los tests en el commit de
+   merge en GitHub. </p>
+</li>
+<li>
+<p>Con esto ya tenemos completado un sistema de integración continua y
+   GitHub se encargará de ejecutar todos los tests en un modo de
+   integración, usando la base de datos Postgres.</p>
+</li>
+</ol>
 <h2 id="5-tdd">5. TDD<a class="headerlink" href="#5-tdd" title="Permanent link">&para;</a></h2>
 <p>En la segunda parte de la práctica desarrollaremos, usando TDD (<em>Test
 Driven Design</em>), una nueva <em>feature</em> de la aplicación: la posibilidad
@@ -1212,7 +1358,7 @@ necesario, no puedes escribir código de más</strong>)</li>
 </ul>
 <p>Deberás hacer <strong>un commit por cada fase Test-Code</strong>. Si haces
 refactorización deberás hacerlo en otro commit adicional.</p>
-<h3 id="pasos-a-seguir_3">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_3" title="Permanent link">&para;</a></h3>
+<h3 id="pasos-a-seguir_4">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
 <p>Crea la historia de usuario <code>008 Listado de equipos</code> en el tablero Trello.</p>
@@ -1674,7 +1820,7 @@ equipo a la colección de equipos del usuario.</p>
 nombre y eliminar los equipos para adaptarlos a los proyectos y
 estructura de la empresa.</li>
 </ul>
-<h3 id="pasos-a-seguir_4">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_4" title="Permanent link">&para;</a></h3>
+<h3 id="pasos-a-seguir_5">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_5" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Implementa cada historia de usuario usando el mismo proceso que
   hemos utilizado para la historia 008. Deberás pensar qué servicios
@@ -1707,7 +1853,7 @@ documentación técnica</strong> de lo implementado en las historias de usuario
 <p>En la documentación debes incluir también una <strong>captura de pantalla</strong>
 en la que se muestren las tablas y datos de la base de datos Postgres del
 contenedor docker. Puedes mostrar, por ejempo, una pantalla con el
-panel <code>Database</code> de IntelliJ o la herramienta que hayas utilizado.</p>
+panel <code>Database</code> de <em>IntelliJ</em> o la herramienta que hayas utilizado.</p>
 <p>Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las <strong>historias de usuario 009 y 010</strong>.</p>
 <ol>
