@@ -564,6 +564,16 @@ validación de los campos de un formulario de entrada.
 
 - [Validating Form Input](https://spring.io/guides/gs/validating-form-input/)
 
+El código que hay en el ejemplo anterior es algo distinto al que
+estamos usando en clase. Por ejemplo, la forma de definir los
+controllers.
+
+Es mejor que uses como ejemplo de validación el código que hay en el
+repositorio
+[domingogallardo/](https://github.com/domingogallardo/spring-boot-validate). Verás
+también ahí ejemplos de tests en los que se realiza una petición POST
+pasando parámetros.
+
 Debemos añadir alguna funcionalidad sencilla a la aplicación que
 realice lo siguiente:
 
