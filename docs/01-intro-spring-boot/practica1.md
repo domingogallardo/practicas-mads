@@ -566,13 +566,22 @@ validación de los campos de un formulario de entrada.
 
 El código que hay en el ejemplo anterior es algo distinto al que
 estamos usando en clase. Por ejemplo, la forma de definir los
-controllers.
+controllers. Es mejor que uses como ejemplo de validación el código
+que hay en el repositorio
+[domingogallardo/spring-boot-validate](https://github.com/domingogallardo/spring-boot-validate). 
 
-Es mejor que uses como ejemplo de validación el código que hay en el
-repositorio
-[domingogallardo/](https://github.com/domingogallardo/spring-boot-validate). Verás
-también ahí ejemplos de tests en los que se realiza una petición POST
-pasando parámetros.
+Verás también ahí varios ejemplos de tests en los que se realiza una
+petición POST pasando parámetros, como el siguiente:
+
+```java
+@Test
+public void checkPersonInfoWhenNameTooShortThenFailure() throws Exception {
+    mockMvc.perform(post("/")
+                    .param("name", "R")
+                    .param("age", "20"))
+            .andExpect(model().hasErrors());
+}
+```
 
 Debemos añadir alguna funcionalidad sencilla a la aplicación que
 realice lo siguiente:
