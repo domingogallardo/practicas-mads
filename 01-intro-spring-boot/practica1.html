@@ -1044,7 +1044,9 @@ controllers. Es mejor que uses como ejemplo de validación el código
 que hay en el repositorio
 <a href="https://github.com/domingogallardo/spring-boot-validate">domingogallardo/spring-boot-validate</a>. </p>
 <p>Verás también ahí varios ejemplos de tests en los que se realiza una
-petición POST pasando parámetros, como el siguiente:</p>
+petición POST pasando parámetros y se obtiene información del modelo
+resultante, llamando al método <code>model()</code>. El siguiente es un ejemplo
+de uno de los tests:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
 <span class="kd">public</span> <span class="kt">void</span> <span class="nf">checkPersonInfoWhenNameTooShortThenFailure</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
     <span class="n">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span>
