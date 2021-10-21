@@ -571,7 +571,9 @@ que hay en el repositorio
 [domingogallardo/spring-boot-validate](https://github.com/domingogallardo/spring-boot-validate). 
 
 Verás también ahí varios ejemplos de tests en los que se realiza una
-petición POST pasando parámetros, como el siguiente:
+petición POST pasando parámetros y se obtiene información del modelo
+resultante, llamando al método `model()`. El siguiente es un ejemplo
+de uno de los tests:
 
 ```java
 @Test
