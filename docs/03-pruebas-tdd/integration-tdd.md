@@ -718,9 +718,10 @@ Detalles
 ```
 
 Vamos a utilizar la técnica de TDD para construir la funcionalidad
-**de dentro a fuera**. Comenzaremos con tests que construyan la capa
-de modelo (clases de entidad y repository) y después pasaremos a tests
-que construyan la capa de servicio.
+**de dentro a fuera** (desde el repository hasta el
+controller). Comenzaremos con tests que construyan la capa de modelo
+(clases de entidad y repository) y después pasaremos a tests que
+construyan la capa de servicio.
 
 Por último, una vez implementados los métodos de servicios necesarios,
 deberás implementar (lo haremos sin tests) las vistas y
@@ -750,7 +751,7 @@ refactorización deberás hacerlo en otro commit adicional.
 
 - Crea la historia de usuario `008 Listado de equipos` en el tablero Trello.
 
-- Crea los _issues_ correspondientes a esta historia:
+- Crea dos _issues_ correspondientes a esta historia:
     - Servicio y modelo listado de equipos.
     - Vista y controller listado de equipos.
 
@@ -763,7 +764,7 @@ tests que enumeraremos a continuación. El otro _issue_ lo deberás
 implementar por ti mismo. 
 
 
-#### Primer test - Entidad `Equipo` ####
+#### Primer commit - Test y código Entidad `Equipo` ####
 
 El primer test es para crear la entidad `Equipo`. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo
@@ -772,15 +773,8 @@ creamos la clase Java, sin las anotaciones JPA. Un equipo
 ```java
 package madstodolist;
 
-import madstodolist.model.Equipo;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+// imports
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class EquipoTest {
 
@@ -880,8 +874,10 @@ de la base de datos. Añadimos un equipo a la tabla en el fichero
 `datos-test.sql` para poder comprobar que funciona correctamente.
 
 Añadimos en el fichero **`src/test/java/resources/datos-test.sql`**:
-```
-INSERT INTO equipos (id, nombre) VALUES('1', 'Proyecto P1');
+
+```diff
+INSERT INTO tareas (titulo, usuario_id) VALUES('Renovar DNI', '1');
++ INSERT INTO equipos (nombre) VALUES('Proyecto P1');
 ```
 
 Test:
@@ -924,8 +920,8 @@ prueba, en la que definimos que el equipo 1 tiene como usuario al
 usuario 1:
 
 ```diff
-INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
-+ INSERT INTO equipos (id, nombre) VALUES('1', 'Proyecto P1');
+INSERT INTO tareas (titulo, usuario_id) VALUES('Renovar DNI', '1');
+INSERT INTO equipos (nombre) VALUES('1', 'Proyecto P1');
 + INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES('1', '1');
 ```
 
@@ -968,8 +964,17 @@ También creamos el getter para obtener los usuarios.
 
 **Fichero `src/main/java/madstodolist/model/Equipo.java`**:
 ```diff
-    private String nombre;
-+    @ManyToMany
++    private String nombre;
++    // Declaramos el tipo de recuperación como LAZY.
++    // No haría falta porque es el tipo por defecto en una
++    // relación a muchos.
++    // Al recuperar un equipo NO SE RECUPERA AUTOMÁTICAMENTE
++    // la lista de usuarios. Sólo se recupera cuando se accede al
++    // atributo 'usuarios'; entonces se genera una query en la
++    // BD que devuelve todos los usuarios del equipo y rellena el
++    // atributo.
++     
++    @ManyToMany(fetch = FetchType.LAZY)
 +    @JoinTable(name = "equipo_usuario",
 +            joinColumns = { @JoinColumn(name = "fk_equipo") },
 +            inverseJoinColumns = {@JoinColumn(name = "fk_usuario")})
@@ -1016,7 +1021,7 @@ Actualizamos la base de datos de prueba con otro equipo:
 
 ```diff
 INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES('1', '1');
-+ INSERT INTO equipos (id, nombre) VALUES('2', 'Proyecto P3');
++ INSERT INTO equipos (nombre) VALUES('Proyecto P3');
 ```
 
 
@@ -1038,9 +1043,9 @@ sea _List_.
 ```
 
 La solución consiste en añadir el método `findAll` en la interfaz
-p`EquipoRepository`, definiendo el tipo
-devuelto como _List_. Spring Boot se encarga de construir
-automáticamente la implementación de este método.
+p`EquipoRepository`, definiendo el tipo devuelto como _List_. Spring
+Boot se encarga de construir automáticamente la implementación de este
+método.
 
 
 **Fichero `EquipoRepository.java`**:
@@ -1068,21 +1073,10 @@ sea una lista ordenada por los nombres de los equipos.
 ```java
 package madstodolist;
 
- import madstodolist.model.Equipo;
- import madstodolist.service.EquipoService;
- import org.junit.Test;
- import org.junit.runner.RunWith;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.boot.test.context.SpringBootTest;
- import org.springframework.test.context.junit4.SpringRunner;
+// imports
 
- import java.util.List;
-
- import static org.assertj.core.api.Assertions.assertThat;
-
- @RunWith(SpringRunner.class)
- @SpringBootTest
- public class EquipoServiceTest {
+@SpringBootTest
+public class EquipoServiceTest {
 
      @Autowired
      EquipoService equipoService;
@@ -1203,9 +1197,7 @@ sus equipos:
     }
 ```
 
-Comprueba que el test falla (por un error "failed to lazily initialize
-a collection"), arregla el código para que pase, haz un commit y
-súbelo a GitHub.
+Comprueba que el test no falla, haz un commit y súbelo a GitHub.
 
 #### Décimo test - Método de servicio para obtener los usuarios de un equipo ####
 
@@ -1230,7 +1222,7 @@ equipos a los que pertenece.
 
         // THEN
         assertThat(usuarios).hasSize(1);
-        assertThat(usuarios.get(0).getEmail()).isEqualTo("ana.garcia@gmail.com");
+        assertThat(usuarios.get(0).getEmail()).isEqualTo("user@ua");
         // Comprobamos que la relación entre usuarios y equipos es eager
         // Primero comprobamos que la colección de equipos tiene 1 elemento
         assertThat(usuarios.get(0).getEquipos()).hasSize(1);
