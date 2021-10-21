@@ -1334,9 +1334,10 @@ Detalles
     * Un usuario podrá pertenecer a más de un equipo.
 </code></pre></div>
 <p>Vamos a utilizar la técnica de TDD para construir la funcionalidad
-<strong>de dentro a fuera</strong>. Comenzaremos con tests que construyan la capa
-de modelo (clases de entidad y repository) y después pasaremos a tests
-que construyan la capa de servicio.</p>
+<strong>de dentro a fuera</strong> (desde el repository hasta el
+controller). Comenzaremos con tests que construyan la capa de modelo
+(clases de entidad y repository) y después pasaremos a tests que
+construyan la capa de servicio.</p>
 <p>Por último, una vez implementados los métodos de servicios necesarios,
 deberás implementar (lo haremos sin tests) las vistas y
 controllers. Las vistas y controllers los probaremos de forma manual,
@@ -1364,7 +1365,7 @@ refactorización deberás hacerlo en otro commit adicional.</p>
 <p>Crea la historia de usuario <code>008 Listado de equipos</code> en el tablero Trello.</p>
 </li>
 <li>
-<p>Crea los <em>issues</em> correspondientes a esta historia:</p>
+<p>Crea dos <em>issues</em> correspondientes a esta historia:</p>
 <ul>
 <li>Servicio y modelo listado de equipos.</li>
 <li>Vista y controller listado de equipos.</li>
@@ -1379,21 +1380,14 @@ refactorización deberás hacerlo en otro commit adicional.</p>
 <p>Este primer <em>issue</em> lo haremos de forma guiada usando TDD con los
 tests que enumeraremos a continuación. El otro <em>issue</em> lo deberás
 implementar por ti mismo. </p>
-<h4 id="primer-test-entidad-equipo">Primer test - Entidad <code>Equipo</code><a class="headerlink" href="#primer-test-entidad-equipo" title="Permanent link">&para;</a></h4>
+<h4 id="primer-commit-test-y-codigo-entidad-equipo">Primer commit - Test y código Entidad <code>Equipo</code><a class="headerlink" href="#primer-commit-test-y-codigo-entidad-equipo" title="Permanent link">&para;</a></h4>
 <p>El primer test es para crear la entidad <code>Equipo</code>. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoTest.java</code></strong>:
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
 
-<span class="kn">import</span> <span class="nn">madstodolist.model.Equipo</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.test.context.junit4.SpringRunner</span><span class="p">;</span>
+<span class="c1">// imports</span>
 
-<span class="kn">import static</span> <span class="nn">org.assertj.core.api.Assertions.assertThat</span><span class="p">;</span>
-
-<span class="nd">@RunWith</span><span class="p">(</span><span class="n">SpringRunner</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
 <span class="nd">@SpringBootTest</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">EquipoTest</span> <span class="p">{</span>
 
@@ -1475,9 +1469,10 @@ deben comparar sus nombres. Ahora bien, si los dos equipos tienen
 <p>Escribimos ahora un test para recuperar equipos por su identificador
 de la base de datos. Añadimos un equipo a la tabla en el fichero
 <code>datos-test.sql</code> para poder comprobar que funciona correctamente.</p>
-<p>Añadimos en el fichero <strong><code>src/test/java/resources/datos-test.sql</code></strong>:
-<div class="highlight"><pre><span></span><code>INSERT INTO equipos (id, nombre) VALUES(&#39;1&#39;, &#39;Proyecto P1&#39;);
-</code></pre></div></p>
+<p>Añadimos en el fichero <strong><code>src/test/java/resources/datos-test.sql</code></strong>:</p>
+<div class="highlight"><pre><span></span><code>INSERT INTO tareas (titulo, usuario_id) VALUES(&#39;Renovar DNI&#39;, &#39;1&#39;);
+<span class="gi">+ INSERT INTO equipos (nombre) VALUES(&#39;Proyecto P1&#39;);</span>
+</code></pre></div>
 <p>Test:</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarRecuperarEquipo</span><span class="p">()</span> <span class="p">{</span>
@@ -1508,8 +1503,8 @@ contienen el identificador de equipo y el del usuario.</p>
 <p>Para definir el test, creamos una relación en la base de datos de
 prueba, en la que definimos que el equipo 1 tiene como usuario al
 usuario 1:</p>
-<div class="highlight"><pre><span></span><code>INSERT INTO tareas (id, titulo, usuario_id) VALUES(&#39;2&#39;, &#39;Renovar DNI&#39;, &#39;1&#39;);
-<span class="gi">+ INSERT INTO equipos (id, nombre) VALUES(&#39;1&#39;, &#39;Proyecto P1&#39;);</span>
+<div class="highlight"><pre><span></span><code>INSERT INTO tareas (titulo, usuario_id) VALUES(&#39;Renovar DNI&#39;, &#39;1&#39;);
+INSERT INTO equipos (nombre) VALUES(&#39;1&#39;, &#39;Proyecto P1&#39;);
 <span class="gi">+ INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES(&#39;1&#39;, &#39;1&#39;);</span>
 </code></pre></div>
 <p>Y comprobamos que se el usuario y equipo devuelto por cada clase
@@ -1543,8 +1538,17 @@ de datos.</p>
 relación, e indicamos el papel de cada una de sus dos columnas.</p>
 <p>También creamos el getter para obtener los usuarios.</p>
 <p><strong>Fichero <code>src/main/java/madstodolist/model/Equipo.java</code></strong>:
-<div class="highlight"><pre><span></span><code>    private String nombre;
-<span class="gi">+    @ManyToMany</span>
+<div class="highlight"><pre><span></span><code><span class="gi">+    private String nombre;</span>
+<span class="gi">+    // Declaramos el tipo de recuperación como LAZY.</span>
+<span class="gi">+    // No haría falta porque es el tipo por defecto en una</span>
+<span class="gi">+    // relación a muchos.</span>
+<span class="gi">+    // Al recuperar un equipo NO SE RECUPERA AUTOMÁTICAMENTE</span>
+<span class="gi">+    // la lista de usuarios. Sólo se recupera cuando se accede al</span>
+<span class="gi">+    // atributo &#39;usuarios&#39;; entonces se genera una query en la</span>
+<span class="gi">+    // BD que devuelve todos los usuarios del equipo y rellena el</span>
+<span class="gi">+    // atributo.</span>
+<span class="gi">+     </span>
+<span class="gi">+    @ManyToMany(fetch = FetchType.LAZY)</span>
 <span class="gi">+    @JoinTable(name = &quot;equipo_usuario&quot;,</span>
 <span class="gi">+            joinColumns = { @JoinColumn(name = &quot;fk_equipo&quot;) },</span>
 <span class="gi">+            inverseJoinColumns = {@JoinColumn(name = &quot;fk_usuario&quot;)})</span>
@@ -1582,7 +1586,7 @@ está en el otro lado de la relación.</p>
 una lista de equipos en el <em>repository</em>:</p>
 <p>Actualizamos la base de datos de prueba con otro equipo:</p>
 <div class="highlight"><pre><span></span><code>INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES(&#39;1&#39;, &#39;1&#39;);
-<span class="gi">+ INSERT INTO equipos (id, nombre) VALUES(&#39;2&#39;, &#39;Proyecto P3&#39;);</span>
+<span class="gi">+ INSERT INTO equipos (nombre) VALUES(&#39;Proyecto P3&#39;);</span>
 </code></pre></div>
 <p>Y añadimos el test. Queremos que el tipo devuelto por el <em>repository</em>
 sea <em>List</em>.</p>
@@ -1599,9 +1603,9 @@ sea <em>List</em>.</p>
     <span class="p">}</span>
 </code></pre></div>
 <p>La solución consiste en añadir el método <code>findAll</code> en la interfaz
-p<code>EquipoRepository</code>, definiendo el tipo
-devuelto como <em>List</em>. Spring Boot se encarga de construir
-automáticamente la implementación de este método.</p>
+p<code>EquipoRepository</code>, definiendo el tipo devuelto como <em>List</em>. Spring
+Boot se encarga de construir automáticamente la implementación de este
+método.</p>
 <p><strong>Fichero <code>EquipoRepository.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="gi">+ import java.util.List;</span>
 
@@ -1618,21 +1622,10 @@ sea una lista ordenada por los nombres de los equipos.</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
 
- <span class="kn">import</span> <span class="nn">madstodolist.model.Equipo</span><span class="p">;</span>
- <span class="kn">import</span> <span class="nn">madstodolist.service.EquipoService</span><span class="p">;</span>
- <span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="p">;</span>
- <span class="kn">import</span> <span class="nn">org.junit.runner.RunWith</span><span class="p">;</span>
- <span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
- <span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
- <span class="kn">import</span> <span class="nn">org.springframework.test.context.junit4.SpringRunner</span><span class="p">;</span>
+<span class="c1">// imports</span>
 
- <span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span>
-
- <span class="kn">import static</span> <span class="nn">org.assertj.core.api.Assertions.assertThat</span><span class="p">;</span>
-
- <span class="nd">@RunWith</span><span class="p">(</span><span class="n">SpringRunner</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
- <span class="nd">@SpringBootTest</span>
- <span class="kd">public</span> <span class="kd">class</span> <span class="nc">EquipoServiceTest</span> <span class="p">{</span>
+<span class="nd">@SpringBootTest</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EquipoServiceTest</span> <span class="p">{</span>
 
      <span class="nd">@Autowired</span>
      <span class="n">EquipoService</span> <span class="n">equipoService</span><span class="p">;</span>
@@ -1743,9 +1736,7 @@ sus equipos:</p>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getEquipos</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
     <span class="p">}</span>
 </code></pre></div>
-<p>Comprueba que el test falla (por un error "failed to lazily initialize
-a collection"), arregla el código para que pase, haz un commit y
-súbelo a GitHub.</p>
+<p>Comprueba que el test no falla, haz un commit y súbelo a GitHub.</p>
 <h4 id="decimo-test-metodo-de-servicio-para-obtener-los-usuarios-de-un-equipo">Décimo test - Método de servicio para obtener los usuarios de un equipo<a class="headerlink" href="#decimo-test-metodo-de-servicio-para-obtener-los-usuarios-de-un-equipo" title="Permanent link">&para;</a></h4>
 <p>El último test que sirve para definir el método de servicio
 <code>usuariosEquipo(Long idEquipo)</code> que devuelve la lista de usuarios de
@@ -1764,7 +1755,7 @@ equipos a los que pertenece.</p>
 
         <span class="c1">// THEN</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEmail</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEmail</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
         <span class="c1">// Comprobamos que la relación entre usuarios y equipos es eager</span>
         <span class="c1">// Primero comprobamos que la colección de equipos tiene 1 elemento</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEquipos</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
