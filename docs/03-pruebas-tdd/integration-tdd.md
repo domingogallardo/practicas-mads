@@ -597,7 +597,7 @@ servicio.
 
 ### Pasos a seguir ###
 
-1. Crea un nuevo issue llamado `Tests de integraciónn en GitHub
+1. Crea un nuevo issue llamado `Tests de integración en GitHub
 Actions`. Crea la rama `integracion-gh-actions`.
 
     ```
