@@ -1586,7 +1586,7 @@ está en el otro lado de la relación.</p>
 una lista de equipos en el <em>repository</em>:</p>
 <p>Actualizamos la base de datos de prueba con otro equipo:</p>
 <div class="highlight"><pre><span></span><code>INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES(&#39;1&#39;, &#39;1&#39;);
-<span class="gi">+ INSERT INTO equipos (nombre) VALUES(&#39;Proyecto P3&#39;);</span>
+<span class="gi">+ INSERT INTO equipos (nombre) VALUES(&#39;Proyecto A1&#39;);</span>
 </code></pre></div>
 <p>Y añadimos el test. Queremos que el tipo devuelto por el <em>repository</em>
 sea <em>List</em>.</p>
@@ -1640,8 +1640,8 @@ sea una lista ordenada por los nombres de los equipos.</p>
 
          <span class="c1">// THEN</span>
          <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
-         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P3&quot;</span><span class="p">);</span>
+         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto A1&quot;</span><span class="p">);</span>
+         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
      <span class="p">}</span>
  <span class="p">}</span>
 </code></pre></div>
