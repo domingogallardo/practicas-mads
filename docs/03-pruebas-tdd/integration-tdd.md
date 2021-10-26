@@ -1021,7 +1021,7 @@ Actualizamos la base de datos de prueba con otro equipo:
 
 ```diff
 INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES('1', '1');
-+ INSERT INTO equipos (nombre) VALUES('Proyecto P3');
++ INSERT INTO equipos (nombre) VALUES('Proyecto A1');
 ```
 
 
@@ -1091,8 +1091,8 @@ public class EquipoServiceTest {
 
          // THEN
          assertThat(equipos).hasSize(2);
-         assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto P1");
-         assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto P3");
+         assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto A1");
+         assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto P1");
      }
  }
 ```
