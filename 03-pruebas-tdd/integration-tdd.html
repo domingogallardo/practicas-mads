@@ -1044,7 +1044,7 @@ $ docker container rm nombre o id de contenedor&gt; (elimina un contenedor)
 </li>
 <li>
 <p>Arranca la aplicación con el siguiente comando:</p>
-<div class="highlight"><pre><span></span><code>./mvnw spring-boot:run -Dprofiles=postgres
+<div class="highlight"><pre><span></span><code>./mvnw spring-boot:run -D profiles=postgres
 </code></pre></div>
 <p>Se activará el perfil <code>postgres</code> y se cargarán las preferencias de
 <code>src/main/resource/application.properties</code> y
@@ -1102,7 +1102,7 @@ Postgres el que las asigne:</p>
 <div class="highlight"><pre><span></span><code>docker run -d -p 5432:5432 --name postgres-test -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads_test postgres:13
 </code></pre></div>
 <p>Y lanzamos los tests usando el perfil <code>postgres</code> con la base de datos Postgres con el siguiente comando:</p>
-<div class="highlight"><pre><span></span><code>./mvnw -Dspring.profiles.active=postgres test
+<div class="highlight"><pre><span></span><code>./mvnw -D spring.profiles.active=postgres test
 </code></pre></div>
 <p>Nos conectamos con el panel <code>Database</code> de <em>IntelliJ</em> a la base de datos <code>mads_test</code>
 y comprobamos que los datos que hay en la base de datos
@@ -1218,7 +1218,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch tests with Maven
-        run:  ./mvnw test -Dspring.profiles.active=postgres
+        run:  ./mvnw test -D spring.profiles.active=postgres
         env:
           POSTGRES_HOST: postgres
 </code></pre></div>
@@ -1249,14 +1249,14 @@ $ git push -u origin integracion-gh-actions
 $ docker container ls
 CONTAINER ID   IMAGE         PORTS                    NAMES
 411d8f2ea46c   postgres:13   0.0.0.0:5432-&gt;5432/tcp   postgres-test
-./mvnw -Dspring.profiles.active=postgres test
+./mvnw -D spring.profiles.active=postgres test
 </code></pre></div>
 </li>
 <li>
 <p>Comprueba que podemos modificar los parámetros definidos en las
    variables de entorno. Por ejemplo, si se cambia el nombre del host
    de la conexión con la base de datos los tests deben de fallar:</p>
-<div class="highlight"><pre><span></span><code>$ ./mvnw -Dspring.profiles.active=postgres -DPOSTGRES_HOST=postgres test
+<div class="highlight"><pre><span></span><code>$ ./mvnw -D spring.profiles.active=postgres -D POSTGRES_HOST=postgres test
 // Aparecerán errores debidos a que no se puede conectar con el
 // host postgres:
 org.postgresql.util.PSQLException: El intento de conexión falló.
