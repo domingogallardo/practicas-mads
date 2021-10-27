@@ -376,7 +376,7 @@ idénticas ya existentes.
 6. Arranca la aplicación con el siguiente comando:
 
     ```
-    ./mvnw spring-boot:run -Dprofiles=postgres
+    ./mvnw spring-boot:run -D profiles=postgres
     ```
 
     Se activará el perfil `postgres` y se cargarán las preferencias de
@@ -449,7 +449,7 @@ idénticas ya existentes.
     Y lanzamos los tests usando el perfil `postgres` con la base de datos Postgres con el siguiente comando:
   
       ```
-      ./mvnw -Dspring.profiles.active=postgres test
+      ./mvnw -D spring.profiles.active=postgres test
       ```
   
     Nos conectamos con el panel `Database` de _IntelliJ_ a la base de datos `mads_test`
@@ -584,7 +584,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch tests with Maven
-        run:  ./mvnw test -Dspring.profiles.active=postgres
+        run:  ./mvnw test -D spring.profiles.active=postgres
         env:
           POSTGRES_HOST: postgres
 ```
@@ -620,7 +620,7 @@ Actions`. Crea la rama `integracion-gh-actions`.
     $ docker container ls
     CONTAINER ID   IMAGE         PORTS                    NAMES
     411d8f2ea46c   postgres:13   0.0.0.0:5432->5432/tcp   postgres-test
-    ./mvnw -Dspring.profiles.active=postgres test
+    ./mvnw -D spring.profiles.active=postgres test
     ```
 
 4. Comprueba que podemos modificar los parámetros definidos en las
@@ -628,7 +628,7 @@ Actions`. Crea la rama `integracion-gh-actions`.
    de la conexión con la base de datos los tests deben de fallar:
    
     ```
-    $ ./mvnw -Dspring.profiles.active=postgres -DPOSTGRES_HOST=postgres test
+    $ ./mvnw -D spring.profiles.active=postgres -D POSTGRES_HOST=postgres test
     // Aparecerán errores debidos a que no se puede conectar con el
     // host postgres:
     org.postgresql.util.PSQLException: El intento de conexión falló.
