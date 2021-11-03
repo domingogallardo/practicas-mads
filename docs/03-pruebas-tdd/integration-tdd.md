@@ -1197,7 +1197,7 @@ sus equipos:
     }
 ```
 
-Comprueba que el test no falla, haz un commit y súbelo a GitHub.
+Modifica el código para que el test pase, haz un commit y súbelo a GitHub.
 
 #### Décimo test - Método de servicio para obtener los usuarios de un equipo ####
 
