@@ -1251,7 +1251,7 @@ GitHub. Baja los cambios al repositorio local.
 
 - Abre un nuevo _issue_ para implementar el controller y las vistas
 que permitan listar los equipos y consultar sus miembros (por ejemplo,
-pulsando en un enlace en el nombre del equipo).
+pulsando en un enlace en el nombre del equipo a partir del listado).
 
 - Realiza el desarrollo del _issue_ usando varios commits en los que
   añadas las funcionalidades poco a poco. No hace falta que hagas TDD,
