@@ -1311,7 +1311,7 @@ estructura de la empresa.
   
 ## 6. Documentación, entrega y evaluación ##
 
-Deberás añadir una página de documentación `/doc/practica2.md` en la
+Deberás añadir una página de documentación `/doc/practica3.md` en la
 que, al igual que en la práctica anterior, debes realizar una **breve
 documentación técnica** de lo implementado en las historias de usuario
 009 y 010.
