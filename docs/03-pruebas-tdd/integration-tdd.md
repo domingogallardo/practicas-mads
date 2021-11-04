@@ -1319,7 +1319,9 @@ documentación técnica** de lo implementado en las historias de usuario
 En la documentación debes incluir también una **captura de pantalla**
 en la que se muestren las tablas y datos de la base de datos Postgres del
 contenedor docker. Puedes mostrar, por ejempo, una pantalla con el
-panel `Database` de _IntelliJ_ o la herramienta que hayas utilizado.
+panel `Database` de _IntelliJ_ o la herramienta que hayas
+utilizado. Basta solo con una captura de la base de datos de
+desarrollo, no hace falta mostrar la base de datos de test.
 
 Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las **historias de usuario 009 y 010**.
