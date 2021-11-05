@@ -1006,11 +1006,9 @@ $ git push -u origin nueva-rama
 </li>
 <li>
 <p>Descargar una rama del repositorio remoto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git fetch 
-$ git checkout nueva-rama
+<div class="highlight"><pre><span></span><code>$ git fetch 
+$ git checkout nueva-rama 
 </code></pre></div>
-</td></tr></table>
 <p>El comando <code>git fetch</code> se descarga todos los cambios pero no los
 mezcla con las ramas locales. Los deja en ramas <em>remote tracking</em> a las
 que les da el nombre del servidor y la rama
@@ -1023,69 +1021,56 @@ a la rama <code>origin/nueva-rama</code>.</p>
 <li>
 <p>Actualizar una rama con cambios que otros compañeros han subido al
   repositorio remoto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git pull
+<div class="highlight"><pre><span></span><code>$ git pull
 </code></pre></div>
-</td></tr></table>
 <p>El comando <code>git pull</code> es equivalente a un <code>git fetch</code> seguido de
 un <code>git merge</code>. El comando <code>git fetch</code> actualiza la rama remota
 <code>origin/nueva-rama</code>. El comando <code>git pull</code> es equivalente a hacer:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout nueva-rama
+<div class="highlight"><pre><span></span><code>$ git checkout nueva-rama
 $ git fetch
 $ git merge origin/nueva-rama
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Subir cambios de la rama actual:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>(estando en la rama que queremos subir)
+<div class="highlight"><pre><span></span><code>(estando en la rama que queremos subir)
 $ git push
 </code></pre></div>
-</td></tr></table>
 <p>El comando <code>git push</code> funcionará correctamente sin más parámetros
 si previamente hemos subido la rama con un <code>git push -u</code>.</p>
 </li>
 <li>
 <p>Comprobar el estado de las ramas locales y remotas:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git branch -vv
+<div class="highlight"><pre><span></span><code>$ git branch -vv
 </code></pre></div>
-</td></tr></table>
 <p>Este comando no accede directamente al servidor, sino que muestra
 la información de la última vez que se accedió a él. Si queremos
 la información actualizada podemos hacer un <code>git fetch --all</code>
 antes:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git fetch --all
+<div class="highlight"><pre><span></span><code>$ git fetch --all
 $ git branch -vv
 </code></pre></div>
-</td></tr></table>
 <p>Es importante recordar que <code>git fetch</code> (a diferencia de <code>git
 pull</code>) no modifica los repositorios locales, sino que baja las
 ramas remotas cachés locales.</p>
 </li>
 <li>
 <p>Información de los repositorios remotos:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git remote show origin
+<div class="highlight"><pre><span></span><code>$ git remote show origin
 </code></pre></div>
-</td></tr></table>
 <p>Proporciona información del repositorio remoto, todas sus ramas,
 del local y de la conexión entre ambos.</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git remote -v update
+<div class="highlight"><pre><span></span><code>$ git remote -v update
 </code></pre></div>
-</td></tr></table>
 <p>Proporciona información del estado de las ramas remotas y locales
 (si están actualizadas o hay cambios en algunas no bajadas o
 subidas).</p>
 </li>
 <li>
 <p>Borrado de ramas remotas desde el terminal:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git push origin --delete nueva-rama
+<div class="highlight"><pre><span></span><code>$ git push origin --delete nueva-rama
 $ git remote prune origin
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Si necesitamos en la rama de <em>feature</em> código que se haya añadido en
@@ -1093,11 +1078,9 @@ $ git remote prune origin
 <p>Podemos hacer un <em>merge</em> de la rama <code>main</code> en la rama de
 <em>feature</em> para incorporar los avances de código que se han hecho
 en <code>main</code> y que necesitamos en nuestra nueva rama:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout nueva-rama
+<div class="highlight"><pre><span></span><code>$ git checkout nueva-rama
 $ git merge main
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Solución de conflictos en un <em>pull request</em>:</p>
@@ -1106,21 +1089,14 @@ conflictos detectados en un <em>pull request</em>.</p>
 <p>Supongamos que hay un conflicto entre la nueva rama y
 <code>main</code>. GitHub detectará el conflicto en la página de <em>pull
 request</em>. Para arreglar el conflicto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout main
+<div class="highlight"><pre><span></span><code>$ git checkout main
 $ git pull
 $ git checkout nueva-rama
 $ git merge main
-<span class="c1"># arreglar el conflicto</span>
+# arreglar el conflicto
 $ git push
-<span class="c1"># ya se puede hacer el merge en GitHub</span>
+# ya se puede hacer el merge en GitHub
 </code></pre></div>
-</td></tr></table>
 </li>
 </ul>
 <h3 id="pasos-a-seguir_3">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_3" title="Permanent link">&para;</a></h3>
