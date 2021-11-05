@@ -1251,7 +1251,7 @@ GitHub. Baja los cambios al repositorio local.
 
 - Abre un nuevo _issue_ para implementar el controller y las vistas
 que permitan listar los equipos y consultar sus miembros (por ejemplo,
-pulsando en un enlace en el nombre del equipo a partir del listado).
+pulsando en un enlace en el nombre del equipo o con un botón en el listado).
 
 - Realiza el desarrollo del _issue_ usando varios commits en los que
   añadas las funcionalidades poco a poco. No hace falta que hagas TDD,
@@ -1317,11 +1317,12 @@ documentación técnica** de lo implementado en las historias de usuario
 009 y 010.
 
 En la documentación debes incluir también una **captura de pantalla**
-en la que se muestren las tablas y datos de la base de datos Postgres del
-contenedor docker. Puedes mostrar, por ejempo, una pantalla con el
-panel `Database` de _IntelliJ_ o la herramienta que hayas
-utilizado. Basta solo con una captura de la base de datos de
-desarrollo, no hace falta mostrar la base de datos de test.
+en la que se muestren las tablas de la base de datos de desarrollo
+Postgres en la versión final de la aplicación. Puedes mostrar, por
+ejempo, una pantalla con el panel `Database` de _IntelliJ_ o la
+herramienta que hayas utilizado. Basta solo con una captura de la base
+de datos de desarrollo, no hace falta mostrar la base de datos de
+test.
 
 Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las **historias de usuario 009 y 010**.
