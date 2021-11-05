@@ -733,8 +733,7 @@
    que se realizará en la práctica 5.</li>
 </ol>
 <h2 id="2-formacion-de-equipos">2. Formación de equipos<a class="headerlink" href="#2-formacion-de-equipos" title="Permanent link">&para;</a></h2>
-<p>En esta práctica comenzamos a trabajar en equipos de 3 personas (de
-forma excepcional podrían ser 2 o 4 personas).</p>
+<p>En esta práctica comenzamos a trabajar en equipos de 3 personas.</p>
 <p>Cada equipo trabajará con un repositorio común seleccionado de uno de
 los miembros del equipo. Utilizaremos <em>GitHub Classroom</em> para crear el
 <em>team</em> y el repositorio.</p>
@@ -806,7 +805,9 @@ ningún parámetro de configuración.</p>
 <p>De esta forma podremos llamar al comando docker añadiendo al final
 parámetros que se van a pasar al comando java. La forma de añadir
 variables de entorno a ese comando java es precediéndolos con dos
-guiones <code>--</code>.</p>
+guiones <code>--</code>. Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>$ docker run --rm &lt;usuario&gt;/mads-todolist-equipoXX --spring.profiles.active=postgres --POSTGRES_HOST=host-prueba 
+</code></pre></div>
 <p>Vamos a probarlo, creando y subiendo la nueva imagen a
 DockerHub y desplegándola en el servidor de la asignatura.</p>
 <h3 id="pasos-a-seguir_1">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_1" title="Permanent link">&para;</a></h3>
@@ -865,10 +866,10 @@ red. Desde el contenedor con la aplicación se accederá a la dirección
 comandos de docker para definir una red y para lanzar el contenedor de
 base de datos en esa dirección de la red.</p>
 <p>El contenedor de base de datos montará el directorio actual del host
-en el directorio <code>/mi-host</code>. De esta forma, cualquier fichero que
-coloquemos en ese directorio del contenedor será visible en el
-directorio actual del host (y viceversa). Usaremos este directorio
-para guardar la copia de seguridad de la base de datos.</p>
+en el directorio <code>/mi-host</code> del contenedor. De esta forma, cualquier
+fichero que coloquemos en ese directorio del contenedor será visible
+en el directorio actual del host (y viceversa). Usaremos este
+directorio para guardar la copia de seguridad de la base de datos.</p>
 <p>El contenedor de base de datos implementará la base de datos en
 producción. </p>
 <div class="admonition note">
@@ -999,11 +1000,9 @@ en repositorios y ramas remotas.</p>
 <ul>
 <li>
 <p>Subir una rama al repositorio remoto:</p>
-<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>$ git checkout -b nueva-rama
+<div class="highlight"><pre><span></span><code>$ git checkout -b nueva-rama
 $ git push -u origin nueva-rama
 </code></pre></div>
-</td></tr></table>
 </li>
 <li>
 <p>Descargar una rama del repositorio remoto:</p>
