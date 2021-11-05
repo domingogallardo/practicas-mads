@@ -19,8 +19,7 @@ En esta práctica se pretende conseguir:
 
 ## 2. Formación de equipos ##
 
-En esta práctica comenzamos a trabajar en equipos de 3 personas (de
-forma excepcional podrían ser 2 o 4 personas).
+En esta práctica comenzamos a trabajar en equipos de 3 personas.
 
 Cada equipo trabajará con un repositorio común seleccionado de uno de
 los miembros del equipo. Utilizaremos _GitHub Classroom_ para crear el
@@ -107,7 +106,11 @@ ENTRYPOINT ["sh","-c","java -Djava.security.egd=file:/dev/urandom -jar /app.jar 
 De esta forma podremos llamar al comando docker añadiendo al final
 parámetros que se van a pasar al comando java. La forma de añadir
 variables de entorno a ese comando java es precediéndolos con dos
-guiones `--`.
+guiones `--`. Por ejemplo:
+
+```
+$ docker run --rm <usuario>/mads-todolist-equipoXX --spring.profiles.active=postgres --POSTGRES_HOST=host-prueba 
+```
 
 Vamos a probarlo, creando y subiendo la nueva imagen a
 DockerHub y desplegándola en el servidor de la asignatura.
@@ -181,10 +184,10 @@ comandos de docker para definir una red y para lanzar el contenedor de
 base de datos en esa dirección de la red.
 
 El contenedor de base de datos montará el directorio actual del host
-en el directorio `/mi-host`. De esta forma, cualquier fichero que
-coloquemos en ese directorio del contenedor será visible en el
-directorio actual del host (y viceversa). Usaremos este directorio
-para guardar la copia de seguridad de la base de datos.
+en el directorio `/mi-host` del contenedor. De esta forma, cualquier
+fichero que coloquemos en ese directorio del contenedor será visible
+en el directorio actual del host (y viceversa). Usaremos este
+directorio para guardar la copia de seguridad de la base de datos.
 
 El contenedor de base de datos implementará la base de datos en
 producción. 
@@ -358,8 +361,10 @@ en repositorios y ramas remotas.
 
 - Subir una rama al repositorio remoto:
 
-        $ git checkout -b nueva-rama
-        $ git push -u origin nueva-rama
+    ```
+    $ git checkout -b nueva-rama
+    $ git push -u origin nueva-rama
+    ```
 
 - Descargar una rama del repositorio remoto:
 
