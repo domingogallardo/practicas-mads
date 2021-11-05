@@ -517,7 +517,7 @@ en repositorios y ramas remotas.
 
 El flujo de trabajo Git que vamos a seguir es muy similar al flujo de
 trabajo GitFlow (recordad la [clase de
-teoría](https://github.com/domingogallardo/apuntes-mads/blob/main/apuntes/git-workflows/git-workflow.md#gitflow)
+teoría](https://github.com/domingogallardo/apuntes-mads/blob/main/apuntes/08-git-workflows/git-workflow.md#gitflow))
 
 ### Ramas de largo recorrido ###
 
