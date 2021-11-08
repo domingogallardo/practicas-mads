@@ -2,7 +2,7 @@
 # Práctica 4: Trabajo en equipo con GitFlow y diseño de nuevas funcionalidades
 
 !!! Danger "Versión en desarrollo"
-    Última actualización: 07/09/2021
+    Última actualización: 08/11/2021
 
 ## 1. Objetivos y resumen de la práctica ##
 
@@ -277,7 +277,82 @@ Probamos la aplicación y creamos algún usuario de prueba. Por último
 paramos el contenedor y lo volvemos a arrancar para comprobar que los
 datos son persistentes.
 
-### Mantenimiento y copia de seguridad de la base de datos de producción ###
+## 5. Perfil de producción y mantenimiento de la base de datos de producción ##
+
+### Perfil de producción ###
+
+Una vez que vamos a trabajar en producción con una base de datos, esta
+base de datos será un elemento clave de la aplicación. No debemos,
+bajo ningún concepto, perder datos que se hayan introducido en ella,
+ya que son datos de nuestros usuarios y clientes.
+
+Es imprescindible para ello cambiar el modo con el que la aplicación
+construye las tablas de la base de datos. Sabemos que nuestra
+aplicación está trabajando con JPA/Hibernate y que las tablas de la
+base de datos se construyen de forma automática. Si hay algún cambio
+en las entidades (se añade algún atributo o alguna nueva entidad)
+Spring Boot actualiza las tablas de la base de datos de forma
+automática cuando se lanza la aplicación. Esto es razonable si estamos
+trabajando en un entorno de desarrollo, pero está **totalmente
+desaconsejado** en un entorno de producción.
+
+El parámetro `spring.jpa.hibernate.ddl-auto` es el que determina el
+funcionamiento de la actualización de las tablas de la base de
+datos. Su valor puede ser:
+
+- `CREATE`: El esquema de datos se crea de nuevo cada vez que se lanza
+  la aplicación. Una vez creado, se añaden los datos definidos en el
+  fichero `spring.datasource.data` si el
+  `spring.datasource.initialization-mode` tiene como valor
+  `always`. Esta es la forma de funcionar de los tests.
+
+- `UPDATE`: El esquema de datos de la base de datos se actualiza
+  automáticamente cuando hay un cambio en las entidades de la
+  aplicación. Así es como tenemos configurado el perfil por defecto de
+  nuestra aplicación. Si estamos trabajando con la base de datos
+  Postgres, se actualizará el esquema de datos. Pero esto no es
+  recomendable para producción, porque no tenemos control de las
+  instrucciones de actualización y pueden resultar en alguna pérdida
+  de datos.
+
+- `VALIDATE`: El esquema de datos de la base de datos se valida con
+  respecto al esquema de datos definido por las entidades JPA. Si hay
+  alguna diferencia, salta una excepción. Este es el valor que hay que
+  usar cuando lanzamos la aplicación en producción.
+  
+Vamos a definir en la aplicación un nuevo perfil de ejecución, llamado
+`postgres-prod`, en el que pondremos el valor del parámetro
+`spring.jpa.hibernate.ddl-auto` a `VALIDATE`. Y será este el perfil
+que usaremos para lanzar la aplicación en el servidor de producción.
+
+
+### Mantenimiento de la base de datos de producción ###
+
+En una aplicación en producción se deben configurar políticas
+estrictas de realización de copias de seguridad y de integridad de los
+datos. También en la gestión de las versiones y en la actualización
+del esquema de datos. 
+
+Esto último se denomina una _migración_ de la base de datos y
+representa un elemento fundamental del mantenimiento en producción de
+una aplicación, sobre todo cuando estamos trabajando de una forma ágil
+e incremental. Es un tema avanzado muy importante, pero que no podemos
+abordar en la asignatura por falta de tiempo. Un par de referencias
+que os pueden ser de utilidad son el artículo [Evolutionary Database
+Design](https://martinfowler.com/articles/evodb.html) y herramientas
+como
+[Flyway](https://www.baeldung.com/database-migrations-with-flyway) que
+permiten automatizar las migraciones de la base de datos.
+
+En la práctica vamos a trabajar con la base de datos de producción de
+dos formas:
+
+1. Realizaremos una copia de seguridad antes de instalar una nueva
+   versión.
+2. Actualizaremos manualmente el esquema de datos aplicando un fichero
+   de migración que construiremos manualmente.
+
+#### Copias de seguridad ####
 
 Para comprobar que la base de datos está funcionando correctamente
 podemos conectarnos al contenedor y examinar la base de datos `mads` y
@@ -300,9 +375,9 @@ $ docker stop db-equipo01
 $ docker start db-equipo01
 ```
 
-Si eliminamos el contenedor se perderán todos los datos. Con el
-contenedor en marcha podemos hacer una copia de seguridad de la base
-de datos `mads`:
+Si eliminamos el contenedor se perderán todos los datos. Para evitar
+perder los datos, con el contenedor en marcha podemos hacer una copia
+de seguridad de la base de datos `mads` en el directorio compartido:
 
 ```
 $ docker exec -it db-equipo01 bash
@@ -314,16 +389,216 @@ poner la fecha en el nombre del fichero. Por ejemplo, la copia
 anterior ha sido creada el 3 de septiembre del 2021.
 
 Para restaurar una copia de seguridad basta con ejecutar el fichero
-SQL:
-
+SQL en la base de datos:
 
 ```
 $ docker exec -it db-equipo01 bash
 # psql -U mads mads < /mi-host/backup03092021.sql
+# exit
 ```
 
+#### Migración de la base de datos ####
 
-## 5. Nuevo flujo de trabajo para los _issues_ ##
+Podemos obtener el esquema de datos de la aplicación (la definición de
+las tablas, sin los datos) conectándonos al contenedor y ejecutando el
+siguiente comando para guardar el fichero en el directorio compartido:
+
+```
+# pg_dump -U mads -s mads > /mi-host/schema.sql
+# exit
+```
+
+Tendremos el esquema de datos en el directorio actual, que hemos
+montado en el contenedor con la instrucción -V.
+
+Los esquemas son instrucciones SQL en texto plano. Supongamos que
+tenemos una nueva versión de la aplicación (`1.3.0`) en la que hemos
+añadido el atributo `descripcion` a la entidad `Equipo`.
+
+Si generamos el esquema de datos de esta nueva versión y lo llamamos
+`schema-1.3.0.sql` lo podemos comparar con el esquema anterior usando
+el comando de linux `diff`:
+
+```
+% diff sql/schema-1.3.0.sql sql/schema-1.2.0.sql 
+41,42c41
+<     nombre character varying(255),
+<     descripcion character varying(255)
+---
+>     nombre character varying(255)
+```
+
+Por ejemplo, en el ejemplo mostrado, el fichero `schema-1.3.0.sql` tiene un
+campo adicional que el fichero `schema-1.2.0.sql`. Se trata del
+campo `descripcion`. En la versión anterior (`schema-1.2.0.sql`) se
+define como:
+
+```sql
+CREATE TABLE public.equipos (
+    id bigint NOT NULL,
+    nombre character varying(255)
+);
+```
+
+Mientras que en la versión nueva (`schema-1.3.0.sql`) se define como:
+
+```sql
+CREATE TABLE public.equipos (
+    id bigint NOT NULL,
+    nombre character varying(255),
+    descripcion character varying(255)
+);
+```
+
+Si queremos migrar la base de datos de producción de una versión a
+otra, debemos crear un script de migración en el que modifiquemos
+únicamente el esquema de datos anterior para adaptarlo al nuevo.
+
+En este caso el script lo llamaremos `schema-1.2.0-1.3.0.sql` y
+contendrá únicamente la siguiente instrucción:
+
+```sql
+ALTER TABLE public.equipos
+ADD COLUMN descripcion character varying(255)
+```
+
+Para actualizar la base de datos de producción sólo tenemos que
+ejecutar el script anterior:
+
+```
+$ docker exec -it db-equipo01 bash
+$ psql -U mads mads < /mi-host/schema-1.2.0-1.3.0.sql
+ALTER TABLE
+$ exit
+```
+
+De esta forma habremos añadido manualmente un campo en la tabla
+`equipos`.
+
+La aplicación deberá funcionar ahora perfectamente si la lanzamos en
+modo producción, definiendo la variable que hemos mencionado antes con
+el modo `validate`:
+
+```
+spring.jpa.hibernate.ddl-auto=validate
+```
+
+### Pasos a seguir ###
+
+1. Creamos un issue llamado `Esquema de datos y perfil de producción` y trabajamos
+   en la rama `esquema-datos` y en el pull request equivalente.
+   
+    ```
+    $ git checkout -b esquema-datos
+    $ git push -u origin esquema-datos
+    ```
+
+2. Lanzamos la aplicación en local con el modo `postgres`, trabajando
+   sobre la base de datos. Previamente hemos lanzado el contenedor postgres
+   montando el directorio actual en su directorio `/mi-host/`:
+   
+    ```
+    $ docker run -d -p 5432:5432 -v ${PWD}:/mi-host --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+    $ ./mvnw spring-boot:run -D profiles=postgres
+    ```
+
+3. Al lanzar la aplicación se habrá creado en la base de datos el
+   esquema de datos. Lo generamos y lo salvamos en el directorio
+   actual:
+   
+    ```
+    $ docker exec -it postgres-develop bash
+    # pg_dump -U mads -s mads > /mi-host/schema-1.2.0.sql
+    # exit
+    ```
+   
+4. Comprobamos que el esquema de datos se ha creado correctamente y lo
+   movemos al directorio `sql` en el directorio raíz:
+   
+    ```
+    $ ls -l
+    Dockerfile
+    README.md
+    mvnw
+    mvnw.cmd
+    pom.xml
+    schema-1.2.0.sql
+    src
+    target
+    $ mkdir sql
+    $ mv schema-1.2.0.sql sql
+    ```
+
+5. Creamos un commit con el nuevo fichero con el esquema de datos.
+
+6. Creamos un nuevo fichero con el perfil de producción:
+
+    **Fichero `/src/main/resources/application-postgres-prod.properties`**:
+    
+    ```
+    POSTGRES_HOST=localhost
+    POSTGRES_PORT=5432
+    DB_USER=mads
+    DB_PASSWD=mads
+    spring.datasource.url=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/mads
+    spring.datasource.username=${DB_USER}
+    spring.datasource.password=${DB_PASSWD}
+    spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
+    spring.datasource.initialization-mode=never
+    spring.jpa.hibernate.ddl-auto=validate
+    ```
+    
+    Contiene exactamente la misma configuración del perfil postgres,
+    excepto la propiedad `spring.jpa.hibernate.ddl-auto` que tiene el
+    valor `validate`.
+
+7. Probamos en local que el perfil funciona correctamente, lanzándolo:
+
+    ```
+    $ ./mvnw spring-boot:run -D profiles=postgres-prod
+    ```
+
+    Probamos que realmente valida el esquema de datos, en lugar de
+    actualizarlo. Para ello, paramos y borramos el contenedor postgres
+    y lo lanzamos de nuevo. Esto creará una base de datos vacía:
+    
+    ```
+    $ docker container stop docker-develop
+    $ docker container rm docker-develop
+    $ docker run -d -p 5432:5432 -v ${PWD}:/mi-host --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+    ```
+    
+    Si ahora lanzamos la aplicación en modo `postgres-prod`
+    obtendremos un error:
+    
+    ```
+    $ ./mvnw spring-boot:run -D profiles=postgres-prod
+    org.springframework.beans.factory.BeanCreationException: Error
+    creating bean with name 'entityManagerFactory' defined in class
+    path resource  [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: 
+    Invocation of init method failed; nested exception is
+    javax.persistence.PersistenceException: [PersistenceUnit: default]
+    Unable to build Hibernate SessionFactory; nested exception is 
+    org.hibernate.tool.schema.spi.SchemaManagementException: 
+    Schema-validation: missing table [equipo_usuario]
+    ```
+    
+8. Si queremos volver a construir la base de datos, no tenemos más que
+   lanzar la aplicación con el perfile `postgres`, que tiene la
+   propiedad `spring.jpa.hibernate.ddl-auto` con el valor
+   `update`.
+
+9. Hacemos un commit con el nuevo perfil, subimos los cambios y
+   cerramos el pull request y el issue.
+
+10. Nos conectamos al servidor de la asignatura y ponemos en marcha la
+    base de datos de producción y hacemos una copia de seguridad tal y
+    como se explica anteriormente. Dejamos el fichero en el servidor
+    de la asignatura, indicando la fecha en el nombre del mismo. Por
+    ejemplo `backup10112021.sql`.
+
+
+## 6. Nuevo flujo de trabajo para los _issues_ ##
 
 Debemos adaptar el flujo de trabajo en GitHub al trabajo en equipo. En
 cuanto a la gestión de los _issues_ y tablero del proyecto cambiaremos
@@ -513,7 +788,7 @@ en repositorios y ramas remotas.
 - Por último, revisad el código, aceptadlo e integrad el PR en _main_.
 
 
-## 6. Configuración de GitFlow ##
+## 7. Configuración de GitFlow ##
 
 El flujo de trabajo Git que vamos a seguir es muy similar al flujo de
 trabajo GitFlow (recordad la [clase de
@@ -550,10 +825,16 @@ moverse a ella en sus repositorios locales. Esta rama pasará a ser la
 de desarrollo principal.
 
 - Cread tres _issues_ distintos, simulando tres nuevas
-  funcionalidades. Deben ser issues muy sencillos (cambiar el color de
-  algún elemento de la aplicación, cambiar un texto, o algo
-  similar). Cada uno de los miembros del equipo será el responsable de
-  uno de los issues. 
+  funcionalidades. Deben ser issues sencillos, que no cuesten
+  demasiado de implementar (mejorar algún defecto de la aplicación,
+  cambiar algún elemento de alguna de las vistas, o algo
+  similar). **Uno de los cambios debe afectar a alguna entidad**, por
+  ejemplo añadir un campo de descripción a los equipos y actualizar
+  las vistas correspondientes para permitir su inicialización y su
+  actualización.
+
+  Cada uno de los miembros del equipo será el responsable de
+  uno de los issues.
   
 - Configurad el repositorio GitHub para obligar a que cualquier _pull
   request_ tenga que tener la revisión de una persona distinta del
@@ -587,12 +868,15 @@ trabajo.
         - Cambiar en la página `Acerca de` "Versión 1.3.0-SNAPSHOT" a
           "Versión 1.3.0" y añadir la fecha de publicación.
         - Cambiar el fichero `pom.xml`.
+        - Generad el **esquema de datos** de la base de datos postgres
+          y guardarlo en `sql/schema-1.3.0.sql`. 
     - Publicad la rama `release-1.3.0` en GitHub y hacer un pull
       request sobre `main`. Una vez mezclado el PR añadir la
       etiqueta con la nueva versión `1.3.0` en `main` creando la
       página de release en GitHub.
     - Mezclar también la rama de release con `develop` (se puede hacer
       también con un PR).
+    - Subir la nueva versión a Docker Hub.
 
 - Una vez hecho esto ya se puede borrar la rama `release-1.3.0` y las
   ramas `main` y `develop` estarán actualizadas a la nueva
@@ -608,17 +892,28 @@ Las ramas de hotfix son ramas en las que se solucionan defectos
 encontrados en la última versión publicada. Salen de `main` y se
 mezclan de nuevo en `main` y en `develop`.
 
-En nuestro caso l
+En nuestro caso la mezcla la podemos hacer mediante pull requests.
 
 #### Pasos a seguir ####
 
 - Debéis **realizar un _hot fix_**, simulando la resolución de un
   error, y actualizando el número de versión a `1.3.1`. Haced la
   integración con `main` y `develop` haciendo también pull
-  requests. La integración con develop producirá un conflicto en el
-  número de versión. Mantened el número `1.4.0-SNAPSHOT` de `develop`.
+  requests. Publicar la nueva versión en Docker Hub.
+  
+    La integración con develop producirá un conflicto en el
+    número de versión. Mantened el número `1.4.0-SNAPSHOT` de `develop`.
 
-## 7. Nuevas funcionalidades para la aplicación  ##
+## 7. Despliegue de la nueva versión y actualización de la BD de producción  ##
+
+Deberéis desplegar la nueva versión de la aplicación en el servidor de
+la asignatura, actualizando la base de datos de producción con los
+cambios introducidos. En nuestro caso, habrá que añadir una columna
+adicional a la tabla `Equipos` para la descripción del equipo.
+
+<!--
+
+## 8. Nuevas funcionalidades para la aplicación  ##
 
 Cambiamos totalmente de asunto. Tenemos ahora que dejar de pensar como
 desarrolladores y pensar como **responsables del producto**. Tenemos
@@ -713,6 +1008,8 @@ En la primera semana de la práctica 5 el profesor se reunirá con el
 equipo y podrá pediros alguna aclaración sobre las propuestas y la
 estimación de tamaño de las funcionalidades antes de validarlas.
 
+
+-->
 
 <!--
 
