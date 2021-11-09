@@ -1,5 +1,5 @@
 
-# Práctica 4: Trabajo en equipo con GitFlow y diseño de nuevas funcionalidades
+# Práctica 4: Trabajo en equipo con GitFlow y despliegue en producción
 
 ## 1. Objetivos y resumen de la práctica ##
 
