@@ -1,21 +1,17 @@
 
 # Práctica 4: Trabajo en equipo con GitFlow y diseño de nuevas funcionalidades
 
-!!! Danger "Versión en desarrollo"
-    Última actualización: 08/11/2021
-
 ## 1. Objetivos y resumen de la práctica ##
 
 En esta práctica se pretende conseguir:
 
 1. Crear los equipos de trabajo en GitHub.
 2. Adaptar el flujo de trabajo en Git y GitHub al trabajo en equipo.
-    - Implementar GitFlow.
+3. Desplegar la aplicación usando una base de datos de producción y
+   mantener esta base de datos.
+4. Implementar GitFlow:
     - Desarrollar nuevas features con GitFlow.
     - Lanzamiento de una versión nueva usando GitFlow.
-3. Preparar el _backlog_ del producto con las nuevas historias de
-   usuario a implementar en la siguiente iteración de la aplicación
-   que se realizará en la práctica 5.
 
 ## 2. Formación de equipos ##
 
@@ -40,7 +36,7 @@ _team_ y el repositorio.
 
     El equipo trabajará con un repositorio creado por GitHub Classroom
     con el nombre `todolist-final-NOMBRE-EQUIPO`. Al igual que en
-    la práctica 2, el repositorio se creará en el grupo `mads-ua-20-21`.
+    la práctica 2, el repositorio se creará en la organización `mads-ua-21-22`.
 
     <img src="imagenes/repo-creado-github-classroom.png" width="700px"/>
 
@@ -76,7 +72,207 @@ _team_ y el repositorio.
     cambios. Comprobad que GitHub Actions sigue funcionando
     correctamente. 
 
-## 3. Contenedor con la aplicación ToDoList ##
+## 3. Nuevo flujo de trabajo para los _issues_ ##
+
+Debemos adaptar el flujo de trabajo en GitHub al trabajo en equipo. En
+cuanto a la gestión de los _issues_ y tablero del proyecto cambiaremos
+lo siguiente:
+
+- **Selección del _issue_**: Al pasar un _issue_ de `To do`a `In
+  progress` se debe asignar un responsable del desarrollo del _issue_.
+- **Nueva rama con el _issue_**: El responsable seleccionado será el que abra una
+  rama nueva para el desarrollo del ticket y la subirá a
+  GitHub.
+- **Desarrollo**: Se trabaja en la rama. Cualquier compañero puede
+  unirse al ticket y trabajar junto con el responsable, trabajando
+  sobre la rama.
+- **Pull request**: Cuando el ticket se ha terminado, el responsable
+  abre un pull request en GitHub y pone la tarjeta en la columna
+  `In pull request`.
+- **Revisión de código**: Los miembros del equipo revisan el código en
+  el pull request (consultar documentación en GitHub: [Reviewing
+  proposed changes in a pull
+  request](https://help.github.com/articles/reviewing-proposed-changes-in-a-pull-request/)). Al
+  menos uno de los miembros del equipo deben dar el OK, añadiendo una
+  reacción. Debéis configurar la opción de GitHub que obliga a que
+  haya un [mínimo de revisores](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/enabling-required-reviews-for-pull-requests) en el pull request.
+- **Integración del pull request**: Cuando un miembro da el OK, el
+  responsable de la tarea integra el pull request.
+
+Para implementar el trabajo en equipo será necesario trabajar sobre
+ramas remotas compartidas. A continuación explicamos con más detalle
+algunos aspectos comandos de Git necesarios.
+
+### Comandos Git ###
+
+Veamos algunos comandos de Git relacionados con el trabajo compartido
+en repositorios y ramas remotas.
+
+- Subir una rama al repositorio remoto:
+
+    ```
+    $ git checkout -b nueva-rama
+    $ git push -u origin nueva-rama
+    ```
+
+- Descargar por primera vez una rama del repositorio remoto y moverse
+  a ella
+
+    ```
+    $ git fetch
+    $ git checkout nueva-rama 
+    ```
+
+    El comando `git fetch` se descarga todos los cambios pero no los
+    mezcla con las ramas locales. Los deja en ramas locales conectadas
+    con las remotas (ramas _remote tracking_) a las que les da el
+    nombre del servidor y la rama (`origin/nueva-rama`). Estas ramas
+    _remote tracking_ son de solo lectura y no podemos hacer commits
+    en ellas. Para trabajar con ellas hay que crear una rama local
+    conectada a ella (normalmente tendrá el mismo nombre, por ejemplo
+    `nueva-rama`). 
+
+    En el caso del comando anterior, el comando `git checkout
+    nueva-rama` es equivalente a `git checkout -b nueva-rama
+    origin/nueva-rama`. Se crea una rama local `nueva-rama` conectada
+    a la rama `origin/nueva-rama`.
+
+- Actualizar una rama con cambios que otros compañeros han subido al
+  repositorio remoto:
+
+    ```
+    $ git checkout nueva-rama
+    $ git pull
+    ```
+
+    El comando `git pull` es equivalente a un `git fetch` seguido de
+    un `git merge`. El comando `git fetch` actualiza la rama local
+    conectada con la _remote tracking_ `origin/nueva-rama`. El comando `git pull`
+    es equivalente a hacer:
+
+    ```
+    $ git checkout nueva-rama
+    $ git fetch
+    $ git merge origin/nueva-rama
+    ```
+
+- Subir cambios de la rama actual:
+
+    ```
+    (estando en la rama que queremos subir)
+    $ git push
+    ```
+
+    El comando `git push` funcionará correctamente sin más parámetros
+    si previamente hemos subido la rama con un `git push -u`.
+
+- Comprobar el estado de las ramas locales y remotas:
+
+    ```
+    $ git branch -vv
+    ```
+
+    Este comando no accede directamente al servidor, sino que muestra
+    la información de la última vez que se accedió a él. Si queremos
+    la información actualizada podemos hacer un `git fetch --all`
+    antes:
+
+    ```
+    $ git fetch --all
+    $ git branch -vv
+    ```
+
+    Es importante recordar que `git fetch` (a diferencia de `git
+    pull`) no modifica los repositorios locales, sino que actualiza
+    las ramas _remote tracking_.
+
+- Información de los repositorios remotos:
+
+    ```
+    $ git remote show origin
+    ```
+
+    Proporciona información del repositorio remoto, todas sus ramas,
+    del local y de la conexión entre ambos.
+
+    ```
+    $ git remote -v update
+    ```
+
+    Proporciona información del estado de las ramas remotas y locales
+    (si están actualizadas o hay cambios en algunas no bajadas o
+    subidas).
+
+- Borrado de ramas remotas desde el terminal:
+
+    ```
+    $ git push origin --delete nueva-rama
+    $ git remote prune origin
+    ```
+
+- Si necesitamos en la rama de _feature_ código que se haya añadido en
+  la rama `main`.
+  
+    Podemos hacer un _merge_ de la rama `main` en la rama de
+    _feature_ para incorporar los avances de código que se han hecho
+    en `main` y que necesitamos en nuestra nueva rama:
+    
+    ```
+    $ git checkout nueva-rama
+    $ git merge main
+    ```
+
+
+- Solución de conflictos en un _pull request_:
+
+    Recordamos lo que hemos visto en teoría sobre la solución de
+    conflictos detectados en un _pull request_.
+    
+    Supongamos que hay un conflicto entre la nueva rama y
+    `main`. GitHub detectará el conflicto en la página de _pull
+    request_. Para arreglar el conflicto:
+    
+    ```
+    $ git checkout main
+    $ git pull
+    $ git checkout nueva-rama
+    $ git merge main
+    # arreglar el conflicto
+    $ git push
+    # ya se puede hacer el merge en GitHub
+    ```
+    
+### Pasos a seguir ###
+
+1. Añadid el milestone 1.3.0 y etiquetad todos los próximos issues con
+  él. Probad el nuevo flujo de trabajo descrito anteriormente creando
+  un nuevo _issue_ denominado `Actualizar la página Acerca de`. En la
+  descripción de _issue_ comentad que se debe modificar la página para
+  que muestren todos los miembros del equipo y el nuevo número de
+  versión de la aplicación (`1.3.0-SNAPSHOT`).
+
+2. Escoged una persona del equipo como responsable del _issue_. El
+  responsable del _issue_ será el responsable de integrarlo en
+  `main` y de solucionar los conflictos que puedan surgir.
+
+3. Probad los comandos Git anteriores en una rama en la que se
+  resuelva el _issue_. Cada miembro del equipo deberá descargar esa
+  rama y realizar un commit en el que se añada su nombre a la lista de
+  autores de la aplicación.
+
+4. Cread el pull request en GitHub, poniendo como responsable del PR al
+  mismo responsable del _issue_.
+
+5. Provocad un conflicto y arregladlo. Para ello se debe añadir un
+  commit en `main` que entre en conflicto con los cambios realizados
+  en la rama. Después se arreglará el conflicto y se subirá la
+  solución al pull request.
+
+6. Por último, revisad el código, aceptadlo e integrad el PR en
+   _main_.
+
+
+## 4. Contenedor con la aplicación ToDoList ##
 
 Una de las cosas que vamos a hacer en esta práctica (en el siguiente
 apartado) es poner en producción en el servidor de la asignatura la
@@ -119,7 +315,10 @@ DockerHub y desplegándola en el servidor de la asignatura.
 
 Debéis hacer lo siguiente:
 
-1. Cambiad el fichero Dockerfile de la aplicación tal y como se indica en el listado
+1. Creamos un issue llamado `Configuración imagen docker` y
+   trabajamos en la rama `imagen-docker`.
+
+2. Cambiad el fichero Dockerfile de la aplicación tal y como se indica en el listado
    anterior:
    
     **Fichero `Dockerfile`**:
@@ -130,12 +329,13 @@ Debéis hacer lo siguiente:
     ENTRYPOINT ["sh","-c","java -Djava.security.egd=file:/dev/urandom -jar /app.jar ${0} ${@}"]
     ```
 
-2. Cread la nueva imagen Docker con el nombre
-   `mads-todolist-equipoXX`. El usuario puede ser cualquier miembro
+3. Cread la nueva imagen Docker con el nombre
+   `mads-todolist-equipoXX` y la etiqueta `1.3.0-snapshot`. El usuario puede ser cualquier miembro
    del equipo, no es necesario que sea el autor del proyecto original.
    
     ```
-    $ docker build -t <usuario-docker>/mads-todolist-equipoXX . 
+    $ ./mvnw package
+    $ docker build -t <usuario-docker>/mads-todolist-equipoXX:1.3.0-snapshot . 
     ```
 
 3. Probad que funcionan correctamente los parámetros de configuración
@@ -146,7 +346,7 @@ Debéis hacer lo siguiente:
    que sí que se ha cargado el perfil).
    
     ```
-    $ docker run --rm <usuario>/mads-todolist-equipoXX --spring.profiles.active=postgres --POSTGRES_HOST=host-prueba 
+    $ docker run --rm <usuario>/mads-todolist-equipoXX:1.3.0-snapshot --spring.profiles.active=postgres --POSTGRES_HOST=host-prueba 
     ```
 
     <img src="imagenes/perfil-contenedor.png" width="700px" />
@@ -160,7 +360,7 @@ Debéis hacer lo siguiente:
     ````
 
 
-## 4. Despliegue en producción con BD ##
+## 5. Despliegue en producción con BD ##
 
 Vamos a ver cómo ejecutar en producción el contenedor con la
 aplicación de forma que se conecte con una base de datos postgres.
@@ -187,7 +387,8 @@ El contenedor de base de datos montará el directorio actual del host
 en el directorio `/mi-host` del contenedor. De esta forma, cualquier
 fichero que coloquemos en ese directorio del contenedor será visible
 en el directorio actual del host (y viceversa). Usaremos este
-directorio para guardar la copia de seguridad de la base de datos.
+directorio para guardar datos de la base de datos, como copias de
+seguridad o ficheros de migración.
 
 El contenedor de base de datos implementará la base de datos en
 producción. 
@@ -212,72 +413,95 @@ Veamos paso a paso cómo crear la configuración anterior. En muchos
 casos tendremos que usar el nombre de nuestro equipo. En los ejemplos
 hemos usado `equipo01`. Debéis cambiarlo por el nombre de vuestro equipo.
 
-Nos conectamos al servidor de la asignatura con uno de los usuarios
-del equipo:
+1. Nos conectamos al servidor de la asignatura con uno de los usuarios
+   del equipo. La dirección IP está en un mensaje enviado al foro de
+   la asignatura.
 
-```
-$ ssh alu02@<direccion-IP>
-```
+    ```
+    $ ssh alu02@<direccion-IP>
+    ```
 
-Creamos una red gestionada por Docker:
+2. Creamos una red gestionada por Docker:
 
-```
-$ docker network create network-equipo01
-```
+    ```
+    $ docker network create network-equipo01
+    ```
 
-Lanzamos el contenedor con la base de datos usando la red creada
-anteriormente y con el nombre `db-equipo01`. Definimos el nombre del
-host creado en el contenedor como `postgres` con el modificador
-`--network-alias`.
+3. Lanzamos el contenedor con la base de datos usando la red creada
+  anteriormente y con el nombre `db-equipo01`. Definimos el nombre del
+  host creado en el contenedor como `postgres` con el modificador
+  `--network-alias`.
 
-```
-$ docker run -d --network network-equipo01 --network-alias postgres -v ${PWD}:/mi-host --name db-equipo01 -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
-```
+    ```
+    $ docker run -d --network network-equipo01 --network-alias postgres -v ${PWD}:/mi-host --name db-equipo01 -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+    ```
 
-El modificador `-v` permite montar el directorio actual en el
-directorio `/mi-host` del contenedor. Vamos a probar que funciona
-correctamente. 
+    El modificador `-v` permite montar el directorio actual en el
+    directorio `/mi-host` del contenedor. Vamos a probar que funciona
+    correctamente. 
 
-Nos conectamos al contenedor lanzando un `bash` interactivo. Estando
-en el contenedor creamos un fichero en el directorio `/mi-host`,
-salimos del contenedor y comprobamos que está en el directorio actual
+4. Nos conectamos al contenedor lanzando un `bash`
+   interactivo. Estando en el contenedor creamos un fichero en el
+   directorio `/mi-host`, salimos del contenedor y comprobamos que
+   está en el directorio actual
 
-```
-$ docker exec -it db-equipo01 bash
-root@e470db191dc6:/# cd /mi-host
-root@e470db191dc6:/mi-host# echo "Hola" > prueba.txt
-root@e470db191dc6:/mi-host# exit
-$ ls
-prueba.txt
-$ more prueba.txt
-Hola
-```
+    ```
+    $ docker exec -it db-equipo01 bash
+    root@e470db191dc6:/# cd /mi-host
+    root@e470db191dc6:/mi-host# echo "Hola" > prueba.txt
+    root@e470db191dc6:/mi-host# exit
+    $ ls
+    prueba.txt
+    $ more prueba.txt
+    Hola
+    ```
 
-Con esto ya tenemos configurado y en marcha el contenedor con la base
-de datos Postgres. Esta va a ser nuestra base de datos de
-producción. Vamos ahora a poner en marcha la aplicación. 
+5. Con esto ya tenemos configurado y en marcha el contenedor con la
+   base de datos Postgres. Esta va a ser nuestra base de datos de
+   producción. Vamos ahora a poner en marcha la aplicación.
 
-Descargamos la última versión de nuestra aplicación y lanzamos el
-contenedor usando la red definida anteriormente. Los modificadores
-`--spring.profiles.active` y `--POSTGRES_HOST` permiten pasar al
-contenedor esas variables del entorno.
+    Descargamos la última versión de nuestra aplicación y lanzamos el
+    contenedor usando la red definida anteriormente. Los modificadores
+    `--spring.profiles.active` y `--POSTGRES_HOST` permiten pasar al
+    contenedor esas variables del entorno.
 
-```
-$ docker pull <usuario>/mads-todolist-equipo01
-$ docker run --rm --name spring-boot-equipo01 --network network-equipo01 -p8080:8080 <usuario>/mads-todolist-equipo01 --spring.profiles.active=postgres --POSTGRES_HOST=postgres
-```
+    ```
+    $ docker pull <usuario>/mads-todolist-equipo01:1.3.0-snapshot
+    $ docker run --rm --name spring-boot-equipo01 --network network-equipo01 -p8080:8080 <usuario>/mads-todolist-equipo01:1.3.0-snapshot --spring.profiles.active=postgres --POSTGRES_HOST=postgres
+    ```
 
-¡¡¡Enhorabuena!!! ¡Ya tenemos la aplicación en producción trabajando
-con la base de datos!
+    ¡¡¡Enhorabuena!!! ¡Ya tenemos la aplicación en producción
+    trabajando con la base de datos!
 
-Podremos conectarnos a la aplicación usando la dirección IP del
-servidor de la asignatura y el puerto 8080.
+    Podremos conectarnos a la aplicación usando la dirección IP del
+    servidor de la asignatura y el puerto 8080.
 
-Probamos la aplicación y creamos algún usuario de prueba. Por último
-paramos el contenedor y lo volvemos a arrancar para comprobar que los
-datos son persistentes.
+    Probamos la aplicación y creamos algún usuario de prueba. Por último
+    paramos el contenedor y lo volvemos a arrancar para comprobar que los
+    datos son persistentes.
 
-## 5. Perfil de producción y mantenimiento de la base de datos de producción ##
+6. Para comprobar que la base de datos está funcionando correctamente
+   podemos conectarnos al contenedor y examinar la base de datos
+   `mads` y alguna de sus tablas:
+
+    ```
+    $ docker exec -it db-equipo01 bash
+    # psql -U mads -W mads (nos pedirá la contraseña: mads)
+    # \l (lista las bases de datos)
+    # \dt (lista las tablas)
+    # SELECT * FROM usuarios;
+    ```
+
+    La base de datos se mantendrá mientras que no borremos el
+    contenedor. Podemos pararlo y volver a ponerlo en marcha y seguiremos
+    conservando los datos:
+
+    ```
+    $ docker stop db-equipo01
+    $ docker start db-equipo01
+    ```
+
+## 6. Perfil de producción y mantenimiento de la base de datos de producción ##
 
 ### Perfil de producción ###
 
@@ -349,35 +573,16 @@ dos formas:
 
 1. Realizaremos una copia de seguridad antes de instalar una nueva
    versión.
-2. Actualizaremos manualmente el esquema de datos aplicando un fichero
-   de migración que construiremos manualmente.
+2. Actualizaremos el esquema de datos aplicando un fichero de
+   migración que construiremos manualmente.
 
 #### Copias de seguridad ####
 
-Para comprobar que la base de datos está funcionando correctamente
-podemos conectarnos al contenedor y examinar la base de datos `mads` y
-alguna de sus tablas:
 
-```
-$ docker exec -it db-equipo01 bash
-# psql -U mads -W mads
-# \l
-# \dt
-# SELECT * FROM usuarios;
-```
-
-La base de datos se mantendrá mientras que no borremos el
-contenedor. Podemos pararlo y volver a ponerlo en marcha y seguiremos
-conservando los datos:
-
-```
-$ docker stop db-equipo01
-$ docker start db-equipo01
-```
-
-Si eliminamos el contenedor se perderán todos los datos. Para evitar
-perder los datos, con el contenedor en marcha podemos hacer una copia
-de seguridad de la base de datos `mads` en el directorio compartido:
+Si eliminamos el contenedor con la base de datos se perderán todos los
+datos. Para evitar perder los datos, con el contenedor en marcha
+podemos hacer una copia de seguridad de la base de datos `mads` en el
+directorio compartido:
 
 ```
 $ docker exec -it db-equipo01 bash
@@ -404,6 +609,7 @@ las tablas, sin los datos) conectándonos al contenedor y ejecutando el
 siguiente comando para guardar el fichero en el directorio compartido:
 
 ```
+$ docker exec -it db-equipo01 bash
 # pg_dump -U mads -s mads > /mi-host/schema.sql
 # exit
 ```
@@ -430,8 +636,8 @@ el comando de linux `diff`:
 
 Por ejemplo, en el ejemplo mostrado, el fichero `schema-1.3.0.sql` tiene un
 campo adicional que el fichero `schema-1.2.0.sql`. Se trata del
-campo `descripcion`. En la versión anterior (`schema-1.2.0.sql`) se
-define como:
+campo `descripcion`. En la versión anterior (`schema-1.2.0.sql`) la
+tabla `equipo` se define como:
 
 ```sql
 CREATE TABLE public.equipos (
@@ -598,197 +804,7 @@ spring.jpa.hibernate.ddl-auto=validate
     ejemplo `backup10112021.sql`.
 
 
-## 6. Nuevo flujo de trabajo para los _issues_ ##
-
-Debemos adaptar el flujo de trabajo en GitHub al trabajo en equipo. En
-cuanto a la gestión de los _issues_ y tablero del proyecto cambiaremos
-lo siguiente:
-
-- **Selección del _issue_**: Al pasar un _issue_ de `To do`a `In
-  progress` se debe asignar un responsable del desarrollo del _issue_.
-- **Nueva rama con el _issue_**: El responsable seleccionado será el que abra una
-  rama nueva para el desarrollo del ticket y la subirá a
-  GitHub.
-- **Desarrollo**: Se trabaja en la rama. Cualquier compañero puede
-  unirse al ticket y trabajar junto con el responsable, trabajando
-  sobre la rama.
-- **Pull request**: Cuando el ticket se ha terminado, el responsable
-  abre un pull request en GitHub y pone la tarjeta en la columna
-  `In pull request`.
-- **Revisión de código**: Los miembros del equipo revisan el código en
-  el pull request (consultar documentación en GitHub: [Reviewing
-  proposed changes in a pull
-  request](https://help.github.com/articles/reviewing-proposed-changes-in-a-pull-request/)). Al
-  menos uno de los miembros del equipo deben dar el OK, añadiendo una
-  reacción. Debéis configurar la opción de GitHub que obliga a que
-  haya un [mínimo de revisores](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/enabling-required-reviews-for-pull-requests) en el pull request.
-- **Integración del pull request**: Cuando un miembro da el OK, el
-  responsable de la tarea integra el pull request.
-
-Para implementar el trabajo en equipo será necesario trabajar sobre
-ramas remotas compartidas. A continuación explicamos con más detalle
-algunos aspectos comandos de Git necesarios.
-
-### Comandos Git ###
-
-Veamos algunos comandos de Git relacionados con el trabajo compartido
-en repositorios y ramas remotas.
-
-- Subir una rama al repositorio remoto:
-
-    ```
-    $ git checkout -b nueva-rama
-    $ git push -u origin nueva-rama
-    ```
-
-- Descargar una rama del repositorio remoto:
-
-    ```
-    $ git fetch 
-    $ git checkout nueva-rama 
-    ```
-
-    El comando `git fetch` se descarga todos los cambios pero no los
-    mezcla con las ramas locales. Los deja en ramas _remote tracking_ a las
-    que les da el nombre del servidor y la rama
-    (`origin/nueva-rama`). 
-
-    En el caso del comando anterior, el comando `git checkout
-    nueva-rama` es equivalente a `git checkout -b nueva-rama
-    origin/nueva-rama`. Se crea una rama local `nueva-rama` conectada
-    a la rama `origin/nueva-rama`.
-
-- Actualizar una rama con cambios que otros compañeros han subido al
-  repositorio remoto:
-
-    ```
-    $ git pull
-    ```
-
-    El comando `git pull` es equivalente a un `git fetch` seguido de
-    un `git merge`. El comando `git fetch` actualiza la rama remota
-    `origin/nueva-rama`. El comando `git pull` es equivalente a hacer:
-
-    ```
-    $ git checkout nueva-rama
-    $ git fetch
-    $ git merge origin/nueva-rama
-    ```
-
-- Subir cambios de la rama actual:
-
-    ```
-    (estando en la rama que queremos subir)
-    $ git push
-    ```
-
-    El comando `git push` funcionará correctamente sin más parámetros
-    si previamente hemos subido la rama con un `git push -u`.
-
-- Comprobar el estado de las ramas locales y remotas:
-
-    ```
-    $ git branch -vv
-    ```
-
-    Este comando no accede directamente al servidor, sino que muestra
-    la información de la última vez que se accedió a él. Si queremos
-    la información actualizada podemos hacer un `git fetch --all`
-    antes:
-
-    ```
-    $ git fetch --all
-    $ git branch -vv
-    ```
-
-    Es importante recordar que `git fetch` (a diferencia de `git
-    pull`) no modifica los repositorios locales, sino que baja las
-    ramas remotas cachés locales.
-
-- Información de los repositorios remotos:
-
-    ```
-    $ git remote show origin
-    ```
-
-    Proporciona información del repositorio remoto, todas sus ramas,
-    del local y de la conexión entre ambos.
-
-    ```
-    $ git remote -v update
-    ```
-
-    Proporciona información del estado de las ramas remotas y locales
-    (si están actualizadas o hay cambios en algunas no bajadas o
-    subidas).
-
-- Borrado de ramas remotas desde el terminal:
-
-    ```
-    $ git push origin --delete nueva-rama
-    $ git remote prune origin
-    ```
-
-- Si necesitamos en la rama de _feature_ código que se haya añadido en
-  la rama `main`.
-  
-    Podemos hacer un _merge_ de la rama `main` en la rama de
-    _feature_ para incorporar los avances de código que se han hecho
-    en `main` y que necesitamos en nuestra nueva rama:
-    
-    ```
-    $ git checkout nueva-rama
-    $ git merge main
-    ```
-
-
-- Solución de conflictos en un _pull request_:
-
-    Recordamos lo que hemos visto en teoría sobre la solución de
-    conflictos detectados en un _pull request_.
-    
-    Supongamos que hay un conflicto entre la nueva rama y
-    `main`. GitHub detectará el conflicto en la página de _pull
-    request_. Para arreglar el conflicto:
-    
-    ```
-    $ git checkout main
-    $ git pull
-    $ git checkout nueva-rama
-    $ git merge main
-    # arreglar el conflicto
-    $ git push
-    # ya se puede hacer el merge en GitHub
-    ```
-    
-### Pasos a seguir ###
-
-- Probad el nuevo flujo de trabajo en el tablero del proyecto creando
-  un nuevo _issue_ denominado `Actualizar la página Acerca de`. En la
-  descripción de _issue_ comentad que se debe modificar la página para
-  que muestren todos los miembros del equipo y el nuevo número de
-  versión de la aplicación (`1.3.0-SNAPSHOT`).
-
-- Escoged una persona del equipo como responsable del _issue_. El
-  responsable del _issue_ será el responsable de integrarlo en
-  `main` y de solucionar los conflictos que puedan surgir.
-
-- Probad los comandos Git anteriores en una rama en la que se resuelva
-  el _issue_. Cada miembro del equipo deberá realizar un commit en el
-  que se añada su nombre a la lista de autores de la aplicación.
-
-- Cread el pull request en GitHub, poniendo como responsable del PR al
-  mismo responsable del _issue_.
-
-- Provocad un conflicto y arregladlo. Para ello se debe añadir un
-  commit en `main` que entre en conflicto con los cambios realizados
-  en la rama. Después se arreglará el conflicto y se subirá la
-  solución al pull request.
-
-- Por último, revisad el código, aceptadlo e integrad el PR en _main_.
-
-
-## 7. Configuración de GitFlow ##
+## 7. Desarrollo de la nueva versión con GitFlow ##
 
 El flujo de trabajo Git que vamos a seguir es muy similar al flujo de
 trabajo GitFlow (recordad la [clase de
@@ -817,14 +833,14 @@ integrarán en `develop`. La diferencia es que en GitFlow estas ramas
 se integran con la rama de desarrollo manualmente haciendo `merge`,
 mientras que nosotros las integramos haciendo un pull request.
 
-#### Pasos a seguir ####
+### Pasos a seguir ###
 
-- Cread la rama **`develop`** y configurarla como rama principal del
-proyecto en GitHub. Todos los otros miembros deberán descargarla y
-moverse a ella en sus repositorios locales. Esta rama pasará a ser la
-de desarrollo principal.
+1. Cread la rama **`develop`** y configurarla como rama principal del
+  proyecto en GitHub. Todos los otros miembros deberán descargarla y
+  moverse a ella en sus repositorios locales. Esta rama pasará a ser
+  la de desarrollo principal.
 
-- Cread tres _issues_ distintos, simulando tres nuevas
+2. Cread tres _issues_ distintos, simulando tres nuevas
   funcionalidades. Deben ser issues sencillos, que no cuesten
   demasiado de implementar (mejorar algún defecto de la aplicación,
   cambiar algún elemento de alguna de las vistas, o algo
@@ -833,18 +849,18 @@ de desarrollo principal.
   las vistas correspondientes para permitir su inicialización y su
   actualización.
 
-  Cada uno de los miembros del equipo será el responsable de
-  uno de los issues.
+    Cada uno de los miembros del equipo será el responsable de
+    uno de los issues.
   
-- Configurad el repositorio GitHub para obligar a que cualquier _pull
+3. Configurad el repositorio GitHub para obligar a que cualquier _pull
   request_ tenga que tener la revisión de una persona distinta del
   responsable del PR.
   
-- Desarrollad e integrar los issues en `develop` siguiendo el flujo de
+4. Desarrollad e integrar los issues en `develop` siguiendo el flujo de
   trabajo planteado anteriormente. Debéis ir actualizando el tablero
   de GitHub se actualiza correctamente.
 
-### Ramas de release ###
+### Rama de release ###
 
 Hasta ahora hemos hecho los _releases_ en la rama `main`. A partir
 de ahora seguiremos la estrategia de GitFlow y haremos ramas de
@@ -853,67 +869,70 @@ _release_ que salen de `develop` y se integran en `main` y en
 
 Haremos también la integración haciendo pull request.
 
-#### Pasos a seguir ####
+Una cosa importante que tendremos que hacer en el release es crear el
+guardar el de datos de la nueva versión y crear el script de migración
+de la base de datos.
+
+### Pasos a seguir ###
 
 Vamos a probar el lanzamiento de una release usando el flujo de
-trabajo. 
+trabajo GitFlow.
 
-- Cread un _issue_ con la tarea _Lanzar release 1.3.0_.
+1. Cread un _issue_ con la tarea _Lanzar release 1.3.0_.
 
-- Debéis **publicar la nueva versión** siguiendo los pasos de GitFlow:
-  
-    - Cread la rama local `release-1.3.0` a partir de `develop`.
-    - Realizad en esta rama los cambios específicos de la versión. En
-      nuestro caso:
-        - Cambiar en la página `Acerca de` "Versión 1.3.0-SNAPSHOT" a
+2. Siguiendo las indicaciones de GitFlow, crear la rama local
+   `release-1.3.0` a partir de `develop`.
+   
+3. En esta rama se deben realizar los cambios específicos de la
+   versión. En nuestro caso:
+   
+    - Cambiar en la página `Acerca de` "Versión 1.3.0-SNAPSHOT" a
           "Versión 1.3.0" y añadir la fecha de publicación.
-        - Cambiar el fichero `pom.xml`.
-        - Generad el **esquema de datos** de la base de datos postgres
-          y guardarlo en `sql/schema-1.3.0.sql`. 
-    - Publicad la rama `release-1.3.0` en GitHub y hacer un pull
-      request sobre `main`. Una vez mezclado el PR añadir la
-      etiqueta con la nueva versión `1.3.0` en `main` creando la
-      página de release en GitHub.
-    - Mezclar también la rama de release con `develop` (se puede hacer
-      también con un PR).
-    - Subir la nueva versión a Docker Hub.
+    - Cambiar el fichero `pom.xml`.
+    - Generad el **esquema de datos** de la base de datos postgres
+      y guardarlo en `sql/schema-1.3.0.sql`. 
+    - Comparar este esquema con el esquema anterior y crear el script
+      de migración con las instrucciones `ALTER TABLE` necesarias para
+      actualizar la base de datos de producción de la versión 1.2.0 a
+      la 1.3.0. Guardar el script en `sql/schema-1.2.0-1.3.0.sql`.
+    
+4. Publicad la rama `release-1.3.0` en GitHub y hacer un pull
+   request sobre `main`. Una vez mezclado el PR añadir la
+   etiqueta con la nueva versión `1.3.0` en `main` creando la
+   página de release en GitHub.
 
-- Una vez hecho esto ya se puede borrar la rama `release-1.3.0` y las
+5.  Mezclar también la rama de release con `develop` (se puede hacer
+    también con un PR).
+
+6. Subir la nueva versión de la imagen de docker a Docker Hub.
+
+7. Una vez hecho esto ya se puede borrar la rama `release-1.3.0` y las
   ramas `main` y `develop` estarán actualizadas a la nueva
   versión. Hacer por último un commit en `develop` (no hace falta PR)
   cambiando la versión a `1.4.0-SNAPSHOT`.
 
-- Debemos comprobar que GitHub Actions pasa correctamente todos los
-  tests de las nuevas características que se añaden.
+8. Debemos comprobar que GitHub Actions pasa correctamente todos los
+   tests de las nuevas características que se añaden.
 
-### Ramas de hot-fix ###
 
-Las ramas de hotfix son ramas en las que se solucionan defectos
-encontrados en la última versión publicada. Salen de `main` y se
-mezclan de nuevo en `main` y en `develop`.
-
-En nuestro caso la mezcla la podemos hacer mediante pull requests.
-
-#### Pasos a seguir ####
-
-- Debéis **realizar un _hot fix_**, simulando la resolución de un
-  error, y actualizando el número de versión a `1.3.1`. Haced la
-  integración con `main` y `develop` haciendo también pull
-  requests. Publicar la nueva versión en Docker Hub.
-  
-    La integración con develop producirá un conflicto en el
-    número de versión. Mantened el número `1.4.0-SNAPSHOT` de `develop`.
-
-## 7. Despliegue de la nueva versión y actualización de la BD de producción  ##
+## 8. Despliegue de la nueva versión y actualización de la BD de producción  ##
 
 Deberéis desplegar la nueva versión de la aplicación en el servidor de
 la asignatura, actualizando la base de datos de producción con los
-cambios introducidos. En nuestro caso, habrá que añadir una columna
-adicional a la tabla `Equipos` para la descripción del equipo.
+cambios introducidos.
+
+### Pasos a seguir ###
+
+1. Descargar la nueva versión de la aplicación.
+2. Hacer una copia de seguridad de la base de datos, tal y como se
+   explica en el apartado _Mantenimiento de la base de datos de
+   producción_.
+3. Hacer una migración de la base de datos tal y como se explica en el
+   mismo apartado anterior.
 
 <!--
 
-## 8. Nuevas funcionalidades para la aplicación  ##
+## 9. Nuevas funcionalidades para la aplicación  ##
 
 Cambiamos totalmente de asunto. Tenemos ahora que dejar de pensar como
 desarrolladores y pensar como **responsables del producto**. Tenemos
@@ -1154,7 +1173,7 @@ Docker. Usaremos el siguiente `Dockerfile`:
 ```
 #### Stage 1: Build the application
 FROM openjdk:8-jdk-alpine as build
-
+    
 # Set the current working directory inside the image
 WORKDIR /app
 
