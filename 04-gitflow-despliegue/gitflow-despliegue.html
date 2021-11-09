@@ -1582,12 +1582,15 @@ la asignatura, actualizando la base de datos de producción con los
 cambios introducidos.</p>
 <h3 id="pasos-a-seguir_7">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_7" title="Permanent link">&para;</a></h3>
 <ol>
+<li>Conectarse al servidor de la asignatura.</li>
 <li>Descargar la nueva versión de la aplicación.</li>
 <li>Hacer una copia de seguridad de la base de datos, tal y como se
    explica en el apartado <em>Mantenimiento de la base de datos de
    producción</em>.</li>
 <li>Hacer una migración de la base de datos tal y como se explica en el
    mismo apartado anterior.</li>
+<li>Lanzar el contenedor de la aplicación con el perfil <code>postgres-prod</code>
+   y comprobar que funciona correctamente la aplicación en producción.</li>
 </ol>
 <!--
 
