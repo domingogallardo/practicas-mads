@@ -35,7 +35,7 @@ _team_ y el repositorio.
     <img src="imagenes/nombre-repo-github-classroom.png" width="600px"/>
 
     El equipo trabajará con un repositorio creado por GitHub Classroom
-    con el nombre `todolist-final-NOMBRE-EQUIPO`. Al igual que en
+    con el nombre `todolist--NOMBRE-EQUIPO`. Al igual que en
     la práctica 2, el repositorio se creará en la organización `mads-ua-21-22`.
 
     <img src="imagenes/repo-creado-github-classroom.png" width="700px"/>
@@ -59,14 +59,14 @@ _team_ y el repositorio.
     repositorio local y haciendo un push:
 
     ```
-    $ git remote set-url origin https://github.com/mads-ua-20-21/todolist-final-NOMBRE-EQUIPO.git
+    $ git remote set-url origin https://github.com/mads-ua-20-21/todolist-NOMBRE-EQUIPO.git
     $ git push -u origin main
     ```
     Por último, los otros miembros del equipo deberán clonar el
     repositorio para que los tres podáis trabajar con él en local.
 
 - Cambiad el nombre del proyecto (en el fichero `POM.xml` y en el
-  `about.html` a `todolist-final-equipo-XX`.
+  `about.html` a `todolist-equipo-XX`.
 
     Haced un commit directamente en `main` con estos
     cambios. Comprobad que GitHub Actions sigue funcionando
@@ -132,10 +132,20 @@ en repositorios y ramas remotas.
     conectada a ella (normalmente tendrá el mismo nombre, por ejemplo
     `nueva-rama`). 
 
-    En el caso del comando anterior, el comando `git checkout
-    nueva-rama` es equivalente a `git checkout -b nueva-rama
-    origin/nueva-rama`. Se crea una rama local `nueva-rama` conectada
-    a la rama `origin/nueva-rama`.
+    En el caso del comando anterior, el comando
+    
+    ```
+    $ git checkout nueva-rama
+    ```
+    
+    es equivalente a 
+    
+    ```
+    $ git checkout -b nueva-rama origin/nueva-rama
+    ```
+    
+    Se está creando una rama local `nueva-rama` conectada a la rama
+    `origin/nueva-rama`.
 
 - Actualizar una rama con cambios que otros compañeros han subido al
   repositorio remoto:
@@ -163,15 +173,33 @@ en repositorios y ramas remotas.
     $ git push
     ```
 
-    El comando `git push` funcionará correctamente sin más parámetros
-    si previamente hemos subido la rama con un `git push -u`.
-
-- Comprobar el estado de las ramas locales y remotas:
+    Si somos nosotros los que hemos creado la rama, hay que
+    configurarla para que funcione correctamente el `git push`
+    haciendo:
+    
+    ```
+    $ git push -u origin nueva-rama
+    ```
+        
+- Comprobar el estado de las ramas locales:
 
     ```
     $ git branch -vv
     ```
 
+    Con la opción `-a` (`git branch -vva`) se muestra también el
+    estado de las ramas _remote tracking_ de solo lectura (en rojo, y
+    precedidas con el nombre `remotes/`):
+    
+    ```
+    $  git branch -vva
+      main                  dd867ac [origin/main] Colocados esquemas en su directorio
+    * prueba                8d2d093 [origin/prueba] Corrección
+      remotes/origin/HEAD   -> origin/main
+      remotes/origin/main   dd867ac Colocados esquemas en su directorio
+      remotes/origin/prueba 8d2d093 Corrección
+    ```
+    
     Este comando no accede directamente al servidor, sino que muestra
     la información de la última vez que se accedió a él. Si queremos
     la información actualizada podemos hacer un `git fetch --all`
@@ -179,7 +207,7 @@ en repositorios y ramas remotas.
 
     ```
     $ git fetch --all
-    $ git branch -vv
+    $ git branch -vva
     ```
 
     Es importante recordar que `git fetch` (a diferencia de `git
@@ -927,7 +955,9 @@ cambios introducidos.
 2. Descargar la nueva versión de la aplicación.
 3. Hacer una copia de seguridad de la base de datos, tal y como se
    explica en el apartado _Mantenimiento de la base de datos de
-   producción_.
+   producción_. Dejar el fichero de copia de seguridad en el
+   directorio raíz del usuario `alu` con el que se está conectado al
+   servidor de la asignatura.
 4. Hacer una migración de la base de datos tal y como se explica en el
    mismo apartado anterior.
 5. Lanzar el contenedor de la aplicación con el perfil `postgres-prod`
@@ -1442,17 +1472,30 @@ entorno hay que utilizar el flag `-e VARIABLE=valor`.
 -->
 
 
-## 8. Entrega y evaluación ##
+## 8. Documentación, entrega y evaluación ##
+
+Deberéis añadir una página de documentación `/doc/practica4.md` en la
+que deberéis incluir:
+
+- Breve documentación técnica de los cambios introducidos en la
+  aplicación.
+- Detalles del despliegue de producción: usuario `alu` con el que se
+  ha realizado la puesta en producción, así como directorio y fichero
+  en el que se encuentra (en el servidor de la asignatura) el backup
+  de la base de datos de producción. Script de migración de la base de
+  datos.
+  
 
 - La práctica tiene una duración de 2 semanas y debe estar terminada
-  el martes 1 de diciembre.
+  el martes 24 de noviembre.
 - La calificación de la práctica tiene un peso de un 15% en la nota
   final de prácticas.
+- 
 - Para realizar la entrega uno de los miembros del equipo debe subir a
   Moodle un ZIP que contenga todo el proyecto, incluyendo el
   directorio `.git` que contiene la historia Git. Para ello comprime
-  tu directorio local del proyecto **después de haber hecho un `mvn
-  clean`** para eliminar el directorio `target` que contiene los
+  tu directorio local del proyecto después de haber hecho un `mvn
+  clean` para eliminar el directorio `target` que contiene los
   binarios compilados.
 
 Para la evaluación se tendrá en cuenta:
@@ -1460,4 +1503,7 @@ Para la evaluación se tendrá en cuenta:
 - Desarrollo continuo (los _commits_ deben realizarse a lo largo de
   las semanas y no dejar todo para la última).
 - Correcto desarrollo de la metodología.
-- Correcta especificación de las funcionalidades.
+- Diseño e implementación del código y de los tests de las
+  características desarrolladas.
+- Documentación.
+
