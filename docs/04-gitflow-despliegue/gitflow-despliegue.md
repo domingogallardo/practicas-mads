@@ -923,12 +923,15 @@ cambios introducidos.
 
 ### Pasos a seguir ###
 
-1. Descargar la nueva versión de la aplicación.
-2. Hacer una copia de seguridad de la base de datos, tal y como se
+1. Conectarse al servidor de la asignatura.
+2. Descargar la nueva versión de la aplicación.
+3. Hacer una copia de seguridad de la base de datos, tal y como se
    explica en el apartado _Mantenimiento de la base de datos de
    producción_.
-3. Hacer una migración de la base de datos tal y como se explica en el
+4. Hacer una migración de la base de datos tal y como se explica en el
    mismo apartado anterior.
+5. Lanzar el contenedor de la aplicación con el perfil `postgres-prod`
+   y comprobar que funciona correctamente la aplicación en producción.
 
 <!--
 
