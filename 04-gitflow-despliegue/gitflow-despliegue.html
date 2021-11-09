@@ -496,8 +496,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-entrega-y-evaluacion" class="md-nav__link">
-    8. Entrega y evaluación
+  <a href="#8-documentacion-entrega-y-evaluacion" class="md-nav__link">
+    8. Documentación, entrega y evaluación
   </a>
   
 </li>
@@ -762,8 +762,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-entrega-y-evaluacion" class="md-nav__link">
-    8. Entrega y evaluación
+  <a href="#8-documentacion-entrega-y-evaluacion" class="md-nav__link">
+    8. Documentación, entrega y evaluación
   </a>
   
 </li>
@@ -812,7 +812,7 @@ escribiendo el nombre del equipo, como se muestra en la siguiente
 imagen.</p>
 <p><img src="imagenes/nombre-repo-github-classroom.png" width="600px"/></p>
 <p>El equipo trabajará con un repositorio creado por GitHub Classroom
-con el nombre <code>todolist-final-NOMBRE-EQUIPO</code>. Al igual que en
+con el nombre <code>todolist--NOMBRE-EQUIPO</code>. Al igual que en
 la práctica 2, el repositorio se creará en la organización <code>mads-ua-21-22</code>.</p>
 <p><img src="imagenes/repo-creado-github-classroom.png" width="700px"/></p>
 <p>Una vez que la primera persona ha creado el equipo y el
@@ -832,7 +832,7 @@ unirse al equipo creado o crear un nuevo equipo:</p>
   ampliable.</p>
 <p>Subidlo al nuevo repositorio, cambiando la URL del <code>origin</code> del
 repositorio local y haciendo un push:</p>
-<p><div class="highlight"><pre><span></span><code>$ git remote set-url origin https://github.com/mads-ua-20-21/todolist-final-NOMBRE-EQUIPO.git
+<p><div class="highlight"><pre><span></span><code>$ git remote set-url origin https://github.com/mads-ua-20-21/todolist-NOMBRE-EQUIPO.git
 $ git push -u origin main
 </code></pre></div>
 Por último, los otros miembros del equipo deberán clonar el
@@ -840,7 +840,7 @@ repositorio para que los tres podáis trabajar con él en local.</p>
 </li>
 <li>
 <p>Cambiad el nombre del proyecto (en el fichero <code>POM.xml</code> y en el
-  <code>about.html</code> a <code>todolist-final-equipo-XX</code>.</p>
+  <code>about.html</code> a <code>todolist-equipo-XX</code>.</p>
 <p>Haced un commit directamente en <code>main</code> con estos
 cambios. Comprobad que GitHub Actions sigue funcionando
 correctamente. </p>
@@ -899,10 +899,14 @@ nombre del servidor y la rama (<code>origin/nueva-rama</code>). Estas ramas
 en ellas. Para trabajar con ellas hay que crear una rama local
 conectada a ella (normalmente tendrá el mismo nombre, por ejemplo
 <code>nueva-rama</code>). </p>
-<p>En el caso del comando anterior, el comando <code>git checkout
-nueva-rama</code> es equivalente a <code>git checkout -b nueva-rama
-origin/nueva-rama</code>. Se crea una rama local <code>nueva-rama</code> conectada
-a la rama <code>origin/nueva-rama</code>.</p>
+<p>En el caso del comando anterior, el comando</p>
+<div class="highlight"><pre><span></span><code>$ git checkout nueva-rama
+</code></pre></div>
+<p>es equivalente a </p>
+<div class="highlight"><pre><span></span><code>$ git checkout -b nueva-rama origin/nueva-rama
+</code></pre></div>
+<p>Se está creando una rama local <code>nueva-rama</code> conectada a la rama
+<code>origin/nueva-rama</code>.</p>
 </li>
 <li>
 <p>Actualizar una rama con cambios que otros compañeros han subido al
@@ -924,19 +928,32 @@ $ git merge origin/nueva-rama
 <div class="highlight"><pre><span></span><code>(estando en la rama que queremos subir)
 $ git push
 </code></pre></div>
-<p>El comando <code>git push</code> funcionará correctamente sin más parámetros
-si previamente hemos subido la rama con un <code>git push -u</code>.</p>
+<p>Si somos nosotros los que hemos creado la rama, hay que
+configurarla para que funcione correctamente el <code>git push</code>
+haciendo:</p>
+<div class="highlight"><pre><span></span><code>$ git push -u origin nueva-rama
+</code></pre></div>
 </li>
 <li>
-<p>Comprobar el estado de las ramas locales y remotas:</p>
+<p>Comprobar el estado de las ramas locales:</p>
 <div class="highlight"><pre><span></span><code>$ git branch -vv
+</code></pre></div>
+<p>Con la opción <code>-a</code> (<code>git branch -vva</code>) se muestra también el
+estado de las ramas <em>remote tracking</em> de solo lectura (en rojo, y
+precedidas con el nombre <code>remotes/</code>):</p>
+<div class="highlight"><pre><span></span><code>$  git branch -vva
+  main                  dd867ac [origin/main] Colocados esquemas en su directorio
+* prueba                8d2d093 [origin/prueba] Corrección
+  remotes/origin/HEAD   -&gt; origin/main
+  remotes/origin/main   dd867ac Colocados esquemas en su directorio
+  remotes/origin/prueba 8d2d093 Corrección
 </code></pre></div>
 <p>Este comando no accede directamente al servidor, sino que muestra
 la información de la última vez que se accedió a él. Si queremos
 la información actualizada podemos hacer un <code>git fetch --all</code>
 antes:</p>
 <div class="highlight"><pre><span></span><code>$ git fetch --all
-$ git branch -vv
+$ git branch -vva
 </code></pre></div>
 <p>Es importante recordar que <code>git fetch</code> (a diferencia de <code>git
 pull</code>) no modifica los repositorios locales, sino que actualiza
@@ -1586,7 +1603,9 @@ cambios introducidos.</p>
 <li>Descargar la nueva versión de la aplicación.</li>
 <li>Hacer una copia de seguridad de la base de datos, tal y como se
    explica en el apartado <em>Mantenimiento de la base de datos de
-   producción</em>.</li>
+   producción</em>. Dejar el fichero de copia de seguridad en el
+   directorio raíz del usuario <code>alu</code> con el que se está conectado al
+   servidor de la asignatura.</li>
 <li>Hacer una migración de la base de datos tal y como se explica en el
    mismo apartado anterior.</li>
 <li>Lanzar el contenedor de la aplicación con el perfil <code>postgres-prod</code>
@@ -2089,17 +2108,31 @@ $ docker-compose up
 
 -->
 
-<h2 id="8-entrega-y-evaluacion">8. Entrega y evaluación<a class="headerlink" href="#8-entrega-y-evaluacion" title="Permanent link">&para;</a></h2>
+<h2 id="8-documentacion-entrega-y-evaluacion">8. Documentación, entrega y evaluación<a class="headerlink" href="#8-documentacion-entrega-y-evaluacion" title="Permanent link">&para;</a></h2>
+<p>Deberéis añadir una página de documentación <code>/doc/practica4.md</code> en la
+que deberéis incluir:</p>
 <ul>
-<li>La práctica tiene una duración de 2 semanas y debe estar terminada
-  el martes 1 de diciembre.</li>
+<li>Breve documentación técnica de los cambios introducidos en la
+  aplicación.</li>
+<li>
+<p>Detalles del despliegue de producción: usuario <code>alu</code> con el que se
+  ha realizado la puesta en producción, así como directorio y fichero
+  en el que se encuentra (en el servidor de la asignatura) el backup
+  de la base de datos de producción. Script de migración de la base de
+  datos.</p>
+</li>
+<li>
+<p>La práctica tiene una duración de 2 semanas y debe estar terminada
+  el martes 24 de noviembre.</p>
+</li>
 <li>La calificación de la práctica tiene un peso de un 15% en la nota
   final de prácticas.</li>
+<li></li>
 <li>Para realizar la entrega uno de los miembros del equipo debe subir a
   Moodle un ZIP que contenga todo el proyecto, incluyendo el
   directorio <code>.git</code> que contiene la historia Git. Para ello comprime
-  tu directorio local del proyecto <strong>después de haber hecho un <code>mvn
-  clean</code></strong> para eliminar el directorio <code>target</code> que contiene los
+  tu directorio local del proyecto después de haber hecho un <code>mvn
+  clean</code> para eliminar el directorio <code>target</code> que contiene los
   binarios compilados.</li>
 </ul>
 <p>Para la evaluación se tendrá en cuenta:</p>
@@ -2107,7 +2140,9 @@ $ docker-compose up
 <li>Desarrollo continuo (los <em>commits</em> deben realizarse a lo largo de
   las semanas y no dejar todo para la última).</li>
 <li>Correcto desarrollo de la metodología.</li>
-<li>Correcta especificación de las funcionalidades.</li>
+<li>Diseño e implementación del código y de los tests de las
+  características desarrolladas.</li>
+<li>Documentación.</li>
 </ul>
                 
               
