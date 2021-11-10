@@ -1487,7 +1487,7 @@ que deberéis incluir:
   
 
 - La práctica tiene una duración de 2 semanas y debe estar terminada
-  el martes 24 de noviembre.
+  el martes 23 de noviembre.
 - La calificación de la práctica tiene un peso de un 15% en la nota
   final de prácticas.
 - 
