@@ -59,7 +59,7 @@ _team_ y el repositorio.
     repositorio local y haciendo un push:
 
     ```
-    $ git remote set-url origin https://github.com/mads-ua-20-21/todolist-NOMBRE-EQUIPO.git
+    $ git remote set-url origin https://github.com/mads-ua-21-22/todolist-NOMBRE-EQUIPO.git
     $ git push -u origin main
     ```
     Por último, los otros miembros del equipo deberán clonar el
