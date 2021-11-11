@@ -8,6 +8,9 @@ lo que funcionan correctamente conectándose a la base de datos de
 test, o los moqueamos, con lo que se quedan "vacíos" y tenemos que
 decir explícitamente que devuelven las llamadas a los métodos
 
+He cambiado el código de TareaWebTest para que use la BD, mientras que 
+UsuarioWebTest usa los mocks.
+
 Cambio 2:
 
 Cambiar las reglas del tablero de GitHub para solo tener que gestionar
