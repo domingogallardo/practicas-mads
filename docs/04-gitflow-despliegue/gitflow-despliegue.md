@@ -1472,7 +1472,7 @@ entorno hay que utilizar el flag `-e VARIABLE=valor`.
 -->
 
 
-## 8. Documentación, entrega y evaluación ##
+## 9. Documentación, entrega y evaluación ##
 
 Deberéis añadir una página de documentación `/doc/practica4.md` en la
 que deberéis incluir:
