@@ -380,11 +380,11 @@ Debéis hacer lo siguiente:
     <img src="imagenes/perfil-contenedor.png" width="700px" />
     <img src="imagenes/error-contenedor.png" width="700px" />
 
-4. Subid, por último, la imagen a Docker Hub:
+4. Subid, por último, la imagen a Docker Hub y cerrad el PR y el issue.
    
     ````
     $ docker login
-    $ docker push <usuario-docker>/mads-todolist-equipoXX
+    $ docker push <usuario-docker>/mads-todolist-equipoXX:1.3.0-snapshot
     ````
 
 
