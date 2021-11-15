@@ -357,7 +357,25 @@ Debéis hacer lo siguiente:
     ENTRYPOINT ["sh","-c","java -Djava.security.egd=file:/dev/urandom -jar /app.jar ${0} ${@}"]
     ```
 
-3. Cread la nueva imagen Docker con el nombre
+3. Modificad el fichero con el perfil `postgres` de ejecución para
+   incluir la opción de usar variables de entorno, al igual que
+   hicimos en el perfil `postgres` de test.
+   
+    **Fichero `src/main/resources/application-postgres.properties`**:
+   
+    ```
+    POSTGRES_HOST=localhost
+    POSTGRES_PORT=5432
+    DB_USER=mads
+    DB_PASSWD=mads
+    spring.datasource.url=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/mads
+    spring.datasource.username=${DB_USER}
+    spring.datasource.password=${DB_PASSWD}
+    spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
+    spring.datasource.initialization-mode=never
+    ```
+
+4. Cread la nueva imagen Docker con el nombre
    `mads-todolist-equipoXX` y la etiqueta `1.3.0-snapshot`. El usuario puede ser cualquier miembro
    del equipo, no es necesario que sea el autor del proyecto original.
    
@@ -366,7 +384,7 @@ Debéis hacer lo siguiente:
     $ docker build -t <usuario-docker>/mads-todolist-equipoXX:1.3.0-snapshot . 
     ```
 
-3. Probad que funcionan correctamente los parámetros de configuración
+5. Probad que funcionan correctamente los parámetros de configuración
    en la imagen Docker. Una forma sencilla de hacerlo es comprobar que
    se puede definir el perfil de Postgres y modificar alguno de sus
    parámetros. Deberá aparecer un mensaje de error de que no se puede
@@ -380,7 +398,7 @@ Debéis hacer lo siguiente:
     <img src="imagenes/perfil-contenedor.png" width="700px" />
     <img src="imagenes/error-contenedor.png" width="700px" />
 
-4. Subid, por último, la imagen a Docker Hub y cerrad el PR y el issue.
+6. Subid, por último, la imagen a Docker Hub y cerrad el PR y el issue.
    
     ````
     $ docker login
