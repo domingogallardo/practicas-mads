@@ -1084,6 +1084,22 @@ DockerHub y desplegándola en el servidor de la asignatura.</p>
 </code></pre></div>
 </li>
 <li>
+<p>Modificad el fichero con el perfil <code>postgres</code> de ejecución para
+   incluir la opción de usar variables de entorno, al igual que
+   hicimos en el perfil <code>postgres</code> de test.</p>
+<p><strong>Fichero <code>src/main/resources/application-postgres.properties</code></strong>:</p>
+<div class="highlight"><pre><span></span><code>POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+DB_USER=mads
+DB_PASSWD=mads
+spring.datasource.url=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/mads
+spring.datasource.username=${DB_USER}
+spring.datasource.password=${DB_PASSWD}
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
+spring.datasource.initialization-mode=never
+</code></pre></div>
+</li>
+<li>
 <p>Cread la nueva imagen Docker con el nombre
    <code>mads-todolist-equipoXX</code> y la etiqueta <code>1.3.0-snapshot</code>. El usuario puede ser cualquier miembro
    del equipo, no es necesario que sea el autor del proyecto original.</p>
