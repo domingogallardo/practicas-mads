@@ -881,9 +881,11 @@ mientras que nosotros las integramos haciendo un pull request.
 ### Pasos a seguir ###
 
 1. Cread la rama **`develop`** y configurarla como rama principal del
-  proyecto en GitHub. Todos los otros miembros deberán descargarla y
-  moverse a ella en sus repositorios locales. Esta rama pasará a ser
-  la de desarrollo principal.
+  proyecto en GitHub. Añadir en los ajustes del repositorio la regla
+  para obligar a revisar todos los PR que se mezclen en esta rama. Todos
+  los otros miembros deberán descargarla y moverse a ella en sus
+  repositorios locales. Esta rama pasará a ser la de desarrollo
+  principal.
 
 2. Cread tres _issues_ distintos, simulando tres nuevas
   funcionalidades. Deben ser issues sencillos, que no cuesten
