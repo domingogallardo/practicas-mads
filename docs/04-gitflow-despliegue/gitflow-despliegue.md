@@ -547,6 +547,13 @@ hemos usado `equipo01`. Debéis cambiarlo por el nombre de vuestro equipo.
     $ docker start db-equipo01
     ```
 
+7. Deja el contenedor de base de datos parado mientras que no lo estés
+   utilizando para no sobrecargar el servidor:
+   
+   ```
+   $ docker stop db-equipo01
+   ```
+
 ## 6. Perfil de producción y mantenimiento de la base de datos de producción ##
 
 ### Perfil de producción ###
