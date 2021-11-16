@@ -1439,7 +1439,10 @@ $ mv schema-1.2.0.sql sql
 <p>Creamos un commit con el nuevo fichero con el esquema de datos.</p>
 </li>
 <li>
-<p>Creamos un nuevo fichero con el perfil de producción:</p>
+<p>Creamos un nuevo fichero con el perfil de producción, que contiene
+    exactamente la misma configuración del perfil postgres, excepto la
+    propiedad <code>spring.jpa.hibernate.ddl-auto</code> que tiene el valor
+    <code>validate</code>.</p>
 <p><strong>Fichero <code>/src/main/resources/application-postgres-prod.properties</code></strong>:</p>
 <div class="highlight"><pre><span></span><code>POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
@@ -1450,11 +1453,8 @@ spring.datasource.username=${DB_USER}
 spring.datasource.password=${DB_PASSWD}
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
 spring.datasource.initialization-mode=never
-spring.jpa.hibernate.ddl-auto=validate
-</code></pre></div>
-<p>Contiene exactamente la misma configuración del perfil postgres,
-excepto la propiedad <code>spring.jpa.hibernate.ddl-auto</code> que tiene el
-valor <code>validate</code>.</p>
+<span class="hll">spring.jpa.hibernate.ddl-auto=validate
+</span></code></pre></div>
 </li>
 <li>
 <p>Probamos en local que el perfil funciona correctamente, lanzándolo:</p>
