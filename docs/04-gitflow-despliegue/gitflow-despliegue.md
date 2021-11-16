@@ -783,11 +783,14 @@ spring.jpa.hibernate.ddl-auto=validate
 
 5. Creamos un commit con el nuevo fichero con el esquema de datos.
 
-6. Creamos un nuevo fichero con el perfil de producción:
+6. Creamos un nuevo fichero con el perfil de producción, que contiene
+    exactamente la misma configuración del perfil postgres, excepto la
+    propiedad `spring.jpa.hibernate.ddl-auto` que tiene el valor
+    `validate`.
 
     **Fichero `/src/main/resources/application-postgres-prod.properties`**:
     
-    ```
+    ```hl_lines="10"
     POSTGRES_HOST=localhost
     POSTGRES_PORT=5432
     DB_USER=mads
@@ -799,10 +802,6 @@ spring.jpa.hibernate.ddl-auto=validate
     spring.datasource.initialization-mode=never
     spring.jpa.hibernate.ddl-auto=validate
     ```
-    
-    Contiene exactamente la misma configuración del perfil postgres,
-    excepto la propiedad `spring.jpa.hibernate.ddl-auto` que tiene el
-    valor `validate`.
 
 7. Probamos en local que el perfil funciona correctamente, lanzándolo:
 
