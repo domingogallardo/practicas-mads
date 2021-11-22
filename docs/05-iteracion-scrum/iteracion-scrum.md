@@ -1,8 +1,5 @@
 # Práctica 5: Sprint final
 
-!!! Danger "Versión del curso 2020-21"
-    Pendiente de actualizar
-
 ## Objetivos y resumen de la práctica
 
 En esta práctica seguiremos trabajando con los mismos equipos y
@@ -167,10 +164,11 @@ usuario: `Backlog`, `Seleccionadas`, `En marcha`, `En prueba` y `Terminadas`.
 
 Durante el desarrollo del sprint, se deberá añadir en el tablero Trello:
 
-- Responsable de la historia de usuario (otra etiqueta) : miembro del
-  equipo que liderará el desarrollo de la historia. Puede que más de
-  una persona intervenga en el desarrollo de la historia, pero una
-  persona será la responsable. 
+- Responsable de la historia de usuario: miembro del equipo que
+  liderará el desarrollo de la historia. Puede que más de una persona
+  intervenga en el desarrollo de la historia, pero una persona será la
+  responsable. Se debe añadir en la ficha de la historia de usuario,
+  en forma de etiqueta.
   
     Todos los miembros del equipo deberán
     realizar un trabajo equitativo, y se repartirán las historias de
@@ -283,7 +281,7 @@ un informe con la fecha de la reunión, su duración y su desarrollo:
   no puede terminarse por estar bloqueado por otro).
 
 - Se deben crear ramas para los issues y pull requests con revisión de
-  código para integrar los pull requests en `main`. Es suficiente con
+  código para integrar los pull requests en `develop`. Es suficiente con
   que haya una única aprobación para integrar el pull request.
 
 - Seguimos usando GitHub Actions  para la integración continua.
@@ -296,15 +294,23 @@ un informe con la fecha de la reunión, su duración y su desarrollo:
   `En prueba`, se añadirá en la tarjeta el enlace al commit de develop
   en el que se ha realizado la integración y otro miembro del equipo
   realizará las **pruebas manuales** especificadas en sus COS
-  **utilizando la base de datos MySQL**. Cuando se hayan superado
+  **utilizando la base de datos Postgres**. Cuando se hayan superado
   todas las pruebas se pasará la historia a `Terminada`. Si se
   detectara algún fallo, se volverá la historia a `En marcha` y se
   abrirá un issue de tipo `bug` para resolver el problema.
 
-### Publicación de nueva versión  ###
+### Publicación de nueva versión y migración de la base de datos  ###
 
 Al final del desarrollo se deberá lanzar una nueva release (1.4.0) en
-la rama `main`.
+la rama `main` usando los mismos pasos que en la práctica anterior. Se
+debe obtener el esquema de datos de la nueva versión y crear el script
+de migración de la base de datos de producción.
+
+Se debe subir a producción la nueva versión 1.4.0 y aplicar el script
+de migración a la base de datos de producción.
+
+Por último, se comprobará que todas las funcionalidades funcionan
+correctamente en producción.
 
 ### Documentación del desarrollo ###
 
@@ -317,14 +323,14 @@ la rama `main`.
 La práctica tiene una duración de 4 semanas.
 
 - Se realizará una **revisión del sprint** de 15 minutos en las
-  **clases de prácticas del 23 de diciembre**. La revisión
+  **clases de prácticas del 22 de diciembre**. La revisión
   constará de:
     - Presentación con diapositivas en la que se explicará la
       **metodología seguida** en el sprint y las **nuevas funcionalidades** introducidas.
     - Demostración de las nuevas funcionalidades utilizando la última
-      versión subida a GitHub.
+      versión puesta en producción.
 
-- En la fecha límite del **10 de enero** deberá entregar la práctica y
+- En la fecha límite del **11 de enero** deberá entregar la práctica y
   tener disponible:
     - Directorio `doc` en el repositorio del proyecto en el que se
       incluirá un documento PDF con la memoria de la
@@ -353,7 +359,10 @@ La práctica tiene una duración de 4 semanas.
 La calificación de la práctica tiene un peso de un 25% en la nota
 final de prácticas.
 
-Para la evaluación se tendrá en cuenta:
+Se evaluarán dos partes de la práctica: la calidad técnica y el valor
+aportado por las nuevas funcionalidades.
+
+La **calidad técnica** sumará **hasta 6 puntos** y se tendrá en cuenta:
 
 - Desarrollo continuo de los issues
 - Corrección del código
@@ -362,3 +371,15 @@ Para la evaluación se tendrá en cuenta:
 - Si el trabajo de algún miembro del equipo es significativamente de
   menor calidad y/o cantidad que el del resto, se penalizará su
   calificación
+
+El **valor aportado por las funcionalidades** sumará **hasta 4 puntos**. Se
+valorará que las nuevas funcionalidades sean coherentes, sencillas de
+usar, y atractivas. Para dar estos puntos una vez realizadas las
+presentaciones de los 14 equipos, se repartirán 35 puntos entre todos
+ellos. Por ejemplo, estos puntos se podrían repartir de la siguiente
+forma:
+
+- 4 puntos para 3 equipos (12 puntos)
+- 3 puntos para 4 equipos (12 puntos)
+- 2 puntos para 4 equipos (8 puntos)
+- 1 punto para 3 equipos (3 puntos)
