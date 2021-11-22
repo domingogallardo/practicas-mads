@@ -391,8 +391,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#publicacion-de-nueva-version" class="md-nav__link">
-    Publicación de nueva versión
+  <a href="#publicacion-de-nueva-version-y-migracion-de-la-base-de-datos" class="md-nav__link">
+    Publicación de nueva versión y migración de la base de datos
   </a>
   
 </li>
@@ -541,8 +541,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#publicacion-de-nueva-version" class="md-nav__link">
-    Publicación de nueva versión
+  <a href="#publicacion-de-nueva-version-y-migracion-de-la-base-de-datos" class="md-nav__link">
+    Publicación de nueva versión y migración de la base de datos
   </a>
   
 </li>
@@ -580,10 +580,6 @@
                 
                 
                 <h1 id="practica-5-sprint-final">Práctica 5: Sprint final<a class="headerlink" href="#practica-5-sprint-final" title="Permanent link">&para;</a></h1>
-<div class="admonition danger">
-<p class="admonition-title">Versión del curso 2020-21</p>
-<p>Pendiente de actualizar</p>
-</div>
 <h2 id="objetivos-y-resumen-de-la-practica">Objetivos y resumen de la práctica<a class="headerlink" href="#objetivos-y-resumen-de-la-practica" title="Permanent link">&para;</a></h2>
 <p>En esta práctica seguiremos trabajando con los mismos equipos y
 proyecto que en la práctica 4.</p>
@@ -754,10 +750,11 @@ usuario: <code>Backlog</code>, <code>Seleccionadas</code>, <code>En marcha</code
 <p>Durante el desarrollo del sprint, se deberá añadir en el tablero Trello:</p>
 <ul>
 <li>
-<p>Responsable de la historia de usuario (otra etiqueta) : miembro del
-  equipo que liderará el desarrollo de la historia. Puede que más de
-  una persona intervenga en el desarrollo de la historia, pero una
-  persona será la responsable. </p>
+<p>Responsable de la historia de usuario: miembro del equipo que
+  liderará el desarrollo de la historia. Puede que más de una persona
+  intervenga en el desarrollo de la historia, pero una persona será la
+  responsable. Se debe añadir en la ficha de la historia de usuario,
+  en forma de etiqueta.</p>
 <p>Todos los miembros del equipo deberán
 realizar un trabajo equitativo, y se repartirán las historias de
 forma que queden también equilibrados los tamaños totales de las
@@ -889,7 +886,7 @@ un informe con la fecha de la reunión, su duración y su desarrollo:</p>
 </li>
 <li>
 <p>Se deben crear ramas para los issues y pull requests con revisión de
-  código para integrar los pull requests en <code>main</code>. Es suficiente con
+  código para integrar los pull requests en <code>develop</code>. Es suficiente con
   que haya una única aprobación para integrar el pull request.</p>
 </li>
 <li>
@@ -905,15 +902,21 @@ un informe con la fecha de la reunión, su duración y su desarrollo:</p>
   <code>En prueba</code>, se añadirá en la tarjeta el enlace al commit de develop
   en el que se ha realizado la integración y otro miembro del equipo
   realizará las <strong>pruebas manuales</strong> especificadas en sus COS
-  <strong>utilizando la base de datos MySQL</strong>. Cuando se hayan superado
+  <strong>utilizando la base de datos Postgres</strong>. Cuando se hayan superado
   todas las pruebas se pasará la historia a <code>Terminada</code>. Si se
   detectara algún fallo, se volverá la historia a <code>En marcha</code> y se
   abrirá un issue de tipo <code>bug</code> para resolver el problema.</p>
 </li>
 </ul>
-<h3 id="publicacion-de-nueva-version">Publicación de nueva versión<a class="headerlink" href="#publicacion-de-nueva-version" title="Permanent link">&para;</a></h3>
+<h3 id="publicacion-de-nueva-version-y-migracion-de-la-base-de-datos">Publicación de nueva versión y migración de la base de datos<a class="headerlink" href="#publicacion-de-nueva-version-y-migracion-de-la-base-de-datos" title="Permanent link">&para;</a></h3>
 <p>Al final del desarrollo se deberá lanzar una nueva release (1.4.0) en
-la rama <code>main</code>.</p>
+la rama <code>main</code> usando los mismos pasos que en la práctica anterior. Se
+debe obtener el esquema de datos de la nueva versión y crear el script
+de migración de la base de datos de producción.</p>
+<p>Se debe subir a producción la nueva versión 1.4.0 y aplicar el script
+de migración a la base de datos de producción.</p>
+<p>Por último, se comprobará que todas las funcionalidades funcionan
+correctamente en producción.</p>
 <h3 id="documentacion-del-desarrollo">Documentación del desarrollo<a class="headerlink" href="#documentacion-del-desarrollo" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Documentar las sesiones de <em>pair programming</em>.</li>
@@ -925,17 +928,17 @@ la rama <code>main</code>.</p>
 <ul>
 <li>
 <p>Se realizará una <strong>revisión del sprint</strong> de 15 minutos en las
-  <strong>clases de prácticas del 23 de diciembre</strong>. La revisión
+  <strong>clases de prácticas del 22 de diciembre</strong>. La revisión
   constará de:</p>
 <ul>
 <li>Presentación con diapositivas en la que se explicará la
   <strong>metodología seguida</strong> en el sprint y las <strong>nuevas funcionalidades</strong> introducidas.</li>
 <li>Demostración de las nuevas funcionalidades utilizando la última
-  versión subida a GitHub.</li>
+  versión puesta en producción.</li>
 </ul>
 </li>
 <li>
-<p>En la fecha límite del <strong>10 de enero</strong> deberá entregar la práctica y
+<p>En la fecha límite del <strong>11 de enero</strong> deberá entregar la práctica y
   tener disponible:</p>
 <ul>
 <li>Directorio <code>doc</code> en el repositorio del proyecto en el que se
@@ -968,7 +971,9 @@ la rama <code>main</code>.</p>
 </ul>
 <p>La calificación de la práctica tiene un peso de un 25% en la nota
 final de prácticas.</p>
-<p>Para la evaluación se tendrá en cuenta:</p>
+<p>Se evaluarán dos partes de la práctica: la calidad técnica y el valor
+aportado por las nuevas funcionalidades.</p>
+<p>La <strong>calidad técnica</strong> sumará <strong>hasta 6 puntos</strong> y se tendrá en cuenta:</p>
 <ul>
 <li>Desarrollo continuo de los issues</li>
 <li>Corrección del código</li>
@@ -977,6 +982,18 @@ final de prácticas.</p>
 <li>Si el trabajo de algún miembro del equipo es significativamente de
   menor calidad y/o cantidad que el del resto, se penalizará su
   calificación</li>
+</ul>
+<p>El <strong>valor aportado por las funcionalidades</strong> sumará <strong>hasta 4 puntos</strong>. Se
+valorará que las nuevas funcionalidades sean coherentes, sencillas de
+usar, y atractivas. Para dar estos puntos una vez realizadas las
+presentaciones de los 14 equipos, se repartirán 35 puntos entre todos
+ellos. Por ejemplo, estos puntos se podrían repartir de la siguiente
+forma:</p>
+<ul>
+<li>4 puntos para 3 equipos (12 puntos)</li>
+<li>3 puntos para 4 equipos (12 puntos)</li>
+<li>2 puntos para 4 equipos (8 puntos)</li>
+<li>1 punto para 3 equipos (3 puntos)</li>
 </ul>
                 
               
