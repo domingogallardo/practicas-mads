@@ -1,4 +1,4 @@
-# Práctica 5: Sprint 
+# Práctica 5: Sprint final
 
 !!! Danger "Versión del curso 2020-21"
     Pendiente de actualizar
@@ -8,7 +8,7 @@
 En esta práctica seguiremos trabajando con los mismos equipos y
 proyecto que en la práctica 4.
 
-Durante las 3 semanas de la práctica el equipo realizará una iteración
+Durante las 4 semanas de la práctica el equipo realizará una iteración
 para desarrollar un incremento de la aplicación
 `TodoList`. Usaremos el mismo flujo de trabajo de la práctica 4 para
 desarrollar sobre la rama `develop`:
@@ -28,7 +28,109 @@ desarrollar sobre la rama `develop`:
   integraciones de los pull requests en `develop`.
 
 Al final de la práctica se lanzará una nueva versión (`1.4.0`), usando
-el mismo flujo de trabajo que en la práctica anterior.
+el mismo flujo de trabajo que en la práctica anterior, y se presentará
+la aplicación resultante en una demostración en clase.
+
+## Nuevas funcionalidades para la aplicación  ##
+
+Tenemos que diseñar, como **responsables del producto** (_Product
+Owners_), las próximas funcionalidades a implementar en la
+aplicación. Las desarrollaremos en las 4 semanas que durará esta
+práctica 5.
+
+Deberéis reuniros y pensar en cómo hacer el producto más interesante
+para los usuarios. Pensad que queréis poner la aplicación en
+producción y que estáis buscando funcionalidades que la hagan
+interesante para que los usuarios se suscriban a ella.
+
+Podéis coger ideas del [tablero
+Trello](https://trello.com/b/Q35xhgzo/todolist-mads) resultante del
+taller de nuevas funcionalidades de la semana pasada.
+
+Tenéis que poneros **en el lugar de los usuarios** y pensar en
+funcionalidades que les puedan ser útiles, resolver algún problema. No
+es cuestión de añadir funcionalidades porque sí, sino que tenéis que
+intentar hacer en 4 semanas un producto lo más coherente y útil
+posible. 
+
+Podéis también repasar la aplicación
+[todoist](https://todoist.com/features) que vimos la semana pasada.
+
+El resultado será un tablero Trello con columnas denominadas _Backlog
+(1)_ y _Backlog (2)_: en la que se encuentren las descripciones de las
+funcionalidades candidatas a implementarse en la siguiente práctica,
+ordenadas de más interesante a menos (de arriba a abajo y de izquierda
+a derecha) y etiquetadas con su tamaño. La imagen de abajo es un
+ejemplo, con los títulos de la mayoría de las funcionalidades borradas
+para no dar demasiadas ideas.
+
+<img src="imagenes/tablero.png" width="700px"/>
+
+En la primera semana de la práctica el profesor podrá pediros alguna
+aclaración sobre las funcionalidades propuestas y la estimación de
+tamaño de las funcionalidades.
+
+### Pasos a seguir ###
+
+- Haced una reunión en la que reviséis el [tablero
+Trelllo](https://trello.com/b/Q35xhgzo/todolist-mads) resultante del
+taller de nuevas funcionalidades de la semana pasada. Debéis
+seleccionar las que vais a incorporar a vuestra aplicación y estimar
+su dificultad. Sólo podréis definir funcionalidades de tamaño de 1 y
+2 puntos. Si alguna funcionalidad es mayor, deberéis descomponerla
+en otras más pequeñas.
+
+    Los puntos indican un tamaño relativo. Si estimáis una historia de
+    usuario en 2 puntos es porque pensáis que tardaréis el doble en
+    terminarla que otra de 1 punto.
+
+    Para estimar la dificultad podéis usar _planning pocker_: se
+    explica la funcionalidad y cada miembro del equipo elige un
+    número: 1, 2, más de 2. Se enseñan simultáneamente y se explican
+    las diferencias. El hecho de que haya diferencias normalmente se
+    debe a que existe disparidad en los detalles de la implementación
+    o del alcance de la funcionalidad. Se ponen en común las
+    diferencias, se llegan a acuerdos y se vuelve a hacer otra ronda
+    de _planning pocker_. Se siguen haciendo rondas hasta que hay un
+    consenso.
+          
+- Debéis seleccionar historias que sumen entre 12 y 15 puntos para
+  implementar en la práctica. Para los equipos de 2 personas
+  seleccionar entre 8 y 10 puntos. La práctica tendrá una duración de
+  4 semanas, por lo que cada miembro del equipo deberá implementar
+  alrededor de 1 punto por semana.
+  
+    Seleccionad las historias que penséis que hacen un producto
+    atractivo, coherente y útil para el usuario. Ordenad las historias
+    según su valor. Para estimar el valor podéis hacer algo similar al
+    _planning pocker_ pero usando los números 1, 2 y 3 como forma de
+    identificar la utilidad o valor de cada historia.
+
+- Cread un tablero Trello y poned un enlace a él en el README del
+  repositorio. Cread las etiquetas `1` y `2` con distintos colores que
+  indican el tamaño de cada funcionalidad.
+
+- Añadid historias de usuario, ordenadas de mayor a menor importancia
+  (arriba a la izquierda la más importante y abajo a la derecha la
+  menos). Cada tarjeta de Trello debe contener:
+
+    - **Título**. Aparece en la tarjeta.
+    - **Descripción**. Muy breve, al estilo de las historias de
+      XP. Podéis usar el estándar "Como XXX quiero XXX para XXX", o
+      cualquier otro estilo. Pero siempre debe quedar claro que la
+      característica debe ser una nueva funcionalidad que pueda usar o
+      que note un usuario de la aplicación.
+    - **Detalles**. Detalles que consideréis importantes anotar y que
+      explican más el alcance de la historia.
+    - **Condiciones de satisfacción**. Condiciones que deben cumplirse
+      para considerar que la historia está terminada. Son
+      fundamentales a la hora de definir pruebas automáticas y
+      manuales. Las pruebas se definen a partir de estas condiciones
+      de satisfacción.
+  
+En la primera semana de la práctica el profesor podrá pediros alguna
+aclaración sobre las propuestas y la estimación de tamaño de las
+funcionalidades.
 
 ## Artefactos del sprint ##
 
@@ -41,45 +143,12 @@ El tablero Trello contendrá el **backlog del producto** y servirá para
 trabajar con estas historias de usuario en formato de tarjeta,
 escribirlas rápidamente, estimarlas y ordenarlas.
 
-Cada tarjeta Trello contendrá lo que ya habéis hecho para la práctica 4:
+Cada tarjeta Trello contendrá lo que ya habéis hecho anteriormente:
 
 - Título de la historia de usuario
 - Descripción 
+- Detalles
 - Estimación del tamaño de la historia (definido con una etiqueta)
-  
-Y se deberá añadir:
-
-- Responsable de la historia de usuario (otra etiqueta) : miembro del
-  equipo que liderará el desarrollo de la historia. Puede que más de
-  una persona intervenga en el desarrollo de la historia, pero una
-  persona será la responsable.
-- Enlace a una **página Google Docs** en la que el responsable de la
-  historia copiará, y ampliará y/o modificará sus detalles. La
-  descripción en Trello hay que dejarla tal cual, sin modificar. En la
-  página de Google Docs deberá incluirse:
-    - Título de historia de usuario
-    - Descripción y detalles
-    - Borrador del aspecto de la interfaz de usuario resultante
-    - Condiciones de satisfacción (COS). Estas condiciones de
-      satisfacción son esenciales a la hora de determinar el alcance
-      de la historia y de darla por acabada. Deben estar lo
-      suficientemente claras como para poder elaborar a partir de
-      ellas las **pruebas manuales** de la historia de usuario.
-
-!!! Important "Importante"
-    Los detalles de la historia de usuario en Google Docs se
-    escribirán sólo cuando la historia haya sido seleccionada y esté
-    en la columna `Seleccionadas`. Es recomendable que el paso de una
-    historia a seleccionada se haga cuando se haya terminado la
-    historia anterior con la que se estaba trabajando. De esta forma, cuando escribamos los detalles de la
-    siguiente historia seleccionada ya tendremos el proyecto más
-    avanzado y podremos elaborar mejor los detalles de la nueva
-    historia. 
-    
-    Es posible cambiar cosas en la página de Google Docs con respecto a la descripción
-    de la tarjeta en Trello. Dejad la descripción sin modificar, para
-    tener una referencia de la evolución del diseño del proyecto.
-
 
 Utilizaremos un tablero en formato Kanban, definiendo cinco columnas
 que representarán las fases por las que pasará cada historia de
@@ -93,14 +162,66 @@ usuario: `Backlog`, `Seleccionadas`, `En marcha`, `En prueba` y `Terminadas`.
 | **En prueba**  | La historia completa está integrada en `develop`. En la tarjeta se debe añadir un enlace al commit. |
 | **Terminadas** | Se han comprobado las condiciones de satisfacción de la historia.         |
 
-Se debe documentar la evolución del tablero realizando 4 capturas de
+
+### Pasos a seguir ###
+
+Durante el desarrollo del sprint, se deberá añadir en el tablero Trello:
+
+- Responsable de la historia de usuario (otra etiqueta) : miembro del
+  equipo que liderará el desarrollo de la historia. Puede que más de
+  una persona intervenga en el desarrollo de la historia, pero una
+  persona será la responsable. 
+  
+    Todos los miembros del equipo deberán
+    realizar un trabajo equitativo, y se repartirán las historias de
+    forma que queden también equilibrados los tamaños totales de las
+    historias asignadas a cada uno.
+
+- Enlace a una **página Google Docs** de acceso público en la que el responsable de la
+  historia copiará, y ampliará y/o modificará sus detalles. La
+  descripción en Trello hay que dejarla tal cual, sin modificar. En la
+  página de Google Docs, el responsable de la historia de usuario
+  deberá incluir, **cuando la seleccione**, los siguientes ítems:
+    - Título de historia de usuario
+    - Descripción y detalles
+    - Borrador del aspecto de la interfaz de usuario resultante. No es
+      necesario que sea muy detallado ni que se use ninguna
+      herramienta de mockups, se puede hacer escaneando un dibujo
+      hecho a mano.
+    - Condiciones de satisfacción (COS). Estas condiciones de
+      satisfacción son esenciales a la hora de determinar el alcance
+      de la historia y de darla por acabada. Deben estar lo
+      suficientemente claras como para poder elaborar a partir de
+      ellas las **pruebas manuales** de la historia de usuario.
+
+    !!! Danger "Importante"
+        Los detalles de la historia de usuario en Google Docs se
+        escribirán **sólo cuando la historia haya sido seleccionada** y esté
+        en la columna `Seleccionadas`. Es recomendable que el paso de una
+        historia a seleccionada se haga cuando se haya terminado la
+        historia anterior con la que se estaba trabajando. De esta forma, cuando escribamos los detalles de la
+        siguiente historia seleccionada ya tendremos el proyecto más
+        avanzado y podremos elaborar mejor los detalles de la nueva
+        historia. 
+    
+    Es posible cambiar cosas en la página de Google Docs con respecto a la descripción
+    de la tarjeta en Trello. Dejad la descripción sin modificar, para
+    tener una referencia de la evolución del diseño del proyecto.
+
+- Una vez creado el documento Google de la historia de usuario ya se
+puede comenzar a realizar la implementación de la misma abriendo el o
+los issues en GitHub y añadiendo al mismo el responsable de su
+desarrollo.
+
+    !!! Danger "Importante"
+        Aunque parezca evidente, lo resalto: hay que pasar las fases de
+        forma ordenada. No podemos empezar a desarrollar una historia de
+        usuario antes de haber terminado todos sus detalles en la página
+        de Google Docs.
+
+- Se debe documentar la evolución del tablero realizando 4 capturas de
 pantalla y registrando la fecha de cada una.
 
-!!! Important "Importante"
-    Aunque parezca evidente, lo resalto: hay que pasar las fases de
-    forma ordenada. No podemos empezar a desarrollar una historia de
-    usuario antes de haber terminado todos sus detalles en la página
-    de Google Docs.
 
 ### Tablero GitHub ###
 
@@ -127,62 +248,20 @@ serán opcionales, dependiendo de si el proyecto lo requiere.
 
 En cuanto a las columnas, definiremos el tablero como un tablero
 Kanban. Usaremos las mismas columnas que hasta ahora, con los
-issues/_pull requests_ moviéndose por ellas según se vayan
+issues_ moviéndose por ellas según se vayan
 desarrollando.
 
 | Tipo de columna    | Características de los issues |
 |--------------------|-------------------------------|
 | **Sprint backlog** | Issues esperando a ser desarrollados. |
 | **In progress**    | El issue tiene asignado un responsable y se ha abierto una rama para su desarrollo. |
-| **In pull request**| El issue tiene un pull request abierto (se archivará la tarjeta del issue y se dejará sólo la tarjeta del pull request).|
+| **In pull request**| El issue tiene un pull request abierto. |
 | **Done**           | El pull request que se ha resuelto y el issue está integrado en `develop`.|
 
 Al igual que el tablero de Trello, se debe documentar la evolución del
 tablero de issues realizando 4 capturas de pantalla y registrando la
 fecha de cada una.
 
-
-## Reunión de revisión del backlog ##
-
-Al comienzo de la práctica el equipo habrá definido un backlog formado
-por historias de usuario con tamaños de 1 y 2 puntos. Los puntos
-indican un tamaño relativo. Si una historia se estima en 2 puntos es
-porque se piensa que se tardará el doble en terminarla que otra de 1
-punto.
-
-La puntación total de las historias a desarrollar será entre 12 y 15
-puntos (entre 4 y 5 puntos por persona).
-
-Las historias deben consistir en nuevas funcionalidades que construyan
-un producto atractivo, coherente y útil para el usuario. Estarán
-ordenadas por importancia en la columna de backlog.
-
-En la primera semana de la esta práctica el profesor se reunirá con el
-equipo y podrá pediros alguna aclaración sobre las propuestas y la
-estimación de tamaño de las funcionalidades antes de validarlas.
-
-El profesor añadirá una nota en el tablero Trello con el resultado de
-esta revisión, pudiendo realizar alguna aclaración sobre el alcance
-de las historias de usuario.
-
-## Responsables de historia de usuario ##
-
-Una vez realizada la revisión los miembros del equipo elegirán
-responsables para cada historia, se seleccionara la primera de ellas a
-realizar, se creará su página Google Docs, y se detallará allí las
-condiciones de satisfacción y el borrador de la interfaz de usuario
-definitivas. No debéis borrar lo escrito en la tarjeta de
-Trello. Utilizad el documento Google Docs para ampliar o detallar más
-aquellos elementos que consideréis oportuno.
-
-Una vez creado el documento Google de la historia de usuario ya se
-puede comenzar a realizar la implementación de la misma abriendo el o
-los issues en GitHub y añadiendo al mismo el responsable de su
-desarrollo.
-
-Todos los miembros del equipo deberán realizar un trabajo equitativo,
-y se repartirán las historias de forma que queden también equilibrados
-los tamaños totales de las historias asignadas a cada uno.
 
 ## Desarrollo del sprint
 

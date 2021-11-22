@@ -984,9 +984,11 @@ cambios introducidos.
    producción_. Dejar el fichero de copia de seguridad en el
    directorio raíz del usuario `alu` con el que se está conectado al
    servidor de la asignatura.
-4. Hacer una migración de la base de datos tal y como se explica en el
+5. Hacer un `git clone` del repositorio de la aplicación para
+   mover al servidor el fichero `sql/schema-1.2.0-1.3.0.sql`.
+6. Hacer una migración de la base de datos tal y como se explica en el
    mismo apartado anterior.
-5. Lanzar el contenedor de la aplicación con el perfil `postgres-prod`
+7. Lanzar el contenedor de la aplicación con el perfil `postgres-prod`
    y comprobar que funciona correctamente la aplicación en producción.
 
 <!--
