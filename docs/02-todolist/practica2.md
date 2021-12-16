@@ -1,6 +1,6 @@
-<!--
 
-Cambio 1:
+<!--
+Cambio:
 
 En la explicación de los tests indicar que hay dos
 tipos de funcionamiento con los objetos service: o los inyectamos, con
@@ -11,14 +11,23 @@ decir explícitamente que devuelven las llamadas a los métodos
 He cambiado el código de TareaWebTest para que use la BD, mientras que 
 UsuarioWebTest usa los mocks.
 
-Cambio 2:
+Cambio:
 
 Cambiar las reglas del tablero de GitHub para solo tener que gestionar
 issues. Los pull requests están asociados a los issues y no hace falta
 gestionarlos con reglas, sino que siempre estarán junto al propio issue.
 
--->
+Cambio:
 
+No usar @Transactional en los tests de servicio para deshacer los cambios. Su uso 
+crea también un contexto de persistencia en el que se ejecuta el
+código del servicio y hace que las entidades estén gestionadas dentro
+del test. Sin embargo, cuando el código se ejecute desde el controller
+esto no va a ser así.
+
+https://dev.to/henrykeys/don-t-use-transactional-in-tests-40eb
+
+-->
 
 # Práctica 2: Aplicación ToDoList
 

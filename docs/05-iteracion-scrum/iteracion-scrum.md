@@ -330,6 +330,13 @@ La práctica tiene una duración de 4 semanas.
     - Demostración de las nuevas funcionalidades utilizando la última
       versión puesta en producción.
 
+    !!! Danger "El proyecto debe estar terminado el 22 de diciembre"
+        En la fecha de la presentación debe estar completo el nuevo
+        release 1.4.0 del proyecto y debe estar puesto en
+        producción. Después de la presentación **no podréis añadir más
+        código** al proyecto. El tiempo restante hasta el 11 de enero
+        es para que terminéis la documentación.
+
 - En la fecha límite del **11 de enero** deberá entregar la práctica y
   tener disponible:
     - Directorio `doc` en el repositorio del proyecto en el que se
