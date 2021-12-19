@@ -326,7 +326,9 @@ La práctica tiene una duración de 4 semanas.
   **clases de prácticas del 22 de diciembre**. La revisión
   constará de:
     - Presentación con diapositivas en la que se explicará la
-      **metodología seguida** en el sprint y las **nuevas funcionalidades** introducidas.
+      **metodología seguida** en el sprint, las **nuevas
+      funcionalidades** introducidas y la puesta en producción de la
+      nueva versión.
     - Demostración de las nuevas funcionalidades utilizando la última
       versión puesta en producción.
 
@@ -349,6 +351,8 @@ La práctica tiene una duración de 4 semanas.
           como aparecen en los documentos subidos a GoogleDocs).
         - **Funcionalidades implementadas**: breve descripción para el
           usuario y breve descripción técnica.
+        - **Puesta en producción**: script de migración de la base de
+          datos y breve informe de la puesta en producción.
         - **Informe sobre la evolución del desarrollo**: instantáneas
           de los tableros y alguna métrica o gráfica sobre el desarrollo
           (número de pull requests cada semana, por ejemplo).
