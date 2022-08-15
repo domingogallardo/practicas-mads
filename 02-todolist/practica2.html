@@ -934,40 +934,65 @@ fichero de propiedades. El fichero de propiedades por defecto es
 <span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">properties</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">dialect</span> <span class="o">=</span> <span class="n">org</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">dialect</span><span class="p">.</span><span class="na">H2Dialect</span>
 <span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">ddl</span><span class="o">-</span><span class="n">auto</span><span class="o">=</span><span class="n">update</span>
 <span class="n">logging</span><span class="p">.</span><span class="na">level</span><span class="p">.</span><span class="na">org</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">SQL</span><span class="o">=</span><span class="n">debug</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">datasource</span><span class="p">.</span><span class="na">data</span><span class="o">=</span><span class="n">classpath</span><span class="p">:</span><span class="n">datos</span><span class="o">-</span><span class="n">dev</span><span class="p">.</span><span class="na">sql</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">datasource</span><span class="p">.</span><span class="na">initialization</span><span class="o">-</span><span class="n">mode</span><span class="o">=</span><span class="n">always</span>
+<span class="n">logging</span><span class="p">.</span><span class="na">level</span><span class="p">.</span><span class="na">madstodolist</span><span class="o">=</span><span class="n">debug</span>
+<span class="n">spring</span><span class="p">.</span><span class="na">sql</span><span class="p">.</span><span class="na">init</span><span class="p">.</span><span class="na">mode</span><span class="o">=</span><span class="n">always</span>
+<span class="err">#</span> <span class="n">cargar</span> <span class="n">los</span> <span class="n">datos</span> <span class="n">despues</span> <span class="n">de</span> <span class="n">que</span> <span class="n">Hibernate</span> <span class="n">inicialice</span>
+<span class="err">#</span> <span class="n">los</span> <span class="n">esquemas</span> <span class="n">de</span> <span class="n">datos</span>
+<span class="err">#</span> <span class="n">https</span><span class="p">:</span><span class="c1">//github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.5-Release-Notes#sql-script-datasource-initialization</span>
+<span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">defer</span><span class="o">-</span><span class="n">datasource</span><span class="o">-</span><span class="n">initialization</span><span class="o">=</span><span class="kc">true</span>
+<span class="n">spring</span><span class="p">.</span><span class="na">h2</span><span class="p">.</span><span class="na">console</span><span class="p">.</span><span class="na">enabled</span><span class="o">=</span><span class="kc">true</span>
+<span class="n">spring</span><span class="p">.</span><span class="na">h2</span><span class="p">.</span><span class="na">console</span><span class="p">.</span><span class="na">path</span><span class="o">=/</span><span class="n">h2</span><span class="o">-</span><span class="n">console</span>
+<span class="err">#</span> <span class="n">Deshabilitamos</span> <span class="n">Open</span> <span class="n">EntityManager</span> <span class="n">in</span> <span class="n">View</span>
+<span class="err">#</span> <span class="n">https</span><span class="p">:</span><span class="c1">//docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/html/data.html#data.sql.jpa-and-spring-data.open-entity-manager-in-view</span>
+<span class="err">#</span> <span class="n">Ver</span> <span class="n">tambien</span> <span class="n">https</span><span class="p">:</span><span class="c1">//docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/hibernate5/support/OpenSessionInViewInterceptor.html</span>
+<span class="err">#</span> <span class="n">y</span> <span class="n">https</span><span class="p">:</span><span class="c1">//www.baeldung.com/spring-open-session-in-view</span>
+<span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">open</span><span class="o">-</span><span class="n">in</span><span class="o">-</span><span class="n">view</span><span class="o">=</span><span class="kc">false</span>
 </code></pre></div>
-<p>Se define las características de la fuente de datos con la que trabaja
-la aplicación (la base de datos en memoria H2). El parámetro
-<code>spring.datasource.data</code> define el fichero que
-contiene los datos iniciales que se van a cargar en la base de datos
-al arrancar la aplicación. En este caso se trata del fichero
-<code>datos-dev.sql</code>:</p>
-<p><strong>Fichero <code>/src/main/resources/datos-dev.sql</code></strong>:</p>
+<p>Entre otras cosas, se define las características de la fuente de datos
+con la que trabaja la aplicación (la base de datos en memoria H2):</p>
+<ul>
+<li>El parámetro <code>spring.jpa.hibernate.ddl-auto=update</code> hace que
+  Hibernate actualice automáticamente los esquemas de la base de
+  datos, construyéndolos a partir de las clases <code>Entity</code>. En un
+  entorno de producción el valor de esta propiedad deberá ser
+  <code>validate</code> para no modificar la base de datos de producción. </li>
+<li>El parámetro <code>spring.sql.init.mode=always</code> hace que se carguen datos
+  iniciales en la base de datos al arrancar la aplicación. El
+  parámetro <code>spring.jpa.defer-datasource-initialization=true</code> hace que
+  los datos se carguen después de que Hibernate haya actualizado el
+  esquema de datos. </li>
+</ul>
+<p>Los datos se encuentran en el fichero <code>data.sql</code>:</p>
+<p><strong>Fichero <code>/src/main/resources/data.sql</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="cm">/* Populate tables */</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Usuario Ejemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
 </code></pre></div>
 <div class="admonition note">
-<p class="admonition-title">Base de datos H2 en memoria</p>
+<p class="admonition-title">Base de datos H2 en memoria en desarrollo</p>
 <p>En esta práctica vamos a trabajar únicamente con la base de datos en
 memoria. Esto significa que los datos que introduzcamos van a estar
 presentes mientras que la aplicación esté funcionando. Cuando matemos
 la aplicación y la volvamos a reiniciar sólo estarán los datos
-iniciales, los datos que se cargan del fichero <code>datos-dev.sql</code>.</p>
+iniciales, los datos que se cargan del fichero <code>data.sql</code>.</p>
 <p>En la práctica 3 utilizaremos una base de datos real, que deberemos
 gestionar también en producción. En concreto, se tratará de una base
-de datos PostgresSQL.</p>
+de datos PostgresSQL. Crearemos una configuración de producción en
+la que se deshabilitará la creación automática del esquema de
+datos y deberemos gestionarlo manualmente con un ficheros SQL de
+inicialización y migración de la base de datos.</p>
 </div>
-<p>En el fichero de configuración también se define la característica de
-JPA <code>spring.jpa.hibernate.ddl-auto</code> que define cómo se debe
-inicializar el esquema de datos de la aplicación cuando haya un cambio
-en el código fuente que define las entidades. En este caso tenemos un
-valor de <code>update</code> para indicar que se el esquema de datos debe
-actualizarse. En un entorno de producción el valor de esta propiedad
-deberá ser <code>validate</code> para no modificar la base de datos de
-producción.</p>
+<p>Por último, el parámetro <code>spring.jpa.open-in-view=false</code> deshabilita
+una característica de Spring denominada <em>open in view</em> que mantiene
+abierta la conexión de la base de datos de forma automática en cada
+petición HTTP. Se trata de una característica que facilita el trabajo
+con las relaciones <em>lazy</em> entre entidades, pero puede introducir
+errores no deseados al permitir acceder a la base de datos en la capa
+<em>controller</em>. Al deshabilitar esta característica tendremos que
+gestionar manualmente las relaciones <em>lazy</em>, recuperándolas en la capa
+de servicio, en donde sí que mantenemos abierta la conexión con la
+base de datos. Lo veremos más adelante con más detalle.</p>
 <h4 id="otras-configuraciones">Otras configuraciones<a class="headerlink" href="#otras-configuraciones" title="Permanent link">&para;</a></h4>
 <p>Es posible definir otras configuraciones e indicar en el comando de
 ejecución de la aplicación Spring Boot qué fichero de configuración
@@ -979,13 +1004,26 @@ test, que es la que se carga cuando se lanzan los tests:</p>
 <span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">properties</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">dialect</span> <span class="o">=</span> <span class="n">org</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">dialect</span><span class="p">.</span><span class="na">H2Dialect</span>
 <span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">ddl</span><span class="o">-</span><span class="n">auto</span><span class="o">=</span><span class="n">create</span>
 <span class="n">logging</span><span class="p">.</span><span class="na">level</span><span class="p">.</span><span class="na">org</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">SQL</span><span class="o">=</span><span class="n">debug</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">datasource</span><span class="p">.</span><span class="na">data</span><span class="o">=</span><span class="n">classpath</span><span class="p">:</span><span class="n">datos</span><span class="o">-</span><span class="n">test</span><span class="p">.</span><span class="na">sql</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">datasource</span><span class="p">.</span><span class="na">initialization</span><span class="o">-</span><span class="n">mode</span><span class="o">=</span><span class="n">always</span>
+<span class="err">#</span> <span class="n">Es</span> <span class="n">necesario</span> <span class="n">definir</span> <span class="n">el</span> <span class="n">sql</span><span class="p">.</span><span class="na">init</span><span class="p">.</span><span class="na">mode</span> <span class="n">a</span> <span class="n">never</span> <span class="n">para</span> <span class="n">evitar</span>
+<span class="err">#</span> <span class="n">que</span> <span class="n">se</span> <span class="n">carguen</span> <span class="n">los</span> <span class="n">datos</span> <span class="n">de</span> <span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="n">resources</span><span class="o">/</span><span class="n">data</span><span class="p">.</span><span class="na">sql</span>
+<span class="n">spring</span><span class="p">.</span><span class="na">sql</span><span class="p">.</span><span class="na">init</span><span class="p">.</span><span class="na">mode</span><span class="o">=</span><span class="n">never</span>
+<span class="err">#</span> <span class="n">obligamos</span> <span class="n">a</span> <span class="n">que</span> <span class="n">Hibernate</span> <span class="n">inicialice</span> <span class="n">los</span> <span class="n">esquemas</span> <span class="n">de</span> <span class="n">datos</span>
+<span class="err">#</span> <span class="n">https</span><span class="p">:</span><span class="c1">//github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.5-Release-Notes#sql-script-datasource-initialization</span>
+<span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">defer</span><span class="o">-</span><span class="n">datasource</span><span class="o">-</span><span class="n">initialization</span><span class="o">=</span><span class="kc">true</span>
+<span class="err">#</span> <span class="n">Deshabilitamos</span> <span class="n">Open</span> <span class="n">EntityManager</span> <span class="n">in</span> <span class="n">View</span>
+<span class="err">#</span> <span class="n">https</span><span class="p">:</span><span class="c1">//docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/html/data.html#data.sql.jpa-and-spring-data.open-entity-manager-in-view</span>
+<span class="err">#</span> <span class="n">Ver</span> <span class="n">tambien</span> <span class="n">https</span><span class="p">:</span><span class="c1">//docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/hibernate5/support/OpenSessionInViewInterceptor.html</span>
+<span class="err">#</span> <span class="n">y</span> <span class="n">https</span><span class="p">:</span><span class="c1">//www.baeldung.com/spring-open-session-in-view</span>
+<span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">open</span><span class="o">-</span><span class="n">in</span><span class="o">-</span><span class="n">view</span><span class="o">=</span><span class="kc">false</span>
 </code></pre></div></p>
-<p>La diferencia con el fichero de configuración de desarrollo es el
+<p>Una diferencia con el fichero de configuración de desarrollo es el
 nombre de la fuente de datos, el modo del
 <code>spring.jpa.hibernate.ddl-auto</code>, que es <code>create</code> y el fichero de datos
 iniciales que se carga al ejecutar los tests.</p>
+<p>La otra diferencia importante es que evitamos que se carguen los datos
+poniendo el parámetro <code>spring.sql.init.mode</code> a <code>never</code>. Veremos que
+los datos de prueba de los tests se cargan desde los tests usando la
+anotación <code>@sql</code>.</p>
 <h3 id="gestion-de-persistencia-con-jpa">Gestión de persistencia con JPA<a class="headerlink" href="#gestion-de-persistencia-con-jpa" title="Permanent link">&para;</a></h3>
 <p>Para la gestión de la persistencia de los datos en la aplicación
 Spring Boot usaremos <a href="https://docs.spring.io/spring-data/jpa/docs/2.1.10.RELEASE/reference/html/">Spring Data
@@ -1033,10 +1071,10 @@ obligatorios (en este caso el correo electrónico).</p>
 <span class="kn">import</span> <span class="nn">javax.persistence.*</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">javax.validation.constraints.NotNull</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">java.io.Serializable</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">java.util.Date</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">java.util.List</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.HashSet</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">java.util.Objects</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Set</span><span class="p">;</span>
 
 <span class="nd">@Entity</span>
 <span class="nd">@Table</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;usuarios&quot;</span><span class="p">)</span>
@@ -1061,13 +1099,11 @@ obligatorios (en este caso el correo electrónico).</p>
     <span class="c1">// CUIDADO!! No es recomendable hacerlo en aquellos casos en los</span>
     <span class="c1">// que la relación pueda traer a memoria una gran cantidad de entidades</span>
     <span class="nd">@OneToMany</span><span class="p">(</span><span class="n">mappedBy</span> <span class="o">=</span> <span class="s">&quot;usuario&quot;</span><span class="p">,</span> <span class="n">fetch</span> <span class="o">=</span> <span class="n">FetchType</span><span class="p">.</span><span class="na">EAGER</span><span class="p">)</span>
-    <span class="n">List</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span> <span class="n">tareas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="n">Set</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span> <span class="n">tareas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
 
     <span class="c1">// Constructor vacío necesario para JPA/Hibernate.</span>
-    <span class="c1">// Lo hacemos privado para que no se pueda usar desde el código de la aplicación. Para crear un</span>
-    <span class="c1">// usuario en la aplicación habrá que llamar al constructor público. Hibernate sí que lo puede usar, a pesar</span>
-    <span class="c1">// de ser privado.</span>
-    <span class="kd">private</span> <span class="nf">Usuario</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="c1">// No debe usarse desde la aplicación.</span>
+    <span class="kd">public</span> <span class="nf">Usuario</span><span class="p">()</span> <span class="p">{}</span>
 
     <span class="c1">// Constructor público con los atributos obligatorios. En este caso el correo electrónico.</span>
     <span class="kd">public</span> <span class="nf">Usuario</span><span class="p">(</span><span class="n">String</span> <span class="n">email</span><span class="p">)</span> <span class="p">{</span>
@@ -1114,11 +1150,11 @@ obligatorios (en este caso el correo electrónico).</p>
         <span class="k">this</span><span class="p">.</span><span class="na">fechaNacimiento</span> <span class="o">=</span> <span class="n">fechaNacimiento</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span> <span class="nf">getTareas</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span> <span class="nf">getTareas</span><span class="p">()</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">tareas</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTareas</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span> <span class="n">tareas</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTareas</span><span class="p">(</span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span> <span class="n">tareas</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="na">tareas</span> <span class="o">=</span> <span class="n">tareas</span><span class="p">;</span>
     <span class="p">}</span>
 
@@ -1178,10 +1214,8 @@ entidad <code>Tarea</code>.</p>
     <span class="kd">private</span> <span class="n">Usuario</span> <span class="n">usuario</span><span class="p">;</span>
 
     <span class="c1">// Constructor vacío necesario para JPA/Hibernate.</span>
-    <span class="c1">// Lo hacemos privado para que no se pueda usar desde el código de la aplicación. Para crear un</span>
-    <span class="c1">// usuario en la aplicación habrá que llamar al constructor público. Hibernate sí que lo puede usar, a pesar</span>
-    <span class="c1">// de ser privado.</span>
-    <span class="kd">private</span> <span class="nf">Tarea</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="c1">// No debe usarse desde la aplicación.</span>
+    <span class="kd">public</span> <span class="nf">Tarea</span><span class="p">()</span> <span class="p">{}</span>
 
     <span class="c1">// Al crear una tarea la asociamos automáticamente a un</span>
     <span class="c1">// usuario. Actualizamos por tanto la lista de tareas del</span>
@@ -1222,6 +1256,10 @@ entidad <code>Tarea</code>.</p>
         <span class="k">if</span> <span class="p">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">o</span><span class="p">)</span> <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">getClass</span><span class="p">()</span> <span class="o">!=</span> <span class="n">o</span><span class="p">.</span><span class="na">getClass</span><span class="p">())</span> <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
         <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="p">(</span><span class="n">Tarea</span><span class="p">)</span> <span class="n">o</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">id</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">tarea</span><span class="p">.</span><span class="na">id</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span>
+            <span class="c1">// Si tenemos los ID, comparamos por ID</span>
+            <span class="k">return</span> <span class="n">Objects</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">tarea</span><span class="p">.</span><span class="na">id</span><span class="p">);</span>
+        <span class="c1">// sino comparamos por campos obligatorios</span>
         <span class="k">return</span> <span class="n">titulo</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">titulo</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
                 <span class="n">usuario</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">usuario</span><span class="p">);</span>
     <span class="p">}</span>
@@ -1241,15 +1279,23 @@ tipo <code>LAZY</code>. </p>
 <p>La característica de los atributos marcados como <em>lazy</em> en JPA es que
 no se traen a memoria cuando se recupera la entidad, sino cuando se
 consultan explícitamente accediendo al atributo. Para que se traigan a
-memoria <strong>la conexión con la base de datos debe estar abierta</strong>. Si ya
-se ha cerrado esa conexión (por ejemplo, se ha cerrado la transacción
-en el método de servicio y se quiere acceder a la una lista de tareas
-de un usuario devuelto por el propio método estando en el controller)
-se producirá un error.</p>
-<p>Frente a la recuperación <em>lazy</em> de colecciones, también existe la
-posibilidad de definir una colección como de tipo <em>EAGER</em>. En este
-caso JPA se traerá siempre a memoria todos los elementos. Es el caso
-de la relación entre un usuario y sus tareas.</p>
+memoria <strong>la conexión con la base de datos debe estar abierta</strong>. Una
+forma de hacerlo, la que usamos en la aplicación, es marcando el
+método que accede a las entidades con la anotación
+<code>@Transactional</code>. Las entidades que usemos en el código con esa
+anotación estarán conectadas a la base de datos y podremos recuperar
+sus relaciones <em>lazy</em>. Una terminada la transacción, por ejemplo fuera
+del método anotado con <code>@Transactional</code>, si intentamos acceder a una
+relación <em>lazy</em> sin haberla inicializado se producirá un error.</p>
+<p>En la práctica 3 definiremos una relación <em>lazy</em> y explicaremos cómo
+gestionarla en la capa de servicios. En esta práctica, sin embargo,
+usaremos relaciones de tipo <em>EAGER</em>.</p>
+<p>En el caso de definir un relación entre entidades de tipo <em>EAGER</em> JPA
+se traerá siempre a memoria todos los elementos cuando se recupere
+cualquier entidad. Es como hemos definido la relación entre un usuario
+y sus tareas. Por ejemplo, cuando se realice una búsqueda y se
+recupere un usuario, se recuperarán también automáticamente todas sus
+tareas y se inicializará en memoria la colección de tareas del usuario.</p>
 <p>En general, no es conveniente definir una relación como <em>eager</em> porque
 puede provocar problemas de rendimiento en el caso en que haya muchos
 elementos relacionados. Pero si no hay muchos datos en la relación y
@@ -1281,6 +1327,15 @@ los vamos a usar con frecuencia, sí que es aconsejable usar el tipo
     <span class="p">...</span>
 <span class="p">}</span>
 </code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>La diferencia entre recuperación <em>lazy</em> y recuperación <em>eager</em> de
+las relaciones es uno de los conceptos que causan más problemas al
+trabajar con Hibernate. Te recomiendo que lo estudies bien. Un
+ejercicio que te recomiendo es cambiar el atributo anterior a
+<em>LAZY</em> y comprobar qué errores se producen en el código y en los
+tests.</p>
+</div>
 <h4 id="clases-repository">Clases Repository<a class="headerlink" href="#clases-repository" title="Permanent link">&para;</a></h4>
 <p>Spring define la clase genérica <code>CrudRepository</code> que contienen métodos por
 defecto para actualizar las entidades y realizar <em>queries</em> sobre
@@ -1336,13 +1391,23 @@ mostramos el método de servicio que modifica el título de una tarea:</p>
     <span class="p">...</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>La anotación <code>@Transactional</code> hace que las acciones sobre la base de
-datos se ejecuten de forma transaccional. Se abre la transacción al
-del método y se cierra al final. Si sucede alguna excepción durante su
-ejecución la transacción se deshace.</p>
-<p>En el cuerpo del método se llama al método <code>findById</code> del repositorio
-que realiza una búsqueda en la base de datos y al método <code>save</code> que actualiza el
-valor de la entidad.</p>
+<p>En el cuerpo del método se llama al método <code>findById</code> del
+repositorio que realiza una búsqueda en la base de datos y al método
+<code>save</code> que actualiza el valor de la entidad.</p>
+<p>La anotación <code>@Transactional</code> hace dos cosas. En primer lugar, abre
+una conexión con la base de datos y hace que todas las llamadas a las
+clases repository se realicen usando esa conexión. Las entidades están
+conectadas a la base de datos durante todas las sentencias que se
+ejecutan dentro del método anotado y cualquier cambio en ellas se
+propaga a la base de datos (en este caso el título de la
+tarea). Además, y muy importante, las relaciones <em>lazy</em> pueden
+recuperarse sin problemas accediendo a los atributos correspondientes
+de las entidades. </p>
+<p>En segundo lugar, la anotación <code>@Transactional</code>, como su nombre
+indica, hace que las acciones sobre la base de datos se ejecuten de
+forma transaccional. Se abre la transacción al del método y se cierra
+al final. Si sucede alguna excepción durante su ejecución la
+transacción se deshace.</p>
 <p>La interfaz <code>UsuarioRepository</code> es similar.</p>
 <p><strong>Fichero <code>src/main/java/madstodolist/model/UsuarioRepository.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist.model</span><span class="p">;</span>
@@ -1369,15 +1434,21 @@ a realizar a la base de datos utilizando la anotación <code>@Query</code>. Pued
 <p>La capa de servicios es la capa intermedia entre la capa de
 <em>controllers</em> y la de <em>repository</em>. Es la capa que implementa toda la
 lógica de negocio de la aplicación.</p>
-<p>La responsabilidad principal de la capa de servicios es obtener o
-crear los objetos entidad necesarios para cada funcionalidad a partir
-de los datos que manda la capa <em>controller</em>, trabajar con ellos en
-memoria y hacer persistentes los cambios utilizando la capa
+<p>La responsabilidad principal de la capa de servicios es crear, obtener
+o modificar los objetos entidad necesarios para cada funcionalidad a
+partir de los datos que manda la capa <em>controller</em>, trabajar con ellos
+en memoria y hacer persistentes los cambios utilizando la capa
 <em>repository</em>.</p>
 <p>La capa de servicios también gestionará errores y lanzará excepciones
 cuando no se pueda realizar alguna funcionalidad.</p>
 <p>Los servicios obtienen instancias de <em>Repository</em> usando inyección de
 dependencias.</p>
+<p>Como hemos comentado anteriormente, los métodos de la capa de
+servicios estarán anotados con <code>@Transactional</code> actualizar
+correctamente la base de datos y las conexiones <em>lazy</em> y para
+garantizar la transaccionalidad.</p>
+<p>Por ejemplo, la clase <code>UsuarioService</code> se define como se muestra a
+continuación.</p>
 <p><strong>Fichero <code>src/main/java/madstodolist/service/UsuarioService.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="n">npackage</span> <span class="n">madstodolist</span><span class="p">.</span><span class="na">service</span><span class="p">;</span>
 
@@ -1481,8 +1552,9 @@ introducidos en los formularios. Por ejemplo, la clase
 <p><strong>Fichero <code>src/main/java/madstodolist/controller/LoginController.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist.controller</span><span class="p">;</span>
 
-<span class="kn">import</span> <span class="nn">madstodolist.authentication.ManagerUserSesion</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.authentication.ManagerUserSession</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.service.TareaService</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">madstodolist.service.UsuarioService</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="p">;</span>
@@ -1491,7 +1563,6 @@ introducidos en los formularios. Por ejemplo, la clase
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.ModelAttribute</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PostMapping</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.mvc.support.RedirectAttributes</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">javax.servlet.http.HttpSession</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">javax.validation.Valid</span><span class="p">;</span>
@@ -1503,7 +1574,12 @@ introducidos en los formularios. Por ejemplo, la clase
     <span class="n">UsuarioService</span> <span class="n">usuarioService</span><span class="p">;</span>
 
     <span class="nd">@Autowired</span>
-    <span class="n">ManagerUserSesion</span> <span class="n">managerUserSesion</span><span class="p">;</span>
+    <span class="n">ManagerUserSession</span> <span class="n">managerUserSession</span><span class="p">;</span>
+
+    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">home</span><span class="p">(</span><span class="n">Model</span> <span class="n">model</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;redirect:/login&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
 
     <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
     <span class="kd">public</span> <span class="n">String</span> <span class="nf">loginForm</span><span class="p">(</span><span class="n">Model</span> <span class="n">model</span><span class="p">)</span> <span class="p">{</span>
@@ -1512,7 +1588,7 @@ introducidos en los formularios. Por ejemplo, la clase
     <span class="p">}</span>
 
     <span class="nd">@PostMapping</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
-    <span class="kd">public</span> <span class="n">String</span> <span class="nf">loginSubmit</span><span class="p">(</span><span class="nd">@ModelAttribute</span> <span class="n">LoginData</span> <span class="n">loginData</span><span class="p">,</span> <span class="n">Model</span> <span class="n">model</span><span class="p">,</span> <span class="n">RedirectAttributes</span> <span class="n">flash</span><span class="p">,</span> <span class="n">HttpSession</span> <span class="n">session</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">loginSubmit</span><span class="p">(</span><span class="nd">@ModelAttribute</span> <span class="n">LoginData</span> <span class="n">loginData</span><span class="p">,</span> <span class="n">Model</span> <span class="n">model</span><span class="p">,</span> <span class="n">HttpSession</span> <span class="n">session</span><span class="p">)</span> <span class="p">{</span>
 
         <span class="c1">// Llamada al servicio para comprobar si el login es correcto</span>
         <span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span> <span class="n">loginStatus</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="n">loginData</span><span class="p">.</span><span class="na">geteMail</span><span class="p">(),</span> <span class="n">loginData</span><span class="p">.</span><span class="na">getPassword</span><span class="p">());</span>
@@ -1520,7 +1596,7 @@ introducidos en los formularios. Por ejemplo, la clase
         <span class="k">if</span> <span class="p">(</span><span class="n">loginStatus</span> <span class="o">==</span> <span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">LOGIN_OK</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">loginData</span><span class="p">.</span><span class="na">geteMail</span><span class="p">());</span>
 
-            <span class="n">managerUserSesion</span><span class="p">.</span><span class="na">logearUsuario</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+            <span class="n">managerUserSession</span><span class="p">.</span><span class="na">logearUsuario</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
 
             <span class="k">return</span> <span class="s">&quot;redirect:/usuarios/&quot;</span> <span class="o">+</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;/tareas&quot;</span><span class="p">;</span>
         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">loginStatus</span> <span class="o">==</span> <span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">USER_NOT_FOUND</span><span class="p">)</span> <span class="p">{</span>
@@ -1543,7 +1619,7 @@ introducidos en los formularios. Por ejemplo, la clase
    <span class="kd">public</span> <span class="n">String</span> <span class="nf">registroSubmit</span><span class="p">(</span><span class="nd">@Valid</span> <span class="n">RegistroData</span> <span class="n">registroData</span><span class="p">,</span> <span class="n">BindingResult</span> <span class="n">result</span><span class="p">,</span> <span class="n">Model</span> <span class="n">model</span><span class="p">)</span> <span class="p">{</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="na">hasErrors</span><span class="p">())</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="s">&quot;registroForm&quot;</span><span class="p">;</span>
+            <span class="k">return</span> <span class="s">&quot;formRegistro&quot;</span><span class="p">;</span>
         <span class="p">}</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">registroData</span><span class="p">.</span><span class="na">geteMail</span><span class="p">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
@@ -1563,7 +1639,7 @@ introducidos en los formularios. Por ejemplo, la clase
 
    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/logout&quot;</span><span class="p">)</span>
    <span class="kd">public</span> <span class="n">String</span> <span class="nf">logout</span><span class="p">(</span><span class="n">HttpSession</span> <span class="n">session</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">session</span><span class="p">.</span><span class="na">setAttribute</span><span class="p">(</span><span class="s">&quot;idUsuarioLogeado&quot;</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+        <span class="n">managerUserSession</span><span class="p">.</span><span class="na">logout</span><span class="p">();</span>
         <span class="k">return</span> <span class="s">&quot;redirect:/login&quot;</span><span class="p">;</span>
    <span class="p">}</span>
 <span class="p">}</span>
@@ -1593,7 +1669,7 @@ introducidos en los formularios. Por ejemplo, la clase
 <span class="p">}</span>
 </code></pre></div>
 <h4 id="peticiones-y-rutas">Peticiones y rutas<a class="headerlink" href="#peticiones-y-rutas" title="Permanent link">&para;</a></h4>
-<p>Las rutas que se definen en los controllers para realizar las acciones
+<p>Las rutas (<em>endpoints</em>) que se definen en los controllers para realizar las acciones
 de la aplicación son:</p>
 <p><strong><code>LoginController</code></strong></p>
 <ul>
@@ -1735,10 +1811,10 @@ datos). </li>
 </ul>
 <h4 id="autenticacion-y-control-de-acceso">Autenticación y control de acceso<a class="headerlink" href="#autenticacion-y-control-de-acceso" title="Permanent link">&para;</a></h4>
 <p>En la aplicación se realiza una autenticación y un control de acceso
-muy sencillo usando la sesión HTTP. Esta sesión se implementa en
-Spring Boot con una cookie que se pasa desde el navegador hasta el
-servidor en cada petición.</p>
-<p>El manejo de la sesión es muy sencillo: es un diccionario en el que
+muy sencillo usando la sesión HTTP (clase <code>HttpSession</code>). Esta sesión
+se implementa en Spring Boot con una cookie que se pasa desde el
+navegador hasta el servidor en cada petición.</p>
+<p>El manejo de la clase <code>HttpSession</code> es muy sencillo: es un diccionario en el que
 podemos añadir datos. En el servidor podemos obtener los datos de la
 sesión consultando el diccionario.</p>
 <p>La implementación de la autenticación y del control de acceso se
@@ -1746,177 +1822,674 @@ realiza con en la clase <code>ManagerUserSesion</code>:</p>
 <p><strong>Fichero <code>src/main/java/madstodolist/authentication/ManagerUserSesion.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist.authentication</span><span class="p">;</span>
 
+<span class="kn">import</span> <span class="nn">madstodolist.controller.exception.UsuarioNoLogeadoException</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">javax.servlet.http.HttpSession</span><span class="p">;</span>
 
 <span class="nd">@Component</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ManagerUserSesion</span> <span class="p">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ManagerUserSession</span> <span class="p">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">HttpSession</span> <span class="n">session</span><span class="p">;</span>
 
     <span class="c1">// Añadimos el id de usuario en la sesión HTTP para hacer</span>
     <span class="c1">// una autorización sencilla. En los métodos de controllers</span>
     <span class="c1">// comprobamos si el id del usuario logeado coincide con el obtenido</span>
     <span class="c1">// desde la URL</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">logearUsuario</span><span class="p">(</span><span class="n">HttpSession</span> <span class="n">session</span><span class="p">,</span> <span class="n">Long</span> <span class="n">idUsuario</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">logearUsuario</span><span class="p">(</span><span class="n">Long</span> <span class="n">idUsuario</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">session</span><span class="p">.</span><span class="na">setAttribute</span><span class="p">(</span><span class="s">&quot;idUsuarioLogeado&quot;</span><span class="p">,</span> <span class="n">idUsuario</span><span class="p">);</span>
     <span class="p">}</span>
 
-    <span class="c1">// Si el usuario no está logeado se lanza una excepción</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarUsuarioLogeado</span><span class="p">(</span><span class="n">HttpSession</span> <span class="n">session</span><span class="p">,</span> <span class="n">Long</span> <span class="n">idUsuario</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">Long</span> <span class="n">idUsuarioLogeado</span> <span class="o">=</span> <span class="p">(</span><span class="n">Long</span><span class="p">)</span> <span class="n">session</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;idUsuarioLogeado&quot;</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">idUsuario</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">idUsuarioLogeado</span><span class="p">))</span>
-            <span class="k">throw</span> <span class="k">new</span> <span class="n">UsuarioNoLogeadoException</span><span class="p">();</span>
+    <span class="kd">public</span> <span class="n">Long</span> <span class="nf">usuarioLogeado</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Long</span><span class="p">)</span> <span class="n">session</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="s">&quot;idUsuarioLogeado&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">logout</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">session</span><span class="p">.</span><span class="na">setAttribute</span><span class="p">(</span><span class="s">&quot;idUsuarioLogeado&quot;</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Se implementa como un componente Spring con la anotación <code>@Component</code>,
-lo inyectamos en los controllers y lo mockeamos en los tests de los controllers.</p>
+<p>Se implementa como un componente Spring con la anotación
+<code>@Component</code>. La referencia a la clase <code>HttpSession</code> se obtiene por
+inyección de dependencias con la anotación de spring Boot <code>@Autowired</code>.</p>
+<p>La anotación <code>@Component</code> permite inyectar un <code>ManagerUserSession</code> en
+los controllers para gestionar allí el usuario que está logeado y
+mockearlo en los tests.</p>
 <h3 id="pruebas-manuales-y-automaticas">Pruebas manuales y automáticas<a class="headerlink" href="#pruebas-manuales-y-automaticas" title="Permanent link">&para;</a></h3>
 <p>Durante el desarrollo de la práctica será necesario realizar <strong>pruebas
 manuales</strong> de la aplicación, introducir datos en sus pantallas y
-comprobar que los cambios que hemos añadido funcionan correctamente.</p>
+comprobar que los cambios que vamos introduciendo funcionan correctamente.</p>
 <p>Para estas pruebas manuales recomendamos utilizar la configuración de
 ejecución trabajando sobre una base de datos con valores
 iniciales. Estos valores iniciales se cargan en la aplicación al
 comenzar.</p>
-<p><strong>Fichero <code>src/main/resources/datos-dev.sql</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Usuario Ejemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
+<p><strong>Fichero <code>src/main/resources/data.sql</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="cm">/* Populate tables */</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Usuario Ejemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
 </code></pre></div>
 <p>Para los tests automáticos se cargan los datos definidos en el fichero
-<code>datos-tests.sql</code>.</p>
+<code>datos-tests.sql</code> usando la anotación <code>@Sql</code> en la clase de
+test. </p>
 <p><strong>Fichero <code>src/test/resources/datos-test.sql</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;UsuarioEjemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span>
 <span class="s1">&#39;1&#39;</span><span class="p">);</span>
 </code></pre></div>
+<p>Usando también esa anotación después de cada test se limpian las
+tablas con el script <code>clean-db.sql</code>.</p>
+<p><strong>Fichero <code>src/test/resources/clean-db.sql</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">tareas</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">usuarios</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="tests-de-las-entidades-y-de-la-capa-repository">Tests de las entidades y de la capa repository<a class="headerlink" href="#tests-de-las-entidades-y-de-la-capa-repository" title="Permanent link">&para;</a></h4>
 <p>Se realizan tests automáticos sobre las entidades y repository:</p>
 <ul>
 <li><code>TareaTest.java</code></li>
 <li><code>UsuarioTest.java</code>:</li>
 </ul>
-<p>En los tests sobre repository se debe usar la anotación
-<code>@Transactional</code> para definir el contexto transaccional en el que se
-realiza la llamada a las acciones sobre la base de datos.</p>
-<p>Por ejemplo:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
-<span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">unUsuarioTieneUnaListaDeTareas</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// GIVEN</span>
-    <span class="c1">// En el application.properties se cargan los datos de </span>
-    <span class="c1">// prueba del fichero datos-test.sql</span>
+<p>Veamos, por ejemplo, el fichero <code>TareaTest.java</code>:</p>
+<p><strong>Fichero <code>src/test/java/madstodolist/TareaTest.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="s">&quot;/datos-test.sql&quot;</span><span class="p">)</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaTest</span> <span class="p">{</span>
 
-    <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+    <span class="nd">@Autowired</span>
+    <span class="n">UsuarioRepository</span> <span class="n">usuarioRepository</span><span class="p">;</span>
 
-    <span class="c1">// WHEN</span>
-    <span class="n">Set</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span> <span class="n">tareas</span> <span class="o">=</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">();</span>
+    <span class="nd">@Autowired</span>
+    <span class="n">TareaRepository</span> <span class="n">tareaRepository</span><span class="p">;</span>
 
-    <span class="c1">// THEN</span>
+    <span class="c1">//</span>
+    <span class="c1">// Tests modelo Tarea en memoria, sin la conexión con la BD</span>
+    <span class="c1">//</span>
 
-    <span class="n">assertThat</span><span class="p">(</span><span class="n">tareas</span><span class="p">).</span><span class="na">isNotEmpty</span><span class="p">();</span>
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">crearTarea</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Creado usuario nuevo,</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;juan.gutierrez@gmail.com&quot;</span><span class="p">);</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// se crea una nueva tarea con ese usuario,</span>
+
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// el título y el usuario de la tarea son los correctos.</span>
+
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getUsuario</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">laListaDeTareasDeUnUsuarioSeActualizaEnMemoriaConUnaNuevaTarea</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Un usuario nuevo creado en memoria, sin conexión con la BD,</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;juan.gutierrez@gmail.com&quot;</span><span class="p">);</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// se crea una tarea de ese usuario,</span>
+
+        <span class="n">Set</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span> <span class="n">tareas</span> <span class="o">=</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">();</span>
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// la tarea creada se ha añadido a la lista de tareas del usuario.</span>
+
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tareas</span><span class="p">).</span><span class="na">contains</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarIgualdadTareasSinId</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Creadas tres tareas sin identificador, y dos de ellas con</span>
+        <span class="c1">// la misma descripción</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;juan.gutierrez@gmail.com&quot;</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Pagar el alquiler&quot;</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// son iguales (Equal) las tareas que tienen la misma descripción.</span>
+
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tarea1</span><span class="p">).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">tarea2</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tarea1</span><span class="p">).</span><span class="na">isNotEqualTo</span><span class="p">(</span><span class="n">tarea3</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarIgualdadTareasConId</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Creadas tres tareas con distintas descripciones y dos de ellas</span>
+        <span class="c1">// con el mismo identificador,</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;juan.gutierrez@gmail.com&quot;</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Lavar la ropa&quot;</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Pagar el alquiler&quot;</span><span class="p">);</span>
+        <span class="n">tarea1</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+        <span class="n">tarea2</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="mi">2L</span><span class="p">);</span>
+        <span class="n">tarea3</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// son iguales (Equal) las tareas que tienen el mismo identificador.</span>
+
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tarea1</span><span class="p">).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">tarea3</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tarea1</span><span class="p">).</span><span class="na">isNotEqualTo</span><span class="p">(</span><span class="n">tarea2</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">//</span>
+    <span class="c1">// Tests TareaRepository</span>
+    <span class="c1">//</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">guardarTareaEnBaseDatos</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// salvamos la tarea en la BD,</span>
+
+        <span class="n">tareaRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// se actualiza el id de la tarea,</span>
+
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">isNotNull</span><span class="p">();</span>
+
+        <span class="c1">// y con ese identificador se recupera de la base de datos la tarea</span>
+        <span class="c1">// con los valores correctos de las propiedades y la relación con</span>
+        <span class="c1">// el usuario actualizado también correctamente (la relación entre tarea</span>
+        <span class="c1">// y usuario es EAGER).</span>
+
+        <span class="n">Tarea</span> <span class="n">tareaBD</span> <span class="o">=</span> <span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">());</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">.</span><span class="na">getUsuario</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">salvarTareaEnBaseDatosConUsuarioNoBDLanzaExcepcion</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Creamos un usuario nuevo que no añadimos a la BD y creamos</span>
+        <span class="c1">// una tarea asociada a ese usuario,</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;juan.gutierrez@gmail.com&quot;</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+
+        <span class="c1">// WHEN // THEN</span>
+        <span class="c1">// se lanza una excepción al intentar salvar la tarea en la BD</span>
+
+        <span class="n">Assertions</span><span class="p">.</span><span class="na">assertThrows</span><span class="p">(</span><span class="n">Exception</span><span class="p">.</span><span class="na">class</span><span class="p">,</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">{</span>
+            <span class="n">tareaRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">unUsuarioTieneUnaListaDeTareas</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// recuperamos un ususario de la base de datos,</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// su lista de tareas también se recupera, porque se ha</span>
+        <span class="c1">// definido la relación de usuario y tareas como EAGER.</span>
+
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">añadirUnaTareaAUnUsuarioEnBD</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// creamos una nueva tarea con un usuario recuperado de la BD</span>
+        <span class="c1">// y la salvamos,</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+        <span class="n">tareaRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+        <span class="n">Long</span> <span class="n">tareaId</span> <span class="o">=</span> <span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// la tarea queda guardada en la BD asociada al usuario.</span>
+
+        <span class="n">Usuario</span> <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tareaBD</span> <span class="o">=</span> <span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">tareaId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getUsuario</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">//</span>
+    <span class="c1">// Tests modelo Tarea con la conexión con la BD abierta usando la</span>
+    <span class="c1">// anotación @Transactional y el TareaRepository</span>
+    <span class="c1">//</span>
+
+    <span class="nd">@Test</span>
+    <span class="c1">// Al usar @Transactional se ejecuta el test con</span>
+    <span class="c1">// la conexión con la BD abierta y las entidades conectadas</span>
+    <span class="c1">// con la base de datos</span>
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cambioEnLaEntidadEnTransactionalModificaLaBD</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql, habiendo</span>
+        <span class="c1">// anotado el test con @Transactional y recuperada una tarea,</span>
+
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// modificamos la descripción de la tarea</span>
+
+        <span class="n">tarea</span><span class="p">.</span><span class="na">setTitulo</span><span class="p">(</span><span class="s">&quot;Esto es una prueba&quot;</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// la descripción queda actualizada en la BD.</span>
+
+        <span class="n">Tarea</span> <span class="n">tareaBD</span> <span class="o">=</span> <span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">());</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>Te recomiendo que leas con cuidado los tests y sus comentarios. Son
+muy útiles para entender el funcionamiento de la aplicación (en este
+caso de las entidades y de la capa <em>repository</em>).</p>
+<p>Utilizamos el formato <em>GIVEN, WHEN, THEN</em> para estructurar el test. En
+la parte <em>GIVEN</em> se preparan los datos, en la parte <em>WHEN</em> se lanza el
+método o métodos que se quieren probar y en la parte <em>THEN</em> se
+comprueban los resultados.</p>
+<p>Se realizan distintos tipos de tests dentro de la misma clase:</p>
+<ul>
+<li>Pruebas sobre las entidades por si solas, sin conexión con la
+  base de datos. Son lo que se denomina tests del modelo.</li>
+<li>Pruebas sobre la capa <em>repository</em>, en las que se comprueban que las
+  operaciones de búsqueda y actualización funcionan correctamente
+  sobre la base de datos.</li>
+<li>Pruebas sobre la capa <em>repository</em> en las que se necesitan realizar
+  más de una sentencia con la misma conexión a la base de datos o
+  acceder a atributos <em>lazy</em>. Para estas pruebas usamos la anotación
+  <code>@Transactional</code>. </li>
+</ul>
+<h4 id="tests-de-la-capa-de-servicios">Tests de la capa de servicios<a class="headerlink" href="#tests-de-la-capa-de-servicios" title="Permanent link">&para;</a></h4>
 <p>También se realizan tests sobre la capa de servicio: </p>
 <ul>
 <li><code>TareaServiceTest.java</code></li>
 <li><code>UsuarioServiceTest.java</code></li>
 </ul>
-<p>Hay que ser cuidadoso al hacer pruebas que afectan a la base de datos,
-porque podemos insertar o modificar datos que se comprueban en otros
-tests. Tenemos que tener cuidado en que cada test sea independiente de
-los demás. </p>
-<p>En Spring Boot una forma muy sencilla de asegurase de que un test no
-afecta a los demás es añadir la anotación <code>@Transactional</code> en los
-tests que modifican la base de datos. Spring Boot abre una transacción
-y al terminar el test la transacción se deshace y los datos de la base
-de datos quedan como estaban al principio.</p>
-<p>Por ejemplo:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
-<span class="nd">@Transactional</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testNuevaTareaUsuario</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// GIVEN</span>
-    <span class="c1">// En el application.properties se cargan los datos de prueba </span>
-    <span class="c1">// del fichero datos-test.sql</span>
+<p>Estos tests comprueban que los métodos de servicio funcionan
+correctamente y modifican la base de datos tal y como se pretende en
+cada operación.</p>
+<p>Veamos, por ejemplo, el fichero <code>TareaServiceTest.java</code>:</p>
+<p><strong>Fichero <code>src/test/java/madstodolist/TareaServiceTest.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="s">&quot;/datos-test.sql&quot;</span><span class="p">)</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaServiceTest</span> <span class="p">{</span>
 
-    <span class="c1">// WHEN</span>
-    <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+    <span class="nd">@Autowired</span>
+    <span class="n">UsuarioService</span> <span class="n">usuarioService</span><span class="p">;</span>
 
-    <span class="c1">// THEN</span>
+    <span class="nd">@Autowired</span>
+    <span class="n">TareaService</span> <span class="n">tareaService</span><span class="p">;</span>
 
-    <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
-    <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testBuscarTarea</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// recuperamos una tarea de la base de datos a partir de su ID,</span>
+
+        <span class="n">Tarea</span> <span class="n">lavarCoche</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// los datos de la tarea recuperada son correctos.</span>
+
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">lavarCoche</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">lavarCoche</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Lavar coche&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testNuevaTareaUsuario</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// creamos una nueva tarea asociada a un usuario,</span>
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// al recuperar el usuario usando el método de serivio findByEmail la tarea creada</span>
+        <span class="c1">// está en la lista de tareas del usuario.</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">().</span><span class="na">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testModificarTarea</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+        <span class="c1">// creada una tarea nueva de un usuario y obtenido su identificador,</span>
+
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span> <span class="s">&quot;Pagar el recibo&quot;</span><span class="p">);</span>
+        <span class="n">Long</span> <span class="n">idNuevaTarea</span> <span class="o">=</span> <span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// modificamos la tarea correspondiente a ese identificador,</span>
+
+        <span class="n">Tarea</span> <span class="n">tareaModificada</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">modificaTarea</span><span class="p">(</span><span class="n">idNuevaTarea</span><span class="p">,</span> <span class="s">&quot;Pagar la matrícula&quot;</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// al buscar por el identificador en la base de datos se devuelve la tarea modificada</span>
+
+        <span class="n">Tarea</span> <span class="n">tareaBD</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">idNuevaTarea</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Pagar la matrícula&quot;</span><span class="p">);</span>
+
+        <span class="c1">// y el usuario tiene también esa tarea modificada.</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testBorrarTarea</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql, añadida</span>
+        <span class="c1">// una tarea nueva al usuario 1L y obtenido el identificador de la tarea,</span>
+
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span> <span class="s">&quot;Estudiar MADS&quot;</span><span class="p">);</span>
+        <span class="n">Long</span> <span class="n">idNuevaTarea</span> <span class="o">=</span> <span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// borramos la tarea correspondiente al identificador,</span>
+
+        <span class="n">tareaService</span><span class="p">.</span><span class="na">borraTarea</span><span class="p">(</span><span class="n">idNuevaTarea</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// la tarea ya no está en la base de datos ni en las tareas del usuario.</span>
+
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">tareaService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">())).</span><span class="na">isNull</span><span class="p">();</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">getTareas</span><span class="p">().</span><span class="na">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Y también realizamos tests sobre los controllers:</p>
+<p>Para conseguir que los tests sean independientes y evitar que datos
+introducidos o modificados en un test afecten a otros tests, usamos
+las anotaciones <code>@Sql</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Sql</span><span class="p">(</span><span class="s">&quot;/datos-test.sql&quot;</span><span class="p">)</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaServiceTest</span> <span class="p">{</span>
+</code></pre></div>
+<p>Al comienzo de cada test se cargan los datos del fichero
+<code>datos-test.sql</code> y después de cada test se ejecuta el script
+<code>clean-db.sql</code> para limpiar las tablas.</p>
+<h4 id="tests-de-la-capa-controller">Tests de la capa controller<a class="headerlink" href="#tests-de-la-capa-controller" title="Permanent link">&para;</a></h4>
+<p>Por último, también realizamos tests sobre los controllers:</p>
 <ul>
 <li><code>UsuarioWebTest.java</code></li>
 <li><code>TareaWebTest.java</code></li>
 </ul>
-<p>En los tests sobre los controllers se comprueba que el resultado de
-realizar un <code>GET</code> o un <code>POST</code> sobre los endpoints correspondientes
-devuelven un HTML que contiene alguna cadena que coincide con lo
-esperado.</p>
-<p>En estos tests también es posible usar los datos de la base de datos
-<code>datos-test.sql</code> o <em>mockear</em> los servicios para que devuelvan los
-datos que nos interesan.</p>
-<p>Por ejemplo, en el siguiente test se comprueba que cuando se hace un
-<code>POST</code> a la URL de login con un usuario registrado, se obtiene una
-redirección a URL de la lista de tareas de ese usuario.</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioLoginUsuarioOK</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
-    <span class="c1">// GIVEN</span>
-    <span class="c1">// Datos cargados de datos-test.sql</span>
-
-    <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
-            <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span> <span class="s">&quot;user@ua&quot;</span><span class="p">)</span>
-            <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span> <span class="s">&quot;123&quot;</span><span class="p">))</span>
-            <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">is3xxRedirection</span><span class="p">())</span>
-            <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">redirectedUrl</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">));</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>En el siguiente ejemplo, se mockea el <code>ServicioTareas</code> para comprobar
-que se ha llamada al método <code>nuevaTareaUsuario</code> al hacer el <code>POST</code> que
-añade una tarea. Esto se hace al final del test con el método <code>verify</code>.</p>
-<p>También se mockea <code>ManagerUserSesion</code> para que no se lance la
-excepción de usuario no logeado. Y <code>UsuarioService</code> para trabajar con
-el mock en lugar de con el método real y evitar que se tenga que
-llamar a la base de datos (de esta forma se acelera el test).</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@RunWith</span><span class="p">(</span><span class="n">SpringRunner</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
-<span class="nd">@SpringBootTest</span>
+<p>En estos tests se comprueba que el resultado de realizar un <code>GET</code> o un
+<code>POST</code> sobre los endpoints correspondientes devuelven un HTML que
+contiene alguna cadena que coincide con lo esperado.</p>
+<p>Existen dos enfoques a la hora de definir estos tests. Podemos, al
+igual que hemos hecho en los tests de servicio, usar los datos de la
+base de datos <code>datos-test.sql</code> o también podemos <em>mockear</em> los
+servicios para que devuelvan los datos que nos interesan.</p>
+<p>Utilizamos ambos enfoques para que aprendas a trabajar con los dos. En
+la clase <code>TareaWebTest</code> se utilizan los datos de prueba de la base de
+datos y en la clase <code>UsuarioWebTest</code> se mockean los servicios.</p>
+<p>La utilización de <em>mocks</em> es muy útil también para poder testear los
+métodos que tienen un acceso restringido al usuario que hace la
+operación. Por ejemplo, la consulta o modificación de una
+tarea. Mockeamos el <code>managerUserSession</code> para simular que el usuario
+está logeado.</p>
+<p>Mostramos a continuación los ficheros de test de controllers.</p>
+<p><strong>Fichero <code>src/test/java/madstodolist/TareaWebTest.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
 <span class="nd">@AutoConfigureMockMvc</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="s">&quot;/datos-test.sql&quot;</span><span class="p">)</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaWebTest</span> <span class="p">{</span>
 
     <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="p">;</span>
 
-    <span class="nd">@MockBean</span>
-    <span class="kd">private</span> <span class="n">UsuarioService</span> <span class="n">usuarioService</span><span class="p">;</span>
-
-    <span class="nd">@MockBean</span>
+    <span class="c1">// Declaramos los servicios como Autowired y usamos los datos</span>
+    <span class="c1">// de prueba de la base de datos</span>
+    <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">TareaService</span> <span class="n">tareaService</span><span class="p">;</span>
 
-    <span class="c1">// Al mocker el managerUserSession, no lanza la excepción cuando</span>
-    <span class="c1">// se intenta comprobar si un usuario está logeado</span>
+    <span class="c1">// Moqueamos el managerUserSession para poder moquear el usuario logeado</span>
     <span class="nd">@MockBean</span>
-    <span class="kd">private</span> <span class="n">ManagerUserSesion</span> <span class="n">managerUserSesion</span><span class="p">;</span>
+    <span class="kd">private</span> <span class="n">ManagerUserSession</span> <span class="n">managerUserSession</span><span class="p">;</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">listaTareas</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="c1">// Moqueamos el método usuarioLogeado para que devuelva el usuario 1L,</span>
+        <span class="c1">// el mismo que se está usando en la petición. De esta forma evitamos</span>
+        <span class="c1">// que salte la excepción de que el usuario que está haciendo la</span>
+        <span class="c1">// petición no está logeado.</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+
+        <span class="c1">// WHEN, THEN</span>
+        <span class="c1">// se realiza la petición GET al listado de tareas de un usuario,</span>
+        <span class="c1">// el HTML devuelto contiene las descripciones de sus tareas.</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">((</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">allOf</span><span class="p">(</span>
+                        <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Lavar coche&quot;</span><span class="p">),</span>
+                        <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Renovar DNI&quot;</span><span class="p">)</span>
+                <span class="p">))));</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">getNuevaTareaDevuelveForm</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="c1">// Ver el comentario en el primer test</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+
+        <span class="c1">// WHEN, THEN</span>
+        <span class="c1">// si ejecutamos una petición GET para crear una nueva tarea de un usuario,</span>
+        <span class="c1">// el HTML resultante contiene un formulario y la ruta con</span>
+        <span class="c1">// la acción para crear la nueva tarea.</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas/nueva&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">((</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">allOf</span><span class="p">(</span>
+                        <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;form method=\&quot;post\&quot;&quot;</span><span class="p">),</span>
+                        <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;action=\&quot;/usuarios/1/tareas/nueva\&quot;&quot;</span><span class="p">)</span>
+                <span class="p">))));</span>
+    <span class="p">}</span>
 
     <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">postNuevaTareaDevuelveRedirectYAñadeTarea</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
-        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;Usuario&quot;</span><span class="p">);</span>
-        <span class="n">usuario</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+        <span class="c1">// Ver el comentario en el primer test</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
 
-        <span class="n">when</span><span class="p">(</span><span class="n">usuarioService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">)).</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+
+        <span class="c1">// WHEN, THEN</span>
+        <span class="c1">// realizamos la petición POST para añadir una nueva tarea,</span>
+        <span class="c1">// el estado HTTP que se devuelve es un REDIRECT al listado</span>
+        <span class="c1">// de tareas.</span>
 
         <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas/nueva&quot;</span><span class="p">)</span>
-                    <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;titulo&quot;</span><span class="p">,</span> <span class="s">&quot;Estudiar examen MADS&quot;</span><span class="p">))</span>
-                    <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">is3xxRedirection</span><span class="p">())</span>
-                    <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">redirectedUrl</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">));</span>
+                        <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;titulo&quot;</span><span class="p">,</span> <span class="s">&quot;Estudiar examen MADS&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">is3xxRedirection</span><span class="p">())</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">redirectedUrl</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">));</span>
 
-        <span class="c1">// Verificamos que se ha añadido el método para</span>
-        <span class="c1">// añadir una tarea con los parámetros correctos</span>
-        <span class="n">verify</span><span class="p">(</span><span class="n">tareaService</span><span class="p">).</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span> <span class="s">&quot;Estudiar examen MADS&quot;</span><span class="p">);</span>
+        <span class="c1">// y si después consultamos el listado de tareas con una petición</span>
+        <span class="c1">// GET el HTML contiene la tarea añadida.</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">((</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Estudiar examen MADS&quot;</span><span class="p">))));</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteTareaDevuelveOKyBorraTarea</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="c1">// Ver el comentario en el primer test</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+
+        <span class="c1">// WHEN, THEN</span>
+        <span class="c1">// realizamos la petición DELETE para borrar una tarea,</span>
+        <span class="c1">// se devuelve el estado HTTP que se devuelve es OK,</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">delete</span><span class="p">(</span><span class="s">&quot;/tareas/1&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">isOk</span><span class="p">());</span>
+
+        <span class="c1">// y cuando se pide un listado de tareas del usuario, la tarea borrada ya no aparece.</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span>
+                        <span class="n">allOf</span><span class="p">(</span><span class="n">not</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Lavar coche&quot;</span><span class="p">)),</span>
+                                <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Renovar DNI&quot;</span><span class="p">))));</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">editarTareaDevuelveForm</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="c1">// Ver el comentario en el primer test</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+
+        <span class="c1">// WHEN, THEN</span>
+        <span class="c1">// realizamos una petición GET al endpoint para editar una tarea</span>
+        <span class="c1">// el HTML devuelto</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/tareas/1/editar&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">allOf</span><span class="p">(</span>
+                    <span class="c1">// contiene la acción para enviar el post a la URL correcta,</span>
+                    <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;action=\&quot;/tareas/1/editar\&quot;&quot;</span><span class="p">),</span>
+                    <span class="c1">// contiene la descripción de la tarea a editar,</span>
+                    <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Lavar coche&quot;</span><span class="p">),</span>
+                    <span class="c1">// y contiene enlace a listar tareas del usuario si se cancela la edición.</span>
+                    <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;href=\&quot;/usuarios/1/tareas\&quot;&quot;</span><span class="p">))));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Fichero <code>src/test/java/madstodolist/UsuarioWebTest.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.service.UsuarioService</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.mock.mockito.MockBean</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.jdbc.Sql</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.web.servlet.MockMvc</span><span class="p">;</span>
+
+<span class="kn">import static</span> <span class="nn">org.hamcrest.Matchers.containsString</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.mockito.Mockito.when</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultMatchers.*</span><span class="p">;</span>
+
+<span class="nd">@SpringBootTest</span>
+<span class="nd">@AutoConfigureMockMvc</span>
+<span class="c1">//</span>
+<span class="c1">// A diferencia de los tests web de tarea, donde usábamos los datos</span>
+<span class="c1">// de prueba de la base de datos, aquí vamos a practicar otro enfoque:</span>
+<span class="c1">// moquear el usuarioService.</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UsuarioWebTest</span> <span class="p">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="p">;</span>
+
+    <span class="c1">// Moqueamos el usuarioService.</span>
+    <span class="c1">// En los tests deberemos proporcionar el valor devuelto por las llamadas</span>
+    <span class="c1">// a los métodos de usuarioService que se van a ejecutar cuando se realicen</span>
+    <span class="c1">// las peticiones a los endpoint.</span>
+    <span class="nd">@MockBean</span>
+    <span class="kd">private</span> <span class="n">UsuarioService</span> <span class="n">usuarioService</span><span class="p">;</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioLoginUsuarioOK</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Moqueamos la llamada a usuarioService.login para que</span>
+        <span class="c1">// devuelva un LOGIN_OK y la llamada a usuarioServicie.findByEmail</span>
+        <span class="c1">// para que devuelva un usuario determinado.</span>
+
+        <span class="n">Usuario</span> <span class="n">anaGarcia</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">);</span>
+        <span class="n">anaGarcia</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+
+        <span class="n">when</span><span class="p">(</span><span class="n">usuarioService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">,</span> <span class="s">&quot;12345678&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">LOGIN_OK</span><span class="p">);</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">anaGarcia</span><span class="p">);</span>
+
+        <span class="c1">// WHEN, THEN</span>
+        <span class="c1">// Realizamos una petición POST al login pasando los datos</span>
+        <span class="c1">// esperados en el mock, la petición devolverá una redirección a la</span>
+        <span class="c1">// URL con las tareas del usuario</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
+                <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span> <span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">)</span>
+                <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span> <span class="s">&quot;12345678&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">is3xxRedirection</span><span class="p">())</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">redirectedUrl</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioLoginUsuarioNotFound</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Moqueamos el método usuarioService.login para que devuelva</span>
+        <span class="c1">// USER_NOT_FOUND</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">usuarioService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="s">&quot;pepito.perez@gmail.com&quot;</span><span class="p">,</span> <span class="s">&quot;12345678&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">USER_NOT_FOUND</span><span class="p">);</span>
+
+        <span class="c1">// WHEN, THEN</span>
+        <span class="c1">// Realizamos una petición POST con los datos del usuario mockeado y</span>
+        <span class="c1">// se debe devolver una página que contenga el mensaja &quot;No existe usuario&quot;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
+                    <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span><span class="s">&quot;pepito.perez@gmail.com&quot;</span><span class="p">)</span>
+                    <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span><span class="s">&quot;12345678&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;No existe usuario&quot;</span><span class="p">)));</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioLoginUsuarioErrorPassword</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Moqueamos el método usuarioService.login para que devuelva</span>
+        <span class="c1">// ERROR_PASSWORD</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">usuarioService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">,</span> <span class="s">&quot;000&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">ERROR_PASSWORD</span><span class="p">);</span>
+
+        <span class="c1">// WHEN, THEN</span>
+        <span class="c1">// Realizamos una petición POST con los datos del usuario mockeado y</span>
+        <span class="c1">// se debe devolver una página que contenga el mensaja &quot;Contraseña incorrecta&quot;</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
+                    <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span><span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">)</span>
+                    <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span><span class="s">&quot;000&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Contraseña incorrecta&quot;</span><span class="p">)));</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1926,7 +2499,7 @@ llamar a la base de datos (de esta forma se acelera el test).</p>
 <p>Una vez logeado en GitHub, copia el enlace con una invitación que
    compartiremos en el foro de Moodle. Con esa invitación se creará
    automáticamente tu repositorio <code>mads-todolist-&lt;usuario&gt;</code> en la
-   organización <a href="https://github.com/mads-ua-21-22">mads-ua</a>. Al igual
+   organización <a href="https://github.com/mads-ua-22-23">mads-ua</a>. Al igual
    que el repositorio de la primera parte de la práctica es un
    repositorio privado al que tienes acceso tú y el profesor. Contiene
    el código inicial de un proyecto base (es una copia del repositorio
@@ -1934,7 +2507,7 @@ llamar a la base de datos (de esta forma se acelera el test).</p>
    en la que se han comprimido todos los commits en uno.</p>
 <p>Es importante que tengas en cuenta que el repositorio recién
 creado no reside en tu cuenta, sino en la organización
-<code>mads-ua-21-22</code>. Puedes acceder a él desde el <em>dashboard</em> de GitHub que
+<code>mads-ua-22-23</code>. Puedes acceder a él desde el <em>dashboard</em> de GitHub que
 aparece cuando te logeas.</p>
 </li>
 <li>
