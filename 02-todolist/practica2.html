@@ -2397,26 +2397,7 @@ está logeado.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>Fichero <code>src/test/java/madstodolist/UsuarioWebTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
-
-<span class="kn">import</span> <span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">madstodolist.service.UsuarioService</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.boot.test.mock.mockito.MockBean</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.test.context.jdbc.Sql</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">org.springframework.test.web.servlet.MockMvc</span><span class="p">;</span>
-
-<span class="kn">import static</span> <span class="nn">org.hamcrest.Matchers.containsString</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.mockito.Mockito.when</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post</span><span class="p">;</span>
-<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultMatchers.*</span><span class="p">;</span>
-
-<span class="nd">@SpringBootTest</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
 <span class="nd">@AutoConfigureMockMvc</span>
 <span class="c1">//</span>
 <span class="c1">// A diferencia de los tests web de tarea, donde usábamos los datos</span>
