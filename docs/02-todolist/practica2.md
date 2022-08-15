@@ -1797,10 +1797,12 @@ En estos tests se comprueba que el resultado de realizar un `GET` o un
 `POST` sobre los endpoints correspondientes devuelven un HTML que
 contiene alguna cadena que coincide con lo esperado.
 
-Existen dos enfoques a la hora de definir estos tests. Podemos, al
-igual que hemos hecho en los tests de servicio, usar los datos de la
-base de datos `datos-test.sql` o también podemos _mockear_ los
-servicios para que devuelvan los datos que nos interesan.
+Existen dos enfoques a la hora de definir estos tests. 
+
+- Podemos, al igual que hemos hecho en los tests de servicio, usar los
+datos de la base de datos `datos-test.sal`. 
+- Podemos _mockear_ los servicios para que devuelvan los datos que nos
+  interesan.
 
 Utilizamos ambos enfoques para que aprendas a trabajar con los dos. En
 la clase `TareaWebTest` se utilizan los datos de prueba de la base de
