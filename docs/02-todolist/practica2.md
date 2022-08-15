@@ -336,18 +336,39 @@ spring.datasource.url=jdbc:h2:mem:dev
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
 logging.level.org.hibernate.SQL=debug
-spring.datasource.data=classpath:datos-dev.sql
-spring.datasource.initialization-mode=always
+logging.level.madstodolist=debug
+spring.sql.init.mode=always
+# cargar los datos despues de que Hibernate inicialice
+# los esquemas de datos
+# https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.5-Release-Notes#sql-script-datasource-initialization
+spring.jpa.defer-datasource-initialization=true
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+# Deshabilitamos Open EntityManager in View
+# https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/html/data.html#data.sql.jpa-and-spring-data.open-entity-manager-in-view
+# Ver tambien https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/hibernate5/support/OpenSessionInViewInterceptor.html
+# y https://www.baeldung.com/spring-open-session-in-view
+spring.jpa.open-in-view=false
 ```
 
-Se define las características de la fuente de datos con la que trabaja
-la aplicación (la base de datos en memoria H2). El parámetro
-`spring.datasource.data` define el fichero que
-contiene los datos iniciales que se van a cargar en la base de datos
-al arrancar la aplicación. En este caso se trata del fichero
-`datos-dev.sql`:
+Entre otras cosas, se define las características de la fuente de datos
+con la que trabaja la aplicación (la base de datos en memoria H2):
 
-**Fichero `/src/main/resources/datos-dev.sql`**:
+- El parámetro `spring.jpa.hibernate.ddl-auto=update` hace que
+  Hibernate actualice automáticamente los esquemas de la base de
+  datos, construyéndolos a partir de las clases `Entity`. En un
+  entorno de producción el valor de esta propiedad deberá ser
+  `validate` para no modificar la base de datos de producción. 
+- El parámetro `spring.sql.init.mode=always` hace que se carguen datos
+  iniciales en la base de datos al arrancar la aplicación. El
+  parámetro `spring.jpa.defer-datasource-initialization=true` hace que
+  los datos se carguen después de que Hibernate haya actualizado el
+  esquema de datos. 
+
+Los datos se encuentran en el fichero `data.sql`:
+
+
+**Fichero `/src/main/resources/data.sql`**:
 
 ```sql
 /* Populate tables */
@@ -356,27 +377,30 @@ INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
 ```
 
-!!! Note "Base de datos H2 en memoria"
+!!! Note "Base de datos H2 en memoria en desarrollo"
     En esta práctica vamos a trabajar únicamente con la base de datos en
     memoria. Esto significa que los datos que introduzcamos van a estar
     presentes mientras que la aplicación esté funcionando. Cuando matemos
     la aplicación y la volvamos a reiniciar sólo estarán los datos
-    iniciales, los datos que se cargan del fichero `datos-dev.sql`.
+    iniciales, los datos que se cargan del fichero `data.sql`.
 
     En la práctica 3 utilizaremos una base de datos real, que deberemos
     gestionar también en producción. En concreto, se tratará de una base
-    de datos PostgresSQL.
-
-
-En el fichero de configuración también se define la característica de
-JPA `spring.jpa.hibernate.ddl-auto` que define cómo se debe
-inicializar el esquema de datos de la aplicación cuando haya un cambio
-en el código fuente que define las entidades. En este caso tenemos un
-valor de `update` para indicar que se el esquema de datos debe
-actualizarse. En un entorno de producción el valor de esta propiedad
-deberá ser `validate` para no modificar la base de datos de
-producción.
-
+    de datos PostgresSQL. Crearemos una configuración de producción en
+    la que se deshabilitará la creación automática del esquema de
+    datos y deberemos gestionarlo manualmente con un ficheros SQL de
+    inicialización y migración de la base de datos.
+    
+Por último, el parámetro `spring.jpa.open-in-view=false` deshabilita
+una característica de Spring denominada _open in view_ que mantiene
+abierta la conexión de la base de datos de forma automática en cada
+petición HTTP. Se trata de una característica que facilita el trabajo
+con las relaciones _lazy_ entre entidades, pero puede introducir
+errores no deseados al permitir acceder a la base de datos en la capa
+_controller_. Al deshabilitar esta característica tendremos que
+gestionar manualmente las relaciones _lazy_, recuperándolas en la capa
+de servicio, en donde sí que mantenemos abierta la conexión con la
+base de datos. Lo veremos más adelante con más detalle.
 
 #### Otras configuraciones ####
 
@@ -387,22 +411,34 @@ usar. Lo veremos en la práctica 3.
 En esta práctica se define otra configuración en el directorio de
 test, que es la que se carga cuando se lanzan los tests:
 
-
 **Fichero `src/test/resources/application.properties`**:
 ```java
 spring.datasource.url=jdbc:h2:mem:test
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=create
 logging.level.org.hibernate.SQL=debug
-spring.datasource.data=classpath:datos-test.sql
-spring.datasource.initialization-mode=always
+# Es necesario definir el sql.init.mode a never para evitar
+# que se carguen los datos de src/main/resources/data.sql
+spring.sql.init.mode=never
+# obligamos a que Hibernate inicialice los esquemas de datos
+# https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.5-Release-Notes#sql-script-datasource-initialization
+spring.jpa.defer-datasource-initialization=true
+# Deshabilitamos Open EntityManager in View
+# https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/html/data.html#data.sql.jpa-and-spring-data.open-entity-manager-in-view
+# Ver tambien https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/hibernate5/support/OpenSessionInViewInterceptor.html
+# y https://www.baeldung.com/spring-open-session-in-view
+spring.jpa.open-in-view=false
 ```
 
-La diferencia con el fichero de configuración de desarrollo es el
+Una diferencia con el fichero de configuración de desarrollo es el
 nombre de la fuente de datos, el modo del
 `spring.jpa.hibernate.ddl-auto`, que es `create` y el fichero de datos
 iniciales que se carga al ejecutar los tests.
 
+La otra diferencia importante es que evitamos que se carguen los datos
+poniendo el parámetro `spring.sql.init.mode` a `never`. Veremos que
+los datos de prueba de los tests se cargan desde los tests usando la
+anotación `@sql`.
 
 ### Gestión de persistencia con JPA ###
 
@@ -462,10 +498,10 @@ package madstodolist.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
@@ -490,13 +526,11 @@ public class Usuario implements Serializable {
     // CUIDADO!! No es recomendable hacerlo en aquellos casos en los
     // que la relación pueda traer a memoria una gran cantidad de entidades
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    List<Tarea> tareas = new ArrayList<Tarea>();
+    Set<Tarea> tareas = new HashSet<>();
 
     // Constructor vacío necesario para JPA/Hibernate.
-    // Lo hacemos privado para que no se pueda usar desde el código de la aplicación. Para crear un
-    // usuario en la aplicación habrá que llamar al constructor público. Hibernate sí que lo puede usar, a pesar
-    // de ser privado.
-    private Usuario() {}
+    // No debe usarse desde la aplicación.
+    public Usuario() {}
 
     // Constructor público con los atributos obligatorios. En este caso el correo electrónico.
     public Usuario(String email) {
@@ -543,11 +577,11 @@ public class Usuario implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public List<Tarea> getTareas() {
+    public Set<Tarea> getTareas() {
         return tareas;
     }
 
-    public void setTareas(List<Tarea> tareas) {
+    public void setTareas(Set<Tarea> tareas) {
         this.tareas = tareas;
     }
 
@@ -613,10 +647,8 @@ public class Tarea implements Serializable {
     private Usuario usuario;
 
     // Constructor vacío necesario para JPA/Hibernate.
-    // Lo hacemos privado para que no se pueda usar desde el código de la aplicación. Para crear un
-    // usuario en la aplicación habrá que llamar al constructor público. Hibernate sí que lo puede usar, a pesar
-    // de ser privado.
-    private Tarea() {}
+    // No debe usarse desde la aplicación.
+    public Tarea() {}
 
     // Al crear una tarea la asociamos automáticamente a un
     // usuario. Actualizamos por tanto la lista de tareas del
@@ -657,6 +689,10 @@ public class Tarea implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tarea tarea = (Tarea) o;
+        if (id != null && tarea.id != null)
+            // Si tenemos los ID, comparamos por ID
+            return Objects.equals(id, tarea.id);
+        // sino comparamos por campos obligatorios
         return titulo.equals(tarea.titulo) &&
                 usuario.equals(tarea.usuario);
     }
@@ -681,16 +717,25 @@ tipo `LAZY`.
 La característica de los atributos marcados como _lazy_ en JPA es que
 no se traen a memoria cuando se recupera la entidad, sino cuando se
 consultan explícitamente accediendo al atributo. Para que se traigan a
-memoria **la conexión con la base de datos debe estar abierta**. Si ya
-se ha cerrado esa conexión (por ejemplo, se ha cerrado la transacción
-en el método de servicio y se quiere acceder a la una lista de tareas
-de un usuario devuelto por el propio método estando en el controller)
-se producirá un error.
+memoria **la conexión con la base de datos debe estar abierta**. Una
+forma de hacerlo, la que usamos en la aplicación, es marcando el
+método que accede a las entidades con la anotación
+`@Transactional`. Las entidades que usemos en el código con esa
+anotación estarán conectadas a la base de datos y podremos recuperar
+sus relaciones _lazy_. Una terminada la transacción, por ejemplo fuera
+del método anotado con `@Transactional`, si intentamos acceder a una
+relación _lazy_ sin haberla inicializado se producirá un error.
 
-Frente a la recuperación _lazy_ de colecciones, también existe la
-posibilidad de definir una colección como de tipo _EAGER_. En este
-caso JPA se traerá siempre a memoria todos los elementos. Es el caso
-de la relación entre un usuario y sus tareas.
+En la práctica 3 definiremos una relación _lazy_ y explicaremos cómo
+gestionarla en la capa de servicios. En esta práctica, sin embargo,
+usaremos relaciones de tipo _EAGER_.
+
+En el caso de definir un relación entre entidades de tipo _EAGER_ JPA
+se traerá siempre a memoria todos los elementos cuando se recupere
+cualquier entidad. Es como hemos definido la relación entre un usuario
+y sus tareas. Por ejemplo, cuando se realice una búsqueda y se
+recupere un usuario, se recuperarán también automáticamente todas sus
+tareas y se inicializará en memoria la colección de tareas del usuario.
 
 En general, no es conveniente definir una relación como _eager_ porque
 puede provocar problemas de rendimiento en el caso en que haya muchos
@@ -727,6 +772,13 @@ public class Tarea {
 }
 ```
 
+!!! Note
+    La diferencia entre recuperación _lazy_ y recuperación _eager_ de
+    las relaciones es uno de los conceptos que causan más problemas al
+    trabajar con Hibernate. Te recomiendo que lo estudies bien. Un
+    ejercicio que te recomiendo es cambiar el atributo anterior a
+    _LAZY_ y comprobar qué errores se producen en el código y en los
+    tests.
 
 #### Clases Repository ####
 
@@ -794,14 +846,25 @@ public class TareaService {
 }
 ```
 
-La anotación `@Transactional` hace que las acciones sobre la base de
-datos se ejecuten de forma transaccional. Se abre la transacción al
-del método y se cierra al final. Si sucede alguna excepción durante su
-ejecución la transacción se deshace.
+En el cuerpo del método se llama al método `findById` del
+repositorio que realiza una búsqueda en la base de datos y al método
+`save` que actualiza el valor de la entidad.
 
-En el cuerpo del método se llama al método `findById` del repositorio
-que realiza una búsqueda en la base de datos y al método `save` que actualiza el
-valor de la entidad.
+La anotación `@Transactional` hace dos cosas. En primer lugar, abre
+una conexión con la base de datos y hace que todas las llamadas a las
+clases repository se realicen usando esa conexión. Las entidades están
+conectadas a la base de datos durante todas las sentencias que se
+ejecutan dentro del método anotado y cualquier cambio en ellas se
+propaga a la base de datos (en este caso el título de la
+tarea). Además, y muy importante, las relaciones _lazy_ pueden
+recuperarse sin problemas accediendo a los atributos correspondientes
+de las entidades. 
+
+En segundo lugar, la anotación `@Transactional`, como su nombre
+indica, hace que las acciones sobre la base de datos se ejecuten de
+forma transaccional. Se abre la transacción al del método y se cierra
+al final. Si sucede alguna excepción durante su ejecución la
+transacción se deshace.
 
 La interfaz `UsuarioRepository` es similar.
 
@@ -818,7 +881,6 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
     Optional<Usuario> findByEmail(String s);
 }
 ```
-
 
 La diferencia es que se añade un método `findByEmail` que hace que
 Spring construya automáticamente una consulta sobre  la base de datos. Al
@@ -839,10 +901,10 @@ La capa de servicios es la capa intermedia entre la capa de
 _controllers_ y la de _repository_. Es la capa que implementa toda la
 lógica de negocio de la aplicación.
 
-La responsabilidad principal de la capa de servicios es obtener o
-crear los objetos entidad necesarios para cada funcionalidad a partir
-de los datos que manda la capa _controller_, trabajar con ellos en
-memoria y hacer persistentes los cambios utilizando la capa
+La responsabilidad principal de la capa de servicios es crear, obtener
+o modificar los objetos entidad necesarios para cada funcionalidad a
+partir de los datos que manda la capa _controller_, trabajar con ellos
+en memoria y hacer persistentes los cambios utilizando la capa
 _repository_.
 
 La capa de servicios también gestionará errores y lanzará excepciones
@@ -850,6 +912,14 @@ cuando no se pueda realizar alguna funcionalidad.
 
 Los servicios obtienen instancias de _Repository_ usando inyección de
 dependencias.
+
+Como hemos comentado anteriormente, los métodos de la capa de
+servicios estarán anotados con `@Transactional` actualizar
+correctamente la base de datos y las conexiones _lazy_ y para
+garantizar la transaccionalidad.
+
+Por ejemplo, la clase `UsuarioService` se define como se muestra a
+continuación.
 
 **Fichero `src/main/java/madstodolist/service/UsuarioService.java`**:
 
@@ -972,8 +1042,9 @@ introducidos en los formularios. Por ejemplo, la clase
 ```java
 package madstodolist.controller;
 
-import madstodolist.authentication.ManagerUserSesion;
+import madstodolist.authentication.ManagerUserSession;
 import madstodolist.model.Usuario;
+import madstodolist.service.TareaService;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -982,7 +1053,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -994,7 +1064,12 @@ public class LoginController {
     UsuarioService usuarioService;
 
     @Autowired
-    ManagerUserSesion managerUserSesion;
+    ManagerUserSession managerUserSession;
+
+    @GetMapping("/")
+    public String home(Model model) {
+        return "redirect:/login";
+    }
 
     @GetMapping("/login")
     public String loginForm(Model model) {
@@ -1003,7 +1078,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginSubmit(@ModelAttribute LoginData loginData, Model model, RedirectAttributes flash, HttpSession session) {
+    public String loginSubmit(@ModelAttribute LoginData loginData, Model model, HttpSession session) {
 
         // Llamada al servicio para comprobar si el login es correcto
         UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
@@ -1011,7 +1086,7 @@ public class LoginController {
         if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
             Usuario usuario = usuarioService.findByEmail(loginData.geteMail());
 
-            managerUserSesion.logearUsuario(session, usuario.getId());
+            managerUserSession.logearUsuario(usuario.getId());
 
             return "redirect:/usuarios/" + usuario.getId() + "/tareas";
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
@@ -1034,7 +1109,7 @@ public class LoginController {
    public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            return "registroForm";
+            return "formRegistro";
         }
 
         if (usuarioService.findByEmail(registroData.geteMail()) != null) {
@@ -1054,7 +1129,7 @@ public class LoginController {
 
    @GetMapping("/logout")
    public String logout(HttpSession session) {
-        session.setAttribute("idUsuarioLogeado", null);
+        managerUserSession.logout();
         return "redirect:/login";
    }
 }
@@ -1090,7 +1165,7 @@ public class LoginData {
 
 #### Peticiones y rutas ####
 
-Las rutas que se definen en los controllers para realizar las acciones
+Las rutas (_endpoints_) que se definen en los controllers para realizar las acciones
 de la aplicación son:
 
 **`LoginController`**
@@ -1244,11 +1319,11 @@ datos).
 #### Autenticación y control de acceso ####
 
 En la aplicación se realiza una autenticación y un control de acceso
-muy sencillo usando la sesión HTTP. Esta sesión se implementa en
-Spring Boot con una cookie que se pasa desde el navegador hasta el
-servidor en cada petición.
+muy sencillo usando la sesión HTTP (clase `HttpSession`). Esta sesión
+se implementa en Spring Boot con una cookie que se pasa desde el
+navegador hasta el servidor en cada petición.
 
-El manejo de la sesión es muy sencillo: es un diccionario en el que
+El manejo de la clase `HttpSession` es muy sencillo: es un diccionario en el que
 podemos añadir datos. En el servidor podemos obtener los datos de la
 sesión consultando el diccionario.
 
@@ -1260,56 +1335,67 @@ realiza con en la clase `ManagerUserSesion`:
 ```java
 package madstodolist.authentication;
 
+import madstodolist.controller.exception.UsuarioNoLogeadoException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 
 @Component
-public class ManagerUserSesion {
+public class ManagerUserSession {
+
+    @Autowired
+    HttpSession session;
 
     // Añadimos el id de usuario en la sesión HTTP para hacer
     // una autorización sencilla. En los métodos de controllers
     // comprobamos si el id del usuario logeado coincide con el obtenido
     // desde la URL
-    public void logearUsuario(HttpSession session, Long idUsuario) {
+    public void logearUsuario(Long idUsuario) {
         session.setAttribute("idUsuarioLogeado", idUsuario);
     }
 
-    // Si el usuario no está logeado se lanza una excepción
-    public void comprobarUsuarioLogeado(HttpSession session, Long idUsuario) {
-        Long idUsuarioLogeado = (Long) session.getAttribute("idUsuarioLogeado");
-        if (!idUsuario.equals(idUsuarioLogeado))
-            throw new UsuarioNoLogeadoException();
+    public Long usuarioLogeado() {
+        return (Long) session.getAttribute("idUsuarioLogeado");
+    }
+
+    public void logout() {
+        session.setAttribute("idUsuarioLogeado", null);
     }
 }
 ```
 
+Se implementa como un componente Spring con la anotación
+`@Component`. La referencia a la clase `HttpSession` se obtiene por
+inyección de dependencias con la anotación de spring Boot `@Autowired`.
 
-Se implementa como un componente Spring con la anotación `@Component`,
-lo inyectamos en los controllers y lo mockeamos en los tests de los controllers.
+La anotación `@Component` permite inyectar un `ManagerUserSession` en
+los controllers para gestionar allí el usuario que está logeado y
+mockearlo en los tests.
 
 ### Pruebas manuales y automáticas ###
 
 Durante el desarrollo de la práctica será necesario realizar **pruebas
 manuales** de la aplicación, introducir datos en sus pantallas y
-comprobar que los cambios que hemos añadido funcionan correctamente.
+comprobar que los cambios que vamos introduciendo funcionan correctamente.
 
 Para estas pruebas manuales recomendamos utilizar la configuración de
 ejecución trabajando sobre una base de datos con valores
 iniciales. Estos valores iniciales se cargan en la aplicación al
 comenzar.
 
-**Fichero `src/main/resources/datos-dev.sql`**:
+**Fichero `src/main/resources/data.sql`**:
 
 ```sql
+/* Populate tables */
 INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
 ```
 
-
 Para los tests automáticos se cargan los datos definidos en el fichero
-`datos-tests.sql`.
+`datos-tests.sql` usando la anotación `@Sql` en la clase de
+test. 
 
 **Fichero `src/test/resources/datos-test.sql`**:
 
@@ -1320,150 +1406,648 @@ INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI',
 '1');
 ```
 
+Usando también esa anotación después de cada test se limpian las
+tablas con el script `clean-db.sql`.
+
+**Fichero `src/test/resources/clean-db.sql`**:
+
+```sql
+DELETE FROM tareas;
+DELETE FROM usuarios;
+```
+
+#### Tests de las entidades y de la capa repository ####
+
 Se realizan tests automáticos sobre las entidades y repository:
 
 - `TareaTest.java`
 - `UsuarioTest.java`:
 
-En los tests sobre repository se debe usar la anotación
-`@Transactional` para definir el contexto transaccional en el que se
-realiza la llamada a las acciones sobre la base de datos.
+Veamos, por ejemplo, el fichero `TareaTest.java`:
 
-Por ejemplo:
+**Fichero `src/test/java/madstodolist/TareaTest.java`**:
 
 ```java
-@Test
-@Transactional(readOnly = true)
-public void unUsuarioTieneUnaListaDeTareas() {
-    // GIVEN
-    // En el application.properties se cargan los datos de 
-    // prueba del fichero datos-test.sql
+@SpringBootTest
+@Sql("/datos-test.sql")
+@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
+public class TareaTest {
 
-    Usuario usuario = usuarioRepository.findById(1L).orElse(null);
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
-    // WHEN
-    Set<Tarea> tareas = usuario.getTareas();
+    @Autowired
+    TareaRepository tareaRepository;
 
-    // THEN
+    //
+    // Tests modelo Tarea en memoria, sin la conexión con la BD
+    //
 
-    assertThat(tareas).isNotEmpty();
+    @Test
+    public void crearTarea() {
+        // GIVEN
+        // Creado usuario nuevo,
+
+        Usuario usuario = new Usuario("juan.gutierrez@gmail.com");
+
+        // WHEN
+        // se crea una nueva tarea con ese usuario,
+
+        Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS");
+
+        // THEN
+        // el título y el usuario de la tarea son los correctos.
+
+        assertThat(tarea.getTitulo()).isEqualTo("Práctica 1 de MADS");
+        assertThat(tarea.getUsuario()).isEqualTo(usuario);
+    }
+
+    @Test
+    public void laListaDeTareasDeUnUsuarioSeActualizaEnMemoriaConUnaNuevaTarea() {
+        // GIVEN
+        // Un usuario nuevo creado en memoria, sin conexión con la BD,
+
+        Usuario usuario = new Usuario("juan.gutierrez@gmail.com");
+
+        // WHEN
+        // se crea una tarea de ese usuario,
+
+        Set<Tarea> tareas = usuario.getTareas();
+        Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS");
+
+        // THEN
+        // la tarea creada se ha añadido a la lista de tareas del usuario.
+
+        assertThat(usuario.getTareas()).contains(tarea);
+        assertThat(tareas).contains(tarea);
+    }
+
+    @Test
+    public void comprobarIgualdadTareasSinId() {
+        // GIVEN
+        // Creadas tres tareas sin identificador, y dos de ellas con
+        // la misma descripción
+
+        Usuario usuario = new Usuario("juan.gutierrez@gmail.com");
+        Tarea tarea1 = new Tarea(usuario, "Práctica 1 de MADS");
+        Tarea tarea2 = new Tarea(usuario, "Práctica 1 de MADS");
+        Tarea tarea3 = new Tarea(usuario, "Pagar el alquiler");
+
+        // THEN
+        // son iguales (Equal) las tareas que tienen la misma descripción.
+
+        assertThat(tarea1).isEqualTo(tarea2);
+        assertThat(tarea1).isNotEqualTo(tarea3);
+    }
+
+    @Test
+    public void comprobarIgualdadTareasConId() {
+        // GIVEN
+        // Creadas tres tareas con distintas descripciones y dos de ellas
+        // con el mismo identificador,
+
+        Usuario usuario = new Usuario("juan.gutierrez@gmail.com");
+        Tarea tarea1 = new Tarea(usuario, "Práctica 1 de MADS");
+        Tarea tarea2 = new Tarea(usuario, "Lavar la ropa");
+        Tarea tarea3 = new Tarea(usuario, "Pagar el alquiler");
+        tarea1.setId(1L);
+        tarea2.setId(2L);
+        tarea3.setId(1L);
+
+        // THEN
+        // son iguales (Equal) las tareas que tienen el mismo identificador.
+
+        assertThat(tarea1).isEqualTo(tarea3);
+        assertThat(tarea1).isNotEqualTo(tarea2);
+    }
+
+    //
+    // Tests TareaRepository
+    //
+
+    @Test
+    public void guardarTareaEnBaseDatos() {
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+
+        Usuario usuario = usuarioRepository.findById(1L).orElse(null);
+        Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS");
+
+        // WHEN
+        // salvamos la tarea en la BD,
+
+        tareaRepository.save(tarea);
+
+        // THEN
+        // se actualiza el id de la tarea,
+
+        assertThat(tarea.getId()).isNotNull();
+
+        // y con ese identificador se recupera de la base de datos la tarea
+        // con los valores correctos de las propiedades y la relación con
+        // el usuario actualizado también correctamente (la relación entre tarea
+        // y usuario es EAGER).
+
+        Tarea tareaBD = tareaRepository.findById(tarea.getId()).orElse(null);
+        assertThat(tareaBD.getTitulo()).isEqualTo(tarea.getTitulo());
+        assertThat(tareaBD.getUsuario()).isEqualTo(usuario);
+    }
+
+    @Test
+    public void salvarTareaEnBaseDatosConUsuarioNoBDLanzaExcepcion() {
+        // GIVEN
+        // Creamos un usuario nuevo que no añadimos a la BD y creamos
+        // una tarea asociada a ese usuario,
+
+        Usuario usuario = new Usuario("juan.gutierrez@gmail.com");
+        Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS");
+
+        // WHEN // THEN
+        // se lanza una excepción al intentar salvar la tarea en la BD
+
+        Assertions.assertThrows(Exception.class, () -> {
+            tareaRepository.save(tarea);
+        });
+    }
+
+    @Test
+    public void unUsuarioTieneUnaListaDeTareas() {
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+
+        // WHEN
+        // recuperamos un ususario de la base de datos,
+        Usuario usuario = usuarioRepository.findById(1L).orElse(null);
+
+        // THEN
+        // su lista de tareas también se recupera, porque se ha
+        // definido la relación de usuario y tareas como EAGER.
+
+        assertThat(usuario.getTareas()).hasSize(2);
+    }
+
+    @Test
+    public void añadirUnaTareaAUnUsuarioEnBD() {
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+
+        // WHEN
+        // creamos una nueva tarea con un usuario recuperado de la BD
+        // y la salvamos,
+
+        Usuario usuario = usuarioRepository.findById(1L).orElse(null);
+        Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS");
+        tareaRepository.save(tarea);
+        Long tareaId = tarea.getId();
+
+        // THEN
+        // la tarea queda guardada en la BD asociada al usuario.
+
+        Usuario usuarioBD = usuarioRepository.findById(1L).orElse(null);
+        Tarea tareaBD = tareaRepository.findById(tareaId).orElse(null);
+        assertThat(tareaBD).isEqualTo(tarea);
+        assertThat(usuarioBD.getTareas()).contains(tareaBD);
+        assertThat(tarea.getUsuario()).isEqualTo(usuarioBD);
+    }
+
+    //
+    // Tests modelo Tarea con la conexión con la BD abierta usando la
+    // anotación @Transactional y el TareaRepository
+    //
+
+    @Test
+    // Al usar @Transactional se ejecuta el test con
+    // la conexión con la BD abierta y las entidades conectadas
+    // con la base de datos
+    @Transactional
+    public void cambioEnLaEntidadEnTransactionalModificaLaBD() {
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql, habiendo
+        // anotado el test con @Transactional y recuperada una tarea,
+
+        Tarea tarea = tareaRepository.findById(1L).orElse(null);
+
+        // WHEN
+        // modificamos la descripción de la tarea
+
+        tarea.setTitulo("Esto es una prueba");
+
+        // THEN
+        // la descripción queda actualizada en la BD.
+
+        Tarea tareaBD = tareaRepository.findById(1L).orElse(null);
+        assertThat(tareaBD.getTitulo()).isEqualTo(tarea.getTitulo());
+    }
 }
 ```
 
+Te recomiendo que leas con cuidado los tests y sus comentarios. Son
+muy útiles para entender el funcionamiento de la aplicación (en este
+caso de las entidades y de la capa _repository_).
+
+Utilizamos el formato _GIVEN, WHEN, THEN_ para estructurar el test. En
+la parte _GIVEN_ se preparan los datos, en la parte _WHEN_ se lanza el
+método o métodos que se quieren probar y en la parte _THEN_ se
+comprueban los resultados.
+
+Se realizan distintos tipos de tests dentro de la misma clase:
+
+- Pruebas sobre las entidades por si solas, sin conexión con la
+  base de datos. Son lo que se denomina tests del modelo.
+- Pruebas sobre la capa _repository_, en las que se comprueban que las
+  operaciones de búsqueda y actualización funcionan correctamente
+  sobre la base de datos.
+- Pruebas sobre la capa _repository_ en las que se necesitan realizar
+  más de una sentencia con la misma conexión a la base de datos o
+  acceder a atributos _lazy_. Para estas pruebas usamos la anotación
+  `@Transactional`. 
+
+#### Tests de la capa de servicios ####
 
 También se realizan tests sobre la capa de servicio: 
 
 - `TareaServiceTest.java`
 - `UsuarioServiceTest.java`
 
-Hay que ser cuidadoso al hacer pruebas que afectan a la base de datos,
-porque podemos insertar o modificar datos que se comprueban en otros
-tests. Tenemos que tener cuidado en que cada test sea independiente de
-los demás. 
+Estos tests comprueban que los métodos de servicio funcionan
+correctamente y modifican la base de datos tal y como se pretende en
+cada operación.
 
-En Spring Boot una forma muy sencilla de asegurase de que un test no
-afecta a los demás es añadir la anotación `@Transactional` en los
-tests que modifican la base de datos. Spring Boot abre una transacción
-y al terminar el test la transacción se deshace y los datos de la base
-de datos quedan como estaban al principio.
+Veamos, por ejemplo, el fichero `TareaServiceTest.java`:
 
-Por ejemplo:
+**Fichero `src/test/java/madstodolist/TareaServiceTest.java`**:
 
 ```java
-@Test
-@Transactional
-public void testNuevaTareaUsuario() {
-    // GIVEN
-    // En el application.properties se cargan los datos de prueba 
-    // del fichero datos-test.sql
+@SpringBootTest
+@Sql("/datos-test.sql")
+@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
+public class TareaServiceTest {
 
-    // WHEN
-    Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS");
+    @Autowired
+    UsuarioService usuarioService;
 
-    // THEN
+    @Autowired
+    TareaService tareaService;
 
-    Usuario usuario = usuarioService.findByEmail("user@ua");
-    assertThat(usuario.getTareas()).contains(tarea);
+    @Test
+    public void testBuscarTarea() {
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+
+        // WHEN
+        // recuperamos una tarea de la base de datos a partir de su ID,
+
+        Tarea lavarCoche = tareaService.findById(1L);
+
+        // THEN
+        // los datos de la tarea recuperada son correctos.
+
+        assertThat(lavarCoche).isNotNull();
+        assertThat(lavarCoche.getTitulo()).isEqualTo("Lavar coche");
+    }
+
+    @Test
+    public void testNuevaTareaUsuario() {
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+
+        // WHEN
+        // creamos una nueva tarea asociada a un usuario,
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS");
+
+        // THEN
+        // al recuperar el usuario usando el método de serivio findByEmail la tarea creada
+        // está en la lista de tareas del usuario.
+
+        Usuario usuario = usuarioService.findByEmail("user@ua");
+        assertThat(usuario.getTareas().size() == 3);
+        assertThat(usuario.getTareas()).contains(tarea);
+    }
+
+    @Test
+    public void testModificarTarea() {
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+        // creada una tarea nueva de un usuario y obtenido su identificador,
+
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Pagar el recibo");
+        Long idNuevaTarea = tarea.getId();
+
+        // WHEN
+        // modificamos la tarea correspondiente a ese identificador,
+
+        Tarea tareaModificada = tareaService.modificaTarea(idNuevaTarea, "Pagar la matrícula");
+
+        // THEN
+        // al buscar por el identificador en la base de datos se devuelve la tarea modificada
+
+        Tarea tareaBD = tareaService.findById(idNuevaTarea);
+        assertThat(tareaBD.getTitulo()).isEqualTo("Pagar la matrícula");
+
+        // y el usuario tiene también esa tarea modificada.
+        Usuario usuario = usuarioService.findById(1L);
+        usuario.getTareas().contains(tareaBD);
+    }
+
+    @Test
+    public void testBorrarTarea() {
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql, añadida
+        // una tarea nueva al usuario 1L y obtenido el identificador de la tarea,
+
+        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Estudiar MADS");
+        Long idNuevaTarea = tarea.getId();
+
+        // WHEN
+        // borramos la tarea correspondiente al identificador,
+
+        tareaService.borraTarea(idNuevaTarea);
+
+        // THEN
+        // la tarea ya no está en la base de datos ni en las tareas del usuario.
+
+        assertThat(tareaService.findById(tarea.getId())).isNull();
+        assertThat(usuarioService.findById(1L).getTareas().size() == 2);
+    }
 }
 ```
 
-Y también realizamos tests sobre los controllers:
+Para conseguir que los tests sean independientes y evitar que datos
+introducidos o modificados en un test afecten a otros tests, usamos
+las anotaciones `@Sql`:
+
+```java
+@Sql("/datos-test.sql")
+@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
+public class TareaServiceTest {
+```
+
+Al comienzo de cada test se cargan los datos del fichero
+`datos-test.sql` y después de cada test se ejecuta el script
+`clean-db.sql` para limpiar las tablas.
+
+#### Tests de la capa controller ####
+
+Por último, también realizamos tests sobre los controllers:
 
 - `UsuarioWebTest.java`
 - `TareaWebTest.java`
 
-En los tests sobre los controllers se comprueba que el resultado de
-realizar un `GET` o un `POST` sobre los endpoints correspondientes
-devuelven un HTML que contiene alguna cadena que coincide con lo
-esperado.
+En estos tests se comprueba que el resultado de realizar un `GET` o un
+`POST` sobre los endpoints correspondientes devuelven un HTML que
+contiene alguna cadena que coincide con lo esperado.
 
-En estos tests también es posible usar los datos de la base de datos
-`datos-test.sql` o _mockear_ los servicios para que devuelvan los
-datos que nos interesan.
+Existen dos enfoques a la hora de definir estos tests. Podemos, al
+igual que hemos hecho en los tests de servicio, usar los datos de la
+base de datos `datos-test.sql` o también podemos _mockear_ los
+servicios para que devuelvan los datos que nos interesan.
 
-Por ejemplo, en el siguiente test se comprueba que cuando se hace un
-`POST` a la URL de login con un usuario registrado, se obtiene una
-redirección a URL de la lista de tareas de ese usuario.
+Utilizamos ambos enfoques para que aprendas a trabajar con los dos. En
+la clase `TareaWebTest` se utilizan los datos de prueba de la base de
+datos y en la clase `UsuarioWebTest` se mockean los servicios.
 
-```java
-@Test
-public void servicioLoginUsuarioOK() throws Exception {
-    // GIVEN
-    // Datos cargados de datos-test.sql
+La utilización de _mocks_ es muy útil también para poder testear los
+métodos que tienen un acceso restringido al usuario que hace la
+operación. Por ejemplo, la consulta o modificación de una
+tarea. Mockeamos el `managerUserSession` para simular que el usuario
+está logeado.
 
-    this.mockMvc.perform(post("/login")
-            .param("eMail", "user@ua")
-            .param("password", "123"))
-            .andExpect(status().is3xxRedirection())
-            .andExpect(redirectedUrl("/usuarios/1/tareas"));
-}
-```
+Mostramos a continuación los ficheros de test de controllers.
 
-En el siguiente ejemplo, se mockea el `ServicioTareas` para comprobar
-que se ha llamada al método `nuevaTareaUsuario` al hacer el `POST` que
-añade una tarea. Esto se hace al final del test con el método `verify`.
-
-También se mockea `ManagerUserSesion` para que no se lance la
-excepción de usuario no logeado. Y `UsuarioService` para trabajar con
-el mock en lugar de con el método real y evitar que se tenga que
-llamar a la base de datos (de esta forma se acelera el test).
-
+**Fichero `src/test/java/madstodolist/TareaWebTest.java`**:
 
 ```java
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@Sql("/datos-test.sql")
+@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
 public class TareaWebTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private UsuarioService usuarioService;
-
-    @MockBean
+    // Declaramos los servicios como Autowired y usamos los datos
+    // de prueba de la base de datos
+    @Autowired
     private TareaService tareaService;
 
-    // Al mocker el managerUserSession, no lanza la excepción cuando
-    // se intenta comprobar si un usuario está logeado
+    // Moqueamos el managerUserSession para poder moquear el usuario logeado
     @MockBean
-    private ManagerUserSesion managerUserSesion;
+    private ManagerUserSession managerUserSession;
+
+    @Test
+    public void listaTareas() throws Exception {
+        // Moqueamos el método usuarioLogeado para que devuelva el usuario 1L,
+        // el mismo que se está usando en la petición. De esta forma evitamos
+        // que salte la excepción de que el usuario que está haciendo la
+        // petición no está logeado.
+        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
+
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+
+        // WHEN, THEN
+        // se realiza la petición GET al listado de tareas de un usuario,
+        // el HTML devuelto contiene las descripciones de sus tareas.
+
+        this.mockMvc.perform(get("/usuarios/1/tareas"))
+                .andExpect((content().string(allOf(
+                        containsString("Lavar coche"),
+                        containsString("Renovar DNI")
+                ))));
+    }
+
+    @Test
+    public void getNuevaTareaDevuelveForm() throws Exception {
+        // Ver el comentario en el primer test
+        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
+
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+
+        // WHEN, THEN
+        // si ejecutamos una petición GET para crear una nueva tarea de un usuario,
+        // el HTML resultante contiene un formulario y la ruta con
+        // la acción para crear la nueva tarea.
+
+        this.mockMvc.perform(get("/usuarios/1/tareas/nueva"))
+                .andExpect((content().string(allOf(
+                        containsString("form method=\"post\""),
+                        containsString("action=\"/usuarios/1/tareas/nueva\"")
+                ))));
+    }
 
     @Test
     public void postNuevaTareaDevuelveRedirectYAñadeTarea() throws Exception {
-        Usuario usuario = new Usuario("Usuario");
-        usuario.setId(1L);
+        // Ver el comentario en el primer test
+        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
 
-        when(usuarioService.findById(1L)).thenReturn(usuario);
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+
+        // WHEN, THEN
+        // realizamos la petición POST para añadir una nueva tarea,
+        // el estado HTTP que se devuelve es un REDIRECT al listado
+        // de tareas.
 
         this.mockMvc.perform(post("/usuarios/1/tareas/nueva")
-                    .param("titulo", "Estudiar examen MADS"))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/usuarios/1/tareas"));
+                        .param("titulo", "Estudiar examen MADS"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/usuarios/1/tareas"));
 
-        // Verificamos que se ha añadido el método para
-        // añadir una tarea con los parámetros correctos
-        verify(tareaService).nuevaTareaUsuario(1L, "Estudiar examen MADS");
+        // y si después consultamos el listado de tareas con una petición
+        // GET el HTML contiene la tarea añadida.
+
+        this.mockMvc.perform(get("/usuarios/1/tareas"))
+                .andExpect((content().string(containsString("Estudiar examen MADS"))));
+    }
+
+    @Test
+    public void deleteTareaDevuelveOKyBorraTarea() throws Exception {
+        // Ver el comentario en el primer test
+        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
+
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+
+        // WHEN, THEN
+        // realizamos la petición DELETE para borrar una tarea,
+        // se devuelve el estado HTTP que se devuelve es OK,
+
+        this.mockMvc.perform(delete("/tareas/1"))
+                .andExpect(status().isOk());
+
+        // y cuando se pide un listado de tareas del usuario, la tarea borrada ya no aparece.
+
+        this.mockMvc.perform(get("/usuarios/1/tareas"))
+                .andExpect(content().string(
+                        allOf(not(containsString("Lavar coche")),
+                                containsString("Renovar DNI"))));
+    }
+
+    @Test
+    public void editarTareaDevuelveForm() throws Exception {
+        // Ver el comentario en el primer test
+        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
+
+        // GIVEN
+        // Cargados datos de prueba del fichero datos-test.sql,
+
+        // WHEN, THEN
+        // realizamos una petición GET al endpoint para editar una tarea
+        // el HTML devuelto
+
+        this.mockMvc.perform(get("/tareas/1/editar"))
+                .andExpect(content().string(allOf(
+                    // contiene la acción para enviar el post a la URL correcta,
+                    containsString("action=\"/tareas/1/editar\""),
+                    // contiene la descripción de la tarea a editar,
+                    containsString("Lavar coche"),
+                    // y contiene enlace a listar tareas del usuario si se cancela la edición.
+                    containsString("href=\"/usuarios/1/tareas\""))));
+    }
+}
+```
+
+**Fichero `src/test/java/madstodolist/UsuarioWebTest.java`**:
+
+```java
+package madstodolist;
+
+import madstodolist.model.Usuario;
+import madstodolist.service.UsuarioService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+//
+// A diferencia de los tests web de tarea, donde usábamos los datos
+// de prueba de la base de datos, aquí vamos a practicar otro enfoque:
+// moquear el usuarioService.
+public class UsuarioWebTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    // Moqueamos el usuarioService.
+    // En los tests deberemos proporcionar el valor devuelto por las llamadas
+    // a los métodos de usuarioService que se van a ejecutar cuando se realicen
+    // las peticiones a los endpoint.
+    @MockBean
+    private UsuarioService usuarioService;
+
+    @Test
+    public void servicioLoginUsuarioOK() throws Exception {
+        // GIVEN
+        // Moqueamos la llamada a usuarioService.login para que
+        // devuelva un LOGIN_OK y la llamada a usuarioServicie.findByEmail
+        // para que devuelva un usuario determinado.
+
+        Usuario anaGarcia = new Usuario("ana.garcia@gmail.com");
+        anaGarcia.setId(1L);
+
+        when(usuarioService.login("ana.garcia@gmail.com", "12345678"))
+                .thenReturn(UsuarioService.LoginStatus.LOGIN_OK);
+        when(usuarioService.findByEmail("ana.garcia@gmail.com"))
+                .thenReturn(anaGarcia);
+
+        // WHEN, THEN
+        // Realizamos una petición POST al login pasando los datos
+        // esperados en el mock, la petición devolverá una redirección a la
+        // URL con las tareas del usuario
+
+        this.mockMvc.perform(post("/login")
+                .param("eMail", "ana.garcia@gmail.com")
+                .param("password", "12345678"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/usuarios/1/tareas"));
+    }
+
+    @Test
+    public void servicioLoginUsuarioNotFound() throws Exception {
+        // GIVEN
+        // Moqueamos el método usuarioService.login para que devuelva
+        // USER_NOT_FOUND
+        when(usuarioService.login("pepito.perez@gmail.com", "12345678"))
+                .thenReturn(UsuarioService.LoginStatus.USER_NOT_FOUND);
+
+        // WHEN, THEN
+        // Realizamos una petición POST con los datos del usuario mockeado y
+        // se debe devolver una página que contenga el mensaja "No existe usuario"
+        this.mockMvc.perform(post("/login")
+                    .param("eMail","pepito.perez@gmail.com")
+                    .param("password","12345678"))
+                .andExpect(content().string(containsString("No existe usuario")));
+    }
+
+    @Test
+    public void servicioLoginUsuarioErrorPassword() throws Exception {
+        // GIVEN
+        // Moqueamos el método usuarioService.login para que devuelva
+        // ERROR_PASSWORD
+        when(usuarioService.login("ana.garcia@gmail.com", "000"))
+                .thenReturn(UsuarioService.LoginStatus.ERROR_PASSWORD);
+
+        // WHEN, THEN
+        // Realizamos una petición POST con los datos del usuario mockeado y
+        // se debe devolver una página que contenga el mensaja "Contraseña incorrecta"
+        this.mockMvc.perform(post("/login")
+                    .param("eMail","ana.garcia@gmail.com")
+                    .param("password","000"))
+                .andExpect(content().string(containsString("Contraseña incorrecta")));
     }
 }
 ```
@@ -1473,7 +2057,7 @@ public class TareaWebTest {
 1. Una vez logeado en GitHub, copia el enlace con una invitación que
    compartiremos en el foro de Moodle. Con esa invitación se creará
    automáticamente tu repositorio `mads-todolist-<usuario>` en la
-   organización [mads-ua](https://github.com/mads-ua-21-22). Al igual
+   organización [mads-ua](https://github.com/mads-ua-22-23). Al igual
    que el repositorio de la primera parte de la práctica es un
    repositorio privado al que tienes acceso tú y el profesor. Contiene
    el código inicial de un proyecto base (es una copia del repositorio
@@ -1482,7 +2066,7 @@ public class TareaWebTest {
 
     Es importante que tengas en cuenta que el repositorio recién
     creado no reside en tu cuenta, sino en la organización
-    `mads-ua-21-22`. Puedes acceder a él desde el _dashboard_ de GitHub que
+    `mads-ua-22-23`. Puedes acceder a él desde el _dashboard_ de GitHub que
     aparece cuando te logeas.
    
 2. Descarga el proyecto y comprueba que se compila y ejecuta
