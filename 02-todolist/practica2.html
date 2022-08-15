@@ -2248,10 +2248,13 @@ las anotaciones <code>@Sql</code>:</p>
 <p>En estos tests se comprueba que el resultado de realizar un <code>GET</code> o un
 <code>POST</code> sobre los endpoints correspondientes devuelven un HTML que
 contiene alguna cadena que coincide con lo esperado.</p>
-<p>Existen dos enfoques a la hora de definir estos tests. Podemos, al
-igual que hemos hecho en los tests de servicio, usar los datos de la
-base de datos <code>datos-test.sql</code> o también podemos <em>mockear</em> los
-servicios para que devuelvan los datos que nos interesan.</p>
+<p>Existen dos enfoques a la hora de definir estos tests. </p>
+<ul>
+<li>Podemos, al igual que hemos hecho en los tests de servicio, usar los
+datos de la base de datos <code>datos-test.sal</code>. </li>
+<li>Podemos <em>mockear</em> los servicios para que devuelvan los datos que nos
+  interesan.</li>
+</ul>
 <p>Utilizamos ambos enfoques para que aprendas a trabajar con los dos. En
 la clase <code>TareaWebTest</code> se utilizan los datos de prueba de la base de
 datos y en la clase <code>UsuarioWebTest</code> se mockean los servicios.</p>
