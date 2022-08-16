@@ -230,8 +230,7 @@ Spring Boot usaremos [Spring Data
 JPA](https://docs.spring.io/spring-data/jpa/docs/2.6.x/reference/html/). Se
 trata de un API de Spring Boot que se construye sobre JPA (_Java
 Persistence API_), el ORM (_Object Relational Mapping_) estándar de
-Java. La implementación de JPA que utiliza Spring Boot es Hibernate
-5.3.17.
+Java. La implementación de JPA que utiliza Spring Boot es [Hibernate](https://docs.jboss.org/hibernate/orm/5.6/userguide/html_single/Hibernate_User_Guide.html).
 
 Spring Data JPA usa todos los conceptos de JPA y añade algunos
 adicionales que facilitan aun más su utilización, como es la
