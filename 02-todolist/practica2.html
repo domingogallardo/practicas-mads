@@ -637,30 +637,9 @@
                 <!--
 Cambio:
 
-En la explicación de los tests indicar que hay dos
-tipos de funcionamiento con los objetos service: o los inyectamos, con
-lo que funcionan correctamente conectándose a la base de datos de
-test, o los moqueamos, con lo que se quedan "vacíos" y tenemos que
-decir explícitamente que devuelven las llamadas a los métodos
-
-He cambiado el código de TareaWebTest para que use la BD, mientras que 
-UsuarioWebTest usa los mocks.
-
-Cambio:
-
 Cambiar las reglas del tablero de GitHub para solo tener que gestionar
 issues. Los pull requests están asociados a los issues y no hace falta
 gestionarlos con reglas, sino que siempre estarán junto al propio issue.
-
-Cambio:
-
-No usar @Transactional en los tests de servicio para deshacer los cambios. Su uso 
-crea también un contexto de persistencia en el que se ejecuta el
-código del servicio y hace que las entidades estén gestionadas dentro
-del test. Sin embargo, cuando el código se ejecute desde el controller
-esto no va a ser así.
-
-https://dev.to/henrykeys/don-t-use-transactional-in-tests-40eb
 
 -->
 
@@ -717,7 +696,7 @@ largo de las prácticas. El nombre de la aplicación es <strong>mads-todolist</s
 <p>La aplicación
 <a href="https://github.com/domingogallardo/mads-todolist-inicial">mads-todolist-inicial</a>
 es la versión inicial de la aplicación que se va a desarrollar
-durante todo el cuatrimestre en la asignatura.</p>
+durante toda la asignatura.</p>
 <p>Es una aplicación bastante más compleja que la vista en la
 práctica 1. Entre otros, tiene los siguientes elementos:</p>
 <ul>
@@ -752,24 +731,24 @@ código todos estos elementos.</p>
 fichero de propiedades. El fichero de propiedades por defecto es
 <code>application.properties</code>.</p>
 <p><strong>Fichero <code>/src/main/resources/application.properties</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">spring</span><span class="p">.</span><span class="na">application</span><span class="p">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">mads</span><span class="o">-</span><span class="n">todolist</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">datasource</span><span class="p">.</span><span class="na">url</span><span class="o">=</span><span class="n">jdbc</span><span class="p">:</span><span class="n">h2</span><span class="p">:</span><span class="n">mem</span><span class="p">:</span><span class="n">dev</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">properties</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">dialect</span> <span class="o">=</span> <span class="n">org</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">dialect</span><span class="p">.</span><span class="na">H2Dialect</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">ddl</span><span class="o">-</span><span class="n">auto</span><span class="o">=</span><span class="n">update</span>
-<span class="n">logging</span><span class="p">.</span><span class="na">level</span><span class="p">.</span><span class="na">org</span><span class="p">.</span><span class="na">hibernate</span><span class="p">.</span><span class="na">SQL</span><span class="o">=</span><span class="n">debug</span>
-<span class="n">logging</span><span class="p">.</span><span class="na">level</span><span class="p">.</span><span class="na">madstodolist</span><span class="o">=</span><span class="n">debug</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">sql</span><span class="p">.</span><span class="na">init</span><span class="p">.</span><span class="na">mode</span><span class="o">=</span><span class="n">always</span>
-<span class="err">#</span> <span class="n">cargar</span> <span class="n">los</span> <span class="n">datos</span> <span class="n">despues</span> <span class="n">de</span> <span class="n">que</span> <span class="n">Hibernate</span> <span class="n">inicialice</span>
-<span class="err">#</span> <span class="n">los</span> <span class="n">esquemas</span> <span class="n">de</span> <span class="n">datos</span>
-<span class="err">#</span> <span class="n">https</span><span class="p">:</span><span class="c1">//github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.5-Release-Notes#sql-script-datasource-initialization</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">defer</span><span class="o">-</span><span class="n">datasource</span><span class="o">-</span><span class="n">initialization</span><span class="o">=</span><span class="kc">true</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">h2</span><span class="p">.</span><span class="na">console</span><span class="p">.</span><span class="na">enabled</span><span class="o">=</span><span class="kc">true</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">h2</span><span class="p">.</span><span class="na">console</span><span class="p">.</span><span class="na">path</span><span class="o">=/</span><span class="n">h2</span><span class="o">-</span><span class="n">console</span>
-<span class="err">#</span> <span class="n">Deshabilitamos</span> <span class="n">Open</span> <span class="n">EntityManager</span> <span class="n">in</span> <span class="n">View</span>
-<span class="err">#</span> <span class="n">https</span><span class="p">:</span><span class="c1">//docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/html/data.html#data.sql.jpa-and-spring-data.open-entity-manager-in-view</span>
-<span class="err">#</span> <span class="n">Ver</span> <span class="n">tambien</span> <span class="n">https</span><span class="p">:</span><span class="c1">//docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/hibernate5/support/OpenSessionInViewInterceptor.html</span>
-<span class="err">#</span> <span class="n">y</span> <span class="n">https</span><span class="p">:</span><span class="c1">//www.baeldung.com/spring-open-session-in-view</span>
-<span class="n">spring</span><span class="p">.</span><span class="na">jpa</span><span class="p">.</span><span class="na">open</span><span class="o">-</span><span class="n">in</span><span class="o">-</span><span class="n">view</span><span class="o">=</span><span class="kc">false</span>
+<div class="highlight"><pre><span></span><code><span class="na">spring.application.name</span> <span class="o">=</span> <span class="s">mads-todolist</span>
+<span class="na">spring.datasource.url</span><span class="o">=</span><span class="s">jdbc:h2:mem:dev</span>
+<span class="na">spring.jpa.properties.hibernate.dialect</span> <span class="o">=</span> <span class="s">org.hibernate.dialect.H2Dialect</span>
+<span class="na">spring.jpa.hibernate.ddl-auto</span><span class="o">=</span><span class="s">update</span>
+<span class="na">logging.level.org.hibernate.SQL</span><span class="o">=</span><span class="s">debug</span>
+<span class="na">logging.level.madstodolist</span><span class="o">=</span><span class="s">debug</span>
+<span class="na">spring.sql.init.mode</span><span class="o">=</span><span class="s">always</span>
+<span class="c"># cargar los datos despues de que Hibernate inicialice</span>
+<span class="c"># los esquemas de datos</span>
+<span class="c"># https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.5-Release-Notes#sql-script-datasource-initialization</span>
+<span class="na">spring.jpa.defer-datasource-initialization</span><span class="o">=</span><span class="s">true</span>
+<span class="na">spring.h2.console.enabled</span><span class="o">=</span><span class="s">true</span>
+<span class="na">spring.h2.console.path</span><span class="o">=</span><span class="s">/h2-console</span>
+<span class="c"># Deshabilitamos Open EntityManager in View</span>
+<span class="c"># https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/html/data.html#data.sql.jpa-and-spring-data.open-entity-manager-in-view</span>
+<span class="c"># Ver tambien https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/hibernate5/support/OpenSessionInViewInterceptor.html</span>
+<span class="c"># y https://www.baeldung.com/spring-open-session-in-view</span>
+<span class="na">spring.jpa.open-in-view</span><span class="o">=</span><span class="s">false</span>
 </code></pre></div>
 <p>Entre otras cosas, se define las características de la fuente de datos
 con la que trabaja la aplicación (la base de datos en memoria H2):</p>
