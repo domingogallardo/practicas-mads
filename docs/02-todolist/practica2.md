@@ -194,7 +194,8 @@ En esta práctica se define otra configuración en el directorio de
 test, que es la que se carga cuando se lanzan los tests:
 
 **Fichero `src/test/resources/application.properties`**:
-```java
+
+```properties
 spring.datasource.url=jdbc:h2:mem:test
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=create
