@@ -2,30 +2,9 @@
 <!--
 Cambio:
 
-En la explicación de los tests indicar que hay dos
-tipos de funcionamiento con los objetos service: o los inyectamos, con
-lo que funcionan correctamente conectándose a la base de datos de
-test, o los moqueamos, con lo que se quedan "vacíos" y tenemos que
-decir explícitamente que devuelven las llamadas a los métodos
-
-He cambiado el código de TareaWebTest para que use la BD, mientras que 
-UsuarioWebTest usa los mocks.
-
-Cambio:
-
 Cambiar las reglas del tablero de GitHub para solo tener que gestionar
 issues. Los pull requests están asociados a los issues y no hace falta
 gestionarlos con reglas, sino que siempre estarán junto al propio issue.
-
-Cambio:
-
-No usar @Transactional en los tests de servicio para deshacer los cambios. Su uso 
-crea también un contexto de persistencia en el que se ejecuta el
-código del servicio y hace que las entidades estén gestionadas dentro
-del test. Sin embargo, cuando el código se ejecute desde el controller
-esto no va a ser así.
-
-https://dev.to/henrykeys/don-t-use-transactional-in-tests-40eb
 
 -->
 
@@ -94,7 +73,7 @@ largo de las prácticas. El nombre de la aplicación es **mads-todolist**.
 La aplicación
 [mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial)
 es la versión inicial de la aplicación que se va a desarrollar
-durante todo el cuatrimestre en la asignatura.
+durante toda la asignatura.
 
 Es una aplicación bastante más compleja que la vista en la
 práctica 1. Entre otros, tiene los siguientes elementos:
@@ -133,7 +112,7 @@ fichero de propiedades. El fichero de propiedades por defecto es
 
 **Fichero `/src/main/resources/application.properties`**:
 
-```java
+```properties
 spring.application.name = mads-todolist
 spring.datasource.url=jdbc:h2:mem:dev
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
