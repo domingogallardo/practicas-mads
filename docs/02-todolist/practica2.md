@@ -226,7 +226,7 @@ anotación `@sql`.
 
 Para la gestión de la persistencia de los datos en la aplicación
 Spring Boot usaremos [Spring Data
-JPA](https://docs.spring.io/spring-data/jpa/docs/2.1.10.RELEASE/reference/html/). Se
+JPA](https://docs.spring.io/spring-data/jpa/docs/2.6.x/reference/html/). Se
 trata de un API de Spring Boot que se construye sobre JPA (_Java
 Persistence API_), el ORM (_Object Relational Mapping_) estándar de
 Java. La implementación de JPA que utiliza Spring Boot es Hibernate
