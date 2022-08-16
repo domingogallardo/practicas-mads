@@ -89,204 +89,7 @@ Iremos desarrollando características adicionales de la aplicación a lo
 largo de las prácticas. El nombre de la aplicación es **mads-todolist**.
 
 
-## 3. Metodología de desarrollo ##
-
-En cuanto a la metodología de desarrollo, en esta práctica
-repasaremos e introduciremos el uso de:
-
-- [Git](https://git-scm.com) como sistema de control de versiones que nos permitirá
-  registrar paso a paso los cambios realizados en el desarrollo,
-  realizando e integrando ramas de _features_ en las que
-  desarrollaremos pequeños incrementos que añadirán poco a poco las
-  funcionalidades necesarias en la aplicación.
-- [GitHub](https://github.com) como servicio en el que publicaremos los cambios e
-  integraremos las ramas usando pull requests (PRs). Utilizaremos un
-  gran número de características de GitHub para realizar el
-  seguimiento del desarrollo del proyecto: issues, labels,
-  milestones, etc.
-- JUnit y las [características de testing de Spring
-  Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html)
-  para realizar continuamente pruebas unitarias que
-  validen el desarrollo.
-
-El objetivo es desarrollar software de una forma similar a cómo se
-hace en cientos de proyectos punteros de desarrollo _open
-source_. 
-
-Existen muchos proyectos que tienen un desarrollo abierto,
-transparente, en GitHub. Podemos aprender de sus metodologías
-estudiándolos. A continuación listamos ejemplos de repositorios en
-GitHub interesantes, en los que podemos estudiar los procesos de _pull
-requests_, issues, tableros, etc. y las dinámicas de comunicación
-que utilizan.
-
-- [CartoDB](https://github.com/CartoDB/cartodb). Software español para
-  representación visual de datos geográficos.
-- [Vapor](https://github.com/vapor/vapor). Framework web en Swift.
-- [Guice](https://github.com/google/guice). Framework de inyección de
-  dependencias en Java.
-- [swift-nio](https://github.com/apple/swift-nio). Framework asíncrono
-  de entrada-salida en Swift. 
-- [Spring
-  Boot](https://github.com/spring-projects/spring-boot). Framework web
-  en Java.
-
-### Git ###
-
-Git es el sistema de control de versiones más utilizado en la
-actualidad. Es muy flexible, distribuido, adaptable a múltiples flujos
-de trabajo e ideal para una metodología de desarrollo en
-equipo. Suponemos que ya tienes cierta experiencia con su uso. Puedes
-usar los siguientes enlaces para repasar su funcionamiento.
-
-- [Resumen de comandos de Git](../01-intro-spring-boot/comandos-git.md): Resumen de comandos
-  principales para empezar a trabajar con Git.
-- [Atlassian Git Tutorials](https://www.atlassian.com/git/tutorials/):
-  Tutoriales muy orientados al uso de Git con gran cantidad de
-  ejemplos. Es recomendable repasar los tutoriales básicos [Getting
-  Started](https://www.atlassian.com/git/tutorials/setting-up-a-repository)
-  y los tutoriales
-  [Syncing](https://www.atlassian.com/git/tutorials/syncing) y [Using
-  Branches](https://www.atlassian.com/git/tutorials/using-branches) en
-  el apartado _Collaborating_.
-- [Libro de Scott Chacon](https://git-scm.com/book/en/v2): Completo
-  manual con todos los detalles de todos los comandos de Git.
-
-Cuando utilicemos git es muy importante realizar unos mensajes de
-_commit_ claros. Un mensaje de _commit_ es la forma de comunicar a los
-compañeros del equipo qué cambios se han introducido en la aplicación
-y ponerlos en contexto (explicar por qué se han hecho, dar algún
-detalle de implementación, etc.). El post
-[How to Write a Git Commit Message](http://chris.beams.io/posts/git-commit/)
-explica muy bien esto.
-
-
-### Flujo de trabajo ###
-
-Desarrollaremos la aplicación de forma iterativa, utilizando
-inicialmente un flujo de trabajo Git denominado _feature branch_
-(consultar la
-[guía de GitHub](https://guides.github.com/introduction/flow/)) en el
-que cada característica nueva se implementa en una rama separada que
-después se mezcla con la rama principal de desarrollo. Más adelante
-veremos otros flujos de trabajo. Puedes ver una introducción a
-distintos flujos de trabajo básicos con Git en este
-[documento de Atlassian](https://www.atlassian.com/git/tutorials/comparing-workflows).
-
-Para implementar este flujo de trabajo utilizaremos los siguientes
-instrumentos de GitHub que facilitan la comunicación entre los
-miembros del equipo:
-
-- **Issues** (_incidencias_): GitHub permite abrir issues
-  (incidencias o tareas), asignarlos a personas, realizar comentarios,
-  asignar etiquetas y cerrarlos cuando la implementación ha
-  terminado. Consultar
-  [Mastering Issues](https://guides.github.com/features/issues/).
-
-    <img src="./imagenes/github-issues.png" width="500px"/>
-
-    Definiremos distintos tipos de issues en función de su
-    propósito: _bug_, _technical_, _enhancement_. Los issues que
-    implementan una historia de usuario los etiquetaremos con el
-    código de la historia de usuario. Puede haber más de un issue
-    asociado con una historia de usuario y de esta forma podemos
-    agruparlos.
-  
-    <img src="./imagenes/labels-issues.png" width="400px"/>
-  
-    Cada issue se desarrollará en una rama de Git y se integrará en la
-    rama _main_ haciendo un pull request.
-
-
-- **Pull Requests**: Un pull request permite avisar al equipo de que
-  se va a integrar en la rama principal una rama con un desarrollo
-  nuevo. Cuando creamos un PR, GitHub crea una página en la que se
-  pueden realizar comentarios, revisiones de código o definir
-  políticas de aceptación del PR. Consultar
-  [About pull requests](https://help.github.com/articles/about-pull-requests/).
-  
-    Implementaremos cada issue en una rama separada de git y la
-    integraremos en la rama `main` haciendo un _pull
-    request_. Cuando se mezcle el PR en `main` el issue se
-    cerrará.
-  
-    <img src="./imagenes/github-pr.png" width="700px"/>
-
-    Más adelante añadiremos otra rama de largo recorrido `releases` para
-    incluir en ella las releases del proyecto.
-
-- **Milestones** y **Releases**: Etiquetaremos cada issue con el
-  _milestone_ en el que queremos que se lance. Para identificar el
-  milestone usaremos el [versionado semántico](https://semver.org):
-  MAJOR.MINOR.PATCH. 
-  
-    <img src="./imagenes/github-milestones.png" width="600px"/>
-  
-    Usaremos la funcionalidad de GitHub _Releases_ para etiquetar los
-    commits en los que queramos marcar una versión nueva del
-    proyecto. Podemos añadir información sobre las novedades de la
-    versión (normalmente serán enlaces a los issues ese milestone).
-  
-    <img src="./imagenes/github-releases.png" width="600px"/>
-
-- **Tablero de proyecto**: Un tablero de proyecto nos ayudará a hacer
-  un seguimiento de en qué estado se encuentra cada issue:
-  cuáles han sido implementados, cuáles faltan por asignar,
-  implementar, probar, etc. Vamos a utilizar la funcionalidad propia
-  de GitHub llamada _Projects_. Consultar
-  [project boards](https://help.github.com/articles/tracking-the-progress-of-your-work-with-project-boards/).
-
-    <img src="./imagenes/github-tablero.png" width="700px"/>
-
-    Cuando se crea un pull request que resuelve un issue enlazaremos
-    el issue con el pull request. Podremos ver en el tablero que bajo
-    el issue aparece su PR enlazado y podremos desplegarlo en la
-    propia tarjeta (funcionalidad nueva de GitHub).
-    
-    <img src="./imagenes/pr-enlazado.png" width="500px"/>
-    
-
-También utilizaremos un panel de [Trello](https://trello.com/) para representar las
-historias de usuario que se van implementando en el proyecto. 
-
-<img src="./imagenes/historias-usuario-trello.png" width="600px"/>
-
-Cada historia de usuario tendrá un código numérico y podrá
-implementarse con uno o más issues. En GitHub crearemos una etiqueta
-por cada historia de usuario y se la asignaremos a los issues que se
-usen para implementarla.
-
-!!! Important "Importante"
-    Puede parecer redundante el uso de dos tableros, uno para las
-    historias de usuario y otro para los issues y _PR_. La
-    justificación es que los objetivos de ambos tableros son distintos
-    (y los contenidos también). El
-    tablero Trello es un **tablero de funcionalidades de usuario**, que
-    es gestionado por el _product owner_, usado por el equipo de
-    desarrollo y puede ser compartido también con clientes y
-    gerencia. En la terminología de Scrum será el _product
-    backlog_. Mientras que el tablero de GitHub será un **tablero
-    técnico** gestionado por el equipo de desarrollo. En terminología
-    de Scrum será el _sprint backlog_. 
-
-La documentación en Trello y en GitHub (en los issues, en los PRs y
-en el propio `README.md` del proyecto) hay que escribirla en
-**Markdown**, un lenguaje de marcado muy popular y sencillo de
-dominar. Si no has trabajado todavía con él puedes leer estas [guías
-de GitHub](https://help.github.com/categories/writing-on-github/).
-
-!!! Note
-    Existen herramientas y servicios más avanzados para gestionar
-    todos estos elementos del desarrollo. Por ejemplo
-    [Jira](https://www.atlassian.com/software/jira),
-    [YouTrack](https://www.jetbrains.com/youtrack/) o
-    [Confluence](https://www.atlassian.com/software/confluence). Pero
-    la combinación de GitHub + Trello es suficiente para lo que vamos a
-    realizar en la asignatura y para aprender los objetivos y el
-    funcionamiento de estos tipos de sistemas basados en incidencias.
-
-
-## 4. La aplicación ToDoList ##
+## 3. La aplicación ToDoList ##
 
 La aplicación
 [mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial)
@@ -2034,6 +1837,203 @@ public class UsuarioWebTest {
     }
 }
 ```
+
+## 4. Metodología de desarrollo ##
+
+En cuanto a la metodología de desarrollo, en esta práctica
+repasaremos e introduciremos el uso de:
+
+- [Git](https://git-scm.com) como sistema de control de versiones que nos permitirá
+  registrar paso a paso los cambios realizados en el desarrollo,
+  realizando e integrando ramas de _features_ en las que
+  desarrollaremos pequeños incrementos que añadirán poco a poco las
+  funcionalidades necesarias en la aplicación.
+- [GitHub](https://github.com) como servicio en el que publicaremos los cambios e
+  integraremos las ramas usando pull requests (PRs). Utilizaremos un
+  gran número de características de GitHub para realizar el
+  seguimiento del desarrollo del proyecto: issues, labels,
+  milestones, etc.
+- JUnit y las [características de testing de Spring
+  Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html)
+  para realizar continuamente pruebas unitarias que
+  validen el desarrollo.
+
+El objetivo es desarrollar software de una forma similar a cómo se
+hace en cientos de proyectos punteros de desarrollo _open
+source_. 
+
+Existen muchos proyectos que tienen un desarrollo abierto,
+transparente, en GitHub. Podemos aprender de sus metodologías
+estudiándolos. A continuación listamos ejemplos de repositorios en
+GitHub interesantes, en los que podemos estudiar los procesos de _pull
+requests_, issues, tableros, etc. y las dinámicas de comunicación
+que utilizan.
+
+- [CartoDB](https://github.com/CartoDB/cartodb). Software español para
+  representación visual de datos geográficos.
+- [Vapor](https://github.com/vapor/vapor). Framework web en Swift.
+- [Guice](https://github.com/google/guice). Framework de inyección de
+  dependencias en Java.
+- [swift-nio](https://github.com/apple/swift-nio). Framework asíncrono
+  de entrada-salida en Swift. 
+- [Spring
+  Boot](https://github.com/spring-projects/spring-boot). Framework web
+  en Java.
+
+### Git ###
+
+Git es el sistema de control de versiones más utilizado en la
+actualidad. Es muy flexible, distribuido, adaptable a múltiples flujos
+de trabajo e ideal para una metodología de desarrollo en
+equipo. Suponemos que ya tienes cierta experiencia con su uso. Puedes
+usar los siguientes enlaces para repasar su funcionamiento.
+
+- [Resumen de comandos de Git](../01-intro-spring-boot/comandos-git.md): Resumen de comandos
+  principales para empezar a trabajar con Git.
+- [Atlassian Git Tutorials](https://www.atlassian.com/git/tutorials/):
+  Tutoriales muy orientados al uso de Git con gran cantidad de
+  ejemplos. Es recomendable repasar los tutoriales básicos [Getting
+  Started](https://www.atlassian.com/git/tutorials/setting-up-a-repository)
+  y los tutoriales
+  [Syncing](https://www.atlassian.com/git/tutorials/syncing) y [Using
+  Branches](https://www.atlassian.com/git/tutorials/using-branches) en
+  el apartado _Collaborating_.
+- [Libro de Scott Chacon](https://git-scm.com/book/en/v2): Completo
+  manual con todos los detalles de todos los comandos de Git.
+
+Cuando utilicemos git es muy importante realizar unos mensajes de
+_commit_ claros. Un mensaje de _commit_ es la forma de comunicar a los
+compañeros del equipo qué cambios se han introducido en la aplicación
+y ponerlos en contexto (explicar por qué se han hecho, dar algún
+detalle de implementación, etc.). El post
+[How to Write a Git Commit Message](http://chris.beams.io/posts/git-commit/)
+explica muy bien esto.
+
+
+### Flujo de trabajo ###
+
+Desarrollaremos la aplicación de forma iterativa, utilizando
+inicialmente un flujo de trabajo Git denominado _feature branch_
+(consultar la
+[guía de GitHub](https://guides.github.com/introduction/flow/)) en el
+que cada característica nueva se implementa en una rama separada que
+después se mezcla con la rama principal de desarrollo. Más adelante
+veremos otros flujos de trabajo. Puedes ver una introducción a
+distintos flujos de trabajo básicos con Git en este
+[documento de Atlassian](https://www.atlassian.com/git/tutorials/comparing-workflows).
+
+Para implementar este flujo de trabajo utilizaremos los siguientes
+instrumentos de GitHub que facilitan la comunicación entre los
+miembros del equipo:
+
+- **Issues** (_incidencias_): GitHub permite abrir issues
+  (incidencias o tareas), asignarlos a personas, realizar comentarios,
+  asignar etiquetas y cerrarlos cuando la implementación ha
+  terminado. Consultar
+  [Mastering Issues](https://guides.github.com/features/issues/).
+
+    <img src="./imagenes/github-issues.png" width="500px"/>
+
+    Definiremos distintos tipos de issues en función de su
+    propósito: _bug_, _technical_, _enhancement_. Los issues que
+    implementan una historia de usuario los etiquetaremos con el
+    código de la historia de usuario. Puede haber más de un issue
+    asociado con una historia de usuario y de esta forma podemos
+    agruparlos.
+  
+    <img src="./imagenes/labels-issues.png" width="400px"/>
+  
+    Cada issue se desarrollará en una rama de Git y se integrará en la
+    rama _main_ haciendo un pull request.
+
+
+- **Pull Requests**: Un pull request permite avisar al equipo de que
+  se va a integrar en la rama principal una rama con un desarrollo
+  nuevo. Cuando creamos un PR, GitHub crea una página en la que se
+  pueden realizar comentarios, revisiones de código o definir
+  políticas de aceptación del PR. Consultar
+  [About pull requests](https://help.github.com/articles/about-pull-requests/).
+  
+    Implementaremos cada issue en una rama separada de git y la
+    integraremos en la rama `main` haciendo un _pull
+    request_. Cuando se mezcle el PR en `main` el issue se
+    cerrará.
+  
+    <img src="./imagenes/github-pr.png" width="700px"/>
+
+    Más adelante añadiremos otra rama de largo recorrido `releases` para
+    incluir en ella las releases del proyecto.
+
+- **Milestones** y **Releases**: Etiquetaremos cada issue con el
+  _milestone_ en el que queremos que se lance. Para identificar el
+  milestone usaremos el [versionado semántico](https://semver.org):
+  MAJOR.MINOR.PATCH. 
+  
+    <img src="./imagenes/github-milestones.png" width="600px"/>
+  
+    Usaremos la funcionalidad de GitHub _Releases_ para etiquetar los
+    commits en los que queramos marcar una versión nueva del
+    proyecto. Podemos añadir información sobre las novedades de la
+    versión (normalmente serán enlaces a los issues ese milestone).
+  
+    <img src="./imagenes/github-releases.png" width="600px"/>
+
+- **Tablero de proyecto**: Un tablero de proyecto nos ayudará a hacer
+  un seguimiento de en qué estado se encuentra cada issue:
+  cuáles han sido implementados, cuáles faltan por asignar,
+  implementar, probar, etc. Vamos a utilizar la funcionalidad propia
+  de GitHub llamada _Projects_. Consultar
+  [project boards](https://help.github.com/articles/tracking-the-progress-of-your-work-with-project-boards/).
+
+    <img src="./imagenes/github-tablero.png" width="700px"/>
+
+    Cuando se crea un pull request que resuelve un issue enlazaremos
+    el issue con el pull request. Podremos ver en el tablero que bajo
+    el issue aparece su PR enlazado y podremos desplegarlo en la
+    propia tarjeta (funcionalidad nueva de GitHub).
+    
+    <img src="./imagenes/pr-enlazado.png" width="500px"/>
+    
+
+También utilizaremos un panel de [Trello](https://trello.com/) para representar las
+historias de usuario que se van implementando en el proyecto. 
+
+<img src="./imagenes/historias-usuario-trello.png" width="600px"/>
+
+Cada historia de usuario tendrá un código numérico y podrá
+implementarse con uno o más issues. En GitHub crearemos una etiqueta
+por cada historia de usuario y se la asignaremos a los issues que se
+usen para implementarla.
+
+!!! Important "Importante"
+    Puede parecer redundante el uso de dos tableros, uno para las
+    historias de usuario y otro para los issues y _PR_. La
+    justificación es que los objetivos de ambos tableros son distintos
+    (y los contenidos también). El
+    tablero Trello es un **tablero de funcionalidades de usuario**, que
+    es gestionado por el _product owner_, usado por el equipo de
+    desarrollo y puede ser compartido también con clientes y
+    gerencia. En la terminología de Scrum será el _product
+    backlog_. Mientras que el tablero de GitHub será un **tablero
+    técnico** gestionado por el equipo de desarrollo. En terminología
+    de Scrum será el _sprint backlog_. 
+
+La documentación en Trello y en GitHub (en los issues, en los PRs y
+en el propio `README.md` del proyecto) hay que escribirla en
+**Markdown**, un lenguaje de marcado muy popular y sencillo de
+dominar. Si no has trabajado todavía con él puedes leer estas [guías
+de GitHub](https://help.github.com/categories/writing-on-github/).
+
+!!! Note
+    Existen herramientas y servicios más avanzados para gestionar
+    todos estos elementos del desarrollo. Por ejemplo
+    [Jira](https://www.atlassian.com/software/jira),
+    [YouTrack](https://www.jetbrains.com/youtrack/) o
+    [Confluence](https://www.atlassian.com/software/confluence). Pero
+    la combinación de GitHub + Trello es suficiente para lo que vamos a
+    realizar en la asignatura y para aprender los objetivos y el
+    funcionamiento de estos tipos de sistemas basados en incidencias.
+
 
 ## 5. Antes de empezar la práctica
 
