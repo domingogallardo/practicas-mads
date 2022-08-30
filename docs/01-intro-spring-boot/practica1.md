@@ -8,11 +8,6 @@ https://education.github.com/toolbox/offers/github-org-upgrades
 
 https://classroom.github.com/help/upgrade-your-organization
 
-TODO: Incluir un ejemplo de una petición post con parámetros
-
-this.mockMvc.perform(post("/login")
-               .param("eMail", "ana.garcia@gmail.com")
-               .param("password", "12345678"))
 -->
 
 # Práctica 1: Primera aplicación con Spring Boot#

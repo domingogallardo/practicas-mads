@@ -603,7 +603,8 @@ public class ServiceTest {
 Es posible realizar tests sobre la capa de presentación sin lanzar
 realmente el servidor web ni ejecutar realmente las peticiones
 HTTP. Se obtiene por inyección de dependencias un _mock_ de
-la clase `MockMvc` y se usan métodos como `perform(get("/"))`.
+la clase `MockMvc` y se usan métodos como `perform(get("/"))` o
+`perform(post("/saludoform").param("nombre", "Domingo"))`.
 
 En el primer test del ejemplo siguiente se comprueba que una petición
 `GET` a la URL `/` devuelve un código HTTP OK (200) y una página HTML
@@ -616,12 +617,59 @@ Se utilizan los métodos `andDo` y `andExpect` de la propia librería de
 testeo de Spring Framework y el método `conteainsString` de la
 librería de testeo [Hamcrest](http://hamcrest.org/JavaHamcrest/tutorial).
 
+En el segundo test se realiza una petición `POST` para comprobar que
+el formulario funciona correctamente.
+
+**Fichero `src/test/demoapp/MockMvcTest.java`**
+
+```java
+package demoapp;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class MockMvcTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    // Hacemos una petición GET a un end point y comprobamos que
+    // el HTML resultante es correcto
+    @Test
+    public void shouldReturnDefaultMessage() throws Exception {
+        this.mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Hello World")));
+    }
+
+    // Podemos hacer también una petición POST y pasar los datos
+    // del formulario con el método .param
+    @Test
+    public void postShoudReturnCorrectResponse() throws Exception {
+        this.mockMvc.perform(post("/saludoform")
+                .param("nombre", "Domingo"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Hola Domingo")));
+    }
+}
+```
 
 También es posible realizar un test únicamente del controlador y la
 plantilla de presentación, moqueando el servicio. Se muestra en el
-segundo test del ejemplo.
+fichero `MockServiceTest`.
 
-**Fichero `src/test/demoapp/WebMockTest.java`**
+**Fichero `src/test/demoapp/MockServiceTest.java`**
 
 ```java
 package demoapp;
@@ -637,22 +685,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class WebMockTest {
+public class MockServiceTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Test
-    public void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Hello World")));
-    }
 
     // Podemos también mockear el servicio
     @MockBean
@@ -670,44 +712,6 @@ public class WebMockTest {
     }
 }
 ```
-
-#### Tests sobre la aplicación en funcionamiento ####
-
-Por último, también podemos realizar tests sobre la aplicación
-funcionando completamente, realizando una petición al servidor web y
-comprobando que se devuelve lo esperado.
-
-Estos tests son los más costosos porque conllevan levantar el servidor
-web y realizar completamente el procesamiento de la petición. 
-
-**Fichero `src/test/java/demoapp/HttpRequestTest`**
-
-```java
-package demoapp;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class HttpRequestTest {
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    @Test
-    public void greetingShouldReturnDefaultMessage() throws Exception {
-        String body = restTemplate.getForObject("/", String.class);
-        assertThat(body.contains("Hello World"));
-    }
-}
-```
-
 
 ## 5. Referencias ##
 
