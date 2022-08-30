@@ -549,20 +549,7 @@ fuente, para entender los aspectos básicos (controladores, servicios,
 inyección de dependencias, plantillas, tests) del funcionamiento de
 Spring Boot.
 
-En el siguiente documento se explica cómo usar los formularios en
-Spring Boot:
-
-- [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
-
-Lee también el siguiente documento, en el que se explica cómo usar la
-validación de los campos de un formulario de entrada.
-
-- [Validating Form Input](https://spring.io/guides/gs/validating-form-input/)
-
-El código que hay en el ejemplo anterior es algo distinto al que
-estamos usando en clase. Por ejemplo, la forma de definir los
-controllers. Es mejor que uses como ejemplo de validación el código
-que hay en el repositorio
+Puedes ver un ejemplo adicional de validación de un formulario en el repositorio
 [domingogallardo/spring-boot-validate](https://github.com/domingogallardo/spring-boot-validate). 
 
 Verás también ahí varios ejemplos de tests en los que se realiza una
@@ -580,8 +567,8 @@ public void checkPersonInfoWhenNameTooShortThenFailure() throws Exception {
 }
 ```
 
-Debemos añadir alguna funcionalidad sencilla a la aplicación que
-realice lo siguiente:
+Debemos entonces añadir alguna funcionalidad sencilla a la aplicación
+Demo que realice lo siguiente:
 
 - Leer datos de un formulario usando Thymeleaf y **realizar alguna validación**.
 - Llamar a un **método de servicio** que procese los datos leídos.
