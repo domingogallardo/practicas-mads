@@ -303,6 +303,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#formularios-y-validacion" class="md-nav__link">
+    Formularios y validación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#tests" class="md-nav__link">
     Tests
   </a>
@@ -497,6 +504,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#formularios-y-validacion" class="md-nav__link">
+    Formularios y validación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#tests" class="md-nav__link">
     Tests
   </a>
@@ -529,8 +543,8 @@
                 
                 
                 <h1 id="introduccion-a-spring-boot">Introducción a Spring Boot<a class="headerlink" href="#introduccion-a-spring-boot" title="Permanent link">&para;</a></h1>
-<p>Vamos a trabajar con la versión 2.4.8 de Spring Boot. Se puede
-consultar toda la documentación oficial sobre esta versión en <a href="https://docs.spring.io/spring-boot/docs/2.4.8/reference/html/index.html">este
+<p>Vamos a trabajar con la versión 2.6.10 de Spring Boot. Se puede
+consultar toda la documentación oficial sobre esta versión en <a href="https://docs.spring.io/spring-boot/docs/2.6.10/reference/html/index.html">este
 enlace</a>. </p>
 <h2 id="1-aplicacion-ejemplo">1. Aplicación ejemplo<a class="headerlink" href="#1-aplicacion-ejemplo" title="Permanent link">&para;</a></h2>
 <p>Es muy sencillo crear aplicaciones de Spring Boot <strong>desde cero</strong> usando la
@@ -578,6 +592,7 @@ siguientes páginas:</p>
 <li><a href="http://localhost:8080">http://localhost:8080</a></li>
 <li><a href="http://localhost:8080/saludo/Pepito">http://localhost:8080/saludo/Pepito</a></li>
 <li><a href="http://localhost:8080/saludoplantilla/Pepito">http://localhost:8080/saludoplantilla/Pepito</a></li>
+<li><a href="http://localhost:8080/saludoform">http://localhost:8080/saludoform</a></li>
 </ul>
 <h2 id="3-desarrollo-y-ejecucion-con-intellij">3. Desarrollo y ejecución con IntelliJ<a class="headerlink" href="#3-desarrollo-y-ejecucion-con-intellij" title="Permanent link">&para;</a></h2>
 <p>Recomendamos hacer el desarrollo usando el IDE <a href="https://www.jetbrains.com/idea/download/">IntelliJ
@@ -585,15 +600,13 @@ Ultimate</a>. Aunque es de
 pago, es posible <a href="https://www.jetbrains.com/shop/eform/students">obtener una licencia de
 estudiante</a> usando la
 dirección de correo de la UA.</p>
-<p>Para importar un proyecto Spring Boot en IntelliJ basta con
-importar el directorio donde se encuentre el fichero <code>pom.xml</code>. Se
+<p>Para abrir un proyecto Spring Boot en IntelliJ basta con
+abrir el directorio donde se encuentre el fichero <code>pom.xml</code>. Se
 puede hacer desde la pantalla de bienvenida de IntelliJ con la opción
-<strong>Import Project</strong> o usando la opción <strong>File &gt; New &gt; Project from
-Existing Sources</strong>. Aparecerá la pantalla de importación y
-seleccionamos el importador <strong>Maven</strong>:</p>
-<p><img src="imagenes/import-intellij.png" width="600px" /></p>
-<p>IntelliJ importa el proyecto correctamente:</p>
-<p><img src="imagenes/proyecto-desplegado.png" width="300px"/></p>
+<strong>Open</strong> o usando la opción <strong>File &gt; Open"</strong> o <strong>"File &gt; New &gt; Project from
+Existing Sources</strong>. </p>
+<p>IntelliJ abre el proyecto correctamente:</p>
+<p><img src="imagenes/proyecto-desplegado.png" width="350px"/></p>
 <p>Podemos ejecutarlo abriendo un terminal y lanzándolo con Maven. O
 también desde la <strong>configuración de Run</strong> que ha creado IntelliJ al
 realizar la importación:</p>
@@ -605,14 +618,14 @@ aplicación, volverla a lanzar, etc:</p>
 <h3 id="estructura-de-la-aplicacion">Estructura de la aplicación<a class="headerlink" href="#estructura-de-la-aplicacion" title="Permanent link">&para;</a></h3>
 <p>Estructura de directorios típica de los proyectos Java construidos con
 Maven:</p>
-<p><img src="imagenes/estructura-app.png" width="300px"/></p>
+<p><img src="imagenes/proyecto-desplegado.png" width="350px"/></p>
 <p>El fichero <code>pom.xml</code> declara las dependencias. Spring Boot proporciona
 <em>starters</em> que agrupan un conjunto de dependencias comunes.</p>
 <p><strong>Fichero <code>pom.xml</code></strong></p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> 
+<span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span>
          <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
-         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 </span>
+         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0</span>
 <span class="s">         https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
 
@@ -624,7 +637,7 @@ Maven:</p>
     <span class="nt">&lt;parent&gt;</span>
         <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
         <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-parent<span class="nt">&lt;/artifactId&gt;</span>
-        <span class="nt">&lt;version&gt;</span>2.1.16.RELEASE<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;version&gt;</span>2.6.10<span class="nt">&lt;/version&gt;</span>
     <span class="nt">&lt;/parent&gt;</span>
 
     <span class="nt">&lt;properties&gt;</span>
@@ -642,6 +655,10 @@ Maven:</p>
         <span class="nt">&lt;/dependency&gt;</span>
         <span class="nt">&lt;dependency&gt;</span>
             <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-validation<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
             <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-test<span class="nt">&lt;/artifactId&gt;</span>
             <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
         <span class="nt">&lt;/dependency&gt;</span>
@@ -652,6 +669,13 @@ Maven:</p>
             <span class="nt">&lt;plugin&gt;</span>
                 <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
                 <span class="nt">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;argLine&gt;</span>-Dfile.encoding=UTF8<span class="nt">&lt;/argLine&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
             <span class="nt">&lt;/plugin&gt;</span>
         <span class="nt">&lt;/plugins&gt;</span>
     <span class="nt">&lt;/build&gt;</span>
@@ -774,7 +798,8 @@ controlador recibirá múltiples peticiones concurrentemente. Cada
 petición irá en su propio hilo de Java, por lo que múltiples hilos
 podrán estar ejecutando el mismo código del controlador. </p>
 <p>Por ello hay que tener cuidado en <strong>no definir variables de instancia
-mutables (con estado)</strong> dentro del controlador, porque podrían
+mutables (con estado)</strong> dentro del controlador (con excepción de los
+objetos inyectados con la anotación <code>@Autowired</code>), porque podrían
 producirse errores debidos a condiciones de carrera (un hilo modifica
 la misma variable que otro está leyendo). Es conveniente que todos los
 <em>beans</em> (controladores, servicios, etc.) sean objetos sin estado.</p>
@@ -834,8 +859,117 @@ diccionario (la variable <code>model</code> que recibe como parámetro):</p>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<h3 id="formularios-y-validacion">Formularios y validación<a class="headerlink" href="#formularios-y-validacion" title="Permanent link">&para;</a></h3>
+<p>Spring Boor simplifica la declaración y validación de formularios
+usando clases Java que trabajan como modelos del formulario. Por
+ejemplo, en la aplicación se define la clase <code>UserData</code>:</p>
+<p><strong>Fichero <code>src/main/java/demoapp/controller/UserData.java</code></strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">demoapp.controller</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.validation.constraints.Size</span><span class="p">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserData</span> <span class="p">{</span>
+    <span class="nd">@Size</span><span class="p">(</span><span class="n">min</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">String</span> <span class="n">nombre</span><span class="p">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setNombre</span><span class="p">(</span><span class="n">String</span> <span class="n">nombre</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">nombre</span> <span class="o">=</span> <span class="n">nombre</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getNombre</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">nombre</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Se trata de un objeto con el campo <code>nombre</code> de tipo <code>String</code> al que se
+le ha añadido una anotación de validación <code>@Size</code> con el tamaño mínimo y
+máximo que debe tener.</p>
+<p>Puedes encontrar más información sobre otros atributos de validación
+en <a href="https://www.baeldung.com/javax-validation">este enlace</a>.</p>
+<p>El formulario HTML propiamente dicho se define con una plantilla
+thymeleaf en la que se declara un objeto que tiene el mismo nombre que
+el nombre de la clase modelo, pero con la primera letra en
+minúscula. En nuestro caso la clase modelo es <code>UserData</code>, por lo que el objeto
+del formulario debe llamarse <code>userData</code>. En el formulario podemos usar
+cualquier campo definido en el objeto modelo. En nuestro caso usamos
+el único campo de tipo <code>String</code>, <code>nombre</code>.</p>
+<p><strong>Fichero <code>src/main/resources/templates/formRegistro.html</code></strong></p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:th</span><span class="o">=</span><span class="s">&quot;http://www.thymeleaf.org&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">form</span> <span class="na">th:action</span><span class="o">=</span><span class="s">&quot;@{/saludoform}&quot;</span> <span class="na">th:object</span><span class="o">=</span><span class="s">&quot;${userData}&quot;</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;post&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>Nombre:<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">th:field</span><span class="o">=</span><span class="s">&quot;*{nombre}&quot;</span> <span class="p">/&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">td</span> <span class="na">th:if</span><span class="o">=</span><span class="s">&quot;${#fields.hasErrors(&#39;nombre&#39;)}&quot;</span> <span class="na">th:errors</span><span class="o">=</span><span class="s">&quot;*{nombre}&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span><span class="p">&gt;</span>Enviar<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Se define una acción que enviará una petición <code>POST</code> a la URL
+<code>/saludoform</code> con los datos del formulario. En este caso el nombre.</p>
+<p>Por último, el controller que lanza el formulario y el que recibe la
+petición <code>POST</code> con los datos introducidos se definen en el siguiente
+fichero:</p>
+<p><strong>Fichero <code>src/main/java/demoapp/controller/SaludoControllerForm.java</code></strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">demoapp.controller</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">demoapp.service.SaludoService</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.ui.Model</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.validation.BindingResult</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.*</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.validation.Valid</span><span class="p">;</span>
+
+<span class="nd">@Controller</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SaludoControllerForm</span> <span class="p">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">SaludoService</span> <span class="n">service</span><span class="p">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">public</span> <span class="nf">SaludoControllerForm</span><span class="p">(</span><span class="n">SaludoService</span> <span class="n">service</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">service</span> <span class="o">=</span> <span class="n">service</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/saludoform&quot;</span><span class="p">)</span>
+    <span class="c1">// Hay que declarar un parámetro con el tipo usado en el modelo del formulario (UserData)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">saludoForm</span><span class="p">(</span><span class="n">UserData</span> <span class="n">userData</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;formRegistro&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nd">@PostMapping</span><span class="p">(</span><span class="s">&quot;/saludoform&quot;</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">checkPersonInfo</span><span class="p">(</span><span class="nd">@ModelAttribute</span> <span class="nd">@Valid</span> <span class="n">UserData</span> <span class="n">userData</span><span class="p">,</span> <span class="n">BindingResult</span> <span class="n">bindingResult</span><span class="p">,</span> <span class="n">Model</span> <span class="n">model</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">bindingResult</span><span class="p">.</span><span class="na">hasErrors</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s">&quot;formRegistro&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;mensaje&quot;</span><span class="p">,</span> <span class="n">service</span><span class="p">.</span><span class="na">saluda</span><span class="p">(</span><span class="n">userData</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()));</span>
+        <span class="k">return</span> <span class="s">&quot;saludo&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>El método que recibe la petición en <code>/saludoform</code> simplemente devuelve
+la plantilla con el formulario. </p>
+<p>Y el método que recibe los datos es el que responde a la petición
+<code>POST</code> en la URL <code>/saludoform</code> recibe los datos del formulario en un
+objeto Java del tipo del modelo del formulario (el parámetro
+<code>userData</code>). Las anotaciones <code>@ModelAttribute</code> y <code>@Valid</code> indican que
+es un objeto recogido en el formulario sobre el que se ha realizado
+una validación. Se detecta si ha habido algún error en el método
+<code>hasErrors()</code> del <code>bindingResult</code> que se recibe también como
+parámetro. </p>
+<p>Si ha habido error, se vuelve a devolver el formulario para
+que se vuelva a completar. Si no ha habido error se obtiene el nombre
+introducido en el formulario y se pasa a la plantilla del saludo.</p>
 <h3 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h3>
-<p>En Spring Boot 2.4 se usa JUnit 5 como librería de tests.</p>
+<p>A partir de Spring Boot 2.4 se usa JUnit 5 como librería de tests.</p>
 <p>En la aplicación de demostración hay varios ejemplos que muestran
 posibles formas de realizar pruebas en una aplicación Spring Boot.</p>
 <p>Spring Boot incluye el framework
@@ -990,10 +1124,12 @@ rápidas en la web de Spring, en la url
 <p>En concreto, hemos usado las siguientes referencias para construir
 esta primera aplicación ejemplo:</p>
 <ul>
-<li>Getting Started Guide <a href="https://spring.io/guides/gs/spring-boot/">Building an Application with Spring Boot</a></li>
-<li>Getting Started Guide <a href="https://spring.io/guides/gs/serving-web-content/">Serving Web Content with Spring MVC</a></li>
-<li>Spring Boot Reference Guide 2.4.8
-  (<a href="https://docs.spring.io/spring-boot/docs/2.4.8/reference/htmlsingle/">HTML</a>, <a href="https://docs.spring.io/spring-boot/docs/2.4.8/reference/pdf/spring-boot-reference.pdf">PDF</a>)</li>
+<li><a href="https://spring.io/guides/gs/spring-boot/">Building an Application with Spring Boot</a></li>
+<li><a href="https://spring.io/guides/gs/serving-web-content/">Serving Web Content with Spring  MVC</a></li>
+<li><a href="https://spring.io/guides/gs/handling-form-submission/">Handling Form Submission</a></li>
+<li><a href="https://spring.io/guides/gs/validating-form-input/">Validating Form Input</a></li>
+<li>Spring Boot Reference Guide 2.6.10
+  (<a href="https://docs.spring.io/spring-boot/docs/2.6.10/reference/htmlsingle/">HTML</a>, <a href="https://docs.spring.io/spring-boot/docs/2.6.10/reference/pdf/spring-boot-reference.pdf">PDF</a>)</li>
 </ul>
                 
               
