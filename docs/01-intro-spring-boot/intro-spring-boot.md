@@ -1,8 +1,8 @@
 # Introducción a Spring Boot #
 
-Vamos a trabajar con la versión 2.4.8 de Spring Boot. Se puede
+Vamos a trabajar con la versión 2.6.10 de Spring Boot. Se puede
 consultar toda la documentación oficial sobre esta versión en [este
-enlace](https://docs.spring.io/spring-boot/docs/2.4.8/reference/html/index.html). 
+enlace](https://docs.spring.io/spring-boot/docs/2.6.10/reference/html/index.html). 
 
 ## 1. Aplicación ejemplo ##
 
@@ -65,6 +65,7 @@ siguientes páginas:
 - [http://localhost:8080](http://localhost:8080)
 - [http://localhost:8080/saludo/Pepito](http://localhost:8080/saludo/Pepito)
 - [http://localhost:8080/saludoplantilla/Pepito](http://localhost:8080/saludoplantilla/Pepito)
+- [http://localhost:8080/saludoform](http://localhost:8080/saludoform)
 
 ## 3. Desarrollo y ejecución con IntelliJ ##
 
@@ -74,18 +75,15 @@ pago, es posible [obtener una licencia de
 estudiante](https://www.jetbrains.com/shop/eform/students) usando la
 dirección de correo de la UA.
 
-Para importar un proyecto Spring Boot en IntelliJ basta con
-importar el directorio donde se encuentre el fichero `pom.xml`. Se
+Para abrir un proyecto Spring Boot en IntelliJ basta con
+abrir el directorio donde se encuentre el fichero `pom.xml`. Se
 puede hacer desde la pantalla de bienvenida de IntelliJ con la opción
-**Import Project** o usando la opción **File > New > Project from
-Existing Sources**. Aparecerá la pantalla de importación y
-seleccionamos el importador **Maven**:
+**Open** o usando la opción **File > Open"** o **"File > New > Project from
+Existing Sources**. 
 
-<img src="imagenes/import-intellij.png" width="600px" />
+IntelliJ abre el proyecto correctamente:
 
-IntelliJ importa el proyecto correctamente:
-
-<img src="imagenes/proyecto-desplegado.png" width="300px"/>
+<img src="imagenes/proyecto-desplegado.png" width="350px"/>
 
 Podemos ejecutarlo abriendo un terminal y lanzándolo con Maven. O
 también desde la **configuración de Run** que ha creado IntelliJ al
@@ -105,8 +103,7 @@ aplicación, volverla a lanzar, etc:
 Estructura de directorios típica de los proyectos Java construidos con
 Maven:
 
-<img src="imagenes/estructura-app.png" width="300px"/>
-
+<img src="imagenes/proyecto-desplegado.png" width="350px"/>
 
 El fichero `pom.xml` declara las dependencias. Spring Boot proporciona
 _starters_ que agrupan un conjunto de dependencias comunes.
@@ -115,9 +112,9 @@ _starters_ que agrupan un conjunto de dependencias comunes.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -129,7 +126,7 @@ _starters_ que agrupan un conjunto de dependencias comunes.
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.16.RELEASE</version>
+        <version>2.6.10</version>
     </parent>
 
     <properties>
@@ -147,6 +144,10 @@ _starters_ que agrupan un conjunto de dependencias comunes.
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -157,6 +158,13 @@ _starters_ que agrupan un conjunto de dependencias comunes.
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-Dfile.encoding=UTF8</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -318,7 +326,8 @@ petición irá en su propio hilo de Java, por lo que múltiples hilos
 podrán estar ejecutando el mismo código del controlador. 
 
 Por ello hay que tener cuidado en **no definir variables de instancia
-mutables (con estado)** dentro del controlador, porque podrían
+mutables (con estado)** dentro del controlador (con excepción de los
+objetos inyectados con la anotación `@Autowired`), porque podrían
 producirse errores debidos a condiciones de carrera (un hilo modifica
 la misma variable que otro está leyendo). Es conveniente que todos los
 _beans_ (controladores, servicios, etc.) sean objetos sin estado.
@@ -392,9 +401,137 @@ public class SaludoControllerPlantilla {
 }
 ```
 
+### Formularios y validación ###
+
+Spring Boor simplifica la declaración y validación de formularios
+usando clases Java que trabajan como modelos del formulario. Por
+ejemplo, en la aplicación se define la clase `UserData`:
+
+**Fichero `src/main/java/demoapp/controller/UserData.java`**
+
+```java
+package demoapp.controller;
+
+import javax.validation.constraints.Size;
+
+public class UserData {
+    @Size(min=3, max=30)
+    String nombre;
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+}
+```
+
+Se trata de un objeto con el campo `nombre` de tipo `String` al que se
+le ha añadido una anotación de validación `@Size` con el tamaño mínimo y
+máximo que debe tener.
+
+Puedes encontrar más información sobre otros atributos de validación
+en [este enlace](https://www.baeldung.com/javax-validation).
+
+El formulario HTML propiamente dicho se define con una plantilla
+thymeleaf en la que se declara un objeto que tiene el mismo nombre que
+el nombre de la clase modelo, pero con la primera letra en
+minúscula. En nuestro caso la clase modelo es `UserData`, por lo que el objeto
+del formulario debe llamarse `userData`. En el formulario podemos usar
+cualquier campo definido en el objeto modelo. En nuestro caso usamos
+el único campo de tipo `String`, `nombre`.
+
+**Fichero `src/main/resources/templates/formRegistro.html`**
+
+```html
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<form th:action="@{/saludoform}" th:object="${userData}" method="post">
+    <table>
+        <tr>
+            <td>Nombre:</td>
+            <td><input type="text" th:field="*{nombre}" /></td>
+            <td th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></td>
+        </tr>
+        <tr>
+            <td><button type="submit">Enviar</button></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+```
+
+Se define una acción que enviará una petición `POST` a la URL
+`/saludoform` con los datos del formulario. En este caso el nombre.
+
+Por último, el controller que lanza el formulario y el que recibe la
+petición `POST` con los datos introducidos se definen en el siguiente
+fichero:
+
+**Fichero `src/main/java/demoapp/controller/SaludoControllerForm.java`**
+
+```java
+package demoapp.controller;
+
+import demoapp.service.SaludoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@Controller
+public class SaludoControllerForm {
+
+    private final SaludoService service;
+
+    @Autowired
+    public SaludoControllerForm(SaludoService service) {
+        this.service = service;
+    }
+
+    @GetMapping("/saludoform")
+    // Hay que declarar un parámetro con el tipo usado en el modelo del formulario (UserData)
+    public String saludoForm(UserData userData) {
+        return "formRegistro";
+    }
+
+    @PostMapping("/saludoform")
+    public String checkPersonInfo(@ModelAttribute @Valid UserData userData, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "formRegistro";
+        }
+        model.addAttribute("mensaje", service.saluda(userData.getNombre()));
+        return "saludo";
+    }
+}
+```
+
+El método que recibe la petición en `/saludoform` simplemente devuelve
+la plantilla con el formulario. 
+
+Y el método que recibe los datos es el que responde a la petición
+`POST` en la URL `/saludoform` recibe los datos del formulario en un
+objeto Java del tipo del modelo del formulario (el parámetro
+`userData`). Las anotaciones `@ModelAttribute` y `@Valid` indican que
+es un objeto recogido en el formulario sobre el que se ha realizado
+una validación. Se detecta si ha habido algún error en el método
+`hasErrors()` del `bindingResult` que se recibe también como
+parámetro. 
+
+Si ha habido error, se vuelve a devolver el formulario para
+que se vuelva a completar. Si no ha habido error se obtiene el nombre
+introducido en el formulario y se pasa a la plantilla del saludo.
+
 ### Tests ###
 
-En Spring Boot 2.4 se usa JUnit 5 como librería de tests.
+A partir de Spring Boot 2.4 se usa JUnit 5 como librería de tests.
 
 En la aplicación de demostración hay varios ejemplos que muestran
 posibles formas de realizar pruebas en una aplicación Spring Boot.
@@ -587,8 +724,10 @@ rápidas en la web de Spring, en la url
 En concreto, hemos usado las siguientes referencias para construir
 esta primera aplicación ejemplo:
 
-- Getting Started Guide [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
-- Getting Started Guide [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-- Spring Boot Reference Guide 2.4.8
-  ([HTML](https://docs.spring.io/spring-boot/docs/2.4.8/reference/htmlsingle/), [PDF](https://docs.spring.io/spring-boot/docs/2.4.8/reference/pdf/spring-boot-reference.pdf))
+- [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
+- [Serving Web Content with Spring  MVC](https://spring.io/guides/gs/serving-web-content/)
+- [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
+- [Validating Form Input](https://spring.io/guides/gs/validating-form-input/)
+- Spring Boot Reference Guide 2.6.10
+  ([HTML](https://docs.spring.io/spring-boot/docs/2.6.10/reference/htmlsingle/), [PDF](https://docs.spring.io/spring-boot/docs/2.6.10/reference/pdf/spring-boot-reference.pdf))
   
