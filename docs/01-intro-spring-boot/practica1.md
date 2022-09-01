@@ -214,10 +214,10 @@ Una vez leído el documento [Introducción a Spring
 4. Prueba que se pasan todos los tests usando el comando Maven desde el terminal
   (`.mvnw`) y utilizando el panel de proyecto en IntelliJ.
 5. Ejecuta la aplicación desde línea de comando y desde IntelliJ.
-6. Haz algún pequeño cambio a la aplicación, cambiando el mensaje de
-  saludo para incluir tu nombre. Comprueba que los tests pasan
-  (modifícalos si no es así) y que la aplicación funciona
-  correctamente.
+6. Haz algún pequeño cambio a la aplicación. Por ejemplo, cambia el mensaje de
+   saludo que da el controller de la raíz para incluir tu nombre. 
+   Comprueba que los tests pasan (modifícalos si no es así) y que la aplicación funciona
+   correctamente.
   
 ### _Dockerización_ de la aplicación ###
 
@@ -313,12 +313,7 @@ la desplegaremos en un _host_ para ponerla en producción.
         en producción, usa ese servicio).
 
 4. Asegúrate de que en el directorio raíz de la aplicación está
-  el fichero JAR resultado de la compilación:
-  
-    ```bash
-    $ ls -l ./target/*.jar
-    ./target/demoapp-0.0.1-SNAPSHOT.jar
-    ```
+   el fichero JAR resultado de la compilación de la aplicación.
 
     Tal y como se explica en la [introducción a Spring
     Boot](./intro-spring-boot.md), el fichero `.jar` es el ejecutable
@@ -327,6 +322,8 @@ la desplegaremos en un _host_ para ponerla en producción.
     
     ```
     $ ./mvnw package
+    $ ls -l ./target/*.jar
+    ./target/demoapp-0.0.1-SNAPSHOT.jar
     ```
 
 5. Ya puedes construir la máquina Docker con el siguiente comando,
@@ -385,7 +382,13 @@ la desplegaremos en un _host_ para ponerla en producción.
       $ docker container start <identificador>
       ```
       
-    O borrarlo definitivamente con 
+    También podemos parar el contenedor:
+    
+      ```
+      $ docker container stop <identificador>
+      ```
+       
+    Y borrarlo definitivamente con 
     
       ```
       $ docker container rm <identificador>
@@ -396,8 +399,6 @@ la desplegaremos en un _host_ para ponerla en producción.
     - `docker run -d` : lanza el contendor en modo _background_.
     - `docker run --rm` : lanza el contenedor de forma que al pararlo
       se borra automáticamente.
-    - `docker container stop <identificador>` : para el contenedor
-      indicado.
     - `docker container logs <identificador>` : muestra los logs del
       contenedor indicado.
     
@@ -471,7 +472,7 @@ aplicación.
 
 2. Conéctate al servidor con tu usuario y cambia tu contraseña. Por
    ejemplo, si tu usuario es `alu02` y la dirección IP del servidor es
-   `161.35.65.197`:
+   `159.65.119.177`:
 
     ```
     $ ssh alu02@161.35.65.197
@@ -526,11 +527,6 @@ aplicación.
     ¡Enhorabuena, ya tienes tu aplicación en producción!. Puedes
     llamar a cualquier amigo para que se conecte a esa URL y la pruebe.
 
-    !!! Danger "Importante"
-        Para entregar la práctica deberás ponerla en producción en el
-        servidor de la asignatura y el profesor comprobará que
-        funciona correctamente. Lo haremos en el horario de clase de prácticas.
-
 6. Si en algún momento tenemos problemas de espacio en el disco duro,
    podemos borrar la imagen y el contenedor:
    
@@ -550,17 +546,21 @@ aplicación.
         asignatura en este servidor.
         
 
-## 4. Añadimos alguna funcionalidad sencilla a la aplicación ##
+## 4. Estudia el funcionamiento de la aplicación y su arquitectura ##
 
 En el documento [Introducción a Spring Boot](./intro-spring-boot.md)
 se comenta el código fuente de la aplicación Spring Boot con la que
 estamos trabajando. Léelo despacio, revisando también el código
 fuente, para entender los aspectos básicos (controladores, servicios,
-inyección de dependencias, plantillas, tests) del funcionamiento de
+inyección de dependencias, plantillas) del funcionamiento de
 Spring Boot.
 
-Puedes ver un ejemplo adicional de validación de un formulario en el repositorio
-[domingogallardo/spring-boot-validate](https://github.com/domingogallardo/spring-boot-validate). 
+Estudia también despacio el funcionamiento de los tests y el
+funcionamiento del formulario y la validación. 
+
+Puedes ver un ejemplo adicional de validación de un formulario en el
+repositorio
+[domingogallardo/spring-boot-validate](https://github.com/domingogallardo/spring-boot-validate).
 
 Verás también ahí varios ejemplos de tests en los que se realiza una
 petición POST pasando parámetros y se obtiene información del modelo
@@ -577,7 +577,10 @@ public void checkPersonInfoWhenNameTooShortThenFailure() throws Exception {
 }
 ```
 
-Debemos entonces añadir alguna funcionalidad sencilla a la aplicación
+## 5. Añadimos alguna funcionalidad sencilla a la aplicación ##
+
+Para demostrar que comprendes el funcionamiento de una aplicación
+Spring Boot, debes añadir alguna funcionalidad sencilla a la aplicación
 Demo que realice lo siguiente:
 
 - Leer datos de un formulario usando Thymeleaf y **realizar alguna validación**.
@@ -606,7 +609,7 @@ aplicación funciona bien en local, debes crear la máquina Docker con
 la etiqueta `final` y probar que funciona bien en producción en el
 servidor de la asignatura.
 
-## 5. Comandos Git ##
+## 6. Comandos Git ##
 
 Comandos Git necesarios para realizar la práctica:
 
@@ -623,7 +626,7 @@ importantes de Git necesarios para estas primeras prácticas de la
 asignatura.
 
 
-## 6. Entrega ##
+## 7. Entrega ##
 
 - La práctica tiene una duración de 1 semana y debe estar terminada
   el martes 21 de septiembre. El miércoles 22 de septiembre el
@@ -655,3 +658,9 @@ Para la evaluación se tendrá en cuenta:
 - Correcto desarrollo de la metodología.
 - Diseño e implementación del código y de los tests de las
   características desarrolladas.
+
+!!! Danger "Importante"
+    Después de entregar la práctica deberás ponerla en producción en el
+    servidor de la asignatura y el profesor comprobará que
+    funciona correctamente. Lo haremos en el horario de clase de prácticas.
+
