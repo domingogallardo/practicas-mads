@@ -152,7 +152,7 @@ esta práctica debes seguir los siguientes pasos:
     <img src="imagenes/aceptar-classroom.png" width="500px"></img>
    
     Se creará automáticamente el repositorio `springboot-demo-app-<usuario>` en la
-    organización [mads-ua-22-23](https://github.com/mads-ua-22-23). Es un
+    organización [mads-ua-22-23](https://github.com/mads-ua-22-23/repositories). Es un
     repositorio privado al que tienes acceso tú y el profesor. Contiene
     el código inicial del proyecto demostración de Spring Boot (es una
     copia del repositorio
@@ -192,19 +192,29 @@ Una vez leído el documento [Introducción a Spring
  `demo-spring-boot` que tienes en el repositorio creado en el punto 2
  anterior y comprobar que funciona correctamente. Debes hacer lo siguiente:
 
-1. Descarga en tu ordenador el repositorio creado en GitHub en el punto
-  2, usando el comando `git clone`:
+1. Configura un [Personal Access
+   Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) (PAT)
+   en GitHub para poder autenticarte desde el terminal. Dale todos los
+   permisos de acceso a repositorios y copia la clave generada. Será
+   la contraseña que deberás introducir cuando un comando git te la
+   pida.
+   
+2. Descarga en tu ordenador el repositorio creado en GitHub en el apartado
+   anterior, usando el comando `git clone`:
   
     ```
-    $ git clone springboot-demo-app-<usuario>
+    $ git clone https://github.com/mads-ua-22-23/springboot-demo-app-<usuario>.git
     ```
-  
-2. Importa la aplicación en IntelliJ, tal y como se explica en el
+
+    Cuando git te pida autenticación, usa como nombre de usuario tu usuario
+    de GitHub y como contraseña el PAT que has creado anteriormente.
+
+3. Importa la aplicación en IntelliJ, tal y como se explica en el
    documento [Introducción a Spring Boot](./intro-spring-boot.md).
-3. Prueba que se pasan todos los tests usando el comando Maven desde el terminal
+4. Prueba que se pasan todos los tests usando el comando Maven desde el terminal
   (`.mvnw`) y utilizando el panel de proyecto en IntelliJ.
-4. Ejecuta la aplicación desde línea de comando y desde IntelliJ.
-5. Haz algún pequeño cambio a la aplicación, cambiando el mensaje de
+5. Ejecuta la aplicación desde línea de comando y desde IntelliJ.
+6. Haz algún pequeño cambio a la aplicación, cambiando el mensaje de
   saludo para incluir tu nombre. Comprueba que los tests pasan
   (modifícalos si no es así) y que la aplicación funciona
   correctamente.
