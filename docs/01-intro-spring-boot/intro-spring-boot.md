@@ -16,9 +16,6 @@ Nosotros vamos a hacerlo más fácil todavía usando una aplicación
 ejemplo en GitHub
 [domingogallardo/spring-boot-demoapp](https://github.com/domingogallardo/spring-boot-demoapp). 
 
-En el [enunciado de la práctica](./practica1.md) se encuentran las instrucciones para
-crear un repositorio GitHub y descargarla en tu ordenador local.
-
 La aplicación es un sencillo `Hola mundo`. En los siguientes apartados
 explicamos cómo lanzarla y cómo funciona.
 

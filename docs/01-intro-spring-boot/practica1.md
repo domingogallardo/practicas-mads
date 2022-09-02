@@ -187,9 +187,8 @@ funcionamiento básico de este _framework_.
 
 ### Construcción y ejecución de la aplicación ###
 
-Una vez leído el documento [Introducción a Spring
- Boot](./intro-spring-boot.md) deberás descargar la aplicación
- `demo-spring-boot` que tienes en el repositorio creado en el punto 2
+Lo primero que deberás hacer será descargar la aplicación
+ `demo-spring-boot` que tienes en el repositorio creado en el punto
  anterior y comprobar que funciona correctamente. Debes hacer lo siguiente:
 
 1. Configura un [Personal Access
@@ -209,13 +208,89 @@ Una vez leído el documento [Introducción a Spring
     Cuando git te pida autenticación, usa como nombre de usuario tu usuario
     de GitHub y como contraseña el PAT que has creado anteriormente.
 
-3. Importa la aplicación en IntelliJ, tal y como se explica en el
-   documento [Introducción a Spring Boot](./intro-spring-boot.md).
-4. Prueba que se pasan todos los tests usando el comando Maven desde el terminal
-  (`.mvnw`) y utilizando el panel de proyecto en IntelliJ.
-5. Ejecuta la aplicación desde línea de comando y desde IntelliJ.
-6. Haz algún pequeño cambio a la aplicación. Por ejemplo, cambia el mensaje de
-   saludo que da el controller de la raíz para incluir tu nombre. 
+
+Una vez descargado el repositorio con la aplicación deberás ejecutarla
+desde la línea de comandos, probar los tests e importarla en IntelliJ
+y ejecutar y depurar con el IDE la aplicación y los tests.
+
+3. Desde el directorio donde está la aplicación, probamos todos sus
+   tests usando el Maven Wrapper:
+   
+      ```
+      $ .mvnw test
+      ```
+     
+4. Para poner en marcha la aplicación la arrancamos como una
+   aplicación Java:
+
+      ```
+      $ ./mvnw package
+      $ java -jar target/demoapp-0.0.1-SNAPSHOT.jar 
+      ```
+
+    También podemos lanzarla usando el plugin `spring-boot` de Maven:
+
+      ```
+      $ ./mvnw spring-boot:run
+      ```
+
+    La aplicación se arranca por defecto en el puerto local 8080. Una
+    vez arrancada la aplicación podemos conectarnos desde un navegador
+    a sus páginas de inicio.
+
+    En el caso de la aplicación demo descargada, podemos probar las
+    siguientes páginas:
+
+    - [http://localhost:8080](http://localhost:8080)
+    - [http://localhost:8080/saludo/Pepito](http://localhost:8080/saludo/Pepito)
+    - [http://localhost:8080/saludoplantilla/Pepito](http://localhost:8080/saludoplantilla/Pepito)
+    - [http://localhost:8080/saludoform](http://localhost:8080/saludoform)
+
+Recomendamos hacer el desarrollo usando el IDE [IntelliJ
+Ultimate](https://www.jetbrains.com/idea/download/). Aunque es de
+pago, es posible [obtener una licencia de
+estudiante](https://www.jetbrains.com/shop/eform/students) usando la
+dirección de correo de la UA.
+
+5. Abre el en IntelliJ. Debes importar el directorio donde se
+   encuentre el fichero `pom.xml`. Se puede hacer desde la pantalla de
+   bienvenida de IntelliJ con la opción **Import Project** o usando la
+   opción **File > Open"** o **"File > New > Project from Existing
+   Sources**. Aparecerá la pantalla de importación y seleccionamos el
+   importador **Maven**:
+
+
+    <img src="imagenes/import-intellij.png" width="600px" />
+
+    IntelliJ abre el proyecto correctamente:
+
+    <img src="imagenes/proyecto-desplegado.png" width="350px"/>
+
+    Podemos ejecutarlo abriendo un terminal y lanzándolo con Maven. O
+    también desde la **configuración de Run** que ha creado IntelliJ al
+    realizar la importación:
+
+    <img src="imagenes/configuracion-run.png" width="250px"/>
+
+    Se abrirá un panel de ejecución desde el que se puede parar la
+    aplicación, volverla a lanzar, etc:
+
+    <img src="imagenes/panel-ejecucion.png" width="900px"/>
+    
+    Desde la configuración de Run también podemos depurar el proyecto,
+    pulsando el botón de depuración.
+    
+6. Lanza los tests desde el propio IntelliJ, pulsando en el
+   panel del proyecto sobre el directorio de tests con el botón
+   derecho. Los tests se lanzarán y aparecerá un panel en el que se
+   mostrará si pasan correctamente (verde) o no.
+
+    <img src="imagenes/tests-intellij.png" width="600px" />
+
+
+Por último, haz algún pequeño cambio a la aplicación. 
+
+7. Cambia el mensaje de saludo que da el controller de la raíz para incluir tu nombre. 
    Comprueba que los tests pasan (modifícalos si no es así) y que la aplicación funciona
    correctamente.
   
