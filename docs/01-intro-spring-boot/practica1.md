@@ -296,7 +296,7 @@ Por último, haz algún pequeño cambio a la aplicación.
    Comprueba que los tests pasan (modifícalos si no es así) y que la aplicación funciona
    correctamente.
 
-    <img src="imagenes/hello-world-nombre.png" width="400px"/>
+    <img src="imagenes/hello-world-nombre.png" width="500px"/>
 
 
 ### _Dockerización_ de la aplicación ###
