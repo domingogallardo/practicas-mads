@@ -252,7 +252,7 @@ pago, es posible [obtener una licencia de
 estudiante](https://www.jetbrains.com/shop/eform/students) usando la
 dirección de correo de la UA.
 
-5. Abre el en IntelliJ. Debes importar el directorio donde se
+5. Abre proyecto el en IntelliJ. Debes importar el directorio donde se
    encuentre el fichero `pom.xml`. Se puede hacer desde la pantalla de
    bienvenida de IntelliJ con la opción **Import Project** o usando la
    opción **File > Open"** o **"File > New > Project from Existing
@@ -279,7 +279,9 @@ dirección de correo de la UA.
     
     Desde la configuración de Run también podemos depurar el proyecto,
     pulsando el botón de depuración.
-    
+
+    <img src="imagenes/configuracion-debug.png" width="250px"/>
+
 6. Lanza los tests desde el propio IntelliJ, pulsando en el
    panel del proyecto sobre el directorio de tests con el botón
    derecho. Los tests se lanzarán y aparecerá un panel en el que se
