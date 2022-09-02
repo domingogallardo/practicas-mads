@@ -217,7 +217,7 @@ y ejecutar y depurar con el IDE la aplicación y los tests.
    tests usando el Maven Wrapper:
    
       ```
-      $ .mvnw test
+      $ ./mvnw test
       ```
      
 4. Para poner en marcha la aplicación la arrancamos como una

@@ -546,7 +546,7 @@ $ mvn test
 O también, usando el comando de Maven Wrapper:
 
 ```
-$ .mvnw test
+$ ./mvnw test
 ```
 
 También se pueden lanzar desde el propio IntelliJ, pulsando en el
