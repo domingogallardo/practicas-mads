@@ -295,7 +295,10 @@ Por último, haz algún pequeño cambio a la aplicación.
 7. Cambia el mensaje de saludo que da el controller de la raíz para incluir tu nombre. 
    Comprueba que los tests pasan (modifícalos si no es así) y que la aplicación funciona
    correctamente.
-  
+
+    <img src="imagenes/hello-world-nombre.png" width="400px"/>
+
+
 ### _Dockerización_ de la aplicación ###
 
 [Docker](https://www.docker.com) es un software de virtualización que
