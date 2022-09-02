@@ -710,9 +710,8 @@ tests. También se proporciona una introducción a los distintos
 componentes de la aplicación. Debes leerlo y aprender el
 funcionamiento básico de este <em>framework</em>.</p>
 <h3 id="construccion-y-ejecucion-de-la-aplicacion">Construcción y ejecución de la aplicación<a class="headerlink" href="#construccion-y-ejecucion-de-la-aplicacion" title="Permanent link">&para;</a></h3>
-<p>Una vez leído el documento <a href="intro-spring-boot.html">Introducción a Spring
- Boot</a> deberás descargar la aplicación
- <code>demo-spring-boot</code> que tienes en el repositorio creado en el punto 2
+<p>Lo primero que deberás hacer será descargar la aplicación
+ <code>demo-spring-boot</code> que tienes en el repositorio creado en el punto
  anterior y comprobar que funciona correctamente. Debes hacer lo siguiente:</p>
 <ol>
 <li>
@@ -731,15 +730,76 @@ funcionamiento básico de este <em>framework</em>.</p>
 <p>Cuando git te pida autenticación, usa como nombre de usuario tu usuario
 de GitHub y como contraseña el PAT que has creado anteriormente.</p>
 </li>
+</ol>
+<p>Una vez descargado el repositorio con la aplicación deberás ejecutarla
+desde la línea de comandos, probar los tests e importarla en IntelliJ
+y ejecutar y depurar con el IDE la aplicación y los tests.</p>
+<ol start="3">
 <li>
-<p>Importa la aplicación en IntelliJ, tal y como se explica en el
-   documento <a href="intro-spring-boot.html">Introducción a Spring Boot</a>.</p>
+<p>Desde el directorio donde está la aplicación, probamos todos sus
+   tests usando el Maven Wrapper:</p>
+<div class="highlight"><pre><span></span><code>$ .mvnw test
+</code></pre></div>
 </li>
-<li>Prueba que se pasan todos los tests usando el comando Maven desde el terminal
-  (<code>.mvnw</code>) y utilizando el panel de proyecto en IntelliJ.</li>
-<li>Ejecuta la aplicación desde línea de comando y desde IntelliJ.</li>
-<li>Haz algún pequeño cambio a la aplicación. Por ejemplo, cambia el mensaje de
-   saludo que da el controller de la raíz para incluir tu nombre. 
+<li>
+<p>Para poner en marcha la aplicación la arrancamos como una
+   aplicación Java:</p>
+<div class="highlight"><pre><span></span><code>$ ./mvnw package
+$ java -jar target/demoapp-0.0.1-SNAPSHOT.jar 
+</code></pre></div>
+<p>También podemos lanzarla usando el plugin <code>spring-boot</code> de Maven:</p>
+<div class="highlight"><pre><span></span><code>$ ./mvnw spring-boot:run
+</code></pre></div>
+<p>La aplicación se arranca por defecto en el puerto local 8080. Una
+vez arrancada la aplicación podemos conectarnos desde un navegador
+a sus páginas de inicio.</p>
+<p>En el caso de la aplicación demo descargada, podemos probar las
+siguientes páginas:</p>
+<ul>
+<li><a href="http://localhost:8080">http://localhost:8080</a></li>
+<li><a href="http://localhost:8080/saludo/Pepito">http://localhost:8080/saludo/Pepito</a></li>
+<li><a href="http://localhost:8080/saludoplantilla/Pepito">http://localhost:8080/saludoplantilla/Pepito</a></li>
+<li><a href="http://localhost:8080/saludoform">http://localhost:8080/saludoform</a></li>
+</ul>
+</li>
+</ol>
+<p>Recomendamos hacer el desarrollo usando el IDE <a href="https://www.jetbrains.com/idea/download/">IntelliJ
+Ultimate</a>. Aunque es de
+pago, es posible <a href="https://www.jetbrains.com/shop/eform/students">obtener una licencia de
+estudiante</a> usando la
+dirección de correo de la UA.</p>
+<ol start="5">
+<li>
+<p>Abre el en IntelliJ. Debes importar el directorio donde se
+   encuentre el fichero <code>pom.xml</code>. Se puede hacer desde la pantalla de
+   bienvenida de IntelliJ con la opción <strong>Import Project</strong> o usando la
+   opción <strong>File &gt; Open"</strong> o <strong>"File &gt; New &gt; Project from Existing
+   Sources</strong>. Aparecerá la pantalla de importación y seleccionamos el
+   importador <strong>Maven</strong>:</p>
+<p><img src="imagenes/import-intellij.png" width="600px" /></p>
+<p>IntelliJ abre el proyecto correctamente:</p>
+<p><img src="imagenes/proyecto-desplegado.png" width="350px"/></p>
+<p>Podemos ejecutarlo abriendo un terminal y lanzándolo con Maven. O
+también desde la <strong>configuración de Run</strong> que ha creado IntelliJ al
+realizar la importación:</p>
+<p><img src="imagenes/configuracion-run.png" width="250px"/></p>
+<p>Se abrirá un panel de ejecución desde el que se puede parar la
+aplicación, volverla a lanzar, etc:</p>
+<p><img src="imagenes/panel-ejecucion.png" width="900px"/></p>
+<p>Desde la configuración de Run también podemos depurar el proyecto,
+pulsando el botón de depuración.</p>
+</li>
+<li>
+<p>Lanza los tests desde el propio IntelliJ, pulsando en el
+   panel del proyecto sobre el directorio de tests con el botón
+   derecho. Los tests se lanzarán y aparecerá un panel en el que se
+   mostrará si pasan correctamente (verde) o no.</p>
+<p><img src="imagenes/tests-intellij.png" width="600px" /></p>
+</li>
+</ol>
+<p>Por último, haz algún pequeño cambio a la aplicación. </p>
+<ol start="7">
+<li>Cambia el mensaje de saludo que da el controller de la raíz para incluir tu nombre. 
    Comprueba que los tests pasan (modifícalos si no es así) y que la aplicación funciona
    correctamente.</li>
 </ol>
