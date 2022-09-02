@@ -2134,7 +2134,16 @@ integrar en la rama principal la moveremos a _Terminadas_.
 
 #### Tablero de GitHub ####
 
-Configura el tablero de GitHub, poniendo como nombre `ToDoList` y
+
+<img src="./imagenes/crear-proyecto.png" width="600px"/>
+
+<img src="./imagenes/workflow-1.png" width="600px"/>
+
+<img src="./imagenes/workflow-2.png" width="600px"/>
+
+<img src="./imagenes/acceso-proyecto.png" width="600px"/>
+
+Configura un tablero de GitHub, poniendo como nombre `ToDoList` y
 seleccionando como plantilla `Automated kanban`. Elimina las tarjetas
 en la columna `To do` y añade la columna `In pull request` entre `In
 progress` y `Done`.
