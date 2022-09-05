@@ -2077,17 +2077,6 @@ de GitHub](https://help.github.com/categories/writing-on-github/).
     <img src="./imagenes/h2-console-tablas.png" width="600px"/>
 
 
-5. Crea un tablero Trello público llamado `ToDoList MADS`. Va a servir
-   como _backlog_ de las historias de usuario que debes realizar en
-   la práctica.  Añade en él 3 columnas, tal y se explica en el
-   apartado anterior de metodología de desarrollo.
-   
-   Añade el enlace en la descripción del repositorio GitHub, para que
-   el profesor pueda acceder a consultar el estado del proyecto.
-   
-   Un ejemplo de tablero es el [Trello del proyecto mads-todolist-inicial](https://trello.com/b/5zWOT6uO/todolist-inicial).
-
-
 ## 6. Desarrollo de la práctica
 
 En esta primera práctica vamos a desarrollar las siguientes historias de usuario o features:
@@ -2117,6 +2106,17 @@ aplicación. Desarrollaremos en esta versión la primera característica:
 
 #### Tablero Trello ####
 
+Crea un en Trello un **tablero público** llamado `ToDoList MADS`. Va a servir
+como _backlog_ de las historias de usuario que debes realizar en
+la práctica.  Añade en él 3 columnas, tal y se explica en el
+apartado anterior de metodología de desarrollo.
+   
+Añade el enlace en la descripción del repositorio GitHub, para que
+el profesor pueda acceder a consultar el estado del proyecto.
+   
+Un ejemplo de tablero es el [Trello del proyecto mads-todolist-inicial](https://trello.com/b/5zWOT6uO/todolist-inicial).
+
+
 Utilizaremos el tablero Trello para documentar las características a
 desarrollar en la aplicación. Deberá haber una tarjeta para cada
 característica. Cada característica deberá tener un número y un título.
@@ -2134,7 +2134,7 @@ integrar en la rama principal la moveremos a _Terminadas_.
 #### Tablero de GitHub ####
 
 GitHub ha cambiado recientemente la forma de gestionar tableros para
-hacerla mucho más flexible a como era el curso pasado. Un tablero está
+hacerla mucho más flexible de como era el curso pasado. Un tablero está
 asociado a la persona y no a un repositorio. Y puede contener issues
 de más de un repositorio. Además es posible visualizar el tablero de
 dos formas: como un tablero o como una hoja de cálculo. 
@@ -2152,7 +2152,7 @@ Lo primero que debes hacer es crear un proyecto desde el enlace
 
 <img src="./imagenes/project-profile.png" width="400px">
 
-Selecciona la opción **Board** y ponle como nombre `ToDoList`.
+Selecciona la opción **Board** y ponle como nombre `ToDoList MADS`.
 
 <img src="./imagenes/crear-proyecto.png" width="600px"/>
 
