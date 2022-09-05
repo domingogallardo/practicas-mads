@@ -2133,24 +2133,33 @@ integrar en la rama principal la moveremos a _Terminadas_.
 
 #### Tablero de GitHub ####
 
-GitHub ha cambiado recientemente la forma de gestionar tableros para
-hacerla mucho más flexible de como era el curso pasado. Un tablero está
-asociado a la persona y no a un repositorio. Y puede contener issues
-de más de un repositorio. Además es posible visualizar el tablero de
-dos formas: como un tablero o como una hoja de cálculo. 
+GitHub ha cambiado recientemente la forma de gestionar visualmente los
+_issues_ hacerla mucho más flexible y potente.
+
+En la versión actual, la funcionalidad se denomina _Proyectos_. Un
+proyecto está asociado a una persona y puede contener issues de más de
+un repositorio. Es posible visualizar los issues que contiene el
+proyecto de dos formas: como un tablero o como una hoja de cálculo.
 
 Puedes encontrar más información sobre los GitHub Projects en [este
 enlace](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/quickstart-for-projects).
 
 En la asignatura vamos a usar los proyectos de GitHub para mostrar, en forma de
 tablero, los issues del repositorio de la práctica. También
-podrémos acceder a los pull requests desde cada uno de los issues (los
-issues están enlazados a su pull request).
+podrémos acceder a los pull requests desde cada uno de los issues
+(enlazaremos los issues a su pull request).
+
+!!! Note "Aviso"
+    Aunque se han añadido en los apuntes las nuevas imágenes sobre el
+    proceso de creación de un proyecto, no se han actualizado todas
+    las imágenes en las que aparece el tablero de proyectos, por lo
+    que puede que alguna imagen no represente fielmente la aparencia
+    real que tiene en la actualidad.
 
 Lo primero que debes hacer es crear un proyecto desde el enlace
 `Projects` en tu perfil de GitHub:
 
-<img src="./imagenes/project-profile.png" width="400px">
+<img src="./imagenes/project-profile.png" width="600px">
 
 Selecciona la opción **Board** y ponle como nombre `ToDoList MADS`.
 
