@@ -2510,7 +2510,7 @@ Haremos esto en futuras prácticas.
 Podemos ver que GitHub informa de que no hay conflictos con la rama
 `main` y que es posible hacer el merge en GitHub.
 
-Antes de pulsar el botón para realizar el merge, lanzamos en local
+Antes de pulsar el botón para realizar el merge, lanzamos los tests
 (estando en la rama) para comprobar que no se ha roto nada y que los
 tests que se han añadido pasan correctamente (en este caso no hemos
 añadido ninguno).
@@ -2529,6 +2529,11 @@ añadido ninguno).
 
 Veremos en la próxima práctica cómo configurar GitHub para que esta
 comprobación se haga de forma automática en GitHub.
+
+Aunque deberíamos también comprobar que los tests pasan correctamente
+después de mezclar la rama con `main`, dejamos de hacer esta
+comprobación porque a partir de la próxima práctica lo haremos también
+de forma automática en GitHub.
 
 <!--
 
@@ -2649,7 +2654,7 @@ columna _Terminadas_.
 
 Vamos a ver por último cómo crear un _release_ y poner en producción
 la aplicación. Lo vamos a hacer ahora como ejemplo, creando el release
-1.0.1 y tendrás que hacerlo al final de la práctica, creando el
+1.0.1 y tendrás que hacerlo otra vez más al final de la práctica, creando el
 release 1.1.0.
 
 Para hacer el release haremos un commit directamente sobre la rama
@@ -2767,14 +2772,14 @@ características deberás también realizar algún test de la vista.
 
 #### Barra de menú ####
 
-La aplicación deberá tener una barra de menú común a todas sus
-páginas, menos en las páginas de login, registro y _acerca de_.
+- La aplicación deberá tener una barra de menú común a todas sus
+  páginas, menos en las páginas de login y registro.
 
 - La barra de menú estará situada en la parte superior de la página y
 será un [Navbar](https://getbootstrap.com/docs/4.0/components/navbar/).
 de Bootstrap.
-- La barra de menú tendrá como mínimo los siguientes elementos (de
-izquierda a derecha):
+
+- La barra de menú tendrá como mínimo los siguientes elementos (de izquierda a derecha):
    - `ToDoList`: enlace a la página _acerca de_.
    - `Tareas`: enlace a la página de tareas, con la lista de tareas
   pendientes del usuario.
@@ -2782,6 +2787,11 @@ izquierda a derecha):
       - `Cuenta`: Futura página para gestionar la cuenta
       - `Cerrar sesión <nombre usuario>`: cierra la sesión y lleva a la
      página de login.
+
+- En la página _acerca de_ se debe cambiar la barra de menú
+  dependiendo de si el usuario está o no logeado. Si está logeado será
+  la barra común con el resto de las páginas. Si el usuario no está
+  logeado, aparecerán enlaces a las páginas de login y registro.
 
 #### Listado de usuarios ####
 
@@ -2826,26 +2836,32 @@ se gestionan los accesos a las páginas de tareas sin estar logeado).
 ## 7. Documentación, entrega y evaluación ##
 
 Deberás añadir una página documentación `/doc/practica2.md` en la que
-debes realizar una breve **documentación técnica**. Puedes suponer que
-estás trabajando con un equipo de desarrollo y que debes dejar una
-breve documentación para que el resto del equipo sepa cómo ha
-evolucionado la implementación de la aplicación. **No debe ser una
-manual de usuario, no es una documentación para el cliente**.
+debes realizar una breve **documentación técnica** de entre 500 y 800
+palabras.
+
+Debes suponer que estás trabajando con un equipo de desarrollo y que
+debes dejar una breve documentación para que el resto del equipo sepa
+cómo ha evolucionado la implementación de la aplicación. **No debe ser
+una manual de usuario, no es una documentación para el cliente**.
 
 Por ejemplo, la documentación podría contener:
 
 - Listado de nuevas clases y métodos implementados.
 - Listado de plantillas thyemeleaf añadidas.
-- Tests implementados.
+- Explicación de los tests implementados.
 - Explicación de código fuente relevante de las nuevas funcionalidades
-  implementadas. 
+  implementadas.
+  
+Obligatoriamente debes incluir en la documentación algún ejemplo de
+código fuente que has añadido y que consideres interesante y su
+explicación.
 
 Deberás escribir esta documentación en Markdown. Tienes disponible en
 GitHub una breve pero útil [introducción a
 Markdown](https://guides.github.com/features/mastering-markdown/).
 
 - La práctica tiene una duración de 4 semanas y debe estar terminada
-  el martes 19 de octubre. El profesor comprobará en clase de
+  el martes 18 de octubre. El profesor comprobará en clase de
   prácticas el funcionamiento de la práctica en producción.
 - La parte obligatoria puntúa sobre 6 y la opcional sobre 4 puntos.
 - La calificación de la práctica tiene un peso de un 25% en la nota
