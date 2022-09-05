@@ -1964,12 +1964,11 @@ miembros del equipo:
   
     <img src="./imagenes/github-releases.png" width="600px"/>
 
-- **Tablero de proyecto**: Un tablero de proyecto nos ayudará a hacer
-  un seguimiento de en qué estado se encuentra cada issue:
-  cuáles han sido implementados, cuáles faltan por asignar,
+- **Tablero de proyecto**: Un tablero de proyecto en GitHub nos
+  ayudará a hacer un seguimiento de en qué estado se encuentra cada
+  issue: cuáles han sido implementados, cuáles faltan por asignar,
   implementar, probar, etc. Vamos a utilizar la funcionalidad propia
-  de GitHub llamada _Projects_. Consultar
-  [project boards](https://help.github.com/articles/tracking-the-progress-of-your-work-with-project-boards/).
+  de GitHub llamada _Projects_. Consultar [Quickstart for Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/quickstart-for-projects)
 
     <img src="./imagenes/github-tablero.png" width="700px"/>
 
@@ -2134,32 +2133,54 @@ integrar en la rama principal la moveremos a _Terminadas_.
 
 #### Tablero de GitHub ####
 
+GitHub ha cambiado recientemente la forma de gestionar tableros para
+hacerla mucho más flexible a como era el curso pasado. Un tablero está
+asociado a la persona y no a un repositorio. Y puede contener issues
+de más de un repositorio. Además es posible visualizar el tablero de
+dos formas: como un tablero o como una hoja de cálculo. 
+
+Puedes encontrar más información sobre los GitHub Projects en [este
+enlace](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/quickstart-for-projects).
+
+En la asignatura vamos a usar los proyectos de GitHub para mostrar, en forma de
+tablero, los issues del repositorio de la práctica. También
+podrémos acceder a los pull requests desde cada uno de los issues (los
+issues están enlazados a su pull request).
+
+Lo primero que debes hacer es crear un proyecto desde el enlace
+`Projects` en tu perfil de GitHub:
+
+<img src="./imagenes/project-profile.png" width="400px">
+
+Selecciona la opción **Board** y ponle como nombre `ToDoList`.
 
 <img src="./imagenes/crear-proyecto.png" width="600px"/>
 
-<img src="./imagenes/workflow-1.png" width="600px"/>
+Define una columna adicional _In Pull Request_, entre _In Progress_ y
+_Done_:
 
-<img src="./imagenes/workflow-2.png" width="600px"/>
+<img src="./imagenes/proyecto-todolist.png" width="600px"/>
 
-<img src="./imagenes/acceso-proyecto.png" width="600px"/>
-
-Configura un tablero de GitHub, poniendo como nombre `ToDoList` y
-seleccionando como plantilla `Automated kanban`. Elimina las tarjetas
-en la columna `To do` y añade la columna `In pull request` entre `In
-progress` y `Done`.
-
-<img src="./imagenes/project-practica.png" width="900px">
 
 En las columnas deberán aparecer los issues del proyecto (y los PRs
 estarán enlazados en ellos). GitHub permite automatizar el movimiento
-de las tarjetas de una columna a otra. A continuación mostramos la
-configuración que usaremos:
+de las tarjetas de una columna a otra. 
 
-<img src="./imagenes/projecto-practica-automation.png" width="900px"/>
+Activa dos flujos de trabajo. Uno para que cuando un issue nuevo se
+añada al proyecto se coloque en la columna _To Do_:
 
-Deberemos mover manualmente las tarjetas en algún caso, porque GitHub
-no podrá detectar las condiciones. En resumen, las condiciones de las
-fichas que habrá en cada columna son las siguientes:
+<img src="./imagenes/workflow-1.png" width="600px"/>
+
+Y otro para que cuando se cierre un issue se mueva a la columna de _Done_:
+
+<img src="./imagenes/workflow-2.png" width="600px"/>
+
+El resto de cambios de los issues los tendrás que hacer
+manualmente. Por ejemplo, cuando crees el _pull request_ asociado a un
+issue tendrás que mover el issue a la columna de _In Pull Request_.
+
+En resumen, las condiciones de las fichas que habrá en cada columna
+son las siguientes: 
 
 - Columna `To do`: Nuevos issues añadidos al proyecto. Cuando
   añadimos el proyecto al issue (en la página del issue) GitHub
@@ -2170,6 +2191,12 @@ fichas que habrá en cada columna son las siguientes:
   un PR y lo enlacemos con el issue. Manual.
   GitHub lo coloca automáticamente en esta columna. implementado por el pull request manualmente.
 - Columna `Done`: pull requests cerrados. GitHub lo detecta automáticamente.
+
+Por último, en la opción _Settings > Manage access_ comparte el
+tablero con mi usuario de GitHub `domingogallardo`, para que pueda
+revisarlo:
+
+<img src="./imagenes/acceso-proyecto.png" width="600px"/>
 
 #### Issues ####
 
@@ -2186,7 +2213,7 @@ Crea el primer issue, correspondiente a la _feature_ a desarrollar
 <img src="./imagenes/issue-acerca-de-detalle.png" width="600px"/>
 
 Añade el issue al proyecto (desde la página del issue) y
-automáticamente se añadirá en la columna `To do`.
+automáticamente se añadirá en la columna `To Do`.
 
 
 #### Desarrollo ####
