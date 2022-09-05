@@ -2134,7 +2134,7 @@ integrar en la rama principal la moveremos a _Terminadas_.
 #### Tablero de GitHub ####
 
 GitHub ha cambiado recientemente la forma de gestionar visualmente los
-_issues_ hacerla mucho más flexible y potente.
+_issues_ para hacerla mucho más flexible y potente.
 
 En la versión actual, la funcionalidad se denomina _Proyectos_. Un
 proyecto está asociado a una persona y puede contener issues de más de
