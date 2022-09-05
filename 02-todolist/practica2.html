@@ -2411,12 +2411,11 @@ versión (normalmente serán enlaces a los issues ese milestone).</p>
 <p><img src="./imagenes/github-releases.png" width="600px"/></p>
 </li>
 <li>
-<p><strong>Tablero de proyecto</strong>: Un tablero de proyecto nos ayudará a hacer
-  un seguimiento de en qué estado se encuentra cada issue:
-  cuáles han sido implementados, cuáles faltan por asignar,
+<p><strong>Tablero de proyecto</strong>: Un tablero de proyecto en GitHub nos
+  ayudará a hacer un seguimiento de en qué estado se encuentra cada
+  issue: cuáles han sido implementados, cuáles faltan por asignar,
   implementar, probar, etc. Vamos a utilizar la funcionalidad propia
-  de GitHub llamada <em>Projects</em>. Consultar
-  <a href="https://help.github.com/articles/tracking-the-progress-of-your-work-with-project-boards/">project boards</a>.</p>
+  de GitHub llamada <em>Projects</em>. Consultar <a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/quickstart-for-projects">Quickstart for Projects</a></p>
 <p><img src="./imagenes/github-tablero.png" width="700px"/></p>
 <p>Cuando se crea un pull request que resuelve un issue enlazaremos
 el issue con el pull request. Podremos ver en el tablero que bajo
@@ -2553,23 +2552,38 @@ característica. Cada característica deberá tener un número y un título.</p>
 tarjeta a <em>En marcha</em> y cuando la hayamos terminado de testear e
 integrar en la rama principal la moveremos a <em>Terminadas</em>.</p>
 <h4 id="tablero-de-github">Tablero de GitHub<a class="headerlink" href="#tablero-de-github" title="Permanent link">&para;</a></h4>
+<p>GitHub ha cambiado recientemente la forma de gestionar tableros para
+hacerla mucho más flexible a como era el curso pasado. Un tablero está
+asociado a la persona y no a un repositorio. Y puede contener issues
+de más de un repositorio. Además es posible visualizar el tablero de
+dos formas: como un tablero o como una hoja de cálculo. </p>
+<p>Puedes encontrar más información sobre los GitHub Projects en <a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/quickstart-for-projects">este
+enlace</a>.</p>
+<p>En la asignatura vamos a usar los proyectos de GitHub para mostrar, en forma de
+tablero, los issues del repositorio de la práctica. También
+podrémos acceder a los pull requests desde cada uno de los issues (los
+issues están enlazados a su pull request).</p>
+<p>Lo primero que debes hacer es crear un proyecto desde el enlace
+<code>Projects</code> en tu perfil de GitHub:</p>
+<p><img src="./imagenes/project-profile.png" width="400px"></p>
+<p>Selecciona la opción <strong>Board</strong> y ponle como nombre <code>ToDoList</code>.</p>
 <p><img src="./imagenes/crear-proyecto.png" width="600px"/></p>
-<p><img src="./imagenes/workflow-1.png" width="600px"/></p>
-<p><img src="./imagenes/workflow-2.png" width="600px"/></p>
-<p><img src="./imagenes/acceso-proyecto.png" width="600px"/></p>
-<p>Configura un tablero de GitHub, poniendo como nombre <code>ToDoList</code> y
-seleccionando como plantilla <code>Automated kanban</code>. Elimina las tarjetas
-en la columna <code>To do</code> y añade la columna <code>In pull request</code> entre <code>In
-progress</code> y <code>Done</code>.</p>
-<p><img src="./imagenes/project-practica.png" width="900px"></p>
+<p>Define una columna adicional <em>In Pull Request</em>, entre <em>In Progress</em> y
+<em>Done</em>:</p>
+<p><img src="./imagenes/proyecto-todolist.png" width="600px"/></p>
 <p>En las columnas deberán aparecer los issues del proyecto (y los PRs
 estarán enlazados en ellos). GitHub permite automatizar el movimiento
-de las tarjetas de una columna a otra. A continuación mostramos la
-configuración que usaremos:</p>
-<p><img src="./imagenes/projecto-practica-automation.png" width="900px"/></p>
-<p>Deberemos mover manualmente las tarjetas en algún caso, porque GitHub
-no podrá detectar las condiciones. En resumen, las condiciones de las
-fichas que habrá en cada columna son las siguientes:</p>
+de las tarjetas de una columna a otra. </p>
+<p>Activa dos flujos de trabajo. Uno para que cuando un issue nuevo se
+añada al proyecto se coloque en la columna <em>To Do</em>:</p>
+<p><img src="./imagenes/workflow-1.png" width="600px"/></p>
+<p>Y otro para que cuando se cierre un issue se mueva a la columna de <em>Done</em>:</p>
+<p><img src="./imagenes/workflow-2.png" width="600px"/></p>
+<p>El resto de cambios de los issues los tendrás que hacer
+manualmente. Por ejemplo, cuando crees el <em>pull request</em> asociado a un
+issue tendrás que mover el issue a la columna de <em>In Pull Request</em>.</p>
+<p>En resumen, las condiciones de las fichas que habrá en cada columna
+son las siguientes: </p>
 <ul>
 <li>Columna <code>To do</code>: Nuevos issues añadidos al proyecto. Cuando
   añadimos el proyecto al issue (en la página del issue) GitHub
@@ -2581,6 +2595,10 @@ fichas que habrá en cada columna son las siguientes:</p>
   GitHub lo coloca automáticamente en esta columna. implementado por el pull request manualmente.</li>
 <li>Columna <code>Done</code>: pull requests cerrados. GitHub lo detecta automáticamente.</li>
 </ul>
+<p>Por último, en la opción <em>Settings &gt; Manage access</em> comparte el
+tablero con mi usuario de GitHub <code>domingogallardo</code>, para que pueda
+revisarlo:</p>
+<p><img src="./imagenes/acceso-proyecto.png" width="600px"/></p>
 <h4 id="issues">Issues<a class="headerlink" href="#issues" title="Permanent link">&para;</a></h4>
 <p>Añade las etiquetas que vamos a usar inicialmente.</p>
 <p><img src="./imagenes/labels-practica.png" width="400px"/></p>
@@ -2590,7 +2608,7 @@ fichas que habrá en cada columna son las siguientes:</p>
 <p><img src="./imagenes/issue-acerca-de-listado.png" width="500px"/></p>
 <p><img src="./imagenes/issue-acerca-de-detalle.png" width="600px"/></p>
 <p>Añade el issue al proyecto (desde la página del issue) y
-automáticamente se añadirá en la columna <code>To do</code>.</p>
+automáticamente se añadirá en la columna <code>To Do</code>.</p>
 <h4 id="desarrollo">Desarrollo<a class="headerlink" href="#desarrollo" title="Permanent link">&para;</a></h4>
 <p>Para desarrollar el issue abriremos una rama en Git, realizaremos
 commits sobre ella hasta estar terminado y después crearemos un <em>pull
