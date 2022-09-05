@@ -2175,10 +2175,9 @@ _Done_:
 
 <img src="./imagenes/proyecto-todolist.png" width="600px"/>
 
-
-En las columnas deberán aparecer los issues del proyecto (y los PRs
-estarán enlazados en ellos). GitHub permite automatizar el movimiento
-de las tarjetas de una columna a otra. 
+En las columnas colocaremos los issues del proyecto (y los PRs estarán
+enlazados en ellos). GitHub permite automatizar el movimiento de las
+tarjetas de una columna a otra.
 
 Activa dos flujos de trabajo. Uno para que cuando un issue nuevo se
 añada al proyecto se coloque en la columna _To Do_:
