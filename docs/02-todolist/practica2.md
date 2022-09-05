@@ -2137,16 +2137,21 @@ GitHub ha cambiado recientemente la forma de gestionar visualmente los
 _issues_ para hacerla mucho más flexible y potente.
 
 En la versión actual, la funcionalidad se denomina _Proyectos_. Un
-proyecto está asociado a una persona y puede contener issues de más de
-un repositorio. Es posible visualizar los issues que contiene el
-proyecto de dos formas: como un tablero o como una hoja de cálculo.
+proyecto está asociado a un usuario de GitHub y puede contener issues de más de
+un repositorio. Un usuario puede crear los proyectos que considere
+necesarios. También se pueden crear proyectos asociados a
+organizaciones.
+
+En cuanto a la forma de visualizar los issues, podemos seleccionar dos
+formas: como un tablero o como una hoja de cálculo. La primera forma
+es más sencilla y la segunda más potente. En la asignatura usaremos la primera.
 
 Puedes encontrar más información sobre los GitHub Projects en [este
 enlace](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/quickstart-for-projects).
 
-En la asignatura vamos a usar los proyectos de GitHub para mostrar, en forma de
-tablero, los issues del repositorio de la práctica. También
-podrémos acceder a los pull requests desde cada uno de los issues
+En la asignatura vamos a usar los proyectos de GitHub para mostrar, en
+forma de tablero, los issues del repositorio de la práctica. También
+podremos acceder a los pull requests desde cada uno de los issues
 (enlazaremos los issues a su pull request).
 
 !!! Note "Aviso"
