@@ -589,23 +589,7 @@
               
                 
                 
-                <!--
-
-TODO: Incluir un ejemplo de una petición post con parámetros
-
-this.mockMvc.perform(post("/login")
-               .param("eMail", "ana.garcia@gmail.com")
-               .param("password", "12345678"))
-
-Cambio:
-
-Cambiar las reglas del tablero de GitHub para solo tener que gestionar
-issues. Los pull requests están asociados a los issues y no hace falta
-gestionarlos con reglas, sino que siempre estarán junto al propio issue.
-
--->
-
-<h1 id="practica-2-aplicacion-todolist">Práctica 2: Aplicación ToDoList<a class="headerlink" href="#practica-2-aplicacion-todolist" title="Permanent link">&para;</a></h1>
+                <h1 id="practica-2-aplicacion-todolist">Práctica 2: Aplicación ToDoList<a class="headerlink" href="#practica-2-aplicacion-todolist" title="Permanent link">&para;</a></h1>
 <h2 id="1-objetivos">1. Objetivos<a class="headerlink" href="#1-objetivos" title="Permanent link">&para;</a></h2>
 <p>En práctica 2 vamos a trabajar sobre la aplicación inicial
 <a href="https://github.com/domingogallardo/mads-todolist-inicial">domingogallardo/mads-todolist-inicial</a>.</p>
@@ -1657,8 +1641,26 @@ tablas con el script <code>clean-db.sql</code>.</p>
 </ul>
 <p>Veamos, por ejemplo, el fichero <code>TareaTest.java</code>:</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/TareaTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
-<span class="nd">@Sql</span><span class="p">(</span><span class="s">&quot;/datos-test.sql&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
+
+
+<span class="kn">import</span> <span class="nn">madstodolist.model.Tarea</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.model.TareaRepository</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.model.UsuarioRepository</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Assertions</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.jdbc.Sql</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.annotation.Transactional</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Set</span><span class="p">;</span>
+
+<span class="kn">import static</span> <span class="nn">org.assertj.core.api.Assertions.assertThat</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD</span><span class="p">;</span>
+
+<span class="nd">@SpringBootTest</span>
 <span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaTest</span> <span class="p">{</span>
 
@@ -1675,7 +1677,7 @@ tablas con el script <code>clean-db.sql</code>.</p>
     <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">crearTarea</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Creado usuario nuevo,</span>
+        <span class="c1">// Un usuario nuevo creado en memoria, sin conexión con la BD,</span>
 
         <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;juan.gutierrez@gmail.com&quot;</span><span class="p">);</span>
 
@@ -1751,15 +1753,22 @@ tablas con el script <code>clean-db.sql</code>.</p>
     <span class="p">}</span>
 
     <span class="c1">//</span>
-    <span class="c1">// Tests TareaRepository</span>
+    <span class="c1">// Tests TareaRepository.</span>
+    <span class="c1">// El código que trabaja con repositorios debe</span>
+    <span class="c1">// estar en un entorno transactional, para que todas las peticiones</span>
+    <span class="c1">// estén en la misma conexión a la base de datos, las entidades estén</span>
+    <span class="c1">// conectadas y sea posible acceder a colecciones LAZY.</span>
     <span class="c1">//</span>
 
     <span class="nd">@Test</span>
+    <span class="nd">@Transactional</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">guardarTareaEnBaseDatos</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+        <span class="c1">// Un usuario en la base de datos.</span>
 
-        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+
         <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
 
         <span class="c1">// WHEN</span>
@@ -1783,10 +1792,11 @@ tablas con el script <code>clean-db.sql</code>.</p>
     <span class="p">}</span>
 
     <span class="nd">@Test</span>
+    <span class="nd">@Transactional</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">salvarTareaEnBaseDatosConUsuarioNoBDLanzaExcepcion</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Creamos un usuario nuevo que no añadimos a la BD y creamos</span>
-        <span class="c1">// una tarea asociada a ese usuario,</span>
+        <span class="c1">// Un usuario nuevo que no está en la BD</span>
+        <span class="c1">// y una tarea asociada a ese usuario,</span>
 
         <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;juan.gutierrez@gmail.com&quot;</span><span class="p">);</span>
         <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
@@ -1800,61 +1810,75 @@ tablas con el script <code>clean-db.sql</code>.</p>
     <span class="p">}</span>
 
     <span class="nd">@Test</span>
+    <span class="nd">@Transactional</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">unUsuarioTieneUnaListaDeTareas</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+        <span class="c1">// Un usuario con 2 tareas en la base de datos</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
+
+        <span class="n">Tarea</span> <span class="n">tarea1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Renovar el DNI&quot;</span><span class="p">);</span>
+        <span class="n">tareaRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">tarea1</span><span class="p">);</span>
+        <span class="n">tareaRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">tarea2</span><span class="p">);</span>
 
         <span class="c1">// WHEN</span>
-        <span class="c1">// recuperamos un ususario de la base de datos,</span>
-        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="c1">// recuperamos el ususario de la base de datos,</span>
+
+        <span class="n">Usuario</span> <span class="n">usuarioRecuperado</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
         <span class="c1">// su lista de tareas también se recupera, porque se ha</span>
         <span class="c1">// definido la relación de usuario y tareas como EAGER.</span>
 
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioRecuperado</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
     <span class="p">}</span>
 
     <span class="nd">@Test</span>
+    <span class="nd">@Transactional</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">añadirUnaTareaAUnUsuarioEnBD</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+        <span class="c1">// Un usuario en la base de datos</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
 
         <span class="c1">// WHEN</span>
-        <span class="c1">// creamos una nueva tarea con un usuario recuperado de la BD</span>
+        <span class="c1">// Creamos una nueva tarea con el usuario recuperado de la BD</span>
         <span class="c1">// y la salvamos,</span>
 
-        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
-        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+        <span class="n">Usuario</span> <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
         <span class="n">tareaRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
         <span class="n">Long</span> <span class="n">tareaId</span> <span class="o">=</span> <span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
 
         <span class="c1">// THEN</span>
-        <span class="c1">// la tarea queda guardada en la BD asociada al usuario.</span>
+        <span class="c1">// la tarea queda guardada en la BD asociada al usuario</span>
 
-        <span class="n">Usuario</span> <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
         <span class="n">Tarea</span> <span class="n">tareaBD</span> <span class="o">=</span> <span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">tareaId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">);</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getUsuario</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">);</span>
+
+        <span class="c1">// y si recuperamos el usuario se obtiene la nueva tarea</span>
+        <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">);</span>
     <span class="p">}</span>
 
-    <span class="c1">//</span>
-    <span class="c1">// Tests modelo Tarea con la conexión con la BD abierta usando la</span>
-    <span class="c1">// anotación @Transactional y el TareaRepository</span>
-    <span class="c1">//</span>
 
     <span class="nd">@Test</span>
-    <span class="c1">// Al usar @Transactional se ejecuta el test con</span>
-    <span class="c1">// la conexión con la BD abierta y las entidades conectadas</span>
-    <span class="c1">// con la base de datos</span>
     <span class="nd">@Transactional</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cambioEnLaEntidadEnTransactionalModificaLaBD</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql, habiendo</span>
-        <span class="c1">// anotado el test con @Transactional y recuperada una tarea,</span>
+        <span class="c1">// Un usuario y una tarea en la base de datos</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+        <span class="n">tareaRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
 
-        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="c1">// Recuperamos la tarea</span>
+        <span class="n">Long</span> <span class="n">tareaId</span> <span class="o">=</span> <span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
+        <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">tareaId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 
         <span class="c1">// WHEN</span>
         <span class="c1">// modificamos la descripción de la tarea</span>
@@ -1864,7 +1888,7 @@ tablas con el script <code>clean-db.sql</code>.</p>
         <span class="c1">// THEN</span>
         <span class="c1">// la descripción queda actualizada en la BD.</span>
 
-        <span class="n">Tarea</span> <span class="n">tareaBD</span> <span class="o">=</span> <span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tareaBD</span> <span class="o">=</span> <span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">tareaId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">());</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -1885,8 +1909,8 @@ comprueban los resultados.</p>
   sobre la base de datos.</li>
 <li>Pruebas sobre la capa <em>repository</em> en las que se necesitan realizar
   más de una sentencia con la misma conexión a la base de datos o
-  acceder a atributos <em>lazy</em>. Para estas pruebas usamos la anotación
-  <code>@Transactional</code>. </li>
+  acceder a atributos <em>lazy</em>. Para esto es necesario usar la anotación
+  <code>@Transactional</code>.</li>
 </ul>
 <h4 id="tests-de-la-capa-de-servicios">Tests de la capa de servicios<a class="headerlink" href="#tests-de-la-capa-de-servicios" title="Permanent link">&para;</a></h4>
 <p>También se realizan tests sobre la capa de servicio: </p>
@@ -1899,109 +1923,173 @@ correctamente y modifican la base de datos tal y como se pretende en
 cada operación.</p>
 <p>Veamos, por ejemplo, el fichero <code>TareaServiceTest.java</code>:</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/TareaServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
-<span class="nd">@Sql</span><span class="p">(</span><span class="s">&quot;/datos-test.sql&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.service.UsuarioService</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.service.UsuarioServiceException</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Assertions</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.jdbc.Sql</span><span class="p">;</span>
+
+<span class="kn">import static</span> <span class="nn">org.assertj.core.api.Assertions.assertThat</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD</span><span class="p">;</span>
+
+<span class="nd">@SpringBootTest</span>
 <span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaServiceTest</span> <span class="p">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UsuarioServiceTest</span> <span class="p">{</span>
 
     <span class="nd">@Autowired</span>
-    <span class="n">UsuarioService</span> <span class="n">usuarioService</span><span class="p">;</span>
+    <span class="kd">private</span> <span class="n">UsuarioService</span> <span class="n">usuarioService</span><span class="p">;</span>
 
-    <span class="nd">@Autowired</span>
-    <span class="n">TareaService</span> <span class="n">tareaService</span><span class="p">;</span>
-
-    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testBuscarTarea</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
-
-        <span class="c1">// WHEN</span>
-        <span class="c1">// recuperamos una tarea de la base de datos a partir de su ID,</span>
-
-        <span class="n">Tarea</span> <span class="n">lavarCoche</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
-
-        <span class="c1">// THEN</span>
-        <span class="c1">// los datos de la tarea recuperada son correctos.</span>
-
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">lavarCoche</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">lavarCoche</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Lavar coche&quot;</span><span class="p">);</span>
+    <span class="c1">// Método para inicializar los datos de prueba en la BD</span>
+    <span class="c1">// Devuelve el identificador del usuario de la BD</span>
+    <span class="n">Long</span> <span class="nf">addUsuarioBD</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">setNombre</span><span class="p">(</span><span class="s">&quot;Usuario Ejemplo&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
     <span class="p">}</span>
 
     <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testNuevaTareaUsuario</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioLoginUsuario</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+        <span class="c1">// Un usuario en la BD</span>
+
+        <span class="n">addUsuarioBD</span><span class="p">();</span>
 
         <span class="c1">// WHEN</span>
-        <span class="c1">// creamos una nueva tarea asociada a un usuario,</span>
-        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span> <span class="s">&quot;Práctica 1 de MADS&quot;</span><span class="p">);</span>
+        <span class="c1">// intentamos logear un usuario y contraseña correctos</span>
+        <span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span> <span class="n">loginStatus1</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">,</span> <span class="s">&quot;123&quot;</span><span class="p">);</span>
+
+        <span class="c1">// intentamos logear un usuario correcto, con una contraseña incorrecta</span>
+        <span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span> <span class="n">loginStatus2</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">,</span> <span class="s">&quot;000&quot;</span><span class="p">);</span>
+
+        <span class="c1">// intentamos logear un usuario que no existe,</span>
+        <span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span> <span class="n">loginStatus3</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="s">&quot;pepito.perez@gmail.com&quot;</span><span class="p">,</span> <span class="s">&quot;12345678&quot;</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
-        <span class="c1">// al recuperar el usuario usando el método de serivio findByEmail la tarea creada</span>
-        <span class="c1">// está en la lista de tareas del usuario.</span>
+
+        <span class="c1">// el valor devuelto por el primer login es LOGIN_OK,</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">loginStatus1</span><span class="p">).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">LOGIN_OK</span><span class="p">);</span>
+
+        <span class="c1">// el valor devuelto por el segundo login es ERROR_PASSWORD,</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">loginStatus2</span><span class="p">).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">ERROR_PASSWORD</span><span class="p">);</span>
+
+        <span class="c1">// y el valor devuelto por el tercer login es USER_NOT_FOUND.</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">loginStatus3</span><span class="p">).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">USER_NOT_FOUND</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioRegistroUsuario</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Creado un usuario nuevo, con una contraseña</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;usuario.prueba2@gmail.com&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="s">&quot;12345678&quot;</span><span class="p">);</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// registramos el usuario,</span>
+
+        <span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// el usuario se añade correctamente al sistema.</span>
+
+        <span class="n">Usuario</span> <span class="n">usuarioBaseDatos</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="s">&quot;usuario.prueba2@gmail.com&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioBaseDatos</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioBaseDatos</span><span class="p">.</span><span class="na">getPassword</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getPassword</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioRegistroUsuarioExcepcionConNullPassword</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Un usuario creado sin contraseña,</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span>  <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;usuario.prueba@gmail.com&quot;</span><span class="p">);</span>
+
+        <span class="c1">// WHEN, THEN</span>
+        <span class="c1">// intentamos registrarlo, se produce una excepción de tipo UsuarioServiceException</span>
+        <span class="n">Assertions</span><span class="p">.</span><span class="na">assertThrows</span><span class="p">(</span><span class="n">UsuarioServiceException</span><span class="p">.</span><span class="na">class</span><span class="p">,</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">{</span>
+            <span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioRegistroUsuarioExcepcionConEmailRepetido</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Un usuario en la BD</span>
+
+        <span class="n">addUsuarioBD</span><span class="p">();</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// Creamos un usuario con un e-mail ya existente en la base de datos,</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span>  <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="s">&quot;12345678&quot;</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// si lo registramos, se produce una excepción de tipo UsuarioServiceException</span>
+        <span class="n">Assertions</span><span class="p">.</span><span class="na">assertThrows</span><span class="p">(</span><span class="n">UsuarioServiceException</span><span class="p">.</span><span class="na">class</span><span class="p">,</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">{</span>
+            <span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioRegistroUsuarioDevuelveUsuarioConId</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Dado un usuario con contraseña nuevo y sin identificador,</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;usuario.prueba@gmail.com&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="s">&quot;12345678&quot;</span><span class="p">);</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// lo registramos en el sistema,</span>
+
+        <span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// se actualiza el identificador del usuario</span>
+
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">isNotNull</span><span class="p">();</span>
+
+        <span class="c1">// con el identificador que se ha guardado en la BD.</span>
+
+        <span class="n">Usuario</span> <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">servicioConsultaUsuarioDevuelveUsuario</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Un usuario en la BD</span>
+
+        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">addUsuarioBD</span><span class="p">();</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// recuperamos un usuario usando su e-mail,</span>
 
         <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">().</span><span class="na">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testModificarTarea</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
-        <span class="c1">// creada una tarea nueva de un usuario y obtenido su identificador,</span>
-
-        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span> <span class="s">&quot;Pagar el recibo&quot;</span><span class="p">);</span>
-        <span class="n">Long</span> <span class="n">idNuevaTarea</span> <span class="o">=</span> <span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
-
-        <span class="c1">// WHEN</span>
-        <span class="c1">// modificamos la tarea correspondiente a ese identificador,</span>
-
-        <span class="n">Tarea</span> <span class="n">tareaModificada</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">modificaTarea</span><span class="p">(</span><span class="n">idNuevaTarea</span><span class="p">,</span> <span class="s">&quot;Pagar la matrícula&quot;</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
-        <span class="c1">// al buscar por el identificador en la base de datos se devuelve la tarea modificada</span>
+        <span class="c1">// el usuario obtenido es el correcto.</span>
 
-        <span class="n">Tarea</span> <span class="n">tareaBD</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">idNuevaTarea</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">.</span><span class="na">getTitulo</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Pagar la matrícula&quot;</span><span class="p">);</span>
-
-        <span class="c1">// y el usuario tiene también esa tarea modificada.</span>
-        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
-        <span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="n">tareaBD</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testBorrarTarea</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql, añadida</span>
-        <span class="c1">// una tarea nueva al usuario 1L y obtenido el identificador de la tarea,</span>
-
-        <span class="n">Tarea</span> <span class="n">tarea</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span> <span class="s">&quot;Estudiar MADS&quot;</span><span class="p">);</span>
-        <span class="n">Long</span> <span class="n">idNuevaTarea</span> <span class="o">=</span> <span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
-
-        <span class="c1">// WHEN</span>
-        <span class="c1">// borramos la tarea correspondiente al identificador,</span>
-
-        <span class="n">tareaService</span><span class="p">.</span><span class="na">borraTarea</span><span class="p">(</span><span class="n">idNuevaTarea</span><span class="p">);</span>
-
-        <span class="c1">// THEN</span>
-        <span class="c1">// la tarea ya no está en la base de datos ni en las tareas del usuario.</span>
-
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">tareaService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getId</span><span class="p">())).</span><span class="na">isNull</span><span class="p">();</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">getTareas</span><span class="p">().</span><span class="na">size</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getEmail</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Usuario Ejemplo&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Para conseguir que los tests sean independientes y evitar que datos
-introducidos o modificados en un test afecten a otros tests, usamos
-las anotaciones <code>@Sql</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Sql</span><span class="p">(</span><span class="s">&quot;/datos-test.sql&quot;</span><span class="p">)</span>
-<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
+introducidos o modificados en un test afecten a otros tests, limpiamos
+las tablas de la base de datos al final de cada test usando la anotación <code>@Sql</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaServiceTest</span> <span class="p">{</span>
 </code></pre></div>
-<p>Al comienzo de cada test se cargan los datos del fichero
-<code>datos-test.sql</code> y después de cada test se ejecuta el script
-<code>clean-db.sql</code> para limpiar las tablas.</p>
+<p>Los datos de prueba se introducen al principio de cada test.</p>
 <h4 id="tests-de-la-capa-controller">Tests de la capa controller<a class="headerlink" href="#tests-de-la-capa-controller" title="Permanent link">&para;</a></h4>
 <p>Por último, también realizamos tests sobre los controllers:</p>
 <ul>
@@ -2028,40 +2116,85 @@ tarea. Mockeamos el <code>managerUserSession</code> para simular que el usuario
 está logeado.</p>
 <p>Mostramos a continuación los ficheros de test de controllers.</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/TareaWebTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">madstodolist.authentication.ManagerUserSession</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.model.Tarea</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.service.TareaService</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.service.UsuarioService</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.mock.mockito.MockBean</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.jdbc.Sql</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.web.servlet.MockMvc</span><span class="p">;</span>
+
+<span class="kn">import static</span> <span class="nn">org.hamcrest.Matchers.*</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.mockito.Mockito.when</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultMatchers.*</span><span class="p">;</span>
+
+<span class="nd">@SpringBootTest</span>
 <span class="nd">@AutoConfigureMockMvc</span>
-<span class="nd">@Sql</span><span class="p">(</span><span class="s">&quot;/datos-test.sql&quot;</span><span class="p">)</span>
 <span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaWebTest</span> <span class="p">{</span>
 
     <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="p">;</span>
 
-    <span class="c1">// Declaramos los servicios como Autowired y usamos los datos</span>
-    <span class="c1">// de prueba de la base de datos</span>
+    <span class="c1">// Declaramos los servicios como Autowired</span>
     <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">TareaService</span> <span class="n">tareaService</span><span class="p">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">UsuarioService</span> <span class="n">usuarioService</span><span class="p">;</span>
 
     <span class="c1">// Moqueamos el managerUserSession para poder moquear el usuario logeado</span>
     <span class="nd">@MockBean</span>
     <span class="kd">private</span> <span class="n">ManagerUserSession</span> <span class="n">managerUserSession</span><span class="p">;</span>
 
+    <span class="kd">class</span> <span class="nc">DosIds</span> <span class="p">{</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span><span class="p">;</span>
+        <span class="n">Long</span> <span class="n">tareaId</span><span class="p">;</span>
+        <span class="kd">public</span> <span class="nf">DosIds</span><span class="p">(</span><span class="n">Long</span> <span class="n">usuarioId</span><span class="p">,</span> <span class="n">Long</span> <span class="n">tareaId</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="na">usuarioId</span> <span class="o">=</span> <span class="n">usuarioId</span><span class="p">;</span>
+            <span class="k">this</span><span class="p">.</span><span class="na">tareaId</span> <span class="o">=</span> <span class="n">tareaId</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Método para inicializar los datos de prueba en la BD</span>
+    <span class="c1">// Devuelve una pareja de identificadores del usuario y la primera tarea añadida</span>
+    <span class="n">DosIds</span> <span class="nf">addUsuarioTareasBD</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="n">Tarea</span> <span class="n">tarea1</span> <span class="o">=</span> <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="s">&quot;Lavar coche&quot;</span><span class="p">);</span>
+        <span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="s">&quot;Renovar DNI&quot;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">DosIds</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">tarea1</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+    <span class="p">}</span>
+
     <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">listaTareas</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Un usuario con dos tareas en la BD</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">addUsuarioTareasBD</span><span class="p">().</span><span class="na">usuarioId</span><span class="p">;</span>
+
         <span class="c1">// Moqueamos el método usuarioLogeado para que devuelva el usuario 1L,</span>
         <span class="c1">// el mismo que se está usando en la petición. De esta forma evitamos</span>
         <span class="c1">// que salte la excepción de que el usuario que está haciendo la</span>
         <span class="c1">// petición no está logeado.</span>
-        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
-
-        <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">);</span>
 
         <span class="c1">// WHEN, THEN</span>
-        <span class="c1">// se realiza la petición GET al listado de tareas de un usuario,</span>
+        <span class="c1">// se realiza la petición GET al listado de tareas del usuario,</span>
         <span class="c1">// el HTML devuelto contiene las descripciones de sus tareas.</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">))</span>
+        <span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;/usuarios/&quot;</span> <span class="o">+</span> <span class="n">usuarioId</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;/tareas&quot;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">((</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">allOf</span><span class="p">(</span>
                         <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Lavar coche&quot;</span><span class="p">),</span>
                         <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Renovar DNI&quot;</span><span class="p">)</span>
@@ -2070,97 +2203,137 @@ está logeado.</p>
 
     <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">getNuevaTareaDevuelveForm</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
-        <span class="c1">// Ver el comentario en el primer test</span>
-        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
-
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+        <span class="c1">// Un usuario con dos tareas en la BD</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">addUsuarioTareasBD</span><span class="p">().</span><span class="na">usuarioId</span><span class="p">;</span>
+
+        <span class="c1">// Ver el comentario en el primer test</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">);</span>
 
         <span class="c1">// WHEN, THEN</span>
         <span class="c1">// si ejecutamos una petición GET para crear una nueva tarea de un usuario,</span>
         <span class="c1">// el HTML resultante contiene un formulario y la ruta con</span>
         <span class="c1">// la acción para crear la nueva tarea.</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas/nueva&quot;</span><span class="p">))</span>
+        <span class="n">String</span> <span class="n">urlPeticion</span> <span class="o">=</span> <span class="s">&quot;/usuarios/&quot;</span> <span class="o">+</span> <span class="n">usuarioId</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;/tareas/nueva&quot;</span><span class="p">;</span>
+        <span class="n">String</span> <span class="n">urlAction</span> <span class="o">=</span> <span class="s">&quot;action=\&quot;/usuarios/&quot;</span> <span class="o">+</span> <span class="n">usuarioId</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;/tareas/nueva\&quot;&quot;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="n">urlPeticion</span><span class="p">))</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">((</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">allOf</span><span class="p">(</span>
                         <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;form method=\&quot;post\&quot;&quot;</span><span class="p">),</span>
-                        <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;action=\&quot;/usuarios/1/tareas/nueva\&quot;&quot;</span><span class="p">)</span>
+                        <span class="n">containsString</span><span class="p">(</span><span class="n">urlAction</span><span class="p">)</span>
                 <span class="p">))));</span>
     <span class="p">}</span>
 
     <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">postNuevaTareaDevuelveRedirectYAñadeTarea</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
-        <span class="c1">// Ver el comentario en el primer test</span>
-        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
-
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+        <span class="c1">// Un usuario con dos tareas en la BD</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">addUsuarioTareasBD</span><span class="p">().</span><span class="na">usuarioId</span><span class="p">;</span>
+
+        <span class="c1">// Ver el comentario en el primer test</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">);</span>
 
         <span class="c1">// WHEN, THEN</span>
         <span class="c1">// realizamos la petición POST para añadir una nueva tarea,</span>
         <span class="c1">// el estado HTTP que se devuelve es un REDIRECT al listado</span>
         <span class="c1">// de tareas.</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas/nueva&quot;</span><span class="p">)</span>
+        <span class="n">String</span> <span class="n">urlPost</span> <span class="o">=</span> <span class="s">&quot;/usuarios/&quot;</span> <span class="o">+</span> <span class="n">usuarioId</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;/tareas/nueva&quot;</span><span class="p">;</span>
+        <span class="n">String</span> <span class="n">urlRedirect</span> <span class="o">=</span> <span class="s">&quot;/usuarios/&quot;</span> <span class="o">+</span> <span class="n">usuarioId</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;/tareas&quot;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="n">urlPost</span><span class="p">)</span>
                         <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;titulo&quot;</span><span class="p">,</span> <span class="s">&quot;Estudiar examen MADS&quot;</span><span class="p">))</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">is3xxRedirection</span><span class="p">())</span>
-                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">redirectedUrl</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">));</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">redirectedUrl</span><span class="p">(</span><span class="n">urlRedirect</span><span class="p">));</span>
 
         <span class="c1">// y si después consultamos el listado de tareas con una petición</span>
         <span class="c1">// GET el HTML contiene la tarea añadida.</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">))</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="n">urlRedirect</span><span class="p">))</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">((</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Estudiar examen MADS&quot;</span><span class="p">))));</span>
     <span class="p">}</span>
 
     <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteTareaDevuelveOKyBorraTarea</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
-        <span class="c1">// Ver el comentario en el primer test</span>
-        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
-
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+        <span class="c1">// Un usuario con dos tareas en la BD</span>
+        <span class="n">DosIds</span> <span class="n">dosIds</span> <span class="o">=</span> <span class="n">addUsuarioTareasBD</span><span class="p">();</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">dosIds</span><span class="p">.</span><span class="na">usuarioId</span><span class="p">;</span>
+        <span class="n">Long</span> <span class="n">tareaLavarCocheId</span> <span class="o">=</span> <span class="n">dosIds</span><span class="p">.</span><span class="na">tareaId</span><span class="p">;</span>
+
+        <span class="c1">// Ver el comentario en el primer test</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">);</span>
 
         <span class="c1">// WHEN, THEN</span>
         <span class="c1">// realizamos la petición DELETE para borrar una tarea,</span>
         <span class="c1">// se devuelve el estado HTTP que se devuelve es OK,</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">delete</span><span class="p">(</span><span class="s">&quot;/tareas/1&quot;</span><span class="p">))</span>
+        <span class="n">String</span> <span class="n">urlDelete</span> <span class="o">=</span> <span class="s">&quot;/tareas/&quot;</span> <span class="o">+</span> <span class="n">tareaLavarCocheId</span><span class="p">.</span><span class="na">toString</span><span class="p">();</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">delete</span><span class="p">(</span><span class="n">urlDelete</span><span class="p">))</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">isOk</span><span class="p">());</span>
 
         <span class="c1">// y cuando se pide un listado de tareas del usuario, la tarea borrada ya no aparece.</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">))</span>
+        <span class="n">String</span> <span class="n">urlListado</span> <span class="o">=</span> <span class="s">&quot;/usuarios/&quot;</span> <span class="o">+</span> <span class="n">usuarioId</span> <span class="o">+</span> <span class="s">&quot;/tareas&quot;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="n">urlListado</span><span class="p">))</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span>
                         <span class="n">allOf</span><span class="p">(</span><span class="n">not</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Lavar coche&quot;</span><span class="p">)),</span>
                                 <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Renovar DNI&quot;</span><span class="p">))));</span>
     <span class="p">}</span>
 
     <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">editarTareaDevuelveForm</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
-        <span class="c1">// Ver el comentario en el primer test</span>
-        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
-
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">editarTareaActualizaLaTarea</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Cargados datos de prueba del fichero datos-test.sql,</span>
+        <span class="c1">// Un usuario con dos tareas en la BD</span>
+        <span class="n">DosIds</span> <span class="n">dosIds</span> <span class="o">=</span> <span class="n">addUsuarioTareasBD</span><span class="p">();</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">dosIds</span><span class="p">.</span><span class="na">usuarioId</span><span class="p">;</span>
+        <span class="n">Long</span> <span class="n">tareaLavarCocheId</span> <span class="o">=</span> <span class="n">dosIds</span><span class="p">.</span><span class="na">tareaId</span><span class="p">;</span>
+
+        <span class="c1">// Ver el comentario en el primer test</span>
+        <span class="n">when</span><span class="p">(</span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">usuarioLogeado</span><span class="p">()).</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">);</span>
 
         <span class="c1">// WHEN, THEN</span>
-        <span class="c1">// realizamos una petición GET al endpoint para editar una tarea</span>
-        <span class="c1">// el HTML devuelto</span>
+        <span class="c1">// realizamos una petición POST al endpoint para editar una tarea</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/tareas/1/editar&quot;</span><span class="p">))</span>
-                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">allOf</span><span class="p">(</span>
-                    <span class="c1">// contiene la acción para enviar el post a la URL correcta,</span>
-                    <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;action=\&quot;/tareas/1/editar\&quot;&quot;</span><span class="p">),</span>
-                    <span class="c1">// contiene la descripción de la tarea a editar,</span>
-                    <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Lavar coche&quot;</span><span class="p">),</span>
-                    <span class="c1">// y contiene enlace a listar tareas del usuario si se cancela la edición.</span>
-                    <span class="n">containsString</span><span class="p">(</span><span class="s">&quot;href=\&quot;/usuarios/1/tareas\&quot;&quot;</span><span class="p">))));</span>
+        <span class="n">String</span> <span class="n">urlEditar</span> <span class="o">=</span> <span class="s">&quot;/tareas/&quot;</span> <span class="o">+</span> <span class="n">tareaLavarCocheId</span> <span class="o">+</span> <span class="s">&quot;/editar&quot;</span><span class="p">;</span>
+        <span class="n">String</span> <span class="n">urlRedirect</span> <span class="o">=</span> <span class="s">&quot;/usuarios/&quot;</span> <span class="o">+</span> <span class="n">usuarioId</span> <span class="o">+</span> <span class="s">&quot;/tareas&quot;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="n">urlEditar</span><span class="p">)</span>
+                        <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;titulo&quot;</span><span class="p">,</span> <span class="s">&quot;Limpiar cristales coche&quot;</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">is3xxRedirection</span><span class="p">())</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">redirectedUrl</span><span class="p">(</span><span class="n">urlRedirect</span><span class="p">));</span>
+
+        <span class="c1">// Y si realizamos un listado de las tareas del usuario</span>
+        <span class="c1">// ha cambiado el título de la tarea modificada</span>
+
+        <span class="n">String</span> <span class="n">urlListado</span> <span class="o">=</span> <span class="s">&quot;/usuarios/&quot;</span> <span class="o">+</span> <span class="n">usuarioId</span> <span class="o">+</span> <span class="s">&quot;/tareas&quot;</span><span class="p">;</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="n">urlListado</span><span class="p">))</span>
+                <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Limpiar cristales coche&quot;</span><span class="p">)));</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>Fichero <code>src/test/java/madstodolist/UsuarioWebTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.service.UsuarioService</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.mock.mockito.MockBean</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.web.servlet.MockMvc</span><span class="p">;</span>
+
+<span class="kn">import static</span> <span class="nn">org.hamcrest.Matchers.containsString</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.mockito.Mockito.when</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.web.servlet.result.MockMvcResultMatchers.*</span><span class="p">;</span>
+
+<span class="nd">@SpringBootTest</span>
 <span class="nd">@AutoConfigureMockMvc</span>
 <span class="c1">//</span>
 <span class="c1">// A diferencia de los tests web de tarea, donde usábamos los datos</span>
@@ -2199,8 +2372,8 @@ está logeado.</p>
         <span class="c1">// URL con las tareas del usuario</span>
 
         <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
-                <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span> <span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">)</span>
-                <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span> <span class="s">&quot;12345678&quot;</span><span class="p">))</span>
+                        <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span> <span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">)</span>
+                        <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span> <span class="s">&quot;12345678&quot;</span><span class="p">))</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">is3xxRedirection</span><span class="p">())</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">redirectedUrl</span><span class="p">(</span><span class="s">&quot;/usuarios/1/tareas&quot;</span><span class="p">));</span>
     <span class="p">}</span>
@@ -2217,8 +2390,8 @@ está logeado.</p>
         <span class="c1">// Realizamos una petición POST con los datos del usuario mockeado y</span>
         <span class="c1">// se debe devolver una página que contenga el mensaja &quot;No existe usuario&quot;</span>
         <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
-                    <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span><span class="s">&quot;pepito.perez@gmail.com&quot;</span><span class="p">)</span>
-                    <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span><span class="s">&quot;12345678&quot;</span><span class="p">))</span>
+                        <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span><span class="s">&quot;pepito.perez@gmail.com&quot;</span><span class="p">)</span>
+                        <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span><span class="s">&quot;12345678&quot;</span><span class="p">))</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;No existe usuario&quot;</span><span class="p">)));</span>
     <span class="p">}</span>
 
@@ -2234,8 +2407,8 @@ está logeado.</p>
         <span class="c1">// Realizamos una petición POST con los datos del usuario mockeado y</span>
         <span class="c1">// se debe devolver una página que contenga el mensaja &quot;Contraseña incorrecta&quot;</span>
         <span class="k">this</span><span class="p">.</span><span class="na">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">post</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
-                    <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span><span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">)</span>
-                    <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span><span class="s">&quot;000&quot;</span><span class="p">))</span>
+                        <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;eMail&quot;</span><span class="p">,</span><span class="s">&quot;ana.garcia@gmail.com&quot;</span><span class="p">)</span>
+                        <span class="p">.</span><span class="na">param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span><span class="s">&quot;000&quot;</span><span class="p">))</span>
                 <span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">string</span><span class="p">(</span><span class="n">containsString</span><span class="p">(</span><span class="s">&quot;Contraseña incorrecta&quot;</span><span class="p">)));</span>
     <span class="p">}</span>
 <span class="p">}</span>
