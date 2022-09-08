@@ -231,7 +231,7 @@ cargar la configuración por defecto definida en `application.properties`.
 Es posible que tengas que hacer algún cambio en las sentencias SQL del
 fichero `datos-test.sql` para adaptarlas a la nueva base de datos
 Postgres. No será necesario hacerlo en el fichero con datos iniciales
-`datos-dev.sql` porque cuando trabajemos la con base de datos real no
+`data.sql` porque cuando trabajemos la con base de datos real no
 vamos a cargar estos datos iniciales.
 
 Por ejemplo, un cambio que deberás hacer será eliminar las claves

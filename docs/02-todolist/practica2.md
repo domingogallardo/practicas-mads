@@ -1,20 +1,3 @@
-
-<!--
-
-TODO: Incluir un ejemplo de una petición post con parámetros
-
-this.mockMvc.perform(post("/login")
-               .param("eMail", "ana.garcia@gmail.com")
-               .param("password", "12345678"))
-
-Cambio:
-
-Cambiar las reglas del tablero de GitHub para solo tener que gestionar
-issues. Los pull requests están asociados a los issues y no hace falta
-gestionarlos con reglas, sino que siempre estarán junto al propio issue.
-
--->
-
 # Práctica 2: Aplicación ToDoList
 
 ## 1. Objetivos
@@ -1217,8 +1200,26 @@ Veamos, por ejemplo, el fichero `TareaTest.java`:
 **Fichero `src/test/java/madstodolist/TareaTest.java`**:
 
 ```java
+package madstodolist;
+
+
+import madstodolist.model.Tarea;
+import madstodolist.model.TareaRepository;
+import madstodolist.model.Usuario;
+import madstodolist.model.UsuarioRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+
 @SpringBootTest
-@Sql("/datos-test.sql")
 @Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
 public class TareaTest {
 
@@ -1235,7 +1236,7 @@ public class TareaTest {
     @Test
     public void crearTarea() {
         // GIVEN
-        // Creado usuario nuevo,
+        // Un usuario nuevo creado en memoria, sin conexión con la BD,
 
         Usuario usuario = new Usuario("juan.gutierrez@gmail.com");
 
@@ -1311,15 +1312,22 @@ public class TareaTest {
     }
 
     //
-    // Tests TareaRepository
+    // Tests TareaRepository.
+    // El código que trabaja con repositorios debe
+    // estar en un entorno transactional, para que todas las peticiones
+    // estén en la misma conexión a la base de datos, las entidades estén
+    // conectadas y sea posible acceder a colecciones LAZY.
     //
 
     @Test
+    @Transactional
     public void guardarTareaEnBaseDatos() {
         // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
+        // Un usuario en la base de datos.
 
-        Usuario usuario = usuarioRepository.findById(1L).orElse(null);
+        Usuario usuario = new Usuario("user@ua");
+        usuarioRepository.save(usuario);
+
         Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS");
 
         // WHEN
@@ -1343,10 +1351,11 @@ public class TareaTest {
     }
 
     @Test
+    @Transactional
     public void salvarTareaEnBaseDatosConUsuarioNoBDLanzaExcepcion() {
         // GIVEN
-        // Creamos un usuario nuevo que no añadimos a la BD y creamos
-        // una tarea asociada a ese usuario,
+        // Un usuario nuevo que no está en la BD
+        // y una tarea asociada a ese usuario,
 
         Usuario usuario = new Usuario("juan.gutierrez@gmail.com");
         Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS");
@@ -1360,61 +1369,75 @@ public class TareaTest {
     }
 
     @Test
+    @Transactional
     public void unUsuarioTieneUnaListaDeTareas() {
         // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
+        // Un usuario con 2 tareas en la base de datos
+        Usuario usuario = new Usuario("user@ua");
+        usuarioRepository.save(usuario);
+        Long usuarioId = usuario.getId();
+
+        Tarea tarea1 = new Tarea(usuario, "Práctica 1 de MADS");
+        Tarea tarea2 = new Tarea(usuario, "Renovar el DNI");
+        tareaRepository.save(tarea1);
+        tareaRepository.save(tarea2);
 
         // WHEN
-        // recuperamos un ususario de la base de datos,
-        Usuario usuario = usuarioRepository.findById(1L).orElse(null);
+        // recuperamos el ususario de la base de datos,
+
+        Usuario usuarioRecuperado = usuarioRepository.findById(usuarioId).orElse(null);
 
         // THEN
         // su lista de tareas también se recupera, porque se ha
         // definido la relación de usuario y tareas como EAGER.
 
-        assertThat(usuario.getTareas()).hasSize(2);
+        assertThat(usuarioRecuperado.getTareas()).hasSize(2);
     }
 
     @Test
+    @Transactional
     public void añadirUnaTareaAUnUsuarioEnBD() {
         // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
+        // Un usuario en la base de datos
+        Usuario usuario = new Usuario("user@ua");
+        usuarioRepository.save(usuario);
+        Long usuarioId = usuario.getId();
 
         // WHEN
-        // creamos una nueva tarea con un usuario recuperado de la BD
+        // Creamos una nueva tarea con el usuario recuperado de la BD
         // y la salvamos,
 
-        Usuario usuario = usuarioRepository.findById(1L).orElse(null);
-        Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS");
+        Usuario usuarioBD = usuarioRepository.findById(usuarioId).orElse(null);
+        Tarea tarea = new Tarea(usuarioBD, "Práctica 1 de MADS");
         tareaRepository.save(tarea);
         Long tareaId = tarea.getId();
 
         // THEN
-        // la tarea queda guardada en la BD asociada al usuario.
+        // la tarea queda guardada en la BD asociada al usuario
 
-        Usuario usuarioBD = usuarioRepository.findById(1L).orElse(null);
         Tarea tareaBD = tareaRepository.findById(tareaId).orElse(null);
         assertThat(tareaBD).isEqualTo(tarea);
-        assertThat(usuarioBD.getTareas()).contains(tareaBD);
         assertThat(tarea.getUsuario()).isEqualTo(usuarioBD);
+
+        // y si recuperamos el usuario se obtiene la nueva tarea
+        usuarioBD = usuarioRepository.findById(usuarioId).orElse(null);
+        assertThat(usuarioBD.getTareas()).contains(tareaBD);
     }
 
-    //
-    // Tests modelo Tarea con la conexión con la BD abierta usando la
-    // anotación @Transactional y el TareaRepository
-    //
 
     @Test
-    // Al usar @Transactional se ejecuta el test con
-    // la conexión con la BD abierta y las entidades conectadas
-    // con la base de datos
     @Transactional
     public void cambioEnLaEntidadEnTransactionalModificaLaBD() {
         // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql, habiendo
-        // anotado el test con @Transactional y recuperada una tarea,
+        // Un usuario y una tarea en la base de datos
+        Usuario usuario = new Usuario("user@ua");
+        usuarioRepository.save(usuario);
+        Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS");
+        tareaRepository.save(tarea);
 
-        Tarea tarea = tareaRepository.findById(1L).orElse(null);
+        // Recuperamos la tarea
+        Long tareaId = tarea.getId();
+        tarea = tareaRepository.findById(tareaId).orElse(null);
 
         // WHEN
         // modificamos la descripción de la tarea
@@ -1424,7 +1447,7 @@ public class TareaTest {
         // THEN
         // la descripción queda actualizada en la BD.
 
-        Tarea tareaBD = tareaRepository.findById(1L).orElse(null);
+        Tarea tareaBD = tareaRepository.findById(tareaId).orElse(null);
         assertThat(tareaBD.getTitulo()).isEqualTo(tarea.getTitulo());
     }
 }
@@ -1448,8 +1471,8 @@ Se realizan distintos tipos de tests dentro de la misma clase:
   sobre la base de datos.
 - Pruebas sobre la capa _repository_ en las que se necesitan realizar
   más de una sentencia con la misma conexión a la base de datos o
-  acceder a atributos _lazy_. Para estas pruebas usamos la anotación
-  `@Transactional`. 
+  acceder a atributos _lazy_. Para esto es necesario usar la anotación
+  `@Transactional`.
 
 #### Tests de la capa de servicios ####
 
@@ -1467,113 +1490,177 @@ Veamos, por ejemplo, el fichero `TareaServiceTest.java`:
 **Fichero `src/test/java/madstodolist/TareaServiceTest.java`**:
 
 ```java
+package madstodolist;
+
+import madstodolist.model.Usuario;
+import madstodolist.service.UsuarioService;
+import madstodolist.service.UsuarioServiceException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+
 @SpringBootTest
-@Sql("/datos-test.sql")
 @Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
-public class TareaServiceTest {
+public class UsuarioServiceTest {
 
     @Autowired
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
 
-    @Autowired
-    TareaService tareaService;
-
-    @Test
-    public void testBuscarTarea() {
-        // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
-
-        // WHEN
-        // recuperamos una tarea de la base de datos a partir de su ID,
-
-        Tarea lavarCoche = tareaService.findById(1L);
-
-        // THEN
-        // los datos de la tarea recuperada son correctos.
-
-        assertThat(lavarCoche).isNotNull();
-        assertThat(lavarCoche.getTitulo()).isEqualTo("Lavar coche");
+    // Método para inicializar los datos de prueba en la BD
+    // Devuelve el identificador del usuario de la BD
+    Long addUsuarioBD() {
+        Usuario usuario = new Usuario("user@ua");
+        usuario.setNombre("Usuario Ejemplo");
+        usuario.setPassword("123");
+        usuario = usuarioService.registrar(usuario);
+        return usuario.getId();
     }
 
     @Test
-    public void testNuevaTareaUsuario() {
+    public void servicioLoginUsuario() {
         // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
+        // Un usuario en la BD
+
+        addUsuarioBD();
 
         // WHEN
-        // creamos una nueva tarea asociada a un usuario,
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Práctica 1 de MADS");
+        // intentamos logear un usuario y contraseña correctos
+        UsuarioService.LoginStatus loginStatus1 = usuarioService.login("user@ua", "123");
+
+        // intentamos logear un usuario correcto, con una contraseña incorrecta
+        UsuarioService.LoginStatus loginStatus2 = usuarioService.login("user@ua", "000");
+
+        // intentamos logear un usuario que no existe,
+        UsuarioService.LoginStatus loginStatus3 = usuarioService.login("pepito.perez@gmail.com", "12345678");
 
         // THEN
-        // al recuperar el usuario usando el método de serivio findByEmail la tarea creada
-        // está en la lista de tareas del usuario.
+
+        // el valor devuelto por el primer login es LOGIN_OK,
+        assertThat(loginStatus1).isEqualTo(UsuarioService.LoginStatus.LOGIN_OK);
+
+        // el valor devuelto por el segundo login es ERROR_PASSWORD,
+        assertThat(loginStatus2).isEqualTo(UsuarioService.LoginStatus.ERROR_PASSWORD);
+
+        // y el valor devuelto por el tercer login es USER_NOT_FOUND.
+        assertThat(loginStatus3).isEqualTo(UsuarioService.LoginStatus.USER_NOT_FOUND);
+    }
+
+    @Test
+    public void servicioRegistroUsuario() {
+        // GIVEN
+        // Creado un usuario nuevo, con una contraseña
+
+        Usuario usuario = new Usuario("usuario.prueba2@gmail.com");
+        usuario.setPassword("12345678");
+
+        // WHEN
+        // registramos el usuario,
+
+        usuarioService.registrar(usuario);
+
+        // THEN
+        // el usuario se añade correctamente al sistema.
+
+        Usuario usuarioBaseDatos = usuarioService.findByEmail("usuario.prueba2@gmail.com");
+        assertThat(usuarioBaseDatos).isNotNull();
+        assertThat(usuarioBaseDatos.getPassword()).isEqualTo(usuario.getPassword());
+    }
+
+    @Test
+    public void servicioRegistroUsuarioExcepcionConNullPassword() {
+        // GIVEN
+        // Un usuario creado sin contraseña,
+
+        Usuario usuario =  new Usuario("usuario.prueba@gmail.com");
+
+        // WHEN, THEN
+        // intentamos registrarlo, se produce una excepción de tipo UsuarioServiceException
+        Assertions.assertThrows(UsuarioServiceException.class, () -> {
+            usuarioService.registrar(usuario);
+        });
+    }
+
+
+    @Test
+    public void servicioRegistroUsuarioExcepcionConEmailRepetido() {
+        // GIVEN
+        // Un usuario en la BD
+
+        addUsuarioBD();
+
+        // WHEN
+        // Creamos un usuario con un e-mail ya existente en la base de datos,
+        Usuario usuario =  new Usuario("user@ua");
+        usuario.setPassword("12345678");
+
+        // THEN
+        // si lo registramos, se produce una excepción de tipo UsuarioServiceException
+        Assertions.assertThrows(UsuarioServiceException.class, () -> {
+            usuarioService.registrar(usuario);
+        });
+    }
+
+    @Test
+    public void servicioRegistroUsuarioDevuelveUsuarioConId() {
+        // GIVEN
+        // Dado un usuario con contraseña nuevo y sin identificador,
+
+        Usuario usuario = new Usuario("usuario.prueba@gmail.com");
+        usuario.setPassword("12345678");
+
+        // WHEN
+        // lo registramos en el sistema,
+
+        usuarioService.registrar(usuario);
+
+        // THEN
+        // se actualiza el identificador del usuario
+
+        assertThat(usuario.getId()).isNotNull();
+
+        // con el identificador que se ha guardado en la BD.
+
+        Usuario usuarioBD = usuarioService.findById(usuario.getId());
+        assertThat(usuarioBD).isEqualTo(usuario);
+    }
+
+    @Test
+    public void servicioConsultaUsuarioDevuelveUsuario() {
+        // GIVEN
+        // Un usuario en la BD
+
+        Long usuarioId = addUsuarioBD();
+
+        // WHEN
+        // recuperamos un usuario usando su e-mail,
 
         Usuario usuario = usuarioService.findByEmail("user@ua");
-        assertThat(usuario.getTareas().size() == 3);
-        assertThat(usuario.getTareas()).contains(tarea);
-    }
-
-    @Test
-    public void testModificarTarea() {
-        // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
-        // creada una tarea nueva de un usuario y obtenido su identificador,
-
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Pagar el recibo");
-        Long idNuevaTarea = tarea.getId();
-
-        // WHEN
-        // modificamos la tarea correspondiente a ese identificador,
-
-        Tarea tareaModificada = tareaService.modificaTarea(idNuevaTarea, "Pagar la matrícula");
 
         // THEN
-        // al buscar por el identificador en la base de datos se devuelve la tarea modificada
+        // el usuario obtenido es el correcto.
 
-        Tarea tareaBD = tareaService.findById(idNuevaTarea);
-        assertThat(tareaBD.getTitulo()).isEqualTo("Pagar la matrícula");
-
-        // y el usuario tiene también esa tarea modificada.
-        Usuario usuario = usuarioService.findById(1L);
-        usuario.getTareas().contains(tareaBD);
-    }
-
-    @Test
-    public void testBorrarTarea() {
-        // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql, añadida
-        // una tarea nueva al usuario 1L y obtenido el identificador de la tarea,
-
-        Tarea tarea = tareaService.nuevaTareaUsuario(1L, "Estudiar MADS");
-        Long idNuevaTarea = tarea.getId();
-
-        // WHEN
-        // borramos la tarea correspondiente al identificador,
-
-        tareaService.borraTarea(idNuevaTarea);
-
-        // THEN
-        // la tarea ya no está en la base de datos ni en las tareas del usuario.
-
-        assertThat(tareaService.findById(tarea.getId())).isNull();
-        assertThat(usuarioService.findById(1L).getTareas().size() == 2);
+        assertThat(usuario.getId()).isEqualTo(usuarioId);
+        assertThat(usuario.getEmail()).isEqualTo("user@ua");
+        assertThat(usuario.getNombre()).isEqualTo("Usuario Ejemplo");
     }
 }
 ```
 
 Para conseguir que los tests sean independientes y evitar que datos
-introducidos o modificados en un test afecten a otros tests, usamos
-las anotaciones `@Sql`:
+introducidos o modificados en un test afecten a otros tests, limpiamos
+las tablas de la base de datos al final de cada test usando la anotación `@Sql`:
 
 ```java
-@Sql("/datos-test.sql")
 @Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
 public class TareaServiceTest {
 ```
 
-Al comienzo de cada test se cargan los datos del fichero
-`datos-test.sql` y después de cada test se ejecuta el script
-`clean-db.sql` para limpiar las tablas.
+Los datos de prueba se introducen al principio de cada test.
 
 #### Tests de la capa controller ####
 
@@ -1608,40 +1695,85 @@ Mostramos a continuación los ficheros de test de controllers.
 **Fichero `src/test/java/madstodolist/TareaWebTest.java`**:
 
 ```java
+package madstodolist;
+
+import madstodolist.authentication.ManagerUserSession;
+import madstodolist.model.Tarea;
+import madstodolist.model.Usuario;
+import madstodolist.service.TareaService;
+import madstodolist.service.UsuarioService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql("/datos-test.sql")
 @Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
 public class TareaWebTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    // Declaramos los servicios como Autowired y usamos los datos
-    // de prueba de la base de datos
+    // Declaramos los servicios como Autowired
     @Autowired
     private TareaService tareaService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     // Moqueamos el managerUserSession para poder moquear el usuario logeado
     @MockBean
     private ManagerUserSession managerUserSession;
 
+    class DosIds {
+        Long usuarioId;
+        Long tareaId;
+        public DosIds(Long usuarioId, Long tareaId) {
+            this.usuarioId = usuarioId;
+            this.tareaId = tareaId;
+        }
+    }
+
+    // Método para inicializar los datos de prueba en la BD
+    // Devuelve una pareja de identificadores del usuario y la primera tarea añadida
+    DosIds addUsuarioTareasBD() {
+        Usuario usuario = new Usuario("user@ua");
+        usuario.setPassword("123");
+        usuario = usuarioService.registrar(usuario);
+        Tarea tarea1 = tareaService.nuevaTareaUsuario(usuario.getId(), "Lavar coche");
+        tareaService.nuevaTareaUsuario(usuario.getId(), "Renovar DNI");
+        return new DosIds(usuario.getId(), tarea1.getId());
+    }
+
     @Test
     public void listaTareas() throws Exception {
+        // GIVEN
+        // Un usuario con dos tareas en la BD
+        Long usuarioId = addUsuarioTareasBD().usuarioId;
+
         // Moqueamos el método usuarioLogeado para que devuelva el usuario 1L,
         // el mismo que se está usando en la petición. De esta forma evitamos
         // que salte la excepción de que el usuario que está haciendo la
         // petición no está logeado.
-        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
-
-        // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
+        when(managerUserSession.usuarioLogeado()).thenReturn(usuarioId);
 
         // WHEN, THEN
-        // se realiza la petición GET al listado de tareas de un usuario,
+        // se realiza la petición GET al listado de tareas del usuario,
         // el HTML devuelto contiene las descripciones de sus tareas.
 
-        this.mockMvc.perform(get("/usuarios/1/tareas"))
+        String url = "/usuarios/" + usuarioId.toString() + "/tareas";
+
+        this.mockMvc.perform(get(url))
                 .andExpect((content().string(allOf(
                         containsString("Lavar coche"),
                         containsString("Renovar DNI")
@@ -1650,92 +1782,116 @@ public class TareaWebTest {
 
     @Test
     public void getNuevaTareaDevuelveForm() throws Exception {
-        // Ver el comentario en el primer test
-        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
-
         // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
+        // Un usuario con dos tareas en la BD
+        Long usuarioId = addUsuarioTareasBD().usuarioId;
+
+        // Ver el comentario en el primer test
+        when(managerUserSession.usuarioLogeado()).thenReturn(usuarioId);
 
         // WHEN, THEN
         // si ejecutamos una petición GET para crear una nueva tarea de un usuario,
         // el HTML resultante contiene un formulario y la ruta con
         // la acción para crear la nueva tarea.
 
-        this.mockMvc.perform(get("/usuarios/1/tareas/nueva"))
+        String urlPeticion = "/usuarios/" + usuarioId.toString() + "/tareas/nueva";
+        String urlAction = "action=\"/usuarios/" + usuarioId.toString() + "/tareas/nueva\"";
+
+        this.mockMvc.perform(get(urlPeticion))
                 .andExpect((content().string(allOf(
                         containsString("form method=\"post\""),
-                        containsString("action=\"/usuarios/1/tareas/nueva\"")
+                        containsString(urlAction)
                 ))));
     }
 
     @Test
     public void postNuevaTareaDevuelveRedirectYAñadeTarea() throws Exception {
-        // Ver el comentario en el primer test
-        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
-
         // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
+        // Un usuario con dos tareas en la BD
+        Long usuarioId = addUsuarioTareasBD().usuarioId;
+
+        // Ver el comentario en el primer test
+        when(managerUserSession.usuarioLogeado()).thenReturn(usuarioId);
 
         // WHEN, THEN
         // realizamos la petición POST para añadir una nueva tarea,
         // el estado HTTP que se devuelve es un REDIRECT al listado
         // de tareas.
 
-        this.mockMvc.perform(post("/usuarios/1/tareas/nueva")
+        String urlPost = "/usuarios/" + usuarioId.toString() + "/tareas/nueva";
+        String urlRedirect = "/usuarios/" + usuarioId.toString() + "/tareas";
+
+        this.mockMvc.perform(post(urlPost)
                         .param("titulo", "Estudiar examen MADS"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/usuarios/1/tareas"));
+                .andExpect(redirectedUrl(urlRedirect));
 
         // y si después consultamos el listado de tareas con una petición
         // GET el HTML contiene la tarea añadida.
 
-        this.mockMvc.perform(get("/usuarios/1/tareas"))
+        this.mockMvc.perform(get(urlRedirect))
                 .andExpect((content().string(containsString("Estudiar examen MADS"))));
     }
 
     @Test
     public void deleteTareaDevuelveOKyBorraTarea() throws Exception {
-        // Ver el comentario en el primer test
-        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
-
         // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
+        // Un usuario con dos tareas en la BD
+        DosIds dosIds = addUsuarioTareasBD();
+        Long usuarioId = dosIds.usuarioId;
+        Long tareaLavarCocheId = dosIds.tareaId;
+
+        // Ver el comentario en el primer test
+        when(managerUserSession.usuarioLogeado()).thenReturn(usuarioId);
 
         // WHEN, THEN
         // realizamos la petición DELETE para borrar una tarea,
         // se devuelve el estado HTTP que se devuelve es OK,
 
-        this.mockMvc.perform(delete("/tareas/1"))
+        String urlDelete = "/tareas/" + tareaLavarCocheId.toString();
+
+        this.mockMvc.perform(delete(urlDelete))
                 .andExpect(status().isOk());
 
         // y cuando se pide un listado de tareas del usuario, la tarea borrada ya no aparece.
 
-        this.mockMvc.perform(get("/usuarios/1/tareas"))
+        String urlListado = "/usuarios/" + usuarioId + "/tareas";
+
+        this.mockMvc.perform(get(urlListado))
                 .andExpect(content().string(
                         allOf(not(containsString("Lavar coche")),
                                 containsString("Renovar DNI"))));
     }
 
     @Test
-    public void editarTareaDevuelveForm() throws Exception {
-        // Ver el comentario en el primer test
-        when(managerUserSession.usuarioLogeado()).thenReturn(1L);
-
+    public void editarTareaActualizaLaTarea() throws Exception {
         // GIVEN
-        // Cargados datos de prueba del fichero datos-test.sql,
+        // Un usuario con dos tareas en la BD
+        DosIds dosIds = addUsuarioTareasBD();
+        Long usuarioId = dosIds.usuarioId;
+        Long tareaLavarCocheId = dosIds.tareaId;
+
+        // Ver el comentario en el primer test
+        when(managerUserSession.usuarioLogeado()).thenReturn(usuarioId);
 
         // WHEN, THEN
-        // realizamos una petición GET al endpoint para editar una tarea
-        // el HTML devuelto
+        // realizamos una petición POST al endpoint para editar una tarea
 
-        this.mockMvc.perform(get("/tareas/1/editar"))
-                .andExpect(content().string(allOf(
-                    // contiene la acción para enviar el post a la URL correcta,
-                    containsString("action=\"/tareas/1/editar\""),
-                    // contiene la descripción de la tarea a editar,
-                    containsString("Lavar coche"),
-                    // y contiene enlace a listar tareas del usuario si se cancela la edición.
-                    containsString("href=\"/usuarios/1/tareas\""))));
+        String urlEditar = "/tareas/" + tareaLavarCocheId + "/editar";
+        String urlRedirect = "/usuarios/" + usuarioId + "/tareas";
+
+        this.mockMvc.perform(post(urlEditar)
+                        .param("titulo", "Limpiar cristales coche"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl(urlRedirect));
+
+        // Y si realizamos un listado de las tareas del usuario
+        // ha cambiado el título de la tarea modificada
+
+        String urlListado = "/usuarios/" + usuarioId + "/tareas";
+
+        this.mockMvc.perform(get(urlListado))
+                .andExpect(content().string(containsString("Limpiar cristales coche")));
     }
 }
 ```
@@ -1743,6 +1899,22 @@ public class TareaWebTest {
 **Fichero `src/test/java/madstodolist/UsuarioWebTest.java`**:
 
 ```java
+package madstodolist;
+
+import madstodolist.model.Usuario;
+import madstodolist.service.UsuarioService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 //
@@ -1782,8 +1954,8 @@ public class UsuarioWebTest {
         // URL con las tareas del usuario
 
         this.mockMvc.perform(post("/login")
-                .param("eMail", "ana.garcia@gmail.com")
-                .param("password", "12345678"))
+                        .param("eMail", "ana.garcia@gmail.com")
+                        .param("password", "12345678"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/usuarios/1/tareas"));
     }
@@ -1800,8 +1972,8 @@ public class UsuarioWebTest {
         // Realizamos una petición POST con los datos del usuario mockeado y
         // se debe devolver una página que contenga el mensaja "No existe usuario"
         this.mockMvc.perform(post("/login")
-                    .param("eMail","pepito.perez@gmail.com")
-                    .param("password","12345678"))
+                        .param("eMail","pepito.perez@gmail.com")
+                        .param("password","12345678"))
                 .andExpect(content().string(containsString("No existe usuario")));
     }
 
@@ -1817,8 +1989,8 @@ public class UsuarioWebTest {
         // Realizamos una petición POST con los datos del usuario mockeado y
         // se debe devolver una página que contenga el mensaja "Contraseña incorrecta"
         this.mockMvc.perform(post("/login")
-                    .param("eMail","ana.garcia@gmail.com")
-                    .param("password","000"))
+                        .param("eMail","ana.garcia@gmail.com")
+                        .param("password","000"))
                 .andExpect(content().string(containsString("Contraseña incorrecta")));
     }
 }
