@@ -212,12 +212,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class SaludoController {
 
-    private final SaludoService service;
-
     @Autowired
-    public SaludoController(SaludoService service) {
-        this.service = service;
-    }
+    private SaludoService service;
 
     @RequestMapping("/saludo/{nombre}")
     public @ResponseBody String saludo(@PathVariable(value="nombre") String nombre) {
@@ -291,7 +287,8 @@ public class SaludoService {
 
 Spring Boot utiliza la anotación `@Autowired` para inyectar en la
 variable anotada un objeto nuevo del tipo indicado. Se puede definir
-la anotación en la variable o en el constructor de la clase.
+la anotación en la variable o en el constructor de la clase. Hemos
+utilizado la anotación en las variables de instancia.
 
 En los ejemplos anteriores podemos comprobar estas anotaciones. En la
 aplicación ejemplo se define un controlador y un servicio que devuelve
@@ -300,10 +297,24 @@ anotación le indica a Spring Boot que la clase que va a poder ser
 inyectada.
 
 En el controlador se necesita instanciar un objeto de la clase
-`SaludoService` y se hace usando inyección de dependencias. En este
-caso lo hacemos anotando el constructor. Spring Boot se encarga de
-obtener una instancia y de inyectarla en la variable `service` que se
-pasa como parámetro al constructor.
+`SaludoService` y se hace usando inyección de dependencias. Spring
+Boot se encarga de obtener una instancia y de inyectarla en la
+variable cuando se inicializa el controlador. Lo vemos en el siguiente código:
+
+```java
+@Controller
+public class SaludoController {
+
+    @Autowired
+    private SaludoService service;
+
+    @RequestMapping("/saludo/{nombre}")
+    public @ResponseBody String saludo(@PathVariable(value="nombre") String nombre) {
+        return service.saluda(nombre);
+    }
+
+}
+```
 
 Mediante la inyección de dependencias el código es más flexible y es
 más fácil de testear, pudiéndose definir _mocks_ que sustituyen los
@@ -379,12 +390,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class SaludoControllerPlantilla {
 
-    private final SaludoService service;
-
     @Autowired
-    public SaludoControllerPlantilla(SaludoService service) {
-        this.service = service;
-    }
+    private SaludoService service;
 
     @RequestMapping("/saludoplantilla/{nombre}")
     public String saludo(@PathVariable(value="nombre") String nombre, 
@@ -486,12 +493,8 @@ import javax.validation.Valid;
 @Controller
 public class SaludoControllerForm {
 
-    private final SaludoService service;
-
     @Autowired
-    public SaludoControllerForm(SaludoService service) {
-        this.service = service;
-    }
+    private SaludoService service;
 
     @GetMapping("/saludoform")
     // Hay que declarar un parámetro con el tipo usado en el modelo del formulario (UserData)

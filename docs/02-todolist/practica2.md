@@ -87,8 +87,6 @@ práctica 1. Entre otros, tiene los siguientes elementos:
 - Las clases de servicio y de _repository_ se obtienen por inyección
   de dependencias.
 - Gran número de tests que prueban la capa de servicios y la de presentación.
-- Distintos ficheros de configuración para poder arrancar la
-  aplicación en distintos entornos: desarrollo y prueba.
 
 
 Vamos a ver con un poco más de detalle dónde puedes encontrar en el
@@ -158,10 +156,7 @@ INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
 
     En la práctica 3 utilizaremos una base de datos real, que deberemos
     gestionar también en producción. En concreto, se tratará de una base
-    de datos PostgresSQL. Crearemos una configuración de producción en
-    la que se deshabilitará la creación automática del esquema de
-    datos y deberemos gestionarlo manualmente con un ficheros SQL de
-    inicialización y migración de la base de datos.
+    de datos PostgresSQL.
     
 Por último, el parámetro `spring.jpa.open-in-view=false` deshabilita
 una característica de Spring denominada _open in view_ que mantiene
@@ -209,9 +204,8 @@ nombre de la fuente de datos, el modo del
 iniciales que se carga al ejecutar los tests.
 
 La otra diferencia importante es que evitamos que se carguen los datos
-poniendo el parámetro `spring.sql.init.mode` a `never`. Veremos que
-los datos de prueba de los tests se cargan desde los tests usando la
-anotación `@sql`.
+poniendo el parámetro `spring.sql.init.mode` a `never`. Cargaremos los
+datos de prueba manualmente en los tests.
 
 ### Gestión de persistencia con JPA ###
 
@@ -492,9 +486,9 @@ consultan explícitamente accediendo al atributo. Para que se traigan a
 memoria **la conexión con la base de datos debe estar abierta**. Una
 forma de hacerlo, la que usamos en la aplicación, es marcando el
 método que accede a las entidades con la anotación
-`@Transactional`. Las entidades que usemos en el código con esa
+`@Transactional`. Las entidades que usemos en los métodos con esa
 anotación estarán conectadas a la base de datos y podremos recuperar
-sus relaciones _lazy_. Una terminada la transacción, por ejemplo fuera
+sus relaciones _lazy_. Una vez terminada la transacción, por ejemplo fuera
 del método anotado con `@Transactional`, si intentamos acceder a una
 relación _lazy_ sin haberla inicializado se producirá un error.
 
@@ -502,9 +496,9 @@ En la práctica 3 definiremos una relación _lazy_ y explicaremos cómo
 gestionarla en la capa de servicios. En esta práctica, sin embargo,
 usaremos relaciones de tipo _EAGER_.
 
-En el caso de definir un relación entre entidades de tipo _EAGER_ JPA
-se traerá siempre a memoria todos los elementos cuando se recupere
-cualquier entidad. Es como hemos definido la relación entre un usuario
+En el caso de definir un relación entre entidades de tipo _EAGER_, JPA
+traerá siempre a memoria todos los elementos cuando se recupere
+cualquier entidad. Hemos definido de esta forma la relación entre un usuario
 y sus tareas. Por ejemplo, cuando se realice una búsqueda y se
 recupere un usuario, se recuperarán también automáticamente todas sus
 tareas y se inicializará en memoria la colección de tareas del usuario.
@@ -592,15 +586,11 @@ mostramos el método de servicio que modifica el título de una tarea:
 @Service
 public class TareaService {
 
+    @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
     private TareaRepository tareaRepository;
 
-    @Autowired
-    public TareaService(UsuarioRepository usuarioRepository, TareaRepository tareaRepository) {
-        this.usuarioRepository = usuarioRepository;
-        this.tareaRepository = tareaRepository;
-    }
-    
     ...
     
     @Transactional
@@ -713,12 +703,8 @@ public class UsuarioService {
 
     public enum LoginStatus {LOGIN_OK, USER_NOT_FOUND, ERROR_PASSWORD}
 
-    private UsuarioRepository usuarioRepository;
-
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
+    private UsuarioRepository usuarioRepository;
 
     @Transactional(readOnly = true)
     public LoginStatus login(String eMail, String password) {
@@ -1165,21 +1151,15 @@ INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
 INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
 ```
 
-Para los tests automáticos se cargan los datos definidos en el fichero
-`datos-tests.sql` usando la anotación `@Sql` en la clase de
-test. 
+En los tests automáticos se cargan los datos de prueba al comienzo de
+cada test y, usando la anotación `@Sql`, se limpian las tablas con el
+script `clean-db.sql`.
 
-**Fichero `src/test/resources/datos-test.sql`**:
-
-```sql
-INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'user@ua', 'UsuarioEjemplo', '123', '2001-02-10');
-INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
-INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI',
-'1');
+```java
+@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
+public class TareaTest {
+...
 ```
-
-Usando también esa anotación después de cada test se limpian las
-tablas con el script `clean-db.sql`.
 
 **Fichero `src/test/resources/clean-db.sql`**:
 
@@ -1468,11 +1448,10 @@ Se realizan distintos tipos de tests dentro de la misma clase:
   base de datos. Son lo que se denomina tests del modelo.
 - Pruebas sobre la capa _repository_, en las que se comprueban que las
   operaciones de búsqueda y actualización funcionan correctamente
-  sobre la base de datos.
-- Pruebas sobre la capa _repository_ en las que se necesitan realizar
-  más de una sentencia con la misma conexión a la base de datos o
-  acceder a atributos _lazy_. Para esto es necesario usar la anotación
-  `@Transactional`.
+  sobre la base de datos. En muchas de estas pruebas se necesita
+  realizar más de una sentencia con la misma conexión a la base de
+  datos o acceder a atributos _lazy_. Para esto es necesario usar la
+  anotación `@Transactional`.
 
 #### Tests de la capa de servicios ####
 
@@ -1675,8 +1654,8 @@ contiene alguna cadena que coincide con lo esperado.
 
 Existen dos enfoques a la hora de definir estos tests. 
 
-- Podemos, al igual que hemos hecho en los tests de servicio, usar los
-datos de la base de datos `datos-test.sal`. 
+- Podemos, al igual que hemos hecho en los tests de servicio,
+  introducir los datos de prueba al comienzo de cada test.
 - Podemos _mockear_ los servicios para que devuelvan los datos que nos
   interesan.
 
@@ -2181,7 +2160,7 @@ en el propio `README.md` del proyecto) hay que escribirla en
 dominar. Si no has trabajado todavía con él puedes leer estas [guías
 de GitHub](https://help.github.com/categories/writing-on-github/).
 
-!!! Note
+!!! Note "Nota"
     Existen herramientas y servicios más avanzados para gestionar
     todos estos elementos del desarrollo. Por ejemplo
     [Jira](https://www.atlassian.com/software/jira),
@@ -2644,9 +2623,7 @@ introducen todos los commits de la rama:
 
 Pulsa después el botón _Create pull request_ para crear el pull request.
 
-Escribe como título del PR: `Añadida página 'Acerca de'` y 
-
-En el comentario escribe:
+Escribe como título del PR: `Añadida página 'Acerca de'` y en el comentario escribe:
 
 ```text
 Closes #1
@@ -2776,8 +2753,8 @@ podemos confirmar la mezcla del PR en GitHub.
 
 -->
 
-Pulsa el botón de `Merge pull
-request` (con la opción por defecto `Create a merge commit`) y confírmalo.
+Pulsa el botón de `Merge pull request` (con la opción por defecto
+`Create a merge commit`) y confírmalo. 
 
 <img src="./imagenes/merge-pull-request.png" width="600px"/>
 
@@ -2870,8 +2847,7 @@ Añadimos el commit y lo subimos a GitHub
 (main) $ git push
 ```
 
-Y creamos la versión 1.0.1 en GitHub pulsando en el enlace `Create a
-new release` en la página principal:
+Y creamos la versión 1.0.1 en GitHub pulsando en el enlace `Create a new release` en la página principal: 
 
 <img src="./imagenes/release-practica1.png" width="700px"/>
 
@@ -2939,8 +2915,8 @@ código necesario en cada una de las capas de la aplicación:
 - Métodos necesarios en la capa de servicio y de repository
   
 En cada característica deberás también incluir **tests** que prueben los
-nuevos métodos añadidos en la capa de servicio. En alguna de las
-características deberás también realizar algún test de la vista.
+nuevos métodos añadidos en la capa de servicio, así como los nuevos
+controllers y vistas añadidos.
 
 #### Barra de menú ####
 
@@ -2948,7 +2924,7 @@ características deberás también realizar algún test de la vista.
   páginas, menos en las páginas de login y registro.
 
 - La barra de menú estará situada en la parte superior de la página y
-será un [Navbar](https://getbootstrap.com/docs/4.0/components/navbar/).
+será un [Navbar](https://getbootstrap.com/docs/4.0/components/navbar/)
 de Bootstrap.
 
 - La barra de menú tendrá como mínimo los siguientes elementos (de izquierda a derecha):
@@ -2967,15 +2943,14 @@ de Bootstrap.
 
 #### Listado de usuarios ####
 
-- Si se introduce la URL `/usuarios` aparecerá un listado de los
+- Si se introduce la URL `/registrados` aparecerá un listado de los
   usuarios registrados (identificador y correo electrónico).
 
 #### Descripción de usuario ####
 
 - En la lista de usuarios habrá un enlace para acceder a su descripción.
 - En la descripción de un usuario aparecerán todos sus datos, menos la contraseña.
-- La ruta para obtener la descripción de un usuario será
-`/usuarios/:id`. 
+- La ruta para obtener la descripción de un usuario registrado será `/registrados/:id`. 
 
 #### Usuario administrador (opcional) ####
 
