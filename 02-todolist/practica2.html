@@ -667,8 +667,6 @@ práctica 1. Entre otros, tiene los siguientes elementos:</p>
 <li>Las clases de servicio y de <em>repository</em> se obtienen por inyección
   de dependencias.</li>
 <li>Gran número de tests que prueban la capa de servicios y la de presentación.</li>
-<li>Distintos ficheros de configuración para poder arrancar la
-  aplicación en distintos entornos: desarrollo y prueba.</li>
 </ul>
 <p>Vamos a ver con un poco más de detalle dónde puedes encontrar en el
 código todos estos elementos.</p>
@@ -726,10 +724,7 @@ la aplicación y la volvamos a reiniciar sólo estarán los datos
 iniciales, los datos que se cargan del fichero <code>data.sql</code>.</p>
 <p>En la práctica 3 utilizaremos una base de datos real, que deberemos
 gestionar también en producción. En concreto, se tratará de una base
-de datos PostgresSQL. Crearemos una configuración de producción en
-la que se deshabilitará la creación automática del esquema de
-datos y deberemos gestionarlo manualmente con un ficheros SQL de
-inicialización y migración de la base de datos.</p>
+de datos PostgresSQL.</p>
 </div>
 <p>Por último, el parámetro <code>spring.jpa.open-in-view=false</code> deshabilita
 una característica de Spring denominada <em>open in view</em> que mantiene
@@ -769,9 +764,8 @@ nombre de la fuente de datos, el modo del
 <code>spring.jpa.hibernate.ddl-auto</code>, que es <code>create</code> y el fichero de datos
 iniciales que se carga al ejecutar los tests.</p>
 <p>La otra diferencia importante es que evitamos que se carguen los datos
-poniendo el parámetro <code>spring.sql.init.mode</code> a <code>never</code>. Veremos que
-los datos de prueba de los tests se cargan desde los tests usando la
-anotación <code>@sql</code>.</p>
+poniendo el parámetro <code>spring.sql.init.mode</code> a <code>never</code>. Cargaremos los
+datos de prueba manualmente en los tests.</p>
 <h3 id="gestion-de-persistencia-con-jpa">Gestión de persistencia con JPA<a class="headerlink" href="#gestion-de-persistencia-con-jpa" title="Permanent link">&para;</a></h3>
 <p>Para la gestión de la persistencia de los datos en la aplicación
 Spring Boot usaremos <a href="https://docs.spring.io/spring-data/jpa/docs/2.6.x/reference/html/">Spring Data
@@ -1029,17 +1023,17 @@ consultan explícitamente accediendo al atributo. Para que se traigan a
 memoria <strong>la conexión con la base de datos debe estar abierta</strong>. Una
 forma de hacerlo, la que usamos en la aplicación, es marcando el
 método que accede a las entidades con la anotación
-<code>@Transactional</code>. Las entidades que usemos en el código con esa
+<code>@Transactional</code>. Las entidades que usemos en los métodos con esa
 anotación estarán conectadas a la base de datos y podremos recuperar
-sus relaciones <em>lazy</em>. Una terminada la transacción, por ejemplo fuera
+sus relaciones <em>lazy</em>. Una vez terminada la transacción, por ejemplo fuera
 del método anotado con <code>@Transactional</code>, si intentamos acceder a una
 relación <em>lazy</em> sin haberla inicializado se producirá un error.</p>
 <p>En la práctica 3 definiremos una relación <em>lazy</em> y explicaremos cómo
 gestionarla en la capa de servicios. En esta práctica, sin embargo,
 usaremos relaciones de tipo <em>EAGER</em>.</p>
-<p>En el caso de definir un relación entre entidades de tipo <em>EAGER</em> JPA
-se traerá siempre a memoria todos los elementos cuando se recupere
-cualquier entidad. Es como hemos definido la relación entre un usuario
+<p>En el caso de definir un relación entre entidades de tipo <em>EAGER</em>, JPA
+traerá siempre a memoria todos los elementos cuando se recupere
+cualquier entidad. Hemos definido de esta forma la relación entre un usuario
 y sus tareas. Por ejemplo, cuando se realice una búsqueda y se
 recupere un usuario, se recuperarán también automáticamente todas sus
 tareas y se inicializará en memoria la colección de tareas del usuario.</p>
@@ -1113,14 +1107,10 @@ mostramos el método de servicio que modifica el título de una tarea:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaService</span> <span class="p">{</span>
 
-    <span class="kd">private</span> <span class="n">UsuarioRepository</span> <span class="n">usuarioRepository</span><span class="p">;</span>
-    <span class="kd">private</span> <span class="n">TareaRepository</span> <span class="n">tareaRepository</span><span class="p">;</span>
-
     <span class="nd">@Autowired</span>
-    <span class="kd">public</span> <span class="nf">TareaService</span><span class="p">(</span><span class="n">UsuarioRepository</span> <span class="n">usuarioRepository</span><span class="p">,</span> <span class="n">TareaRepository</span> <span class="n">tareaRepository</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="na">usuarioRepository</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="na">tareaRepository</span> <span class="o">=</span> <span class="n">tareaRepository</span><span class="p">;</span>
-    <span class="p">}</span>
+    <span class="kd">private</span> <span class="n">UsuarioRepository</span> <span class="n">usuarioRepository</span><span class="p">;</span>
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">TareaRepository</span> <span class="n">tareaRepository</span><span class="p">;</span>
 
     <span class="p">...</span>
 
@@ -1214,12 +1204,8 @@ continuación.</p>
 
     <span class="kd">public</span> <span class="kd">enum</span> <span class="n">LoginStatus</span> <span class="p">{</span><span class="n">LOGIN_OK</span><span class="p">,</span> <span class="n">USER_NOT_FOUND</span><span class="p">,</span> <span class="n">ERROR_PASSWORD</span><span class="p">}</span>
 
-    <span class="kd">private</span> <span class="n">UsuarioRepository</span> <span class="n">usuarioRepository</span><span class="p">;</span>
-
     <span class="nd">@Autowired</span>
-    <span class="kd">public</span> <span class="nf">UsuarioService</span><span class="p">(</span><span class="n">UsuarioRepository</span> <span class="n">usuarioRepository</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="na">usuarioRepository</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">;</span>
-    <span class="p">}</span>
+    <span class="kd">private</span> <span class="n">UsuarioRepository</span> <span class="n">usuarioRepository</span><span class="p">;</span>
 
     <span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span>
     <span class="kd">public</span> <span class="n">LoginStatus</span> <span class="nf">login</span><span class="p">(</span><span class="n">String</span> <span class="n">eMail</span><span class="p">,</span> <span class="n">String</span> <span class="n">password</span><span class="p">)</span> <span class="p">{</span>
@@ -1618,17 +1604,13 @@ comenzar.</p>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
 </code></pre></div>
-<p>Para los tests automáticos se cargan los datos definidos en el fichero
-<code>datos-tests.sql</code> usando la anotación <code>@Sql</code> en la clase de
-test. </p>
-<p><strong>Fichero <code>src/test/resources/datos-test.sql</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;UsuarioEjemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span>
-<span class="s1">&#39;1&#39;</span><span class="p">);</span>
+<p>En los tests automáticos se cargan los datos de prueba al comienzo de
+cada test y, usando la anotación <code>@Sql</code>, se limpian las tablas con el
+script <code>clean-db.sql</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TareaTest</span> <span class="p">{</span>
+<span class="p">...</span>
 </code></pre></div>
-<p>Usando también esa anotación después de cada test se limpian las
-tablas con el script <code>clean-db.sql</code>.</p>
 <p><strong>Fichero <code>src/test/resources/clean-db.sql</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">tareas</span><span class="p">;</span>
 <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">usuarios</span><span class="p">;</span>
@@ -1906,11 +1888,10 @@ comprueban los resultados.</p>
   base de datos. Son lo que se denomina tests del modelo.</li>
 <li>Pruebas sobre la capa <em>repository</em>, en las que se comprueban que las
   operaciones de búsqueda y actualización funcionan correctamente
-  sobre la base de datos.</li>
-<li>Pruebas sobre la capa <em>repository</em> en las que se necesitan realizar
-  más de una sentencia con la misma conexión a la base de datos o
-  acceder a atributos <em>lazy</em>. Para esto es necesario usar la anotación
-  <code>@Transactional</code>.</li>
+  sobre la base de datos. En muchas de estas pruebas se necesita
+  realizar más de una sentencia con la misma conexión a la base de
+  datos o acceder a atributos <em>lazy</em>. Para esto es necesario usar la
+  anotación <code>@Transactional</code>.</li>
 </ul>
 <h4 id="tests-de-la-capa-de-servicios">Tests de la capa de servicios<a class="headerlink" href="#tests-de-la-capa-de-servicios" title="Permanent link">&para;</a></h4>
 <p>También se realizan tests sobre la capa de servicio: </p>
@@ -2101,8 +2082,8 @@ las tablas de la base de datos al final de cada test usando la anotación <code>
 contiene alguna cadena que coincide con lo esperado.</p>
 <p>Existen dos enfoques a la hora de definir estos tests. </p>
 <ul>
-<li>Podemos, al igual que hemos hecho en los tests de servicio, usar los
-datos de la base de datos <code>datos-test.sal</code>. </li>
+<li>Podemos, al igual que hemos hecho en los tests de servicio,
+  introducir los datos de prueba al comienzo de cada test.</li>
 <li>Podemos <em>mockear</em> los servicios para que devuelvan los datos que nos
   interesan.</li>
 </ul>
@@ -2579,7 +2560,7 @@ en el propio <code>README.md</code> del proyecto) hay que escribirla en
 dominar. Si no has trabajado todavía con él puedes leer estas <a href="https://help.github.com/categories/writing-on-github/">guías
 de GitHub</a>.</p>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
+<p class="admonition-title">Nota</p>
 <p>Existen herramientas y servicios más avanzados para gestionar
 todos estos elementos del desarrollo. Por ejemplo
 <a href="https://www.atlassian.com/software/jira">Jira</a>,
@@ -2932,8 +2913,7 @@ todos los cambios pulsando <code>Compare</code>.</p>
 introducen todos los commits de la rama:</p>
 <p><img src="./imagenes/compara-cambios-pr.png" width="700px"/></p>
 <p>Pulsa después el botón <em>Create pull request</em> para crear el pull request.</p>
-<p>Escribe como título del PR: <code>Añadida página 'Acerca de'</code> y </p>
-<p>En el comentario escribe:</p>
+<p>Escribe como título del PR: <code>Añadida página 'Acerca de'</code> y en el comentario escribe:</p>
 <div class="highlight"><pre><span></span><code>Closes #1
 </code></pre></div>
 <p>Verás que al escribir <code>#1</code> aparecerá el nombre del issue. Si escribes
@@ -3044,8 +3024,8 @@ podemos confirmar la mezcla del PR en GitHub.
 
 -->
 
-<p>Pulsa el botón de <code>Merge pull
-request</code> (con la opción por defecto <code>Create a merge commit</code>) y confírmalo.</p>
+<p>Pulsa el botón de <code>Merge pull request</code> (con la opción por defecto
+<code>Create a merge commit</code>) y confírmalo. </p>
 <p><img src="./imagenes/merge-pull-request.png" width="600px"/></p>
 <p>Borra la rama en GitHub, pulsando el botón correspondiente.</p>
 <p><img src="./imagenes/merge-pull-request-1.png" width="600px"/></p>
@@ -3109,8 +3089,7 @@ los ficheros <code>pom.xml</code> y <code>about.html</code></p>
 (main) $ git commit -m &quot;Cambio de versión a 1.0.1&quot;
 (main) $ git push
 </code></pre></div>
-<p>Y creamos la versión 1.0.1 en GitHub pulsando en el enlace <code>Create a
-new release</code> en la página principal:</p>
+<p>Y creamos la versión 1.0.1 en GitHub pulsando en el enlace <code>Create a new release</code> en la página principal: </p>
 <p><img src="./imagenes/release-practica1.png" width="700px"/></p>
 <p>Un release en GitHub se guarda como una una etiqueta Git, junto con
 información asociada. Se suelen indicar las nuevas features añadidas
@@ -3160,8 +3139,8 @@ código necesario en cada una de las capas de la aplicación:</p>
 <li>Métodos necesarios en la capa de servicio y de repository</li>
 </ul>
 <p>En cada característica deberás también incluir <strong>tests</strong> que prueben los
-nuevos métodos añadidos en la capa de servicio. En alguna de las
-características deberás también realizar algún test de la vista.</p>
+nuevos métodos añadidos en la capa de servicio, así como los nuevos
+controllers y vistas añadidos.</p>
 <h4 id="barra-de-menu">Barra de menú<a class="headerlink" href="#barra-de-menu" title="Permanent link">&para;</a></h4>
 <ul>
 <li>
@@ -3170,7 +3149,7 @@ características deberás también realizar algún test de la vista.</p>
 </li>
 <li>
 <p>La barra de menú estará situada en la parte superior de la página y
-será un <a href="https://getbootstrap.com/docs/4.0/components/navbar/">Navbar</a>.
+será un <a href="https://getbootstrap.com/docs/4.0/components/navbar/">Navbar</a>
 de Bootstrap.</p>
 </li>
 <li>
@@ -3196,15 +3175,14 @@ de Bootstrap.</p>
 </ul>
 <h4 id="listado-de-usuarios">Listado de usuarios<a class="headerlink" href="#listado-de-usuarios" title="Permanent link">&para;</a></h4>
 <ul>
-<li>Si se introduce la URL <code>/usuarios</code> aparecerá un listado de los
+<li>Si se introduce la URL <code>/registrados</code> aparecerá un listado de los
   usuarios registrados (identificador y correo electrónico).</li>
 </ul>
 <h4 id="descripcion-de-usuario">Descripción de usuario<a class="headerlink" href="#descripcion-de-usuario" title="Permanent link">&para;</a></h4>
 <ul>
 <li>En la lista de usuarios habrá un enlace para acceder a su descripción.</li>
 <li>En la descripción de un usuario aparecerán todos sus datos, menos la contraseña.</li>
-<li>La ruta para obtener la descripción de un usuario será
-<code>/usuarios/:id</code>. </li>
+<li>La ruta para obtener la descripción de un usuario registrado será <code>/registrados/:id</code>. </li>
 </ul>
 <h4 id="usuario-administrador-opcional">Usuario administrador (opcional)<a class="headerlink" href="#usuario-administrador-opcional" title="Permanent link">&para;</a></h4>
 <p>Al realizar el registro será posible darse de alta como usuario
