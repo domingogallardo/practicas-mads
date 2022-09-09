@@ -137,7 +137,7 @@ con la que trabaja la aplicación (la base de datos en memoria H2):
   los datos se carguen después de que Hibernate haya actualizado el
   esquema de datos. 
 
-Los datos se encuentran en el fichero `data.sql`:
+Los datos iniciales de la aplicación se encuentran en el fichero `data.sql`:
 
 
 **Fichero `/src/main/resources/data.sql`**:
