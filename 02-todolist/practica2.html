@@ -710,7 +710,7 @@ con la que trabaja la aplicación (la base de datos en memoria H2):</p>
   los datos se carguen después de que Hibernate haya actualizado el
   esquema de datos. </li>
 </ul>
-<p>Los datos se encuentran en el fichero <code>data.sql</code>:</p>
+<p>Los datos iniciales de la aplicación se encuentran en el fichero <code>data.sql</code>:</p>
 <p><strong>Fichero <code>/src/main/resources/data.sql</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="cm">/* Populate tables */</span>
 <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Usuario Ejemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
