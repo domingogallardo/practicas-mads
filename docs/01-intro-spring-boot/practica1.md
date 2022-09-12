@@ -552,10 +552,10 @@ aplicación.
 
 2. Conéctate al servidor con tu usuario y cambia tu contraseña. Por
    ejemplo, si tu usuario es `alu02` y la dirección IP del servidor es
-   `159.65.119.177`:
+   `160.66.120.177`:
 
     ```
-    $ ssh alu02@161.35.65.197
+    $ ssh alu02@160.66.120.177
     $ passwd
     ```
 3. Comprueba si alguien más está utilizando el servidor:

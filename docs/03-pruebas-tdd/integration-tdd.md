@@ -76,9 +76,9 @@ el _merge_ del PR en main.
 Para configurar GitHub Actions basta con añadir un fichero de flujo de
 trabajo en el directorio `.github/workflows`.
 
-El fichero con el flujo de trabajo inicial lo llamaremos `tests.yml`:
+El fichero con el flujo de trabajo inicial lo llamaremos `developer-tests.yml`:
 
-**Fichero `.github/workflows/tests.yml`**
+**Fichero `.github/workflows/developer-tests.yml`**
 
 ```yml
 name: Tests
@@ -144,7 +144,7 @@ naranja significa que el proceso está en ejecución.
   Actions`. Abre una rama `integracion-continua-actions`, súbela a GitHub y abre un pull
   request.
 
-- Añade el fichero `.github/workflows/tests.yml`. Haz un
+- Añade el fichero `.github/workflows/developer-tests.yml`. Haz un
   commit y súbelo a GitHub.
 
 - Comprueba que se pasan los tests y que se marca como correcto el
@@ -169,13 +169,13 @@ naranja significa que el proceso está en ejecución.
 
 
 
-## 3. Configuración de la aplicación para usar una BD Postgres ##
+## 3. Configuración de la aplicación para usar una BD PostgreSQL ##
 
 Hasta ahora hemos trabajado con la aplicación en una configuración
 local con nuestro ordenador de desarrollo trabajando sobre una base de
 datos H2 en memoria. Pero el objetivo final es poner la aplicación en
 producción, en un servidor en Internet y usando una base de datos
-Postgres en producción. 
+PostgreSQL en producción. 
 
 Además, te habrás dado cuenta de que es muy engorroso probar la
 aplicación con la base de datos de memoria. Tienes que volver a
@@ -183,19 +183,19 @@ introducir todos los datos de prueba cada vez que paramos y ponemos en
 marcha la aplicación.
 
 En esta práctica vamos a ver cómo configurar la aplicación para poder
-trabajar con una base datos Postgres, tanto en su ejecución como en
+trabajar con una base datos PostgreSQL, tanto en su ejecución como en
 los tests.
 
 Para configurar la aplicación vamos a utilizar los denominados
 _perfiles_. Definiremos, además del perfil base, un perfil adicional
 para lanzar la aplicación y los tests usando la base de datos
-Postgres.
+PostgreSQL.
 
-La configuración de tests con base de datos Postgres la utilizaremos
-para ejecutar los tests de integración sobre la base de datos Postgres
+La configuración de tests con base de datos PostgreSQL la utilizaremos
+para ejecutar los tests de integración sobre la base de datos PostgreSQL
 en el proceso de integración continua de GitHub Actions.
 
-Para lanzar un servidor de base de datos Postgres usaremos Docker, de
+Para lanzar un servidor de base de datos PostgreSQL usaremos Docker, de
 forma que no tendremos que realizar ninguna instalación en nuestro
 ordenador.
 
@@ -221,48 +221,15 @@ configuración debe ser `application-xxx.properties` donde `xxx` define
 el nombre del perfil. En nuestro caso definiremos los ficheros
 `application-postgres.properties` (uno en el directorio `main` y otro
 en `test`) para definir las configuraciones de ejecución y de test con
-Postgres.
+PostgreSQL.
 
 Estos ficheros de configuración adicionales se cargan después de
 cargar la configuración por defecto definida en `application.properties`.
 
-### Cambios en los sentencias SQL de los datos iniciales ###
-
-Es posible que tengas que hacer algún cambio en las sentencias SQL del
-fichero `datos-test.sql` para adaptarlas a la nueva base de datos
-Postgres. No será necesario hacerlo en el fichero con datos iniciales
-`data.sql` porque cuando trabajemos la con base de datos real no
-vamos a cargar estos datos iniciales.
-
-Por ejemplo, un cambio que deberás hacer será eliminar las claves
-primarias de todos los registros, de forma que sea Postgres quien
-autogenere esas claves primarias. Por ejemplo, en el fichero
-`datos-tests.sql` en lugar de:
-
-```sql
-INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
-INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
-INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
-```
-
-las nuevas sentencias deben ser:
-
-```sql
-INSERT INTO usuarios (email, nombre, password, fecha_nacimiento) VALUES('user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
-INSERT INTO tareas (titulo, usuario_id) VALUES('Lavar coche', '1');
-INSERT INTO tareas (titulo, usuario_id) VALUES('Renovar DNI', '1');
-```
-
-Si no se hace esto surgen problemas en los tests, porque Postgres no
-actualiza el índice de clave primaria y los nuevos registros que se
-crean en algunos tests entran en conflicto con claves primarias
-idénticas ya existentes.
-
-
 ### Pasos a seguir ###
 
 1. Crea un nuevo _issue_ llamado `Añadir perfiles y permitir trabajar
-  con Postgres`. Crea una rama nueva (llámala `perfiles`, por ejemplo) y
+  con PostgreSQL`. Crea una rama nueva (llámala `perfiles`, por ejemplo) y
   abre un pull request. 
   
     ```
@@ -277,11 +244,10 @@ idénticas ya existentes.
     spring.datasource.username=mads
     spring.datasource.password=mads
     spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-    spring.datasource.initialization-mode=never
     ```
 
     Este va a ser el perfil que activemos para utilizar la conexión
-    con la BD Postgres.
+    con la BD PostgreSQL.
     
     En este fichero de configuración se define la URL de conexión a la
     base de datos `mads`, su usuario (`mads`) y contraseña (`mads`) y
@@ -290,7 +256,7 @@ idénticas ya existentes.
    
     La propiedad `spring.datasource.initialization-mode=never` indica
     que no se debe cargar ningún fichero de datos inicial. Por esto,
-    el fichero `datos-dev.sql` no se va a cargar en la base de datos,
+    el fichero `data.sql` no se va a cargar en la base de datos,
     deberás registrar un usuario inicial para poder probar la
     aplicación. La ventaja es que al trabajar con la base de datos
     real todos los datos van a quedar grabados aunque se pare la
@@ -349,7 +315,7 @@ idénticas ya existentes.
                 </plugin>
     ```
 
-5. Para lanzar la aplicación necesitarás un servidor Postgres en el
+5. Para lanzar la aplicación necesitarás un servidor PostgreSQL en el
    puerto 5432 con el usuario `mads`, la contraseña `mads` y la base
    de datos `mads`. Es muy sencillo descargarlo y ejecutarlo si tienes
    instalado Docker. Ejecuta desde el terminal:
@@ -400,7 +366,7 @@ idénticas ya existentes.
     Para lanzar la aplicación desde _IntelliJ_ trabajando con el nuevo
     perfil podemos seleccionar la opción `Edit Configurations...` del
     menú de configuraciones, duplicar la configuración `Application`,
-    renombrándola por `Application Postgres` y añadir en el campo
+    renombrándola por `Application PostgreSQL` y añadir en el campo
     `Active profiles` el nombre del perfil nuevo que acabamos de crear
     `postgres`.
 
@@ -412,7 +378,7 @@ idénticas ya existentes.
     datos, sólo al borrarlo.
 
 8. Cierra la aplicación. Paramos el contenedor con la base de datos de
-   desarrollo haciendo `docker container stop`:
+   desarrollo haciendo `docker container stop postgres-develop`:
 
     ```
     $ docker container ls -a 
@@ -425,48 +391,29 @@ idénticas ya existentes.
     contenedores usando la aplicación _Docker Desktop_ que se
     encuentra en la propia instalación de Docker.
 
-9. Vamos ahora a preparar los tests para que se puedan lanzar con
-   Postgres. Serán tests de integración que trabajarán con la base de
-   datos real y, por tanto, su ejecución será más lenta que cuando los
-   lanzamos con la base de datos de memoria H2.
-
-    Modifica el fichero de datos `datos-test.sql` para eliminar la
-    creación explícita de las claves primarias y que sea el propio
-    Postgres el que las asigne:
-   
-    ```sql
-    INSERT INTO usuarios (email, nombre, password, fecha_nacimiento) VALUES('user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
-    INSERT INTO tareas (titulo, usuario_id) VALUES('Lavar coche', '1');
-    INSERT INTO tareas (titulo, usuario_id) VALUES('Renovar DNI', '1');
-    ```
-
-10. Lanzamos ahora otro contenedor con la base de datos de test (`mads_test`):
+9. Vamos ahora a ver cómo lanzar los tests sobre una base de datos
+   PostgreSQL. Lanzamos ahora otro contenedor con la base de datos de test (`mads_test`):
 
     ```
     docker run -d -p 5432:5432 --name postgres-test -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads_test postgres:13
     ```
 
-    Y lanzamos los tests usando el perfil `postgres` con la base de datos Postgres con el siguiente comando:
+    Y lanzamos los tests usando el perfil `postgres` con la base de datos PostgreSQL con el siguiente comando:
   
       ```
       ./mvnw -D spring.profiles.active=postgres test
       ```
   
-    Nos conectamos con el panel `Database` de _IntelliJ_ a la base de datos `mads_test`
-    y comprobamos que los datos que hay en la base de datos
-    corresponden con los introducidos en el fichero `datos-test.sql`
-    que se cargan antes de ejecutar los tests.
-
-11. Podemos lanzar también los tests desde _IntelliJ_ editando la
+10. Podemos lanzar también los tests desde _IntelliJ_ editando la
     configuración de lanzamiento de test y añadiendo la variable de
     entorno `spring.profiles.active=postgres`. Podríamos, por ejemplo,
-    llamar a esta configuración `Tests con Postgres`.
+    llamar a esta configuración `Tests con PostgreSQL`.
 
-12. Dado que las configuraciones de test y de ejecución utilizan
+11. Dado que las configuraciones de test y de ejecución utilizan
     distintas bases de datos, debemos tener en funcionamiento la base
     de datos correspondiente a lo que queremos hacer en cada
     momento. Esto es muy fácil usando los contenedores de Docker. Por
-    ejemplo, podemos parar el contenedor Postgres con la base de datos
+    ejemplo, podemos parar el contenedor PostgreSQL con la base de datos
     de test y arrancar el contenedor con la base de datos de
     desarrollo:
   
@@ -476,12 +423,12 @@ idénticas ya existentes.
     $ docker container start postgres-develop
     ```
 
-13. Realiza un commit con los cambios, súbelos a la rama y cierra el
+12. Realiza un commit con los cambios, súbelos a la rama y cierra el
     pull request para integrarlo en `main`:
   
       ```
       $ (perfiles) git add .
-      $ (perfiles) git commit -m "Añadidos perfiles para trabajar con Postgres"
+      $ (perfiles) git commit -m "Añadidos perfiles para trabajar con PostgreSQL"
       $ (perfiles) git push
       // Mezclamos el Pull Request en GitHub
       $ (perfiles) git checkout main
@@ -494,7 +441,7 @@ idénticas ya existentes.
 
 Vamos a modificar la configuración de GitHub Actions para conseguir un
 sistema de integración continua que ejecute los tests de integración
-usando la base de datos real Postgres.
+usando la base de datos real PostgreSQL.
 
 La ejecución de los tests usando la base de datos de memoria H2 será
 responsabilidad del desarrollador y se hará en el entorno de trabajo
@@ -519,7 +466,7 @@ configuración adicional (poner en marcha la base de datos de test en
 nuestro caso) y se ejecutan menos frecuentemente.
 
 Vamos a actualizar GitHub Actions para que se lancen allí los tests
-usando la base de datos Postgres. De esta forma nosotros lanzaremos en
+usando la base de datos PostgreSQL. De esta forma nosotros lanzaremos en
 local los tests que usan la BD de memoria y los tests de integración
 se lanzarán en GitHub cada vez que vaya a mezclarse un pull request.
 
@@ -527,11 +474,11 @@ se lanzarán en GitHub cada vez que vaya a mezclarse un pull request.
 
 Para lanzar los tests de integración en GitHub debemos modificar el
 fichero de configuración del flujo de trabajo para que lance un
-contenedor de Postgres y después se ejecuten los tests sobre ese
+contenedor de PostgreSQL y después se ejecuten los tests sobre ese
 contenedor.
 
 Para tener más flexibilidad en la configuración de la conexión con
-Postgres vamos a modificar el perfil de Spring Boot, añadiendo unas
+PostgreSQL vamos a modificar el perfil de Spring Boot, añadiendo unas
 variables con unos valores por defecto que se pueden modificar
 definiendo su valor en variables de entorno con el mismo nombre.
 
@@ -551,9 +498,9 @@ spring.datasource.password=${DB_PASSWD}
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
 ```
 
-Ya podemos modificar el fichero del flujo de trabajo de la acción:
+Ya podemos añadir un nuevo fichero de flujo de trabajo. Lo llamamos `integration-tests.yml`
 
-**Fichero `.github/workflows/tests.yml`**:
+**Fichero `.github/workflows/integration-tests.yml`**:
 
 ```yml
 name: Integration tests
@@ -569,7 +516,7 @@ jobs:
       postgres:
         # Imagen Docker Hub
         image: postgres:13
-        # Variables para arrancar Postgres
+        # Variables para arrancar PostgreSQL
         env:
           POSTGRES_USER: mads
           POSTGRES_PASSWORD: mads
@@ -644,7 +591,7 @@ Actions`. Crea la rama `integracion-gh-actions`.
     $ git push
     ```
 
-6. Modifica el fichero del flujo de trabajo de la acción de GitHub,
+6. Añade el fichero del flujo de trabajo de la acción de GitHub,
    tal y como se indica anteriormente. Haz un commit, súbelo a GitHub
    y comprueba que los tests pasan correctamente y se lanzan allí
    usando la base de datos postgres.
@@ -664,7 +611,7 @@ Actions`. Crea la rama `integracion-gh-actions`.
    
 8. Con esto ya tenemos completado un sistema de integración continua y
    GitHub se encargará de ejecutar todos los tests en un modo de
-   integración, usando la base de datos Postgres.
+   integración, usando la base de datos PostgreSQL.
 
 
 ## 5. TDD ##
@@ -763,7 +710,6 @@ Este primer _issue_ lo haremos de forma guiada usando TDD con los
 tests que enumeraremos a continuación. El otro _issue_ lo deberás
 implementar por ti mismo. 
 
-
 #### Primer commit - Test y código Entidad `Equipo` ####
 
 El primer test es para crear la entidad `Equipo`. Por ahora sólo
@@ -776,6 +722,7 @@ package madstodolist;
 // imports
 
 @SpringBootTest
+@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
 public class EquipoTest {
 
     @Test
@@ -798,10 +745,11 @@ en la que podamos guardar entidades `equipo`.
 
 Para comprobar que la entidad se ha guardado correctamente,
 comprobaremos se ha actualizando su identificador. Lo hacemos
-añadiendo el siguiente test:
+añadiendo test `grabarEquipo`. Actualizamos también el fichero
+`clean-db.sql` para que se borre la tabla `equipos` al final de cada
+test. 
 
 ```java
-
     @Autowired
     private EquipoRepository equipoRepository;
 
@@ -817,6 +765,14 @@ añadiendo el siguiente test:
         // THEN
         assertThat(equipo.getId()).isNotNull();
     }
+```
+
+**Fichero `src/test/resources/clean-db.sql`**:
+
+```sql
+DELETE FROM tareas;
+DELETE FROM equipos;
+DELETE FROM usuarios;
 ```
 
 Escribe el código necesario para se pase el test y haz un commit.
@@ -867,18 +823,10 @@ Puedes guiarte por la implementación de `equals` y `hashCode` en
 
 Escribe el código necesario para se pase el test y haz un commit.
 
-#### Cuarto test - Buscar equipo en base de datos ####
+#### Cuarto test - Añadir y buscar equipo en base de datos ####
 
-Escribimos ahora un test para recuperar equipos por su identificador
-de la base de datos. Añadimos un equipo a la tabla en el fichero
-`datos-test.sql` para poder comprobar que funciona correctamente.
-
-Añadimos en el fichero **`src/test/java/resources/datos-test.sql`**:
-
-```diff
-INSERT INTO tareas (titulo, usuario_id) VALUES('Renovar DNI', '1');
-+ INSERT INTO equipos (nombre) VALUES('Proyecto P1');
-```
+Escribimos ahora un test que pruebe los métodos de añadir y buscar un
+equipo de la clase repository.
 
 Test:
 
@@ -886,16 +834,19 @@ Test:
     @Test
     public void comprobarRecuperarEquipo() {
         // GIVEN
-        // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
+        // Un equipo en la base de datos
+        Equipo equipo = new Equipo("Proyecto Cobalto");
+        equipoRepository.save(equipo);
+        Long equipoId = equipo.getId();
 
         // WHEN
 
-        Equipo equipo = equipoRepository.findById(1L).orElse(null);
+        Equipo equipoBD = equipoRepository.findById(equipoId).orElse(null);
 
         // THEN
         assertThat(equipo).isNotNull();
-        assertThat(equipo.getId()).isEqualTo(1L);
-        assertThat(equipo.getNombre()).isEqualTo("Proyecto P1");
+        assertThat(equipo.getId()).isEqualTo(equipoId);
+        assertThat(equipo.getNombre()).isEqualTo("Proyecto Cobalto");
     }
 ```
 
@@ -910,23 +861,9 @@ Vamos ahora a diseñar un test que introduzca la relación entre equipos
 y usuarios. Debe ser una relación muchos-a-muchos: un equipo contiene
 muchos usuarios y un usuario puede pertenecer a 0, 1 o muchos equipos.
 
-Para definir la relación, JPA utiliza una tabla (la llamamos
-`equipo_usuario`) en la que cada fila va a representar una relación de
-un usuario con un equipo. Las columnas definen las claves ajenas que
-contienen el identificador de equipo y el del usuario.
-
-Para definir el test, creamos una relación en la base de datos de
-prueba, en la que definimos que el equipo 1 tiene como usuario al
-usuario 1:
-
-```diff
-INSERT INTO tareas (titulo, usuario_id) VALUES('Renovar DNI', '1');
-INSERT INTO equipos (nombre) VALUES('1', 'Proyecto P1');
-+ INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES('1', '1');
-```
-
-Y comprobamos que se el usuario y equipo devuelto por cada clase
-_repository_ tienen actualizada esa relación:
+En el test hacemos varias cosas: creamos un equipo y un usuario,
+añadimos el usuario al equipo y comprobamos que las relaciones se han
+actualizado en la base de datos.
 
 ```java
     @Autowired
@@ -936,14 +873,26 @@ _repository_ tienen actualizada esa relación:
     @Transactional
     public void comprobarRelacionBaseDatos() {
         // GIVEN
-        // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
+        // Un equipo y un usuario en la BD
+        Equipo equipo = new Equipo("Proyecto Cobalto");
+        equipoRepository.save(equipo);
+        Long equipoId = equipo.getId();
+
+        Usuario usuario = new Usuario("user@ua");
+        usuarioRepository.save(usuario);
+        Long usuarioId = usuario.getId();
 
         // WHEN
-        Equipo equipo = equipoRepository.findById(1L).orElse(null);
-        Usuario usuario = usuarioRepository.findById(1L).orElse(null);
-        
+        // Añadimos el usuario al equipo
+
+        equipo.addUsuario(usuario);
+
         // THEN
-        
+        // La relación entre usuario y equipo queda actualizada en BD
+
+        Equipo equipoBD = equipoRepository.findById(equipoId).orElse(null);
+        Usuario usuarioBD = usuarioRepository.findById(usuarioId).orElse(null);
+
         assertThat(equipo.getUsuarios()).hasSize(1);
         assertThat(equipo.getUsuarios()).contains(usuario);
         assertThat(usuario.getEquipos()).hasSize(1);
@@ -955,12 +904,14 @@ _repository_ tienen actualizada esa relación:
 Para que este test funcione hay que crear la relación muchos-a-muchos
 entre equipos y usuarios.  Es necesario definir la anotación
 `@ManyToMany` para indicar a JPA cómo construir las tablas en la base
-de datos.
+de datos. Vamos a crear esta relación como `LAZY`, porque si fuera
+`EAGER` la recuperación de equipos de la base de datos sería muy
+costosa, traería a memoria todos sus usuarios (con sus tareas incluidas).
 
 En `Equipo.java` definimos la tabla en la que se va a guardar la
 relación, e indicamos el papel de cada una de sus dos columnas.
 
-También creamos el getter para obtener los usuarios.
+También creamos el getter para obtener los usuarios. 
 
 **Fichero `src/main/java/madstodolist/model/Equipo.java`**:
 ```diff
@@ -989,11 +940,19 @@ También creamos el getter para obtener los usuarios.
 +    public Set<Usuario> getUsuarios() {
 +        return usuarios;
 +    }
+
+...
++    public void addUsuario(Usuario usuario) {
++        this.getUsuarios().add(usuario);
++        usuario.getEquipos().add(this);
+`    }
 ```
 
 En el fichero `Usuario.java` definimos la parte inversa de la
 relación. El `mappedBy` indica que la especificación de la tabla join
-está en el otro lado de la relación.
+está en el otro lado de la relación. Esta relación la definimos como
+`EAGER` porque el otro lado de la relación es `LAZY`. Al recuperar un
+usuario solo se van a traer a memoria la información de sus equipos.
 
 **Fichero `src/main/java/madstodolist/model/Usuario.java`**:
 ```diff
@@ -1010,29 +969,43 @@ está en el otro lado de la relación.
 +    }
 ```
 
+Y por último añadimos en `Equipo.java` el método que actualiza la
+relación:
+
+```java
+    public void addUsuario(Usuario usuario) {
+        this.getUsuarios().add(usuario);
+        usuario.getEquipos().add(this);
+    }
+```
+
+Y actualizamos el fichero de limpieza de datos al final de cada test:
+
+**Fichero `src/test/resources/clean-db.sql`**:
+
+```sql
+DELETE FROM equipo_usuario;
+DELETE FROM tareas;
+DELETE FROM equipos;
+DELETE FROM usuarios;
+```
+
 Comprueba el test, haz un commit en la rama y súbelo a GitHub.
 
 #### Sexto test - listado de equipos ####
 
-Ya por fin tenemos todo lo necesario para definir un test para obtener
-una lista de equipos en el _repository_:
-
-Actualizamos la base de datos de prueba con otro equipo:
-
-```diff
-INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES('1', '1');
-+ INSERT INTO equipos (nombre) VALUES('Proyecto A1');
-```
-
-
-Y añadimos el test. Queremos que el tipo devuelto por el _repository_
+Vamos ahora a definir un test para obtener una lista de equipos en el
+_repository_. Queremos que el tipo devuelto por el _repository_
 sea _List_.
 
 ```java
     @Test
+    @Transactional
     public void comprobarFindAll() {
         // GIVEN
-        // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
+        // Dos equipos en la base de datos
+        equipoRepository.save(new Equipo("Proyecto Cobalto"));
+        equipoRepository.save(new Equipo("Proyecto Níquel"));
 
         // WHEN
         List<Equipo> equipos = equipoRepository.findAll();
@@ -1063,10 +1036,8 @@ public interface EquipoRepository extends CrudRepository<Equipo, Long> {
 
 ¡Y por fin llegamos a la capa de servicio!
 
-Creamos el test que nos obliga a codificar en esa capa el método que
-lista todos los equipos existentes. Lo llamamos
-`findAllOrderedByName()` para indicar que queremos que el resultado
-sea una lista ordenada por los nombres de los equipos.
+Creamos el fichero `EquipoServiceTest.java` con el código para añadir
+dos equipos de prueba y el test para recuperarlos ordenados por nombre:
 
 **Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
 
@@ -1076,29 +1047,43 @@ package madstodolist;
 // imports
 
 @SpringBootTest
+@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
 public class EquipoServiceTest {
 
-     @Autowired
-     EquipoService equipoService;
+    @Autowired
+    EquipoService equipoService;
 
-     @Test
-     public void obtenerListadoEquipos() {
-         // GIVEN
-         // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
+    // Añade dos equipos a la base de datos 
+    public void addEquiposBD() {
+        Equipo equipo1 = equipoService.crearEquipo("Proyecto Cobalto");
+        Equipo equipo2 = equipoService.crearEquipo("Proyecto Níquel");
+    }
+    
+    @Test
+    public void obtenerListadoEquipos() {
+        // GIVEN
+        // Dos equipos en la base de datos
+        addEquiposBD();
 
-         // WHEN
-         List<Equipo> equipos = equipoService.findAllOrderedByName();
+        // WHEN
+        List<Equipo> equipos = equipoService.findAllOrderedByName();
 
-         // THEN
-         assertThat(equipos).hasSize(2);
-         assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto A1");
-         assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto P1");
-     }
- }
+        // THEN
+        assertThat(equipos).hasSize(2);
+        assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto Cobalto");
+        assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto Níquel");
+    }
+}
 ```
 
 Escribe el código estríctamente necesario para que pase. Haz un commit
 en la rama y súbelo a GitHub.
+
+<!-- TODO: Ordenar los tests que siguen.. 
+
+- Primero debería añadirse un test para actualizar y recuperar la relación
+- Y después comprobar todo el tema de EAGER y LAZY
+--->
 
 #### Octavo test - Método de servicio para recuperar un equipo ####
 
@@ -1132,21 +1117,64 @@ En JPA hay dos formas de definir una relación a-muchos:
   _controller_ **estará desconectado de la base de datos**, por lo que
   la recuperación perezosa no funcionará en el _controller_.
 
-
-En el caso de la relación USUARIO-EQUIPO vamos a definir el siguiente
+En el caso de la relación USUARIO-EQUIPO hemos definido el siguiente
 diseño:
 
-- La relación entre un usuario y sus equipos será `EAGER`. Cuando
-  recuperemos un usuario, recuperaremos también la información de
+- La relación entre un usuario y sus equipos es `EAGER`. Cuando
+  recuperamos un usuario, recuperaremos también la información de
   todos los equipos en los que participa.
   
-- La relación entre un equipo y sus usuarios será `LAZY`. Esto es muy
+- La relación entre un equipo y sus usuarios es `LAZY`. Esto es muy
   importante. Si no lo hiciéramos así ¡podríamos fácilmente traernos a
   memoria toda la base de datos!. Un equipo recuperaría todos sus
   usuarios, que también pueden estar en otros equipos, que a su vez
   también se traerían a memoria. 
 
-Vamos entonces a definir un test que sirve para crear el método de
+Actualizamos el fichero de test para que el método `addEquiposBD`
+añada además un usuario al primer equipo y devuelva los
+identificadores de los dos equipos y del usuario:
+
+**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
+
+```java
+@SpringBootTest
+@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
+public class EquipoServiceTest {
+
+    @Autowired
+    EquipoService equipoService;
+
+    @Autowired
+    UsuarioService usuarioService;
+
+    class TresIds {
+        Long equipo1Id;
+        Long equipo2Id;
+        Long usuarioId;
+        TresIds(Long equipo1Id, Long equipo2Id, Long usuarioId) {
+            this.equipo1Id = equipo1Id;
+            this.equipo2Id = equipo2Id;
+            this.usuarioId = usuarioId;
+        }
+    }
+
+    // Añade dos equipos a la base de datos y un usuario en el primer equipo.
+    // Devuelve el identificador de los equipos y de los usuarios.
+    public TresIds addEquiposBD() {
+        Equipo equipo1 = equipoService.crearEquipo("Proyecto Cobalto");
+        Equipo equipo2 = equipoService.crearEquipo("Proyecto Níquel");
+        Usuario usuario = new Usuario("user@ua");
+        usuario.setPassword("123");
+        usuario = usuarioService.registrar(usuario);
+        equipoService.addUsuarioEquipo(usuario.getId(), equipo1.getId());
+        return new TresIds(equipo1.getId(), equipo2.getId(), usuario.getId());
+    }
+
+...
+}
+```
+
+Y definimos un test que sirve para crear el método de
 servicio que recupera un equipo y que se asegura de que la relación
 entre equipos y usuarios es `LAZY`.
 
@@ -1156,18 +1184,19 @@ entre equipos y usuarios es `LAZY`.
     @Test
     public void obtenerEquipo() {
         // GIVEN
-        // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
+        // Un equipo en la base de datos
+        Long equipoId = addEquiposBD().equipo1Id;
 
         // WHEN
-        Equipo equipo = equipoService.findById(1L);
+        Equipo equipoBD = equipoService.findById(equipoId);
 
         // THEN
-        assertThat(equipo.getNombre()).isEqualTo("Proyecto P1");
+        assertThat(equipoBD.getNombre()).isEqualTo("Proyecto Cobalto");
         // Comprobamos que la relación con Usuarios es lazy: al
         // intentar acceder a la colección de usuarios se debe lanzar una
-        // excepción de tipo LazyInitializationException.
+        // excepción
         assertThatThrownBy(() -> {
-            equipo.getUsuarios().size();
+            equipoBD.getUsuarios().size();
         }).isInstanceOf(LazyInitializationException.class);
     }
 ```
@@ -1186,14 +1215,17 @@ sus equipos:
     @Test
     public void comprobarRelacionUsuarioEquipos() {
         // GIVEN
-        // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
+        // Un equipo con un usuario en la BD
+        Long usuarioId = addEquiposBD().usuarioId;
 
         // WHEN
-        Usuario usuario = usuarioService.findById(1L);
+        // Recuperamos el usuario de la base de datos
+        Usuario usuarioBD = usuarioService.findById(usuarioId);
 
         // THEN
-
-        assertThat(usuario.getEquipos()).hasSize(1);
+        // Se recuperan también los equipos del usuario,
+        // porque la relación entre usuarios y equipos es EAGER
+        assertThat(usuarioBD.getEquipos()).hasSize(1);
     }
 ```
 
@@ -1211,25 +1243,26 @@ volvemos a comprobar que la relación entre usuarios y equipos es
 equipos a los que pertenece.
 
 ```java
-
     @Test
     public void obtenerUsuariosEquipo() {
         // GIVEN
-        // En el application.properties se cargan los datos de prueba del fichero datos-test.sql
+        // Un equipo con un usuario en la BD
+        Long equipoId = addEquiposBD().equipo1Id;
 
         // WHEN
-        List<Usuario> usuarios = equipoService.usuariosEquipo(1L);
+        // Recuperamos los usuarios del equipo
+        List<Usuario> usuarios = equipoService.usuariosEquipo(equipoId);
 
         // THEN
+        // Se actualizan correctamente las relaciones
         assertThat(usuarios).hasSize(1);
         assertThat(usuarios.get(0).getEmail()).isEqualTo("user@ua");
         // Comprobamos que la relación entre usuarios y equipos es eager
         // Primero comprobamos que la colección de equipos tiene 1 elemento
         assertThat(usuarios.get(0).getEquipos()).hasSize(1);
-        // Y después que el elemento es el equipo Proyecto P1
-        assertThat(usuarios.get(0).getEquipos().stream().findFirst().get().getNombre()).isEqualTo("Proyecto P1");
+        // Y después que el elemento es el equipo Proyecto Cobalto
+        assertThat(usuarios.get(0).getEquipos().stream().findFirst().get().getNombre()).isEqualTo("Proyecto Cobalto");
     }
-}
 ```
 
 Escribe el código necesario para que pase. Haz un commit en la rama y
@@ -1313,12 +1346,12 @@ estructura de la empresa.
 
 Deberás añadir una página de documentación `/doc/practica3.md` en la
 que, al igual que en la práctica anterior, debes realizar una **breve
-documentación técnica** de lo implementado en las historias de usuario
-009 y 010.
+documentación técnica** de entre 500 y 800 palabras sobre lo
+implementado en las historias de usuario 009 y 010.
 
 En la documentación debes incluir también una **captura de pantalla**
 en la que se muestren las tablas de la base de datos de desarrollo
-Postgres en la versión final de la aplicación. Puedes mostrar, por
+PostgreSQL en la versión final de la aplicación. Puedes mostrar, por
 ejempo, una pantalla con el panel `Database` de _IntelliJ_ o la
 herramienta que hayas utilizado. Basta solo con una captura de la base
 de datos de desarrollo, no hace falta mostrar la base de datos de
@@ -1327,7 +1360,7 @@ test.
 Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las **historias de usuario 009 y 010**.
 
-1. Pantalla de la base de datos Postgres.
+1. Pantalla de la base de datos PostgreSQL.
 2. Rutas (endpoints) definidas para las acciones y, para cada endpoint o grupo de endpoints,
    explicación sobre:
     1. Clases y métodos
