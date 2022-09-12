@@ -352,6 +352,10 @@ la desplegaremos en un _host_ para ponerla en producción.
    en el que podrás subir las imágenes de las máquinas Docker que
    construyas. Deberás dar un nombre de usuario que será el que
    utilizarás para publicar estas imágenes.
+   
+   **IMPORTANTE**: Escribe un enlace a tu cuenta de usuario de Docker
+   en el fichero `README.md` del repositorio de GitHub. De esta forma
+   podré consultar y descargar las imágenes que publiques en Docker Hub.
 
 3. Crea un fichero llamado `Dockerfile` (sin extensión) en el
   directorio raíz de la aplicación con el siguiente contenido:
@@ -550,14 +554,15 @@ aplicación.
 1. Consulta en el foro de Moodle la dirección IP del servidor linux de
    la asignatura y tu usuario.
 
-2. Conéctate al servidor con tu usuario y cambia tu contraseña. Por
-   ejemplo, si tu usuario es `alu02` y la dirección IP del servidor es
-   `160.66.120.177`:
+2. Conéctate al servidor con tu usuario con la contreseña `mads22` y
+   cambia tu contraseña. Por ejemplo, si tu usuario es `alu02` y la
+   dirección IP del servidor es `160.66.120.177`:
 
     ```
     $ ssh alu02@160.66.120.177
     $ passwd
     ```
+
 3. Comprueba si alguien más está utilizando el servidor:
 
     ```
