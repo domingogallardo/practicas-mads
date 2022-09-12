@@ -810,6 +810,11 @@ la desplegaremos en un <em>host</em> para ponerla en producción.</p>
    construyas. Deberás dar un nombre de usuario que será el que
    utilizarás para publicar estas imágenes.</p>
 </li>
+</ol>
+<p><strong>IMPORTANTE</strong>: Escribe un enlace a tu cuenta de usuario de Docker
+   en el fichero <code>README.md</code> del repositorio de GitHub. De esta forma
+   podré consultar y descargar las imágenes que publiques en Docker Hub.</p>
+<ol start="3">
 <li>
 <p>Crea un fichero llamado <code>Dockerfile</code> (sin extensión) en el
   directorio raíz de la aplicación con el siguiente contenido:</p>
@@ -977,13 +982,15 @@ aplicación.</p>
    la asignatura y tu usuario.</p>
 </li>
 <li>
-<p>Conéctate al servidor con tu usuario y cambia tu contraseña. Por
-   ejemplo, si tu usuario es <code>alu02</code> y la dirección IP del servidor es
-   <code>160.66.120.177</code>:</p>
-<p><div class="highlight"><pre><span></span><code>$ ssh alu02@160.66.120.177
+<p>Conéctate al servidor con tu usuario con la contreseña <code>mads22</code> y
+   cambia tu contraseña. Por ejemplo, si tu usuario es <code>alu02</code> y la
+   dirección IP del servidor es <code>160.66.120.177</code>:</p>
+<div class="highlight"><pre><span></span><code>$ ssh alu02@160.66.120.177
 $ passwd
 </code></pre></div>
-3. Comprueba si alguien más está utilizando el servidor:</p>
+</li>
+<li>
+<p>Comprueba si alguien más está utilizando el servidor:</p>
 <div class="highlight"><pre><span></span><code>$ who
 alu02    pts/1        2021-08-11 07:01 (80.29.50.137)
 </code></pre></div>
