@@ -331,23 +331,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-configuracion-de-la-aplicacion-para-usar-una-bd-postgres" class="md-nav__link">
-    3. Configuración de la aplicación para usar una BD Postgres
+  <a href="#3-configuracion-de-la-aplicacion-para-usar-una-bd-postgresql" class="md-nav__link">
+    3. Configuración de la aplicación para usar una BD PostgreSQL
   </a>
   
-    <nav class="md-nav" aria-label="3. Configuración de la aplicación para usar una BD Postgres">
+    <nav class="md-nav" aria-label="3. Configuración de la aplicación para usar una BD PostgreSQL">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#ficheros-de-configuracion-de-la-aplicacion" class="md-nav__link">
     Ficheros de configuración de la aplicación
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cambios-en-los-sentencias-sql-de-los-datos-iniciales" class="md-nav__link">
-    Cambios en los sentencias SQL de los datos iniciales
   </a>
   
 </li>
@@ -521,8 +514,8 @@ el <em>merge</em> del PR en main.</p>
 <h3 id="el-fichero-de-configuracion">El fichero de configuración<a class="headerlink" href="#el-fichero-de-configuracion" title="Permanent link">&para;</a></h3>
 <p>Para configurar GitHub Actions basta con añadir un fichero de flujo de
 trabajo en el directorio <code>.github/workflows</code>.</p>
-<p>El fichero con el flujo de trabajo inicial lo llamaremos <code>tests.yml</code>:</p>
-<p><strong>Fichero <code>.github/workflows/tests.yml</code></strong></p>
+<p>El fichero con el flujo de trabajo inicial lo llamaremos <code>developer-tests.yml</code>:</p>
+<p><strong>Fichero <code>.github/workflows/developer-tests.yml</code></strong></p>
 <div class="highlight"><pre><span></span><code>name: Tests
 
 on: push
@@ -581,7 +574,7 @@ naranja significa que el proceso está en ejecución.</p>
   request.</p>
 </li>
 <li>
-<p>Añade el fichero <code>.github/workflows/tests.yml</code>. Haz un
+<p>Añade el fichero <code>.github/workflows/developer-tests.yml</code>. Haz un
   commit y súbelo a GitHub.</p>
 </li>
 <li>
@@ -606,27 +599,27 @@ $ (main) git remote prune origin
 </code></pre></div>
 </li>
 </ul>
-<h2 id="3-configuracion-de-la-aplicacion-para-usar-una-bd-postgres">3. Configuración de la aplicación para usar una BD Postgres<a class="headerlink" href="#3-configuracion-de-la-aplicacion-para-usar-una-bd-postgres" title="Permanent link">&para;</a></h2>
+<h2 id="3-configuracion-de-la-aplicacion-para-usar-una-bd-postgresql">3. Configuración de la aplicación para usar una BD PostgreSQL<a class="headerlink" href="#3-configuracion-de-la-aplicacion-para-usar-una-bd-postgresql" title="Permanent link">&para;</a></h2>
 <p>Hasta ahora hemos trabajado con la aplicación en una configuración
 local con nuestro ordenador de desarrollo trabajando sobre una base de
 datos H2 en memoria. Pero el objetivo final es poner la aplicación en
 producción, en un servidor en Internet y usando una base de datos
-Postgres en producción. </p>
+PostgreSQL en producción. </p>
 <p>Además, te habrás dado cuenta de que es muy engorroso probar la
 aplicación con la base de datos de memoria. Tienes que volver a
 introducir todos los datos de prueba cada vez que paramos y ponemos en
 marcha la aplicación.</p>
 <p>En esta práctica vamos a ver cómo configurar la aplicación para poder
-trabajar con una base datos Postgres, tanto en su ejecución como en
+trabajar con una base datos PostgreSQL, tanto en su ejecución como en
 los tests.</p>
 <p>Para configurar la aplicación vamos a utilizar los denominados
 <em>perfiles</em>. Definiremos, además del perfil base, un perfil adicional
 para lanzar la aplicación y los tests usando la base de datos
-Postgres.</p>
-<p>La configuración de tests con base de datos Postgres la utilizaremos
-para ejecutar los tests de integración sobre la base de datos Postgres
+PostgreSQL.</p>
+<p>La configuración de tests con base de datos PostgreSQL la utilizaremos
+para ejecutar los tests de integración sobre la base de datos PostgreSQL
 en el proceso de integración continua de GitHub Actions.</p>
-<p>Para lanzar un servidor de base de datos Postgres usaremos Docker, de
+<p>Para lanzar un servidor de base de datos PostgreSQL usaremos Docker, de
 forma que no tendremos que realizar ninguna instalación en nuestro
 ordenador.</p>
 <p><img src="imagenes/app-contenedor.png" width="500px" /></p>
@@ -647,37 +640,14 @@ configuración debe ser <code>application-xxx.properties</code> donde <code>xxx<
 el nombre del perfil. En nuestro caso definiremos los ficheros
 <code>application-postgres.properties</code> (uno en el directorio <code>main</code> y otro
 en <code>test</code>) para definir las configuraciones de ejecución y de test con
-Postgres.</p>
+PostgreSQL.</p>
 <p>Estos ficheros de configuración adicionales se cargan después de
 cargar la configuración por defecto definida en <code>application.properties</code>.</p>
-<h3 id="cambios-en-los-sentencias-sql-de-los-datos-iniciales">Cambios en los sentencias SQL de los datos iniciales<a class="headerlink" href="#cambios-en-los-sentencias-sql-de-los-datos-iniciales" title="Permanent link">&para;</a></h3>
-<p>Es posible que tengas que hacer algún cambio en las sentencias SQL del
-fichero <code>datos-test.sql</code> para adaptarlas a la nueva base de datos
-Postgres. No será necesario hacerlo en el fichero con datos iniciales
-<code>data.sql</code> porque cuando trabajemos la con base de datos real no
-vamos a cargar estos datos iniciales.</p>
-<p>Por ejemplo, un cambio que deberás hacer será eliminar las claves
-primarias de todos los registros, de forma que sea Postgres quien
-autogenere esas claves primarias. Por ejemplo, en el fichero
-<code>datos-tests.sql</code> en lugar de:</p>
-<div class="highlight"><pre><span></span><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Usuario Ejemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
-</code></pre></div>
-<p>las nuevas sentencias deben ser:</p>
-<div class="highlight"><pre><span></span><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Usuario Ejemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
-</code></pre></div>
-<p>Si no se hace esto surgen problemas en los tests, porque Postgres no
-actualiza el índice de clave primaria y los nuevos registros que se
-crean en algunos tests entran en conflicto con claves primarias
-idénticas ya existentes.</p>
 <h3 id="pasos-a-seguir_2">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_2" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
 <p>Crea un nuevo <em>issue</em> llamado <code>Añadir perfiles y permitir trabajar
-  con Postgres</code>. Crea una rama nueva (llámala <code>perfiles</code>, por ejemplo) y
+  con PostgreSQL</code>. Crea una rama nueva (llámala <code>perfiles</code>, por ejemplo) y
   abre un pull request. </p>
 <div class="highlight"><pre><span></span><code>$ (main) git checkout -b perfiles
 $ (perfiles) git push -u origin perfiles
@@ -689,17 +659,16 @@ $ (perfiles) git push -u origin perfiles
 spring.datasource.username=mads
 spring.datasource.password=mads
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-spring.datasource.initialization-mode=never
 </code></pre></div>
 <p>Este va a ser el perfil que activemos para utilizar la conexión
-con la BD Postgres.</p>
+con la BD PostgreSQL.</p>
 <p>En este fichero de configuración se define la URL de conexión a la
 base de datos <code>mads</code>, su usuario (<code>mads</code>) y contraseña (<code>mads</code>) y
 el dialecto que se va a utilizar para trabajar desde JPA con la
 base de datos (<code>org.hibernate.dialect.PostgreSQL9Dialect</code>).</p>
 <p>La propiedad <code>spring.datasource.initialization-mode=never</code> indica
 que no se debe cargar ningún fichero de datos inicial. Por esto,
-el fichero <code>datos-dev.sql</code> no se va a cargar en la base de datos,
+el fichero <code>data.sql</code> no se va a cargar en la base de datos,
 deberás registrar un usuario inicial para poder probar la
 aplicación. La ventaja es que al trabajar con la base de datos
 real todos los datos van a quedar grabados aunque se pare la
@@ -754,7 +723,7 @@ el perfil de ejecución.</p>
 </code></pre></div>
 </li>
 <li>
-<p>Para lanzar la aplicación necesitarás un servidor Postgres en el
+<p>Para lanzar la aplicación necesitarás un servidor PostgreSQL en el
    puerto 5432 con el usuario <code>mads</code>, la contraseña <code>mads</code> y la base
    de datos <code>mads</code>. Es muy sencillo descargarlo y ejecutarlo si tienes
    instalado Docker. Ejecuta desde el terminal:</p>
@@ -791,7 +760,7 @@ $ java -Dspring.profiles.active=postgres -jar target/*.jar
 <p>Para lanzar la aplicación desde <em>IntelliJ</em> trabajando con el nuevo
 perfil podemos seleccionar la opción <code>Edit Configurations...</code> del
 menú de configuraciones, duplicar la configuración <code>Application</code>,
-renombrándola por <code>Application Postgres</code> y añadir en el campo
+renombrándola por <code>Application PostgreSQL</code> y añadir en el campo
 <code>Active profiles</code> el nombre del perfil nuevo que acabamos de crear
 <code>postgres</code>.</p>
 </li>
@@ -804,7 +773,7 @@ datos, sólo al borrarlo.</p>
 </li>
 <li>
 <p>Cierra la aplicación. Paramos el contenedor con la base de datos de
-   desarrollo haciendo <code>docker container stop</code>:</p>
+   desarrollo haciendo <code>docker container stop postgres-develop</code>:</p>
 <div class="highlight"><pre><span></span><code>$ docker container ls -a 
 CONTAINER ID        IMAGE        ...    NAME
 520fee61d51e        posgres:13   ...    postgres-develop
@@ -815,42 +784,26 @@ contenedores usando la aplicación <em>Docker Desktop</em> que se
 encuentra en la propia instalación de Docker.</p>
 </li>
 <li>
-<p>Vamos ahora a preparar los tests para que se puedan lanzar con
-   Postgres. Serán tests de integración que trabajarán con la base de
-   datos real y, por tanto, su ejecución será más lenta que cuando los
-   lanzamos con la base de datos de memoria H2.</p>
-<p>Modifica el fichero de datos <code>datos-test.sql</code> para eliminar la
-creación explícita de las claves primarias y que sea el propio
-Postgres el que las asigne:</p>
-<div class="highlight"><pre><span></span><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">usuarios</span> <span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">fecha_nacimiento</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;user@ua&#39;</span><span class="p">,</span> <span class="s1">&#39;Usuario Ejemplo&#39;</span><span class="p">,</span> <span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;2001-02-10&#39;</span><span class="p">);</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;Lavar coche&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">tareas</span> <span class="p">(</span><span class="n">titulo</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;Renovar DNI&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">);</span>
-</code></pre></div>
-</li>
-<li>
-<p>Lanzamos ahora otro contenedor con la base de datos de test (<code>mads_test</code>):</p>
+<p>Vamos ahora a ver cómo lanzar los tests sobre una base de datos
+   PostgreSQL. Lanzamos ahora otro contenedor con la base de datos de test (<code>mads_test</code>):</p>
 <div class="highlight"><pre><span></span><code>docker run -d -p 5432:5432 --name postgres-test -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads_test postgres:13
 </code></pre></div>
-<p>Y lanzamos los tests usando el perfil <code>postgres</code> con la base de datos Postgres con el siguiente comando:</p>
+<p>Y lanzamos los tests usando el perfil <code>postgres</code> con la base de datos PostgreSQL con el siguiente comando:</p>
 <div class="highlight"><pre><span></span><code>./mvnw -D spring.profiles.active=postgres test
 </code></pre></div>
-<p>Nos conectamos con el panel <code>Database</code> de <em>IntelliJ</em> a la base de datos <code>mads_test</code>
-y comprobamos que los datos que hay en la base de datos
-corresponden con los introducidos en el fichero <code>datos-test.sql</code>
-que se cargan antes de ejecutar los tests.</p>
 </li>
 <li>
 <p>Podemos lanzar también los tests desde <em>IntelliJ</em> editando la
     configuración de lanzamiento de test y añadiendo la variable de
     entorno <code>spring.profiles.active=postgres</code>. Podríamos, por ejemplo,
-    llamar a esta configuración <code>Tests con Postgres</code>.</p>
+    llamar a esta configuración <code>Tests con PostgreSQL</code>.</p>
 </li>
 <li>
 <p>Dado que las configuraciones de test y de ejecución utilizan
     distintas bases de datos, debemos tener en funcionamiento la base
     de datos correspondiente a lo que queremos hacer en cada
     momento. Esto es muy fácil usando los contenedores de Docker. Por
-    ejemplo, podemos parar el contenedor Postgres con la base de datos
+    ejemplo, podemos parar el contenedor PostgreSQL con la base de datos
     de test y arrancar el contenedor con la base de datos de
     desarrollo:</p>
 <div class="highlight"><pre><span></span><code>$ docker container ls -a 
@@ -862,7 +815,7 @@ $ docker container start postgres-develop
 <p>Realiza un commit con los cambios, súbelos a la rama y cierra el
     pull request para integrarlo en <code>main</code>:</p>
 <div class="highlight"><pre><span></span><code>$ (perfiles) git add .
-$ (perfiles) git commit -m &quot;Añadidos perfiles para trabajar con Postgres&quot;
+$ (perfiles) git commit -m &quot;Añadidos perfiles para trabajar con PostgreSQL&quot;
 $ (perfiles) git push
 // Mezclamos el Pull Request en GitHub
 $ (perfiles) git checkout main
@@ -875,7 +828,7 @@ $ (main) git remote prune origin
 <h2 id="4-tests-de-integracion-en-github-actions">4. Tests de integración en GitHub Actions<a class="headerlink" href="#4-tests-de-integracion-en-github-actions" title="Permanent link">&para;</a></h2>
 <p>Vamos a modificar la configuración de GitHub Actions para conseguir un
 sistema de integración continua que ejecute los tests de integración
-usando la base de datos real Postgres.</p>
+usando la base de datos real PostgreSQL.</p>
 <p>La ejecución de los tests usando la base de datos de memoria H2 será
 responsabilidad del desarrollador y se hará en el entorno de trabajo
 local, tal y como se ha hecho desde la primera práctica.</p>
@@ -894,16 +847,16 @@ cada commit.</p>
 configuración adicional (poner en marcha la base de datos de test en
 nuestro caso) y se ejecutan menos frecuentemente.</p>
 <p>Vamos a actualizar GitHub Actions para que se lancen allí los tests
-usando la base de datos Postgres. De esta forma nosotros lanzaremos en
+usando la base de datos PostgreSQL. De esta forma nosotros lanzaremos en
 local los tests que usan la BD de memoria y los tests de integración
 se lanzarán en GitHub cada vez que vaya a mezclarse un pull request.</p>
 <h3 id="accion-para-lanzar-los-tests-con-la-bd-postgres">Acción para lanzar los tests con la BD postgres<a class="headerlink" href="#accion-para-lanzar-los-tests-con-la-bd-postgres" title="Permanent link">&para;</a></h3>
 <p>Para lanzar los tests de integración en GitHub debemos modificar el
 fichero de configuración del flujo de trabajo para que lance un
-contenedor de Postgres y después se ejecuten los tests sobre ese
+contenedor de PostgreSQL y después se ejecuten los tests sobre ese
 contenedor.</p>
 <p>Para tener más flexibilidad en la configuración de la conexión con
-Postgres vamos a modificar el perfil de Spring Boot, añadiendo unas
+PostgreSQL vamos a modificar el perfil de Spring Boot, añadiendo unas
 variables con unos valores por defecto que se pueden modificar
 definiendo su valor en variables de entorno con el mismo nombre.</p>
 <p>En concreto, definimos las variables <code>POSTGRES_HOST</code>, <code>POSTGRES_PORT</code>,
@@ -918,8 +871,8 @@ spring.datasource.username=${DB_USER}
 spring.datasource.password=${DB_PASSWD}
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
 </code></pre></div>
-<p>Ya podemos modificar el fichero del flujo de trabajo de la acción:</p>
-<p><strong>Fichero <code>.github/workflows/tests.yml</code></strong>:</p>
+<p>Ya podemos añadir un nuevo fichero de flujo de trabajo. Lo llamamos <code>integration-tests.yml</code></p>
+<p><strong>Fichero <code>.github/workflows/integration-tests.yml</code></strong>:</p>
 <div class="highlight"><pre><span></span><code>name: Integration tests
 
 on: push
@@ -933,7 +886,7 @@ jobs:
       postgres:
         # Imagen Docker Hub
         image: postgres:13
-        # Variables para arrancar Postgres
+        # Variables para arrancar PostgreSQL
         env:
           POSTGRES_USER: mads
           POSTGRES_PASSWORD: mads
@@ -1002,7 +955,7 @@ $ git push
 </code></pre></div>
 </li>
 <li>
-<p>Modifica el fichero del flujo de trabajo de la acción de GitHub,
+<p>Añade el fichero del flujo de trabajo de la acción de GitHub,
    tal y como se indica anteriormente. Haz un commit, súbelo a GitHub
    y comprueba que los tests pasan correctamente y se lanzan allí
    usando la base de datos postgres.</p>
@@ -1020,7 +973,7 @@ $ git push
 <li>
 <p>Con esto ya tenemos completado un sistema de integración continua y
    GitHub se encargará de ejecutar todos los tests en un modo de
-   integración, usando la base de datos Postgres.</p>
+   integración, usando la base de datos PostgreSQL.</p>
 </li>
 </ol>
 <h2 id="5-tdd">5. TDD<a class="headerlink" href="#5-tdd" title="Permanent link">&para;</a></h2>
@@ -1119,6 +1072,7 @@ creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 <span class="c1">// imports</span>
 
 <span class="nd">@SpringBootTest</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">EquipoTest</span> <span class="p">{</span>
 
     <span class="nd">@Test</span>
@@ -1137,7 +1091,9 @@ código de más, sólo el código mínimo para que el test pase</strong>. Haz un
 en la que podamos guardar entidades <code>equipo</code>.</p>
 <p>Para comprobar que la entidad se ha guardado correctamente,
 comprobaremos se ha actualizando su identificador. Lo hacemos
-añadiendo el siguiente test:</p>
+añadiendo test <code>grabarEquipo</code>. Actualizamos también el fichero
+<code>clean-db.sql</code> para que se borre la tabla <code>equipos</code> al final de cada
+test. </p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">EquipoRepository</span> <span class="n">equipoRepository</span><span class="p">;</span>
 
@@ -1153,6 +1109,11 @@ añadiendo el siguiente test:</p>
         <span class="c1">// THEN</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">isNotNull</span><span class="p">();</span>
     <span class="p">}</span>
+</code></pre></div>
+<p><strong>Fichero <code>src/test/resources/clean-db.sql</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">tareas</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">equipos</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">usuarios</span><span class="p">;</span>
 </code></pre></div>
 <p>Escribe el código necesario para se pase el test y haz un commit.</p>
 <h4 id="tercer-test-definicion-de-igualdad-entre-equipos">Tercer test - Definición de igualdad entre equipos<a class="headerlink" href="#tercer-test-definicion-de-igualdad-entre-equipos" title="Permanent link">&para;</a></h4>
@@ -1195,28 +1156,26 @@ deben comparar sus nombres. Ahora bien, si los dos equipos tienen
     <span class="p">}</span>
 </code></pre></div>
 <p>Escribe el código necesario para se pase el test y haz un commit.</p>
-<h4 id="cuarto-test-buscar-equipo-en-base-de-datos">Cuarto test - Buscar equipo en base de datos<a class="headerlink" href="#cuarto-test-buscar-equipo-en-base-de-datos" title="Permanent link">&para;</a></h4>
-<p>Escribimos ahora un test para recuperar equipos por su identificador
-de la base de datos. Añadimos un equipo a la tabla en el fichero
-<code>datos-test.sql</code> para poder comprobar que funciona correctamente.</p>
-<p>Añadimos en el fichero <strong><code>src/test/java/resources/datos-test.sql</code></strong>:</p>
-<div class="highlight"><pre><span></span><code>INSERT INTO tareas (titulo, usuario_id) VALUES(&#39;Renovar DNI&#39;, &#39;1&#39;);
-<span class="gi">+ INSERT INTO equipos (nombre) VALUES(&#39;Proyecto P1&#39;);</span>
-</code></pre></div>
+<h4 id="cuarto-test-anadir-y-buscar-equipo-en-base-de-datos">Cuarto test - Añadir y buscar equipo en base de datos<a class="headerlink" href="#cuarto-test-anadir-y-buscar-equipo-en-base-de-datos" title="Permanent link">&para;</a></h4>
+<p>Escribimos ahora un test que pruebe los métodos de añadir y buscar un
+equipo de la clase repository.</p>
 <p>Test:</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarRecuperarEquipo</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
+        <span class="c1">// Un equipo en la base de datos</span>
+        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">equipo</span><span class="p">);</span>
+        <span class="n">Long</span> <span class="n">equipoId</span> <span class="o">=</span> <span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
 
         <span class="c1">// WHEN</span>
 
-        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="n">equipoRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipoBD</span> <span class="o">=</span> <span class="n">equipoRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">equipoId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">equipoId</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 </code></pre></div>
 <p>Comprueba el test y si es necesario escribe el código estríctamente
@@ -1226,19 +1185,9 @@ necesario para que pase.</p>
 <p>Vamos ahora a diseñar un test que introduzca la relación entre equipos
 y usuarios. Debe ser una relación muchos-a-muchos: un equipo contiene
 muchos usuarios y un usuario puede pertenecer a 0, 1 o muchos equipos.</p>
-<p>Para definir la relación, JPA utiliza una tabla (la llamamos
-<code>equipo_usuario</code>) en la que cada fila va a representar una relación de
-un usuario con un equipo. Las columnas definen las claves ajenas que
-contienen el identificador de equipo y el del usuario.</p>
-<p>Para definir el test, creamos una relación en la base de datos de
-prueba, en la que definimos que el equipo 1 tiene como usuario al
-usuario 1:</p>
-<div class="highlight"><pre><span></span><code>INSERT INTO tareas (titulo, usuario_id) VALUES(&#39;Renovar DNI&#39;, &#39;1&#39;);
-INSERT INTO equipos (nombre) VALUES(&#39;1&#39;, &#39;Proyecto P1&#39;);
-<span class="gi">+ INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES(&#39;1&#39;, &#39;1&#39;);</span>
-</code></pre></div>
-<p>Y comprobamos que se el usuario y equipo devuelto por cada clase
-<em>repository</em> tienen actualizada esa relación:</p>
+<p>En el test hacemos varias cosas: creamos un equipo y un usuario,
+añadimos el usuario al equipo y comprobamos que las relaciones se han
+actualizado en la base de datos.</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">UsuarioRepository</span> <span class="n">usuarioRepository</span><span class="p">;</span>
 
@@ -1246,13 +1195,25 @@ INSERT INTO equipos (nombre) VALUES(&#39;1&#39;, &#39;Proyecto P1&#39;);
     <span class="nd">@Transactional</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarRelacionBaseDatos</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
+        <span class="c1">// Un equipo y un usuario en la BD</span>
+        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">equipo</span><span class="p">);</span>
+        <span class="n">Long</span> <span class="n">equipoId</span> <span class="o">=</span> <span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
+
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
 
         <span class="c1">// WHEN</span>
-        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="n">equipoRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
-        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="c1">// Añadimos el usuario al equipo</span>
+
+        <span class="n">equipo</span><span class="p">.</span><span class="na">addUsuario</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
+        <span class="c1">// La relación entre usuario y equipo queda actualizada en BD</span>
+
+        <span class="n">Equipo</span> <span class="n">equipoBD</span> <span class="o">=</span> <span class="n">equipoRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">equipoId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">Usuario</span> <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 
         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
@@ -1263,10 +1224,12 @@ INSERT INTO equipos (nombre) VALUES(&#39;1&#39;, &#39;Proyecto P1&#39;);
 <p>Para que este test funcione hay que crear la relación muchos-a-muchos
 entre equipos y usuarios.  Es necesario definir la anotación
 <code>@ManyToMany</code> para indicar a JPA cómo construir las tablas en la base
-de datos.</p>
+de datos. Vamos a crear esta relación como <code>LAZY</code>, porque si fuera
+<code>EAGER</code> la recuperación de equipos de la base de datos sería muy
+costosa, traería a memoria todos sus usuarios (con sus tareas incluidas).</p>
 <p>En <code>Equipo.java</code> definimos la tabla en la que se va a guardar la
 relación, e indicamos el papel de cada una de sus dos columnas.</p>
-<p>También creamos el getter para obtener los usuarios.</p>
+<p>También creamos el getter para obtener los usuarios. </p>
 <p><strong>Fichero <code>src/main/java/madstodolist/model/Equipo.java</code></strong>:
 <div class="highlight"><pre><span></span><code><span class="gi">+    private String nombre;</span>
 <span class="gi">+    // Declaramos el tipo de recuperación como LAZY.</span>
@@ -1293,10 +1256,18 @@ relación, e indicamos el papel de cada una de sus dos columnas.</p>
 <span class="gi">+    public Set&lt;Usuario&gt; getUsuarios() {</span>
 <span class="gi">+        return usuarios;</span>
 <span class="gi">+    }</span>
+
+...
+<span class="gi">+    public void addUsuario(Usuario usuario) {</span>
+<span class="gi">+        this.getUsuarios().add(usuario);</span>
+<span class="gi">+        usuario.getEquipos().add(this);</span>
+`    }
 </code></pre></div></p>
 <p>En el fichero <code>Usuario.java</code> definimos la parte inversa de la
 relación. El <code>mappedBy</code> indica que la especificación de la tabla join
-está en el otro lado de la relación.</p>
+está en el otro lado de la relación. Esta relación la definimos como
+<code>EAGER</code> porque el otro lado de la relación es <code>LAZY</code>. Al recuperar un
+usuario solo se van a traer a memoria la información de sus equipos.</p>
 <p><strong>Fichero <code>src/main/java/madstodolist/model/Usuario.java</code></strong>:
 <div class="highlight"><pre><span></span><code>    @OneToMany(mappedBy = &quot;usuario&quot;, fetch = FetchType.EAGER)
     Set&lt;Tarea&gt; tareas = new HashSet&lt;&gt;();
@@ -1310,20 +1281,32 @@ está en el otro lado de la relación.</p>
 <span class="gi">+        return equipos;</span>
 <span class="gi">+    }</span>
 </code></pre></div></p>
+<p>Y por último añadimos en <code>Equipo.java</code> el método que actualiza la
+relación:</p>
+<div class="highlight"><pre><span></span><code>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addUsuario</span><span class="p">(</span><span class="n">Usuario</span> <span class="n">usuario</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">getEquipos</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div>
+<p>Y actualizamos el fichero de limpieza de datos al final de cada test:</p>
+<p><strong>Fichero <code>src/test/resources/clean-db.sql</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">equipo_usuario</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">tareas</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">equipos</span><span class="p">;</span>
+<span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">usuarios</span><span class="p">;</span>
+</code></pre></div>
 <p>Comprueba el test, haz un commit en la rama y súbelo a GitHub.</p>
 <h4 id="sexto-test-listado-de-equipos">Sexto test - listado de equipos<a class="headerlink" href="#sexto-test-listado-de-equipos" title="Permanent link">&para;</a></h4>
-<p>Ya por fin tenemos todo lo necesario para definir un test para obtener
-una lista de equipos en el <em>repository</em>:</p>
-<p>Actualizamos la base de datos de prueba con otro equipo:</p>
-<div class="highlight"><pre><span></span><code>INSERT INTO equipo_usuario (fk_equipo, fk_usuario) VALUES(&#39;1&#39;, &#39;1&#39;);
-<span class="gi">+ INSERT INTO equipos (nombre) VALUES(&#39;Proyecto A1&#39;);</span>
-</code></pre></div>
-<p>Y añadimos el test. Queremos que el tipo devuelto por el <em>repository</em>
+<p>Vamos ahora a definir un test para obtener una lista de equipos en el
+<em>repository</em>. Queremos que el tipo devuelto por el <em>repository</em>
 sea <em>List</em>.</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
+    <span class="nd">@Transactional</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarFindAll</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
+        <span class="c1">// Dos equipos en la base de datos</span>
+        <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">));</span>
+        <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Níquel&quot;</span><span class="p">));</span>
 
         <span class="c1">// WHEN</span>
         <span class="n">List</span><span class="o">&lt;</span><span class="n">Equipo</span><span class="o">&gt;</span> <span class="n">equipos</span> <span class="o">=</span> <span class="n">equipoRepository</span><span class="p">.</span><span class="na">findAll</span><span class="p">();</span>
@@ -1345,38 +1328,50 @@ public interface EquipoRepository extends CrudRepository&lt;Equipo, Long&gt; {
 </code></pre></div>
 <h4 id="septimo-test-metodo-de-servicio-para-el-listado-de-equipos">Séptimo test - Método de servicio para el listado de equipos<a class="headerlink" href="#septimo-test-metodo-de-servicio-para-el-listado-de-equipos" title="Permanent link">&para;</a></h4>
 <p>¡Y por fin llegamos a la capa de servicio!</p>
-<p>Creamos el test que nos obliga a codificar en esa capa el método que
-lista todos los equipos existentes. Lo llamamos
-<code>findAllOrderedByName()</code> para indicar que queremos que el resultado
-sea una lista ordenada por los nombres de los equipos.</p>
+<p>Creamos el fichero <code>EquipoServiceTest.java</code> con el código para añadir
+dos equipos de prueba y el test para recuperarlos ordenados por nombre:</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
 
 <span class="c1">// imports</span>
 
 <span class="nd">@SpringBootTest</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">EquipoServiceTest</span> <span class="p">{</span>
 
-     <span class="nd">@Autowired</span>
-     <span class="n">EquipoService</span> <span class="n">equipoService</span><span class="p">;</span>
+    <span class="nd">@Autowired</span>
+    <span class="n">EquipoService</span> <span class="n">equipoService</span><span class="p">;</span>
 
-     <span class="nd">@Test</span>
-     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">obtenerListadoEquipos</span><span class="p">()</span> <span class="p">{</span>
-         <span class="c1">// GIVEN</span>
-         <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
+    <span class="c1">// Añade dos equipos a la base de datos </span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addEquiposBD</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">Equipo</span> <span class="n">equipo1</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipo2</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto Níquel&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
 
-         <span class="c1">// WHEN</span>
-         <span class="n">List</span><span class="o">&lt;</span><span class="n">Equipo</span><span class="o">&gt;</span> <span class="n">equipos</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">findAllOrderedByName</span><span class="p">();</span>
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">obtenerListadoEquipos</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Dos equipos en la base de datos</span>
+        <span class="n">addEquiposBD</span><span class="p">();</span>
 
-         <span class="c1">// THEN</span>
-         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto A1&quot;</span><span class="p">);</span>
-         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
-     <span class="p">}</span>
- <span class="p">}</span>
+        <span class="c1">// WHEN</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Equipo</span><span class="o">&gt;</span> <span class="n">equipos</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">findAllOrderedByName</span><span class="p">();</span>
+
+        <span class="c1">// THEN</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Níquel&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Escribe el código estríctamente necesario para que pase. Haz un commit
 en la rama y súbelo a GitHub.</p>
+<!-- TODO: Ordenar los tests que siguen.. 
+
+- Primero debería añadirse un test para actualizar y recuperar la relación
+- Y después comprobar todo el tema de EAGER y LAZY
+--->
+
 <h4 id="octavo-test-metodo-de-servicio-para-recuperar-un-equipo">Octavo test - Método de servicio para recuperar un equipo<a class="headerlink" href="#octavo-test-metodo-de-servicio-para-recuperar-un-equipo" title="Permanent link">&para;</a></h4>
 <p>Vamos a centrar este test en la forma de traer a memoria los objetos
 que participan en la relación <code>USUARIO-EQUIPO</code>. </p>
@@ -1409,41 +1404,82 @@ que participan en la relación <code>USUARIO-EQUIPO</code>. </p>
   conexión con la base de datos y el objeto que se devolverá al
   <em>controller</em> <strong>estará desconectado de la base de datos</strong>, por lo que
   la recuperación perezosa no funcionará en el <em>controller</em>.</p>
-<p>En el caso de la relación USUARIO-EQUIPO vamos a definir el siguiente
+<p>En el caso de la relación USUARIO-EQUIPO hemos definido el siguiente
 diseño:</p>
 <ul>
 <li>
-<p>La relación entre un usuario y sus equipos será <code>EAGER</code>. Cuando
-  recuperemos un usuario, recuperaremos también la información de
+<p>La relación entre un usuario y sus equipos es <code>EAGER</code>. Cuando
+  recuperamos un usuario, recuperaremos también la información de
   todos los equipos en los que participa.</p>
 </li>
 <li>
-<p>La relación entre un equipo y sus usuarios será <code>LAZY</code>. Esto es muy
+<p>La relación entre un equipo y sus usuarios es <code>LAZY</code>. Esto es muy
   importante. Si no lo hiciéramos así ¡podríamos fácilmente traernos a
   memoria toda la base de datos!. Un equipo recuperaría todos sus
   usuarios, que también pueden estar en otros equipos, que a su vez
   también se traerían a memoria. </p>
 </li>
 </ul>
-<p>Vamos entonces a definir un test que sirve para crear el método de
+<p>Actualizamos el fichero de test para que el método <code>addEquiposBD</code>
+añada además un usuario al primer equipo y devuelva los
+identificadores de los dos equipos y del usuario:</p>
+<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EquipoServiceTest</span> <span class="p">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">EquipoService</span> <span class="n">equipoService</span><span class="p">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">UsuarioService</span> <span class="n">usuarioService</span><span class="p">;</span>
+
+    <span class="kd">class</span> <span class="nc">TresIds</span> <span class="p">{</span>
+        <span class="n">Long</span> <span class="n">equipo1Id</span><span class="p">;</span>
+        <span class="n">Long</span> <span class="n">equipo2Id</span><span class="p">;</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span><span class="p">;</span>
+        <span class="n">TresIds</span><span class="p">(</span><span class="n">Long</span> <span class="n">equipo1Id</span><span class="p">,</span> <span class="n">Long</span> <span class="n">equipo2Id</span><span class="p">,</span> <span class="n">Long</span> <span class="n">usuarioId</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="na">equipo1Id</span> <span class="o">=</span> <span class="n">equipo1Id</span><span class="p">;</span>
+            <span class="k">this</span><span class="p">.</span><span class="na">equipo2Id</span> <span class="o">=</span> <span class="n">equipo2Id</span><span class="p">;</span>
+            <span class="k">this</span><span class="p">.</span><span class="na">usuarioId</span> <span class="o">=</span> <span class="n">usuarioId</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Añade dos equipos a la base de datos y un usuario en el primer equipo.</span>
+    <span class="c1">// Devuelve el identificador de los equipos y de los usuarios.</span>
+    <span class="kd">public</span> <span class="n">TresIds</span> <span class="nf">addEquiposBD</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">Equipo</span> <span class="n">equipo1</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipo2</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto Níquel&quot;</span><span class="p">);</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+        <span class="n">equipoService</span><span class="p">.</span><span class="na">addUsuarioEquipo</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">equipo1</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">TresIds</span><span class="p">(</span><span class="n">equipo1</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">equipo2</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+    <span class="p">}</span>
+
+<span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Y definimos un test que sirve para crear el método de
 servicio que recupera un equipo y que se asegura de que la relación
 entre equipos y usuarios es <code>LAZY</code>.</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">obtenerEquipo</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
+        <span class="c1">// Un equipo en la base de datos</span>
+        <span class="n">Long</span> <span class="n">equipoId</span> <span class="o">=</span> <span class="n">addEquiposBD</span><span class="p">().</span><span class="na">equipo1Id</span><span class="p">;</span>
 
         <span class="c1">// WHEN</span>
-        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipoBD</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">equipoId</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipoBD</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
         <span class="c1">// Comprobamos que la relación con Usuarios es lazy: al</span>
         <span class="c1">// intentar acceder a la colección de usuarios se debe lanzar una</span>
-        <span class="c1">// excepción de tipo LazyInitializationException.</span>
+        <span class="c1">// excepción</span>
         <span class="n">assertThatThrownBy</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">{</span>
-            <span class="n">equipo</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">().</span><span class="na">size</span><span class="p">();</span>
+            <span class="n">equipoBD</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">().</span><span class="na">size</span><span class="p">();</span>
         <span class="p">}).</span><span class="na">isInstanceOf</span><span class="p">(</span><span class="n">LazyInitializationException</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
     <span class="p">}</span>
 </code></pre></div>
@@ -1456,14 +1492,17 @@ sus equipos:</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarRelacionUsuarioEquipos</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
+        <span class="c1">// Un equipo con un usuario en la BD</span>
+        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">addEquiposBD</span><span class="p">().</span><span class="na">usuarioId</span><span class="p">;</span>
 
         <span class="c1">// WHEN</span>
-        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+        <span class="c1">// Recuperamos el usuario de la base de datos</span>
+        <span class="n">Usuario</span> <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
-
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getEquipos</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="c1">// Se recuperan también los equipos del usuario,</span>
+        <span class="c1">// porque la relación entre usuarios y equipos es EAGER</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">.</span><span class="na">getEquipos</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
     <span class="p">}</span>
 </code></pre></div>
 <p>Modifica el código para que el test pase, haz un commit y súbelo a GitHub.</p>
@@ -1478,21 +1517,23 @@ equipos a los que pertenece.</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">obtenerUsuariosEquipo</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// En el application.properties se cargan los datos de prueba del fichero datos-test.sql</span>
+        <span class="c1">// Un equipo con un usuario en la BD</span>
+        <span class="n">Long</span> <span class="n">equipoId</span> <span class="o">=</span> <span class="n">addEquiposBD</span><span class="p">().</span><span class="na">equipo1Id</span><span class="p">;</span>
 
         <span class="c1">// WHEN</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span> <span class="n">usuarios</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">usuariosEquipo</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+        <span class="c1">// Recuperamos los usuarios del equipo</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span> <span class="n">usuarios</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">usuariosEquipo</span><span class="p">(</span><span class="n">equipoId</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
+        <span class="c1">// Se actualizan correctamente las relaciones</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEmail</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
         <span class="c1">// Comprobamos que la relación entre usuarios y equipos es eager</span>
         <span class="c1">// Primero comprobamos que la colección de equipos tiene 1 elemento</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEquipos</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="c1">// Y después que el elemento es el equipo Proyecto P1</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEquipos</span><span class="p">().</span><span class="na">stream</span><span class="p">().</span><span class="na">findFirst</span><span class="p">().</span><span class="na">get</span><span class="p">().</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
+        <span class="c1">// Y después que el elemento es el equipo Proyecto Cobalto</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEquipos</span><span class="p">().</span><span class="na">stream</span><span class="p">().</span><span class="na">findFirst</span><span class="p">().</span><span class="na">get</span><span class="p">().</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
     <span class="p">}</span>
-<span class="p">}</span>
 </code></pre></div>
 <p>Escribe el código necesario para que pase. Haz un commit en la rama y
 súbelo a GitHub.</p>
@@ -1570,11 +1611,11 @@ estructura de la empresa.</li>
 <h2 id="6-documentacion-entrega-y-evaluacion">6. Documentación, entrega y evaluación<a class="headerlink" href="#6-documentacion-entrega-y-evaluacion" title="Permanent link">&para;</a></h2>
 <p>Deberás añadir una página de documentación <code>/doc/practica3.md</code> en la
 que, al igual que en la práctica anterior, debes realizar una <strong>breve
-documentación técnica</strong> de lo implementado en las historias de usuario
-009 y 010.</p>
+documentación técnica</strong> de entre 500 y 800 palabras sobre lo
+implementado en las historias de usuario 009 y 010.</p>
 <p>En la documentación debes incluir también una <strong>captura de pantalla</strong>
 en la que se muestren las tablas de la base de datos de desarrollo
-Postgres en la versión final de la aplicación. Puedes mostrar, por
+PostgreSQL en la versión final de la aplicación. Puedes mostrar, por
 ejempo, una pantalla con el panel <code>Database</code> de <em>IntelliJ</em> o la
 herramienta que hayas utilizado. Basta solo con una captura de la base
 de datos de desarrollo, no hace falta mostrar la base de datos de
@@ -1582,7 +1623,7 @@ test.</p>
 <p>Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las <strong>historias de usuario 009 y 010</strong>.</p>
 <ol>
-<li>Pantalla de la base de datos Postgres.</li>
+<li>Pantalla de la base de datos PostgreSQL.</li>
 <li>Rutas (endpoints) definidas para las acciones y, para cada endpoint o grupo de endpoints,
    explicación sobre:<ol>
 <li>Clases y métodos</li>
