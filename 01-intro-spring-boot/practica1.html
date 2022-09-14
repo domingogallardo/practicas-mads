@@ -1002,7 +1002,7 @@ puerto diferente para poner la aplicación en producción.</p>
 <li>
 <p>Descarga tu imagen de la aplicación y ponla en funcionamiento:</p>
 <div class="highlight"><pre><span></span><code>$ docker pull &lt;usuario-docker&gt;/spring-boot-demoapp
-$ docker run --rm --name spring-boot-alu02 -p 8080:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
+$ docker run --rm --name spring-boot-alu&lt;num&gt; -p 8080:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
 </code></pre></div>
 <p>El indicador <code>--rm</code> hace que cuando se pare el contenedor
 automáticamente se borre. De esta forma evitamos tener que
