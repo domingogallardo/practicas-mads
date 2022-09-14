@@ -353,9 +353,6 @@ la desplegaremos en un _host_ para ponerla en producción.
    construyas. Deberás dar un nombre de usuario que será el que
    utilizarás para publicar estas imágenes.
    
-   **IMPORTANTE**: Escribe un enlace a tu cuenta de usuario de Docker
-   en el fichero `README.md` del repositorio de GitHub. De esta forma
-   podré consultar y descargar las imágenes que publiques en Docker Hub.
 
 3. Crea un fichero llamado `Dockerfile` (sin extensión) en el
   directorio raíz de la aplicación con el siguiente contenido:
@@ -509,6 +506,11 @@ la desplegaremos en un _host_ para ponerla en producción.
       repositorio vas a subir la imagen con el mismo nombre. En un
       repositorio Docker puedes mantener múltiples versiones de una
       misma imagen, usando _tags_.
+      
+      **IMPORTANTE**: Escribe un enlace a al repositorio en Docker Hub
+      en el fichero `README.md` del repositorio de GitHub. De esta forma
+      podré consultar y descargar las imágenes que publiques en Docker Hub.
+
     - Una vez creado el repositorio puedes publicar la imagen en él
       logeándote desde la línea de comando (introduce tu usuario y
       contraseña de Docker Hub) y con el comando `docker push`:
