@@ -579,7 +579,7 @@ aplicación.
 
     ```
     $ docker pull <usuario-docker>/spring-boot-demoapp
-    $ docker run --rm --name spring-boot-alu02 -p 8080:8080 <usuario-docker>/spring-boot-demoapp
+    $ docker run --rm --name spring-boot-alu<num> -p 8080:8080 <usuario-docker>/spring-boot-demoapp
     ```
     
     El indicador `--rm` hace que cuando se pare el contenedor
