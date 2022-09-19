@@ -424,6 +424,13 @@ la desplegaremos en un _host_ para ponerla en producción.
       domingogallardo/spring-boot-demoapp   latest 
       ```
 
+   !!! Note "Nota para usuarios de Mac M1"
+       Los ordenadores Mac M1 tienen una arquitectura ARM que no es
+       compatible con la arquitectura del servidor de la asignatura en
+       el que se va a poner la aplicación en producción (AMD). Docker puede
+       generar una imagen que contenga las dos arquitecturas. Debes
+       seguir los pasos que se indican en [este enlace](https://gist.github.com/domingogallardo/126d3b7841986b1ed73a577ed0527ad6).
+
 6. Pon en marcha un la imagen con la aplicación:
 
     ```
