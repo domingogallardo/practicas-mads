@@ -680,9 +680,7 @@ Demo que realice lo siguiente:
 - Leer datos de un formulario usando Thymeleaf y **realizar alguna validación**.
 - Llamar a un **método de servicio** que procese los datos leídos.
 - Mostrar el resultado devuelto por el servicio en una página Thymeleaf.
-- Incluir al menos 2 tests:
-    - 1 de la capa de servicio
-    - 1 de la capa de presentación usando MockMvc.
+- Tests de la capa de servicio y de la capa de presentación (web).
 - En la página principal de la aplicación debe aparecer tu nombre y apellidos.
 
 Muy importante, debemos desarrollar la aplicación en **pequeños
