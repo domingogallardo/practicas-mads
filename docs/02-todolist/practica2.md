@@ -2370,20 +2370,24 @@ tablero las personas colaboradoras.
 
 #### Issues ####
 
-Añade las etiquetas que vamos a usar inicialmente.
+Añade en el proyecto las etiquetas que vamos a usar inicialmente.
 
 <img src="./imagenes/labels-practica.png" width="400px"/>
 
 Crea el primer issue, correspondiente a la _feature_ a desarrollar
-**Página _Acerca de_**. Crea el milestone 1.0.1. y añade el issue a
-él.
-
-<img src="./imagenes/issue-acerca-de-listado.png" width="500px"/>
+**Página _Acerca de_**. 
 
 <img src="./imagenes/issue-acerca-de-detalle.png" width="600px"/>
 
-Añade el issue al proyecto (desde la página del issue) y
+
+<img src="./imagenes/issue-acerca-de-listado.png" width="500px"/>
+
+Crea el milestone 1.0.1. y añade el issue a él. 
+
+Y añade el issue al proyecto (desde la página del issue) y
 automáticamente se añadirá en la columna `To Do`.
+
+<img src="./imagenes/pagina-issue.png" width="600px"/>
 
 
 #### Desarrollo ####
