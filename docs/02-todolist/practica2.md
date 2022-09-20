@@ -2379,15 +2379,14 @@ Crea el primer issue, correspondiente a la _feature_ a desarrollar
 
 <img src="./imagenes/issue-acerca-de-detalle.png" width="600px"/>
 
-
-<img src="./imagenes/issue-acerca-de-listado.png" width="500px"/>
-
-Crea el milestone 1.0.1. y añade el issue a él. 
-
-Y añade el issue al proyecto (desde la página del issue) y
-automáticamente se añadirá en la columna `To Do`.
+Crea el milestone 1.0.1. Y, desde la página del issue, añade el
+milestone y el proyecto. Automáticamente se añadirá en la columna `To Do`.
 
 <img src="./imagenes/pagina-issue.png" width="600px"/>
+
+En el listado de issues del repositorio debe aparecer este recién creado:
+
+<img src="./imagenes/issue-acerca-de-listado.png" width="500px"/>
 
 
 #### Desarrollo ####
