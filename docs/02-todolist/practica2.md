@@ -2313,11 +2313,11 @@ podremos acceder a los pull requests desde cada uno de los issues
     real que tiene en la actualidad.
 
 Lo primero que debes hacer es crear un proyecto desde el enlace
-`Projects` en tu perfil de GitHub:
+`Projects` en la organización [mads-ua-22-23](https://github.com/mads-ua-22-23).
 
 <img src="./imagenes/project-profile.png" width="600px">
 
-Selecciona la opción **Board** y ponle como nombre `ToDoList MADS`.
+Selecciona la opción **Board** y ponle como nombre **tu usuario de GitHub**:
 
 <img src="./imagenes/crear-proyecto.png" width="600px"/>
 
@@ -2361,6 +2361,12 @@ tablero con mi usuario de GitHub `domingogallardo`, para que pueda
 revisarlo:
 
 <img src="./imagenes/acceso-proyecto.png" width="600px"/>
+
+Y cambia el _base role_ a modo _No access_ para solo tengan acceso al
+tablero las personas colaboradoras.
+
+<img src="./imagenes/project-no-access.png" width="600px"/>
+
 
 #### Issues ####
 
