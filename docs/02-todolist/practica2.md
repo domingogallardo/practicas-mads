@@ -2367,6 +2367,11 @@ tablero las personas colaboradoras.
 
 <img src="./imagenes/project-no-access.png" width="600px"/>
 
+Por último, desde la página _Projects_ del repositorio, añade el
+proyecto al repositorio:
+
+<img src="./imagenes/project-repository.png" width="600px"/>
+
 
 #### Issues ####
 
