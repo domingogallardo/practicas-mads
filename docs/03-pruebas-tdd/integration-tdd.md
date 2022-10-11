@@ -693,7 +693,7 @@ Vamos a utilizar la técnica de TDD para construir la funcionalidad
 **de dentro a fuera** (desde el repository hasta el
 controller). Comenzaremos con tests que construyan la capa de modelo
 (clases de entidad y repository) y después pasaremos a tests que
-construyan la capa de servicio.
+construyan la capa de servicio. 
 
 Por último, una vez implementados los métodos de servicios necesarios,
 deberás implementar (lo haremos sin tests) las vistas y
@@ -706,6 +706,10 @@ sin tests automáticos.
     llamar al método de servicio necesario. De esta forma nos
     aseguramos que todo el código importante para la funcionalidad está
     testeado y ha sido creado mediante TDD.
+
+Probaremos los tests usando la base de datos de memoria y dejaremos
+que sea la acción de GitHub la que pruebe los tests con la base de
+datos Postgres.
 
 Recuerda que los pasos seguir la técnica de TDD:
 
@@ -735,7 +739,7 @@ Este primer _issue_ lo haremos de forma guiada usando TDD con los
 tests que enumeraremos a continuación. El otro _issue_ lo deberás
 implementar por ti mismo. 
 
-#### Primer commit - Test y código Entidad `Equipo` ####
+#### Primer commit - Test y código clase `Equipo` ####
 
 El primer test es para crear la entidad `Equipo`. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo
@@ -744,7 +748,12 @@ creamos la clase Java, sin las anotaciones JPA. Un equipo
 ```java
 package madstodolist;
 
-// imports
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 
 @SpringBootTest
 @Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
@@ -760,19 +769,31 @@ public class EquipoTest {
 
 Escribe el código necesario para que pase el test. **No debes escribir
 código de más, sólo el código mínimo para que el test pase**. Haz un
-_commit_ que contenga el test y el código y súbelo a la rama remota.
+_commit_ que contenga el test y el código y súbelo a la rama
+remota. Puedes crear el pull request para comprobar que el test pasa
+correctamente cuando se ejecuta sobre la base de datos Postgres.
 
-#### Segundo test - Entidad en base de datos ####
+!!! Important "Importante"
+    Debes incluir en el commit tanto el código del test como el código
+    que soluciona el test, de forma que el commit debe aparecer como
+    correcto en GitHub.
+
+#### Segundo test - Añadir y buscar equipo en la base de datos ####
 
 Con el segundo test queremos conseguir que funcione JPA con la entidad
 `Equipo` y que podamos usar una tabla de equipos en la base de datos,
-en la que podamos guardar entidades `equipo`.
+en la que podamos guardar entidades `equipo`. 
 
 Para comprobar que la entidad se ha guardado correctamente,
-comprobaremos se ha actualizando su identificador. Lo hacemos
-añadiendo test `grabarEquipo`. Actualizamos también el fichero
-`clean-db.sql` para que se borre la tabla `equipos` al final de cada
-test. 
+comprobaremos se ha actualizando su identificador y que podemos
+recuperarlo de la base de datos.
+
+Lo hacemos añadiendo el test `grabarYBuscarEquipo`. Usaremos la
+anotación `@Transactional` siempre que trabajemos con clases
+_repository_. De esa forma nos aseguramos que todo el código del test
+se ejecuta en la misma transacción. Cuando escribamos el código del
+servicio también habrá que usar esta anotación en cada método, tal y
+como se hace en las clases de servicio de `Tarea` y `Usuario`.
 
 ```java
     @Autowired
@@ -780,17 +801,28 @@ test.
 
     @Test
     @Transactional
-    public void grabarEquipo() {
+    public void grabarYBuscarEquipo() {
         // GIVEN
+        // Un equipo nuevo
         Equipo equipo = new Equipo("Proyecto P1");
 
         // WHEN
+        // Salvamos el equipo en la base de datos
         equipoRepository.save(equipo);
 
         // THEN
-        assertThat(equipo.getId()).isNotNull();
+        // Su identificador se ha actualizado y lo podemos
+        // usar para recuperarlo de la base de datos
+        Long equipoId = equipo.getId();
+        assertThat(equipoId).isNotNull();
+        Equipo equipoDB = equipoRepository.findById(equipoId).orElse(null);
+        assertThat(equipoDB).isNotNull();
+        assertThat(equipoDB.getNombre()).isEqualTo("Proyecto P1");
     }
 ```
+
+Actualizamos también el fichero `clean-db.sql` para que se borre la
+tabla `equipos` al final de cada test.
 
 **Fichero `src/test/resources/clean-db.sql`**:
 
@@ -848,39 +880,7 @@ Puedes guiarte por la implementación de `equals` y `hashCode` en
 
 Escribe el código necesario para se pase el test y haz un commit.
 
-#### Cuarto test - Añadir y buscar equipo en base de datos ####
-
-Escribimos ahora un test que pruebe los métodos de añadir y buscar un
-equipo de la clase repository.
-
-Test:
-
-```java
-    @Test
-    public void comprobarRecuperarEquipo() {
-        // GIVEN
-        // Un equipo en la base de datos
-        Equipo equipo = new Equipo("Proyecto Cobalto");
-        equipoRepository.save(equipo);
-        Long equipoId = equipo.getId();
-
-        // WHEN
-
-        Equipo equipoBD = equipoRepository.findById(equipoId).orElse(null);
-
-        // THEN
-        assertThat(equipo).isNotNull();
-        assertThat(equipo.getId()).isEqualTo(equipoId);
-        assertThat(equipo.getNombre()).isEqualTo("Proyecto Cobalto");
-    }
-```
-
-Comprueba el test y si es necesario escribe el código estríctamente
-necesario para que pase.
-
-Haz un commit en la rama y súbelo a GitHub.
-
-#### Quinto test - Relación muchos-a-muchos entre equipos y usuarios ####
+#### Cuarto test - Relación muchos-a-muchos entre equipos y usuarios ####
 
 Vamos ahora a diseñar un test que introduzca la relación entre equipos
 y usuarios. Debe ser una relación muchos-a-muchos: un equipo contiene
@@ -889,6 +889,11 @@ muchos usuarios y un usuario puede pertenecer a 0, 1 o muchos equipos.
 En el test hacemos varias cosas: creamos un equipo y un usuario,
 añadimos el usuario al equipo y comprobamos que las relaciones se han
 actualizado en la base de datos.
+
+De la misma forma que en un test anterior, añadimos la anotación
+`@Transactional` para que todas las llamadas a objetos _repository_ se
+hagan en la misma transacción y con la misma conexión a la base de
+datos.
 
 ```java
     @Autowired
@@ -899,13 +904,11 @@ actualizado en la base de datos.
     public void comprobarRelacionBaseDatos() {
         // GIVEN
         // Un equipo y un usuario en la BD
-        Equipo equipo = new Equipo("Proyecto Cobalto");
+        Equipo equipo = new Equipo("Proyecto 1");
         equipoRepository.save(equipo);
-        Long equipoId = equipo.getId();
 
         Usuario usuario = new Usuario("user@ua");
         usuarioRepository.save(usuario);
-        Long usuarioId = usuario.getId();
 
         // WHEN
         // Añadimos el usuario al equipo
@@ -913,10 +916,10 @@ actualizado en la base de datos.
         equipo.addUsuario(usuario);
 
         // THEN
-        // La relación entre usuario y equipo queda actualizada en BD
+        // La relación entre usuario y equipo pqueda actualizada en BD
 
-        Equipo equipoBD = equipoRepository.findById(equipoId).orElse(null);
-        Usuario usuarioBD = usuarioRepository.findById(usuarioId).orElse(null);
+        Equipo equipoBD = equipoRepository.findById(equipo.getId()).orElse(null);
+        Usuario usuarioBD = usuarioRepository.findById(usuario.getId()).orElse(null);
 
         assertThat(equipo.getUsuarios()).hasSize(1);
         assertThat(equipo.getUsuarios()).contains(usuario);
@@ -933,8 +936,9 @@ de datos. Vamos a crear esta relación como `LAZY`, porque si fuera
 `EAGER` la recuperación de equipos de la base de datos sería muy
 costosa, traería a memoria todos sus usuarios (con sus tareas incluidas).
 
-En `Equipo.java` definimos la tabla en la que se va a guardar la
-relación, e indicamos el papel de cada una de sus dos columnas.
+En `Equipo.java` definimos la tabla `equipo_usuario` en la que se va a
+guardar la relación, e indicamos el papel de cada una de sus dos
+columnas.
 
 También creamos el getter para obtener los usuarios. 
 
@@ -965,12 +969,6 @@ También creamos el getter para obtener los usuarios.
 +    public Set<Usuario> getUsuarios() {
 +        return usuarios;
 +    }
-
-...
-+    public void addUsuario(Usuario usuario) {
-+        this.getUsuarios().add(usuario);
-+        usuario.getEquipos().add(this);
-`    }
 ```
 
 En el fichero `Usuario.java` definimos la parte inversa de la
@@ -994,8 +992,9 @@ usuario solo se van a traer a memoria la información de sus equipos.
 +    }
 ```
 
-Y por último añadimos en `Equipo.java` el método que actualiza la
-relación:
+Y por último añadimos en `Equipo.java` el método que actualiza ambos
+lados de la relación. Añade el usuario a la colección de usuarios del
+equipo y añade el equipo a la colección de equipos del usuario.
 
 ```java
     public void addUsuario(Usuario usuario) {
@@ -1004,7 +1003,8 @@ relación:
     }
 ```
 
-Y actualizamos el fichero de limpieza de datos al final de cada test:
+También actualizamos el fichero de limpieza de datos al final de cada
+test, para añadir la nueva tabla `equipo_usuario`.
 
 **Fichero `src/test/resources/clean-db.sql`**:
 
@@ -1017,7 +1017,7 @@ DELETE FROM usuarios;
 
 Comprueba el test, haz un commit en la rama y súbelo a GitHub.
 
-#### Sexto test - listado de equipos ####
+#### Quinto test - Listado de equipos ####
 
 Vamos ahora a definir un test para obtener una lista de equipos en el
 _repository_. Queremos que el tipo devuelto por el _repository_
@@ -1029,8 +1029,8 @@ sea _List_.
     public void comprobarFindAll() {
         // GIVEN
         // Dos equipos en la base de datos
-        equipoRepository.save(new Equipo("Proyecto Cobalto"));
-        equipoRepository.save(new Equipo("Proyecto Níquel"));
+        equipoRepository.save(new Equipo("Proyecto 2"));
+        equipoRepository.save(new Equipo("Proyecto 3"));
 
         // WHEN
         List<Equipo> equipos = equipoRepository.findAll();
@@ -1045,7 +1045,6 @@ p`EquipoRepository`, definiendo el tipo devuelto como _List_. Spring
 Boot se encarga de construir automáticamente la implementación de este
 método.
 
-
 **Fichero `EquipoRepository.java`**:
 
 ```diff
@@ -1057,19 +1056,37 @@ public interface EquipoRepository extends CrudRepository<Equipo, Long> {
 
 ```
 
-#### Séptimo test - Método de servicio para el listado de equipos ####
+#### Sexto test - Método de servicio para crear y recuperar equipo ####
 
 ¡Y por fin llegamos a la capa de servicio!
 
-Creamos el fichero `EquipoServiceTest.java` con el código para añadir
-dos equipos de prueba y el test para recuperarlos ordenados por nombre:
+Creamos el fichero `EquipoServiceTest.java` con la llamada al método
+de servicio para crear un equipo nuevo y a otro método de servicio
+para recuperar un equipo por su identificador.
+
+Lo hacemos todo en el método `crearRecuperarTest`. En el test no hay
+que añadir la anotación `@Transactional` porque queremos probar el uso
+de los métodos de servicio en un contexto similar al que usaremos
+cuando los llamemos desde el controller. Cuando llamemos desde el
+controller a los métodos de servicio no se usará la anotación
+`@Transactional` para evitar en el código del controller se pueda
+acceder a los objetos repository y modificar directamente la base de
+datos.
 
 **Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
 
 ```java
 package madstodolist;
 
-// imports
+import madstodolist.model.Equipo;
+import madstodolist.service.EquipoService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 
 @SpringBootTest
 @Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
@@ -1078,39 +1095,98 @@ public class EquipoServiceTest {
     @Autowired
     EquipoService equipoService;
 
-    // Añade dos equipos a la base de datos 
-    public void addEquiposBD() {
-        Equipo equipo1 = equipoService.crearEquipo("Proyecto Cobalto");
-        Equipo equipo2 = equipoService.crearEquipo("Proyecto Níquel");
-    }
-    
     @Test
-    public void obtenerListadoEquipos() {
-        // GIVEN
-        // Dos equipos en la base de datos
-        addEquiposBD();
-
-        // WHEN
-        List<Equipo> equipos = equipoService.findAllOrderedByName();
-
-        // THEN
-        assertThat(equipos).hasSize(2);
-        assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto Cobalto");
-        assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto Níquel");
+    public void crearRecuperarEquipo() {
+        Equipo equipo = equipoService.crearEquipo("Proyecto 1");
+        Equipo equipoBd = equipoService.recuperarEquipo(equipo.getId());
+        assertThat(equipoBd).isNotNull();
+        assertThat(equipoBd.getNombre()).isEqualTo("Proyecto 1");
     }
 }
 ```
 
-Escribe el código estríctamente necesario para que pase. Haz un commit
-en la rama y súbelo a GitHub.
+Para que funcione correctamente el test tenemos que crear la clase
+`EquipoService` con los métodos `crearEquipo` y
+`recuperarEquipo`. Completa el código en los lugares indicados.
 
-<!-- TODO: Ordenar los tests que siguen.. 
+**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
 
-- Primero debería añadirse un test para actualizar y recuperar la relación
-- Y después comprobar todo el tema de EAGER y LAZY
---->
+```java
+package madstodolist.service;
 
-#### Octavo test - Método de servicio para recuperar un equipo ####
+import madstodolist.model.Equipo;
+import madstodolist.model.EquipoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class EquipoService {
+    Logger logger = LoggerFactory.getLogger(EquipoService.class);
+
+    @Autowired
+    EquipoRepository equipoRepository;
+
+    @Transactional
+    public Equipo crearEquipo(String nombre) {
+        // Completar
+    }
+
+    @Transactional(readOnly = true)
+    public Equipo recuperarEquipo(Long id) {
+        // Completar
+    }
+}
+
+```
+
+Tal y como hemos comentado, la anotación `@Transactional` se usa en
+los métodos de servicio en los que se trabaja con objetos _repository_
+para asegurarnos de que todo el código del método se ejecuta en la
+misma transacción y usando la misma conexión a la base de datos.
+
+En aquellos métodos en los que no se modifica la base de datos (sólo
+se realiza una consulta) es recomendable utilizar la anotación con el
+atributo `readOnly = true` para hacer más eficiente la conexión con la
+base de datos.
+
+
+#### Séptimo test - Método de servicio para el listado de equipos ####
+
+Añadimos el test que obliga a crear el método de servicio que recupera
+la lista de equipos existentes, ordenada por orden alfabético del
+nombre del equipo:
+
+**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
+
+```java
+    @Test
+    public void listadoEquiposOrdenAlfabetico() {
+        // GIVEN
+        // Dos equipos en la base de datos
+        equipoService.crearEquipo("Proyecto BBB");
+        equipoService.crearEquipo("Proyecto AAA");
+
+        // WHEN
+        // Recuperamos los equipos
+        List<Equipo> equipos = equipoService.findAllOrderedByName();
+
+        // THEN
+        // Los equipos están ordenados por nombre
+        assertThat(equipos).hasSize(2);
+        assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto AAA");
+        assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto BBB");        
+    }
+}
+```
+
+Escribe en el servicio el código estríctamente necesario para que
+pase el test. Haz un commit en la rama y súbelo a GitHub.
+
+
+#### Octavo test - Comprobación de relación lazy entre equipo y usuarios ####
 
 Vamos a centrar este test en la forma de traer a memoria los objetos
 que participan en la relación `USUARIO-EQUIPO`. 
@@ -1145,9 +1221,10 @@ En JPA hay dos formas de definir una relación a-muchos:
 En el caso de la relación USUARIO-EQUIPO hemos definido el siguiente
 diseño:
 
-- La relación entre un usuario y sus equipos es `EAGER`. Cuando
+- La relación entre un usuario y sus equipos será `EAGER`. Cuando
   recuperamos un usuario, recuperaremos también la información de
-  todos los equipos en los que participa.
+  todos los equipos en los que participa. Esta parte de la relación
+  está pendiente de implementar. Lo haremos más adelante.
   
 - La relación entre un equipo y sus usuarios es `LAZY`. Esto es muy
   importante. Si no lo hiciéramos así ¡podríamos fácilmente traernos a
@@ -1155,73 +1232,27 @@ diseño:
   usuarios, que también pueden estar en otros equipos, que a su vez
   también se traerían a memoria. 
 
-Actualizamos el fichero de test para que el método `addEquiposBD`
-añada además un usuario al primer equipo y devuelva los
-identificadores de los dos equipos y del usuario:
+Vamos a comprobar que la relación entre equipos y usuarios es
+`LAZY`. Para ello debemos comprobar que se lanza una excepción cuando
+se intenta acceder a la colección de usuarios de un equipo recuperado:
 
 **Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
 
 ```java
-@SpringBootTest
-@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
-public class EquipoServiceTest {
-
-    @Autowired
-    EquipoService equipoService;
-
-    @Autowired
-    UsuarioService usuarioService;
-
-    class TresIds {
-        Long equipo1Id;
-        Long equipo2Id;
-        Long usuarioId;
-        TresIds(Long equipo1Id, Long equipo2Id, Long usuarioId) {
-            this.equipo1Id = equipo1Id;
-            this.equipo2Id = equipo2Id;
-            this.usuarioId = usuarioId;
-        }
-    }
-
-    // Añade dos equipos a la base de datos y un usuario en el primer equipo.
-    // Devuelve el identificador de los equipos y de los usuarios.
-    public TresIds addEquiposBD() {
-        Equipo equipo1 = equipoService.crearEquipo("Proyecto Cobalto");
-        Equipo equipo2 = equipoService.crearEquipo("Proyecto Níquel");
-        Usuario usuario = new Usuario("user@ua");
-        usuario.setPassword("123");
-        usuario = usuarioService.registrar(usuario);
-        equipoService.addUsuarioEquipo(usuario.getId(), equipo1.getId());
-        return new TresIds(equipo1.getId(), equipo2.getId(), usuario.getId());
-    }
-
-...
-}
-```
-
-Y definimos un test que sirve para crear el método de
-servicio que recupera un equipo y que se asegura de que la relación
-entre equipos y usuarios es `LAZY`.
-
-**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
-
-```java
-    @Test
-    public void obtenerEquipo() {
-        // GIVEN
+   @Test
+    public void accesoUsuariosGeneraExcepcion() {
+        // Given
         // Un equipo en la base de datos
-        Long equipoId = addEquiposBD().equipo1Id;
+        Equipo equipo = equipoService.crearEquipo("Proyecto 1");
 
         // WHEN
-        Equipo equipoBD = equipoService.findById(equipoId);
+        // Se recupera el equipo
+        Equipo equipoBd = equipoService.recuperarEquipo(equipo.getId());
 
         // THEN
-        assertThat(equipoBD.getNombre()).isEqualTo("Proyecto Cobalto");
-        // Comprobamos que la relación con Usuarios es lazy: al
-        // intentar acceder a la colección de usuarios se debe lanzar una
-        // excepción
+        // Se produce una excepción al intentar acceder a sus usuarios
         assertThatThrownBy(() -> {
-            equipoBD.getUsuarios().size();
+            equipoBd.getUsuarios().size();
         }).isInstanceOf(LazyInitializationException.class);
     }
 ```
@@ -1229,10 +1260,47 @@ entre equipos y usuarios es `LAZY`.
 Comprueba si hay que modificar el código, haz un commit y súbelo a
 GitHub.
 
-#### Noveno test - comprobación de recuperación _eager_ de equipos ####
 
-Hacemos ahora un test para que un usuario recupere de forma _eager_
-sus equipos:
+#### Noveno test - Método de servicio para añadir un usuario a un equipo ####
+
+Vamos a crear un test que nos obligue a implementar el método de
+servicio para añadir un usuario a un equipo. Para comprobar su
+funcionamiento deberemos implementar también el método de servicio
+para recuperar los usuarios de un equipo.
+
+El test es el siguiente.
+
+**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
+
+```java
+@Test
+    public void actualizarRecuperarUsuarioEquipo() {
+        // GIVEN
+        // Un equipo creado en la base de datos y un usuario registrado
+        Equipo equipo = equipoService.crearEquipo("Proyecto 1");
+        Usuario usuario = new Usuario("user@ua");
+        usuario.setPassword("123");
+        usuario = usuarioService.registrar(usuario);
+
+        // WHEN
+        // Añadimos el usuario al equipo y lo recuperamos
+        equipoService.addUsuarioEquipo(usuario.getId(), equipo.getId());
+        List<Usuario> usuarios = equipoService.usuariosEquipo(equipo.getId());
+
+        // THEN
+        // El usuario se ha recuperado correctamente
+        assertThat(usuarios).hasSize(1);
+        assertThat(usuarios.get(0).getEmail()).isEqualTo("user@ua");
+    }
+```
+
+Implementa los métodos de servicio necesarios para que el test pase
+correctamente. Haz un commit y súbelo a GitHub.
+
+#### Décimo test - Recuperación _eager_ de equipos ####
+
+Y, por último, hacemos un test para que un usuario recupere de
+forma _eager_ sus equipos:
 
 **Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
 
@@ -1240,12 +1308,16 @@ sus equipos:
     @Test
     public void comprobarRelacionUsuarioEquipos() {
         // GIVEN
-        // Un equipo con un usuario en la BD
-        Long usuarioId = addEquiposBD().usuarioId;
+        // Un equipo creado en la base de datos y un usuario registrado
+        Equipo equipo = equipoService.crearEquipo("Proyecto 1");
+        Usuario usuario = new Usuario("user@ua");
+        usuario.setPassword("123");
+        usuario = usuarioService.registrar(usuario);
 
         // WHEN
-        // Recuperamos el usuario de la base de datos
-        Usuario usuarioBD = usuarioService.findById(usuarioId);
+        // Añadimos el usuario al equipo y lo recuperamos
+        equipoService.addUsuarioEquipo(usuario.getId(), equipo.getId());
+        Usuario usuarioBD = usuarioService.findById(usuario.getId());
 
         // THEN
         // Se recuperan también los equipos del usuario,
@@ -1255,43 +1327,6 @@ sus equipos:
 ```
 
 Modifica el código para que el test pase, haz un commit y súbelo a GitHub.
-
-#### Décimo test - Método de servicio para obtener los usuarios de un equipo ####
-
-El último test que sirve para definir el método de servicio
-`usuariosEquipo(Long idEquipo)` que devuelve la lista de usuarios de
-un equipo.
-
-Después de comprobar que la lista que se devuelve es correcta,
-volvemos a comprobar que la relación entre usuarios y equipos es
-`EAGER`, esto es, que desde un usuario se puede obtener la lista de
-equipos a los que pertenece.
-
-```java
-    @Test
-    public void obtenerUsuariosEquipo() {
-        // GIVEN
-        // Un equipo con un usuario en la BD
-        Long equipoId = addEquiposBD().equipo1Id;
-
-        // WHEN
-        // Recuperamos los usuarios del equipo
-        List<Usuario> usuarios = equipoService.usuariosEquipo(equipoId);
-
-        // THEN
-        // Se actualizan correctamente las relaciones
-        assertThat(usuarios).hasSize(1);
-        assertThat(usuarios.get(0).getEmail()).isEqualTo("user@ua");
-        // Comprobamos que la relación entre usuarios y equipos es eager
-        // Primero comprobamos que la colección de equipos tiene 1 elemento
-        assertThat(usuarios.get(0).getEquipos()).hasSize(1);
-        // Y después que el elemento es el equipo Proyecto Cobalto
-        assertThat(usuarios.get(0).getEquipos().stream().findFirst().get().getNombre()).isEqualTo("Proyecto Cobalto");
-    }
-```
-
-Escribe el código necesario para que pase. Haz un commit en la rama y
-súbelo a GitHub.
 
 #### Cierre del _issue_ ####
 
@@ -1304,7 +1339,6 @@ usuarios de esos equipos.
 Actions pasa correctamente los tests e intégralo en `main` en
 GitHub. Baja los cambios al repositorio local.
 
-
 #### Vista y controller listado de equipos ####
 
 - Abre un nuevo _issue_ para implementar el controller y las vistas
@@ -1315,6 +1349,11 @@ pulsando en un enlace en el nombre del equipo o con un botón en el listado).
   añadas las funcionalidades poco a poco. No hace falta que hagas TDD,
   pero añade al menos un test por cada método del controller.
 
+- Para probar que los listados funcionan correctamente no debes
+  implementar métodos de actualización en el controller (eso lo harás
+  en las siguientes historias de usuario), sino que debes añadir
+  datos de prueba en el fichero `data.sql`.
+
 ### Resto de historias de usuario ###
 
 Debes implementar la historia de usuario de la misma forma que hemos
@@ -1324,14 +1363,20 @@ implementado la anterior.
 nuevos equipos y añadirme y eliminarme de cualquiera de ellos para poder
 participar y dejar de participar en ellos.
 
+Como los métodos de servicio para crear equipos o para añadir un
+usuario a un equipo ya han sido implementados en la historia anterior,
+puedes usar esta historia para mejorarlos. Por ejemplo, lanzar
+excepciones si la cadena del nombre es vacía o si no existe el usuario
+o el equipo.
 
 !!! Important "Importante detalle de implementación"
     En una relación muchos-a-muchos como la que
     existe entre `Usuario` y `Equipo` cuando se añade un usuario a un
     equipo hay que actualizar ambos lados de la relación, porque
-    JPA/Hibernate no lo hace automáticamente. Hay que añadir el
-    usuario a la colección de usuarios del equipo y también añadir el
-    equipo a la colección de equipos del usuario.
+    JPA/Hibernate no lo hace automáticamente. En el código de
+    la historia anterior al añadir el usuario a la colección de 
+    usuarios del equipo y también añadíamos el equipo a la colección
+    de equipos del usuario.
   
     Lo mismo habría que hacer cuando se elimina un usuario de un equipo.
   
