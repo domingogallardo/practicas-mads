@@ -470,7 +470,7 @@ apartados con el título <code>Pasos a seguir</code>. Ahí están
 especificadas las acciones que debes realizar en la práctica.</p>
 </div>
 <p>La duración de la práctica es de 3 semanas y la fecha límite de
-entrega es el día 9 de noviembre.</p>
+entrega es el día 8 de noviembre.</p>
 <h2 id="1-desarrollo-de-la-release-120">1. Desarrollo de la <em>release</em> 1.2.0<a class="headerlink" href="#1-desarrollo-de-la-release-120" title="Permanent link">&para;</a></h2>
 <p>En esta práctica vamos a desarrollar la versión 1.2.0 de la aplicación
 <code>ToDoList</code>. A todos los <em>issues</em> y <em>pull requests</em> les debes poner este
@@ -582,11 +582,14 @@ naranja significa que el proceso está en ejecución.</p>
   <em>pull request</em>.</p>
 </li>
 <li>
-<p>Modifica un test para que falle y sube un nuevo commit. Comprueba
-  que el commit aparece como erróneo en GitHub cuando el <em>build</em>
-  falla. Vuelve a realizar los cambios para corregirlos, vuelve a
-  subir el commit y comprueba que el nuevo commit y el PR pasan
-  correctamente.</p>
+<p>Modifica un test para que falle y sube un nuevo commit. Recarga la
+  página del pull request y comprueba que el commit aparece como
+  erróneo en GitHub cuando el <em>build</em> falla. Pincha en el enlace
+  <em>details</em> para comprobar la descripción del fallo.</p>
+</li>
+<li>
+<p>Corrige el test que falla, vuelve a subir el commit y comprueba que
+  el nuevo commit y el PR pasan correctamente.</p>
 </li>
 <li>
 <p>Cierra el <em>pull request</em>, mezclándolo con <code>main</code>. Se volverán a
@@ -659,6 +662,7 @@ $ (perfiles) git push -u origin perfiles
 spring.datasource.username=mads
 spring.datasource.password=mads
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
+spring.sql.init.mode=never
 </code></pre></div>
 <p>Este va a ser el perfil que activemos para utilizar la conexión
 con la BD PostgreSQL.</p>
@@ -666,7 +670,7 @@ con la BD PostgreSQL.</p>
 base de datos <code>mads</code>, su usuario (<code>mads</code>) y contraseña (<code>mads</code>) y
 el dialecto que se va a utilizar para trabajar desde JPA con la
 base de datos (<code>org.hibernate.dialect.PostgreSQL9Dialect</code>).</p>
-<p>La propiedad <code>spring.datasource.initialization-mode=never</code> indica
+<p>La propiedad <code>spring.sql.init.mode=never</code> indica
 que no se debe cargar ningún fichero de datos inicial. Por esto,
 el fichero <code>data.sql</code> no se va a cargar en la base de datos,
 deberás registrar un usuario inicial para poder probar la
@@ -750,10 +754,26 @@ $ docker container rm nombre o id de contenedor&gt; (elimina un contenedor)
 <code>src/main/resource/application-postgres.properties</code>.</p>
 <p>Prueba a introducir datos en la aplicación y comprueba que se
 están guardando en la base de datos utilizando por ejemplo el
-panel <code>Database</code> de <em>IntelliJ</em>:</p>
+panel <code>Database</code> de <em>IntelliJ</em>. Deberás añadir una <em>Data Source</em>
+de tipo <em>PostgreSQL</em>, configurando el usuario y contraseña de
+acceso a p <code>mads</code>:</p>
+<p><img src="imagenes/data-source.png" width="700px"/></p>
+<p>Añade la conexión con la base de datos <code>mads</code> pulsando en el
+pequeño recuadro junto al nombre de la fuente de datos:</p>
+<p><img src="imagenes/conexion-data-source.png" width="400px"/></p>
+<p>Y después ya podrás examinar la base de datos <code>mads</code>:</p>
 <p><img src="imagenes/panel-database.png" width="700px"/></p>
+</li>
+<li>
+<p>Cierra la aplicación y vuelve a abrirla. Comprueba que los datos
+   que se han creado en la ejecución anterior siguen estando. </p>
+<p>Podemos también parar el contenedor y volverlo a reiniciar y los
+datos se conservarán. Al parar el contenedor no se eliminan los
+datos, sólo al borrarlo.</p>
+</li>
+<li>
 <p>También podemos arrancar la aplicación con el perfil de postgres
-lanzando directamente el fichero JAR de la siguiente forma:</p>
+    lanzando directamente el fichero JAR de la siguiente forma:</p>
 <div class="highlight"><pre><span></span><code>$ ./mvnw package
 $ java -Dspring.profiles.active=postgres -jar target/*.jar 
 </code></pre></div>
@@ -762,14 +782,8 @@ perfil podemos seleccionar la opción <code>Edit Configurations...</code> del
 menú de configuraciones, duplicar la configuración <code>Application</code>,
 renombrándola por <code>Application PostgreSQL</code> y añadir en el campo
 <code>Active profiles</code> el nombre del perfil nuevo que acabamos de crear
-<code>postgres</code>.</p>
-</li>
-<li>
-<p>Cierra la aplicación y vuelve a abrirla. Comprueba que los datos
-   que se han creado en la ejecución anterior siguen estando. </p>
-<p>Podemos también parar el contenedor y volverlo a reiniciar y los
-datos se conservarán. Al parar el contenedor no se eliminan los
-datos, sólo al borrarlo.</p>
+<code>postgres</code>. Es posible que debas recargar el proyecto Maven para
+actualizar las dependencias.</p>
 </li>
 <li>
 <p>Cierra la aplicación. Paramos el contenedor con la base de datos de
@@ -905,10 +919,25 @@ jobs:
         env:
           POSTGRES_HOST: postgres
 </code></pre></div>
-<p>Vemos que en la última línea se actualiza el parámetro <code>POSTGRES_HOST</code>
-usado por el perfil <code>postgres</code> para que la conexión se realice con el
-host <code>postgres</code> que es el que nombre que se ha definido en el
-servicio.</p>
+<ul>
+<li>
+<p>Se especifica el servicio <code>postgres</code> que se va a usar en el flujo de
+  trabajo. Para configurar este servicio se define la imagen docker
+  (<code>postgres:13</code>) y las variables de entorno que se van a proporcionar
+  al arrancar, para configurar la base de datos (usuario, contraseña y
+  base de datos). Estamos definiendo un contenedor docker similar al
+  que hemos usado con los tests cuando hicimos la prueba en local.</p>
+</li>
+<li>
+<p>El nuevo comando de test activa el perfil <code>postgres</code>. Es el mismo
+  comando que usamos cuando hicimos la prueba en local.</p>
+</li>
+<li>
+<p>En la última línea se actualiza el parámetro <code>POSTGRES_HOST</code> para
+  que la conexión se realice con el host <code>postgres</code> que es el que
+  nombre que se ha definido en el servicio.</p>
+</li>
+</ul>
 <h3 id="pasos-a-seguir_3">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_3" title="Permanent link">&para;</a></h3>
 <ol>
 <li>

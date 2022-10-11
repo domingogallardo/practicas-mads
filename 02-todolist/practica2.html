@@ -3109,7 +3109,13 @@ añadidos. </p>
 <p>Debes por último poner en producción la nueva versión, igual que
 hicimos en la práctica 1, creando una imagen Docker, subiéndola a
 Docker Hub y poniéndola en ejecución en el servidor de la asignatura.</p>
-<p>Para crear la imagen Docker:</p>
+<p>Para crear la imagen Docker primero debes crear el fichero JAR con la
+aplicación:</p>
+<div class="highlight"><pre><span></span><code>$ ./mvnw package
+$ ls -l target/*.jar
+target/mads-todolist-domingogallardo-1.0.1.jar
+</code></pre></div>
+<p>Y después construir la imagen docker:</p>
 <div class="highlight"><pre><span></span><code>$ docker build -t &lt;usuario-docker&gt;/mads-todolist .
 </code></pre></div>
 <p>Sube la máquina a Docker Hub (automáticamente se etiquetara como
