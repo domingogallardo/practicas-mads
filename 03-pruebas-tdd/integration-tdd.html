@@ -1268,7 +1268,7 @@ Detalles
 <strong>de dentro a fuera</strong> (desde el repository hasta el
 controller). Comenzaremos con tests que construyan la capa de modelo
 (clases de entidad y repository) y después pasaremos a tests que
-construyan la capa de servicio.</p>
+construyan la capa de servicio. </p>
 <p>Por último, una vez implementados los métodos de servicios necesarios,
 deberás implementar (lo haremos sin tests) las vistas y
 controllers. Las vistas y controllers los probaremos de forma manual,
@@ -1280,6 +1280,9 @@ llamar al método de servicio necesario. De esta forma nos
 aseguramos que todo el código importante para la funcionalidad está
 testeado y ha sido creado mediante TDD.</p>
 </div>
+<p>Probaremos los tests usando la base de datos de memoria y dejaremos
+que sea la acción de GitHub la que pruebe los tests con la base de
+datos Postgres.</p>
 <p>Recuerda que los pasos seguir la técnica de TDD:</p>
 <ul>
 <li><strong>Test</strong>: Primero debes escribir el test.</li>
@@ -1317,7 +1320,12 @@ creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoTest.java</code></strong>:
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
 
-<span class="c1">// imports</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.jdbc.Sql</span><span class="p">;</span>
+
+<span class="kn">import static</span> <span class="nn">org.assertj.core.api.Assertions.assertThat</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD</span><span class="p">;</span>
 
 <span class="nd">@SpringBootTest</span>
 <span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
@@ -1332,7 +1340,15 @@ creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 </code></pre></div></p>
 <p>Escribe el código necesario para que pase el test. <strong>No debes escribir
 código de más, sólo el código mínimo para que el test pase</strong>. Haz un
-<em>commit</em> que contenga el test y el código y súbelo a la rama remota.</p>
+<em>commit</em> que contenga el test y el código y súbelo a la rama
+remota. Puedes crear el pull request para comprobar que el test pasa
+correctamente cuando se ejecuta sobre la base de datos Postgres.</p>
+<div class="admonition important">
+<p class="admonition-title">Importante</p>
+<p>Debes incluir en el commit tanto el código del test como el código
+que soluciona el test, de forma que el commit debe aparecer como
+correcto en GitHub.</p>
+</div>
 <h4 id="segundo-test-entidad-en-base-de-datos">Segundo test - Entidad en base de datos<a class="headerlink" href="#segundo-test-entidad-en-base-de-datos" title="Permanent link">&para;</a></h4>
 <p>Con el segundo test queremos conseguir que funcione JPA con la entidad
 <code>Equipo</code> y que podamos usar una tabla de equipos en la base de datos,
