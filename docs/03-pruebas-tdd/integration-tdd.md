@@ -356,7 +356,7 @@ cargar la configuración por defecto definida en `application.properties`.
     están guardando en la base de datos utilizando por ejemplo el
     panel `Database` de _IntelliJ_. Deberás añadir una _Data Source_
     de tipo _PostgreSQL_, configurando el usuario y contraseña de
-    acceso a p `mads`:
+    acceso a `mads`:
     
     <img src="imagenes/data-source.png" width="700px"/>
     
@@ -365,7 +365,8 @@ cargar la configuración por defecto definida en `application.properties`.
     
     <img src="imagenes/conexion-data-source.png" width="400px"/>
 
-    Y después ya podrás examinar la base de datos `mads`:
+    Y después ya podrás examinar la base de datos `mads`, pulsando en
+    la tabla que quieras y seleccionando con el botón derecho _Edit Data_:
     
     <img src="imagenes/panel-database.png" width="700px"/>
 
