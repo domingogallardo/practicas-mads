@@ -1314,7 +1314,7 @@ refactorización deberás hacerlo en otro commit adicional.</p>
 <p>Este primer <em>issue</em> lo haremos de forma guiada usando TDD con los
 tests que enumeraremos a continuación. El otro <em>issue</em> lo deberás
 implementar por ti mismo. </p>
-<h4 id="primer-commit-test-y-codigo-entidad-equipo">Primer commit - Test y código Entidad <code>Equipo</code><a class="headerlink" href="#primer-commit-test-y-codigo-entidad-equipo" title="Permanent link">&para;</a></h4>
+<h4 id="primer-commit-test-y-codigo-clase-equipo">Primer commit - Test y código clase <code>Equipo</code><a class="headerlink" href="#primer-commit-test-y-codigo-clase-equipo" title="Permanent link">&para;</a></h4>
 <p>El primer test es para crear la entidad <code>Equipo</code>. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoTest.java</code></strong>:
@@ -1349,31 +1349,45 @@ correctamente cuando se ejecuta sobre la base de datos Postgres.</p>
 que soluciona el test, de forma que el commit debe aparecer como
 correcto en GitHub.</p>
 </div>
-<h4 id="segundo-test-entidad-en-base-de-datos">Segundo test - Entidad en base de datos<a class="headerlink" href="#segundo-test-entidad-en-base-de-datos" title="Permanent link">&para;</a></h4>
+<h4 id="segundo-test-anadir-y-buscar-equipo-en-la-base-de-datos">Segundo test - Añadir y buscar equipo en la base de datos<a class="headerlink" href="#segundo-test-anadir-y-buscar-equipo-en-la-base-de-datos" title="Permanent link">&para;</a></h4>
 <p>Con el segundo test queremos conseguir que funcione JPA con la entidad
 <code>Equipo</code> y que podamos usar una tabla de equipos en la base de datos,
-en la que podamos guardar entidades <code>equipo</code>.</p>
+en la que podamos guardar entidades <code>equipo</code>. </p>
 <p>Para comprobar que la entidad se ha guardado correctamente,
-comprobaremos se ha actualizando su identificador. Lo hacemos
-añadiendo test <code>grabarEquipo</code>. Actualizamos también el fichero
-<code>clean-db.sql</code> para que se borre la tabla <code>equipos</code> al final de cada
-test. </p>
+comprobaremos se ha actualizando su identificador y que podemos
+recuperarlo de la base de datos.</p>
+<p>Lo hacemos añadiendo el test <code>grabarYBuscarEquipo</code>. Usaremos la
+anotación <code>@Transactional</code> siempre que trabajemos con clases
+<em>repository</em>. De esa forma nos aseguramos que todo el código del test
+se ejecuta en la misma transacción. Cuando escribamos el código del
+servicio también habrá que usar esta anotación en cada método, tal y
+como se hace en las clases de servicio de <code>Tarea</code> y <code>Usuario</code>.</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">EquipoRepository</span> <span class="n">equipoRepository</span><span class="p">;</span>
 
     <span class="nd">@Test</span>
     <span class="nd">@Transactional</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">grabarEquipo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">grabarYBuscarEquipo</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
+        <span class="c1">// Un equipo nuevo</span>
         <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
 
         <span class="c1">// WHEN</span>
+        <span class="c1">// Salvamos el equipo en la base de datos</span>
         <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">equipo</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">isNotNull</span><span class="p">();</span>
+        <span class="c1">// Su identificador se ha actualizado y lo podemos</span>
+        <span class="c1">// usar para recuperarlo de la base de datos</span>
+        <span class="n">Long</span> <span class="n">equipoId</span> <span class="o">=</span> <span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipoId</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
+        <span class="n">Equipo</span> <span class="n">equipoDB</span> <span class="o">=</span> <span class="n">equipoRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">equipoId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipoDB</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipoDB</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 </code></pre></div>
+<p>Actualizamos también el fichero <code>clean-db.sql</code> para que se borre la
+tabla <code>equipos</code> al final de cada test.</p>
 <p><strong>Fichero <code>src/test/resources/clean-db.sql</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">tareas</span><span class="p">;</span>
 <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">equipos</span><span class="p">;</span>
@@ -1420,38 +1434,17 @@ deben comparar sus nombres. Ahora bien, si los dos equipos tienen
     <span class="p">}</span>
 </code></pre></div>
 <p>Escribe el código necesario para se pase el test y haz un commit.</p>
-<h4 id="cuarto-test-anadir-y-buscar-equipo-en-base-de-datos">Cuarto test - Añadir y buscar equipo en base de datos<a class="headerlink" href="#cuarto-test-anadir-y-buscar-equipo-en-base-de-datos" title="Permanent link">&para;</a></h4>
-<p>Escribimos ahora un test que pruebe los métodos de añadir y buscar un
-equipo de la clase repository.</p>
-<p>Test:</p>
-<div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarRecuperarEquipo</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// GIVEN</span>
-        <span class="c1">// Un equipo en la base de datos</span>
-        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
-        <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">equipo</span><span class="p">);</span>
-        <span class="n">Long</span> <span class="n">equipoId</span> <span class="o">=</span> <span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
-
-        <span class="c1">// WHEN</span>
-
-        <span class="n">Equipo</span> <span class="n">equipoBD</span> <span class="o">=</span> <span class="n">equipoRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">equipoId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
-
-        <span class="c1">// THEN</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">equipoId</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
-</code></pre></div>
-<p>Comprueba el test y si es necesario escribe el código estríctamente
-necesario para que pase.</p>
-<p>Haz un commit en la rama y súbelo a GitHub.</p>
-<h4 id="quinto-test-relacion-muchos-a-muchos-entre-equipos-y-usuarios">Quinto test - Relación muchos-a-muchos entre equipos y usuarios<a class="headerlink" href="#quinto-test-relacion-muchos-a-muchos-entre-equipos-y-usuarios" title="Permanent link">&para;</a></h4>
+<h4 id="cuarto-test-relacion-muchos-a-muchos-entre-equipos-y-usuarios">Cuarto test - Relación muchos-a-muchos entre equipos y usuarios<a class="headerlink" href="#cuarto-test-relacion-muchos-a-muchos-entre-equipos-y-usuarios" title="Permanent link">&para;</a></h4>
 <p>Vamos ahora a diseñar un test que introduzca la relación entre equipos
 y usuarios. Debe ser una relación muchos-a-muchos: un equipo contiene
 muchos usuarios y un usuario puede pertenecer a 0, 1 o muchos equipos.</p>
 <p>En el test hacemos varias cosas: creamos un equipo y un usuario,
 añadimos el usuario al equipo y comprobamos que las relaciones se han
 actualizado en la base de datos.</p>
+<p>De la misma forma que en un test anterior, añadimos la anotación
+<code>@Transactional</code> para que todas las llamadas a objetos <em>repository</em> se
+hagan en la misma transacción y con la misma conexión a la base de
+datos.</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Autowired</span>
     <span class="kd">private</span> <span class="n">UsuarioRepository</span> <span class="n">usuarioRepository</span><span class="p">;</span>
 
@@ -1460,13 +1453,11 @@ actualizado en la base de datos.</p>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarRelacionBaseDatos</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
         <span class="c1">// Un equipo y un usuario en la BD</span>
-        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto 1&quot;</span><span class="p">);</span>
         <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">equipo</span><span class="p">);</span>
-        <span class="n">Long</span> <span class="n">equipoId</span> <span class="o">=</span> <span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
 
         <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
         <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
-        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
 
         <span class="c1">// WHEN</span>
         <span class="c1">// Añadimos el usuario al equipo</span>
@@ -1474,10 +1465,10 @@ actualizado en la base de datos.</p>
         <span class="n">equipo</span><span class="p">.</span><span class="na">addUsuario</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
-        <span class="c1">// La relación entre usuario y equipo queda actualizada en BD</span>
+        <span class="c1">// La relación entre usuario y equipo pqueda actualizada en BD</span>
 
-        <span class="n">Equipo</span> <span class="n">equipoBD</span> <span class="o">=</span> <span class="n">equipoRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">equipoId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
-        <span class="n">Usuario</span> <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipoBD</span> <span class="o">=</span> <span class="n">equipoRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+        <span class="n">Usuario</span> <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 
         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">()).</span><span class="na">contains</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
@@ -1491,8 +1482,9 @@ entre equipos y usuarios.  Es necesario definir la anotación
 de datos. Vamos a crear esta relación como <code>LAZY</code>, porque si fuera
 <code>EAGER</code> la recuperación de equipos de la base de datos sería muy
 costosa, traería a memoria todos sus usuarios (con sus tareas incluidas).</p>
-<p>En <code>Equipo.java</code> definimos la tabla en la que se va a guardar la
-relación, e indicamos el papel de cada una de sus dos columnas.</p>
+<p>En <code>Equipo.java</code> definimos la tabla <code>equipo_usuario</code> en la que se va a
+guardar la relación, e indicamos el papel de cada una de sus dos
+columnas.</p>
 <p>También creamos el getter para obtener los usuarios. </p>
 <p><strong>Fichero <code>src/main/java/madstodolist/model/Equipo.java</code></strong>:
 <div class="highlight"><pre><span></span><code><span class="gi">+    private String nombre;</span>
@@ -1520,12 +1512,6 @@ relación, e indicamos el papel de cada una de sus dos columnas.</p>
 <span class="gi">+    public Set&lt;Usuario&gt; getUsuarios() {</span>
 <span class="gi">+        return usuarios;</span>
 <span class="gi">+    }</span>
-
-...
-<span class="gi">+    public void addUsuario(Usuario usuario) {</span>
-<span class="gi">+        this.getUsuarios().add(usuario);</span>
-<span class="gi">+        usuario.getEquipos().add(this);</span>
-`    }
 </code></pre></div></p>
 <p>En el fichero <code>Usuario.java</code> definimos la parte inversa de la
 relación. El <code>mappedBy</code> indica que la especificación de la tabla join
@@ -1545,14 +1531,16 @@ usuario solo se van a traer a memoria la información de sus equipos.</p>
 <span class="gi">+        return equipos;</span>
 <span class="gi">+    }</span>
 </code></pre></div></p>
-<p>Y por último añadimos en <code>Equipo.java</code> el método que actualiza la
-relación:</p>
+<p>Y por último añadimos en <code>Equipo.java</code> el método que actualiza ambos
+lados de la relación. Añade el usuario a la colección de usuarios del
+equipo y añade el equipo a la colección de equipos del usuario.</p>
 <div class="highlight"><pre><span></span><code>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addUsuario</span><span class="p">(</span><span class="n">Usuario</span> <span class="n">usuario</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
         <span class="n">usuario</span><span class="p">.</span><span class="na">getEquipos</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
     <span class="p">}</span>
 </code></pre></div>
-<p>Y actualizamos el fichero de limpieza de datos al final de cada test:</p>
+<p>También actualizamos el fichero de limpieza de datos al final de cada
+test, para añadir la nueva tabla <code>equipo_usuario</code>.</p>
 <p><strong>Fichero <code>src/test/resources/clean-db.sql</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">equipo_usuario</span><span class="p">;</span>
 <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">tareas</span><span class="p">;</span>
@@ -1560,7 +1548,7 @@ relación:</p>
 <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">usuarios</span><span class="p">;</span>
 </code></pre></div>
 <p>Comprueba el test, haz un commit en la rama y súbelo a GitHub.</p>
-<h4 id="sexto-test-listado-de-equipos">Sexto test - listado de equipos<a class="headerlink" href="#sexto-test-listado-de-equipos" title="Permanent link">&para;</a></h4>
+<h4 id="quinto-test-listado-de-equipos">Quinto test - Listado de equipos<a class="headerlink" href="#quinto-test-listado-de-equipos" title="Permanent link">&para;</a></h4>
 <p>Vamos ahora a definir un test para obtener una lista de equipos en el
 <em>repository</em>. Queremos que el tipo devuelto por el <em>repository</em>
 sea <em>List</em>.</p>
@@ -1569,8 +1557,8 @@ sea <em>List</em>.</p>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarFindAll</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
         <span class="c1">// Dos equipos en la base de datos</span>
-        <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">));</span>
-        <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto Níquel&quot;</span><span class="p">));</span>
+        <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto 2&quot;</span><span class="p">));</span>
+        <span class="n">equipoRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto 3&quot;</span><span class="p">));</span>
 
         <span class="c1">// WHEN</span>
         <span class="n">List</span><span class="o">&lt;</span><span class="n">Equipo</span><span class="o">&gt;</span> <span class="n">equipos</span> <span class="o">=</span> <span class="n">equipoRepository</span><span class="p">.</span><span class="na">findAll</span><span class="p">();</span>
@@ -1590,14 +1578,31 @@ public interface EquipoRepository extends CrudRepository&lt;Equipo, Long&gt; {
 <span class="gi">+     public List&lt;Equipo&gt; findAll();</span>
 }
 </code></pre></div>
-<h4 id="septimo-test-metodo-de-servicio-para-el-listado-de-equipos">Séptimo test - Método de servicio para el listado de equipos<a class="headerlink" href="#septimo-test-metodo-de-servicio-para-el-listado-de-equipos" title="Permanent link">&para;</a></h4>
+<h4 id="sexto-test-metodo-de-servicio-para-crear-y-recuperar-equipo">Sexto test - Método de servicio para crear y recuperar equipo<a class="headerlink" href="#sexto-test-metodo-de-servicio-para-crear-y-recuperar-equipo" title="Permanent link">&para;</a></h4>
 <p>¡Y por fin llegamos a la capa de servicio!</p>
-<p>Creamos el fichero <code>EquipoServiceTest.java</code> con el código para añadir
-dos equipos de prueba y el test para recuperarlos ordenados por nombre:</p>
+<p>Creamos el fichero <code>EquipoServiceTest.java</code> con la llamada al método
+de servicio para crear un equipo nuevo y a otro método de servicio
+para recuperar un equipo por su identificador.</p>
+<p>Lo hacemos todo en el método <code>crearRecuperarTest</code>. En el test no hay
+que añadir la anotación <code>@Transactional</code> porque queremos probar el uso
+de los métodos de servicio en un contexto similar al que usaremos
+cuando los llamemos desde el controller. Cuando llamemos desde el
+controller a los métodos de servicio no se usará la anotación
+<code>@Transactional</code> para evitar en el código del controller se pueda
+acceder a los objetos repository y modificar directamente la base de
+datos.</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist</span><span class="p">;</span>
 
-<span class="c1">// imports</span>
+<span class="kn">import</span> <span class="nn">madstodolist.model.Equipo</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.service.EquipoService</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.jdbc.Sql</span><span class="p">;</span>
+
+<span class="kn">import static</span> <span class="nn">org.assertj.core.api.Assertions.assertThat</span><span class="p">;</span>
+<span class="kn">import static</span> <span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD</span><span class="p">;</span>
 
 <span class="nd">@SpringBootTest</span>
 <span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
@@ -1606,37 +1611,82 @@ dos equipos de prueba y el test para recuperarlos ordenados por nombre:</p>
     <span class="nd">@Autowired</span>
     <span class="n">EquipoService</span> <span class="n">equipoService</span><span class="p">;</span>
 
-    <span class="c1">// Añade dos equipos a la base de datos </span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addEquiposBD</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">Equipo</span> <span class="n">equipo1</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
-        <span class="n">Equipo</span> <span class="n">equipo2</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto Níquel&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
-
     <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">obtenerListadoEquipos</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// GIVEN</span>
-        <span class="c1">// Dos equipos en la base de datos</span>
-        <span class="n">addEquiposBD</span><span class="p">();</span>
-
-        <span class="c1">// WHEN</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">Equipo</span><span class="o">&gt;</span> <span class="n">equipos</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">findAllOrderedByName</span><span class="p">();</span>
-
-        <span class="c1">// THEN</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Níquel&quot;</span><span class="p">);</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">crearRecuperarEquipo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto 1&quot;</span><span class="p">);</span>
+        <span class="n">Equipo</span> <span class="n">equipoBd</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">recuperarEquipo</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipoBd</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipoBd</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto 1&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Escribe el código estríctamente necesario para que pase. Haz un commit
-en la rama y súbelo a GitHub.</p>
-<!-- TODO: Ordenar los tests que siguen.. 
+<p>Para que funcione correctamente el test tenemos que crear la clase
+<code>EquipoService</code> con los métodos <code>crearEquipo</code> y
+<code>recuperarEquipo</code>. Completa el código en los lugares indicados.</p>
+<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span> <span class="nn">madstodolist.service</span><span class="p">;</span>
 
-- Primero debería añadirse un test para actualizar y recuperar la relación
-- Y después comprobar todo el tema de EAGER y LAZY
---->
+<span class="kn">import</span> <span class="nn">madstodolist.model.Equipo</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">madstodolist.model.EquipoRepository</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.Logger</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.LoggerFactory</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.annotation.Transactional</span><span class="p">;</span>
 
-<h4 id="octavo-test-metodo-de-servicio-para-recuperar-un-equipo">Octavo test - Método de servicio para recuperar un equipo<a class="headerlink" href="#octavo-test-metodo-de-servicio-para-recuperar-un-equipo" title="Permanent link">&para;</a></h4>
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EquipoService</span> <span class="p">{</span>
+    <span class="n">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="p">.</span><span class="na">getLogger</span><span class="p">(</span><span class="n">EquipoService</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="n">EquipoRepository</span> <span class="n">equipoRepository</span><span class="p">;</span>
+
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="n">Equipo</span> <span class="nf">crearEquipo</span><span class="p">(</span><span class="n">String</span> <span class="n">nombre</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Completar</span>
+    <span class="p">}</span>
+
+    <span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="n">Equipo</span> <span class="nf">recuperarEquipo</span><span class="p">(</span><span class="n">Long</span> <span class="n">id</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Completar</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Tal y como hemos comentado, la anotación <code>@Transactional</code> se usa en
+los métodos de servicio en los que se trabaja con objetos <em>repository</em>
+para asegurarnos de que todo el código del método se ejecuta en la
+misma transacción y usando la misma conexión a la base de datos.</p>
+<p>En aquellos métodos en los que no se modifica la base de datos (sólo
+se realiza una consulta) es recomendable utilizar la anotación con el
+atributo <code>readOnly = true</code> para hacer más eficiente la conexión con la
+base de datos.</p>
+<h4 id="septimo-test-metodo-de-servicio-para-el-listado-de-equipos">Séptimo test - Método de servicio para el listado de equipos<a class="headerlink" href="#septimo-test-metodo-de-servicio-para-el-listado-de-equipos" title="Permanent link">&para;</a></h4>
+<p>Añadimos el test que obliga a crear el método de servicio que recupera
+la lista de equipos existentes, ordenada por orden alfabético del
+nombre del equipo:</p>
+<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">listadoEquiposOrdenAlfabetico</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Dos equipos en la base de datos</span>
+        <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto BBB&quot;</span><span class="p">);</span>
+        <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto AAA&quot;</span><span class="p">);</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// Recuperamos los equipos</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Equipo</span><span class="o">&gt;</span> <span class="n">equipos</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">findAllOrderedByName</span><span class="p">();</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// Los equipos están ordenados por nombre</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto AAA&quot;</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipos</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto BBB&quot;</span><span class="p">);</span>        
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Escribe en el servicio el código estríctamente necesario para que
+pase el test. Haz un commit en la rama y súbelo a GitHub.</p>
+<h4 id="octavo-test-comprobacion-de-relacion-lazy-entre-equipo-y-usuarios">Octavo test - Comprobación de relación lazy entre equipo y usuarios<a class="headerlink" href="#octavo-test-comprobacion-de-relacion-lazy-entre-equipo-y-usuarios" title="Permanent link">&para;</a></h4>
 <p>Vamos a centrar este test en la forma de traer a memoria los objetos
 que participan en la relación <code>USUARIO-EQUIPO</code>. </p>
 <p>En JPA hay dos formas de definir una relación a-muchos:</p>
@@ -1672,9 +1722,10 @@ que participan en la relación <code>USUARIO-EQUIPO</code>. </p>
 diseño:</p>
 <ul>
 <li>
-<p>La relación entre un usuario y sus equipos es <code>EAGER</code>. Cuando
+<p>La relación entre un usuario y sus equipos será <code>EAGER</code>. Cuando
   recuperamos un usuario, recuperaremos también la información de
-  todos los equipos en los que participa.</p>
+  todos los equipos en los que participa. Esta parte de la relación
+  está pendiente de implementar. Lo haremos más adelante.</p>
 </li>
 <li>
 <p>La relación entre un equipo y sus usuarios es <code>LAZY</code>. Esto es muy
@@ -1684,84 +1735,75 @@ diseño:</p>
   también se traerían a memoria. </p>
 </li>
 </ul>
-<p>Actualizamos el fichero de test para que el método <code>addEquiposBD</code>
-añada además un usuario al primer equipo y devuelva los
-identificadores de los dos equipos y del usuario:</p>
+<p>Vamos a comprobar que la relación entre equipos y usuarios es
+<code>LAZY</code>. Para ello debemos comprobar que se lanza una excepción cuando
+se intenta acceder a la colección de usuarios de un equipo recuperado:</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
-<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span> <span class="o">=</span> <span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span> <span class="n">executionPhase</span> <span class="o">=</span> <span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EquipoServiceTest</span> <span class="p">{</span>
-
-    <span class="nd">@Autowired</span>
-    <span class="n">EquipoService</span> <span class="n">equipoService</span><span class="p">;</span>
-
-    <span class="nd">@Autowired</span>
-    <span class="n">UsuarioService</span> <span class="n">usuarioService</span><span class="p">;</span>
-
-    <span class="kd">class</span> <span class="nc">TresIds</span> <span class="p">{</span>
-        <span class="n">Long</span> <span class="n">equipo1Id</span><span class="p">;</span>
-        <span class="n">Long</span> <span class="n">equipo2Id</span><span class="p">;</span>
-        <span class="n">Long</span> <span class="n">usuarioId</span><span class="p">;</span>
-        <span class="n">TresIds</span><span class="p">(</span><span class="n">Long</span> <span class="n">equipo1Id</span><span class="p">,</span> <span class="n">Long</span> <span class="n">equipo2Id</span><span class="p">,</span> <span class="n">Long</span> <span class="n">usuarioId</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">this</span><span class="p">.</span><span class="na">equipo1Id</span> <span class="o">=</span> <span class="n">equipo1Id</span><span class="p">;</span>
-            <span class="k">this</span><span class="p">.</span><span class="na">equipo2Id</span> <span class="o">=</span> <span class="n">equipo2Id</span><span class="p">;</span>
-            <span class="k">this</span><span class="p">.</span><span class="na">usuarioId</span> <span class="o">=</span> <span class="n">usuarioId</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-
-    <span class="c1">// Añade dos equipos a la base de datos y un usuario en el primer equipo.</span>
-    <span class="c1">// Devuelve el identificador de los equipos y de los usuarios.</span>
-    <span class="kd">public</span> <span class="n">TresIds</span> <span class="nf">addEquiposBD</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">Equipo</span> <span class="n">equipo1</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
-        <span class="n">Equipo</span> <span class="n">equipo2</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto Níquel&quot;</span><span class="p">);</span>
-        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
-        <span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">);</span>
-        <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
-        <span class="n">equipoService</span><span class="p">.</span><span class="na">addUsuarioEquipo</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">equipo1</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="n">TresIds</span><span class="p">(</span><span class="n">equipo1</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">equipo2</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
-    <span class="p">}</span>
-
-<span class="p">...</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Y definimos un test que sirve para crear el método de
-servicio que recupera un equipo y que se asegura de que la relación
-entre equipos y usuarios es <code>LAZY</code>.</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">obtenerEquipo</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// GIVEN</span>
+<div class="highlight"><pre><span></span><code>   <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accesoUsuariosGeneraExcepcion</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Given</span>
         <span class="c1">// Un equipo en la base de datos</span>
-        <span class="n">Long</span> <span class="n">equipoId</span> <span class="o">=</span> <span class="n">addEquiposBD</span><span class="p">().</span><span class="na">equipo1Id</span><span class="p">;</span>
+        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto 1&quot;</span><span class="p">);</span>
 
         <span class="c1">// WHEN</span>
-        <span class="n">Equipo</span> <span class="n">equipoBD</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">equipoId</span><span class="p">);</span>
+        <span class="c1">// Se recupera el equipo</span>
+        <span class="n">Equipo</span> <span class="n">equipoBd</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">recuperarEquipo</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
 
         <span class="c1">// THEN</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipoBD</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
-        <span class="c1">// Comprobamos que la relación con Usuarios es lazy: al</span>
-        <span class="c1">// intentar acceder a la colección de usuarios se debe lanzar una</span>
-        <span class="c1">// excepción</span>
+        <span class="c1">// Se produce una excepción al intentar acceder a sus usuarios</span>
         <span class="n">assertThatThrownBy</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="p">{</span>
-            <span class="n">equipoBD</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">().</span><span class="na">size</span><span class="p">();</span>
+            <span class="n">equipoBd</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">().</span><span class="na">size</span><span class="p">();</span>
         <span class="p">}).</span><span class="na">isInstanceOf</span><span class="p">(</span><span class="n">LazyInitializationException</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
     <span class="p">}</span>
 </code></pre></div>
 <p>Comprueba si hay que modificar el código, haz un commit y súbelo a
 GitHub.</p>
-<h4 id="noveno-test-comprobacion-de-recuperacion-eager-de-equipos">Noveno test - comprobación de recuperación <em>eager</em> de equipos<a class="headerlink" href="#noveno-test-comprobacion-de-recuperacion-eager-de-equipos" title="Permanent link">&para;</a></h4>
-<p>Hacemos ahora un test para que un usuario recupere de forma <em>eager</em>
-sus equipos:</p>
+<h4 id="noveno-test-metodo-de-servicio-para-anadir-un-usuario-a-un-equipo">Noveno test - Método de servicio para añadir un usuario a un equipo<a class="headerlink" href="#noveno-test-metodo-de-servicio-para-anadir-un-usuario-a-un-equipo" title="Permanent link">&para;</a></h4>
+<p>Vamos a crear un test que nos obligue a implementar el método de
+servicio para añadir un usuario a un equipo. Para comprobar su
+funcionamiento deberemos implementar también el método de servicio
+para recuperar los usuarios de un equipo.</p>
+<p>El test es el siguiente.</p>
+<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">actualizarRecuperarUsuarioEquipo</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// GIVEN</span>
+        <span class="c1">// Un equipo creado en la base de datos y un usuario registrado</span>
+        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto 1&quot;</span><span class="p">);</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+
+        <span class="c1">// WHEN</span>
+        <span class="c1">// Añadimos el usuario al equipo y lo recuperamos</span>
+        <span class="n">equipoService</span><span class="p">.</span><span class="na">addUsuarioEquipo</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span> <span class="n">usuarios</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">usuariosEquipo</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+
+        <span class="c1">// THEN</span>
+        <span class="c1">// El usuario se ha recuperado correctamente</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEmail</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div>
+<p>Implementa los métodos de servicio necesarios para que el test pase
+correctamente. Haz un commit y súbelo a GitHub.</p>
+<h4 id="decimo-test-recuperacion-eager-de-equipos">Décimo test - Recuperación <em>eager</em> de equipos<a class="headerlink" href="#decimo-test-recuperacion-eager-de-equipos" title="Permanent link">&para;</a></h4>
+<p>Y, por último, hacemos un test para que un usuario recupere de
+forma <em>eager</em> sus equipos:</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarRelacionUsuarioEquipos</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
-        <span class="c1">// Un equipo con un usuario en la BD</span>
-        <span class="n">Long</span> <span class="n">usuarioId</span> <span class="o">=</span> <span class="n">addEquiposBD</span><span class="p">().</span><span class="na">usuarioId</span><span class="p">;</span>
+        <span class="c1">// Un equipo creado en la base de datos y un usuario registrado</span>
+        <span class="n">Equipo</span> <span class="n">equipo</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto 1&quot;</span><span class="p">);</span>
+        <span class="n">Usuario</span> <span class="n">usuario</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Usuario</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">);</span>
+        <span class="n">usuario</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
 
         <span class="c1">// WHEN</span>
-        <span class="c1">// Recuperamos el usuario de la base de datos</span>
-        <span class="n">Usuario</span> <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">);</span>
+        <span class="c1">// Añadimos el usuario al equipo y lo recuperamos</span>
+        <span class="n">equipoService</span><span class="p">.</span><span class="na">addUsuarioEquipo</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+        <span class="n">Usuario</span> <span class="n">usuarioBD</span> <span class="o">=</span> <span class="n">usuarioService</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
 
         <span class="c1">// THEN</span>
         <span class="c1">// Se recuperan también los equipos del usuario,</span>
@@ -1770,37 +1812,6 @@ sus equipos:</p>
     <span class="p">}</span>
 </code></pre></div>
 <p>Modifica el código para que el test pase, haz un commit y súbelo a GitHub.</p>
-<h4 id="decimo-test-metodo-de-servicio-para-obtener-los-usuarios-de-un-equipo">Décimo test - Método de servicio para obtener los usuarios de un equipo<a class="headerlink" href="#decimo-test-metodo-de-servicio-para-obtener-los-usuarios-de-un-equipo" title="Permanent link">&para;</a></h4>
-<p>El último test que sirve para definir el método de servicio
-<code>usuariosEquipo(Long idEquipo)</code> que devuelve la lista de usuarios de
-un equipo.</p>
-<p>Después de comprobar que la lista que se devuelve es correcta,
-volvemos a comprobar que la relación entre usuarios y equipos es
-<code>EAGER</code>, esto es, que desde un usuario se puede obtener la lista de
-equipos a los que pertenece.</p>
-<div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">obtenerUsuariosEquipo</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// GIVEN</span>
-        <span class="c1">// Un equipo con un usuario en la BD</span>
-        <span class="n">Long</span> <span class="n">equipoId</span> <span class="o">=</span> <span class="n">addEquiposBD</span><span class="p">().</span><span class="na">equipo1Id</span><span class="p">;</span>
-
-        <span class="c1">// WHEN</span>
-        <span class="c1">// Recuperamos los usuarios del equipo</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span> <span class="n">usuarios</span> <span class="o">=</span> <span class="n">equipoService</span><span class="p">.</span><span class="na">usuariosEquipo</span><span class="p">(</span><span class="n">equipoId</span><span class="p">);</span>
-
-        <span class="c1">// THEN</span>
-        <span class="c1">// Se actualizan correctamente las relaciones</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEmail</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
-        <span class="c1">// Comprobamos que la relación entre usuarios y equipos es eager</span>
-        <span class="c1">// Primero comprobamos que la colección de equipos tiene 1 elemento</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEquipos</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="c1">// Y después que el elemento es el equipo Proyecto Cobalto</span>
-        <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEquipos</span><span class="p">().</span><span class="na">stream</span><span class="p">().</span><span class="na">findFirst</span><span class="p">().</span><span class="na">get</span><span class="p">().</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto Cobalto&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
-</code></pre></div>
-<p>Escribe el código necesario para que pase. Haz un commit en la rama y
-súbelo a GitHub.</p>
 <h4 id="cierre-del-issue">Cierre del <em>issue</em><a class="headerlink" href="#cierre-del-issue" title="Permanent link">&para;</a></h4>
 <p>Cuando hayas terminado todos los ciclos de TDD anteriores habrás
 terminado el <em>issue</em> y testeado e implementado los métodos necesarios
@@ -1823,6 +1834,12 @@ pulsando en un enlace en el nombre del equipo o con un botón en el listado).</p
   añadas las funcionalidades poco a poco. No hace falta que hagas TDD,
   pero añade al menos un test por cada método del controller.</p>
 </li>
+<li>
+<p>Para probar que los listados funcionan correctamente no debes
+  implementar métodos de actualización en el controller (eso lo harás
+  en las siguientes historias de usuario), sino que debes añadir
+  datos de prueba en el fichero <code>data.sql</code>.</p>
+</li>
 </ul>
 <h3 id="resto-de-historias-de-usuario">Resto de historias de usuario<a class="headerlink" href="#resto-de-historias-de-usuario" title="Permanent link">&para;</a></h3>
 <p>Debes implementar la historia de usuario de la misma forma que hemos
@@ -1832,14 +1849,20 @@ implementado la anterior.</p>
 nuevos equipos y añadirme y eliminarme de cualquiera de ellos para poder
 participar y dejar de participar en ellos.</li>
 </ul>
+<p>Como los métodos de servicio para crear equipos o para añadir un
+usuario a un equipo ya han sido implementados en la historia anterior,
+puedes usar esta historia para mejorarlos. Por ejemplo, lanzar
+excepciones si la cadena del nombre es vacía o si no existe el usuario
+o el equipo.</p>
 <div class="admonition important">
 <p class="admonition-title">Importante detalle de implementación</p>
 <p>En una relación muchos-a-muchos como la que
 existe entre <code>Usuario</code> y <code>Equipo</code> cuando se añade un usuario a un
 equipo hay que actualizar ambos lados de la relación, porque
-JPA/Hibernate no lo hace automáticamente. Hay que añadir el
-usuario a la colección de usuarios del equipo y también añadir el
-equipo a la colección de equipos del usuario.</p>
+JPA/Hibernate no lo hace automáticamente. En el código de
+la historia anterior al añadir el usuario a la colección de 
+usuarios del equipo y también añadíamos el equipo a la colección
+de equipos del usuario.</p>
 <p>Lo mismo habría que hacer cuando se elimina un usuario de un equipo.</p>
 </div>
 <ul>
