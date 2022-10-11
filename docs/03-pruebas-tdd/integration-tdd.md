@@ -16,7 +16,7 @@ En esta práctica 3 de la asignatura realizaremos dos tareas principales:
     especificadas las acciones que debes realizar en la práctica.
 
 La duración de la práctica es de 3 semanas y la fecha límite de
-entrega es el día 9 de noviembre.
+entrega es el día 8 de noviembre.
 
 ## 1. Desarrollo de la _release_ 1.2.0 ##
 
@@ -150,11 +150,13 @@ naranja significa que el proceso está en ejecución.
 - Comprueba que se pasan los tests y que se marca como correcto el
   _pull request_.
   
-- Modifica un test para que falle y sube un nuevo commit. Comprueba
-  que el commit aparece como erróneo en GitHub cuando el _build_
-  falla. Vuelve a realizar los cambios para corregirlos, vuelve a
-  subir el commit y comprueba que el nuevo commit y el PR pasan
-  correctamente.
+- Modifica un test para que falle y sube un nuevo commit. Recarga la
+  página del pull request y comprueba que el commit aparece como
+  erróneo en GitHub cuando el _build_ falla. Pincha en el enlace
+  _details_ para comprobar la descripción del fallo.
+  
+- Corrige el test que falla, vuelve a subir el commit y comprueba que
+  el nuevo commit y el PR pasan correctamente.
 
 - Cierra el _pull request_, mezclándolo con `main`. Se volverán a
   lanzar los tests en GitHub y el commit aparecerá marcado como
@@ -244,6 +246,7 @@ cargar la configuración por defecto definida en `application.properties`.
     spring.datasource.username=mads
     spring.datasource.password=mads
     spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
+    spring.sql.init.mode=never
     ```
 
     Este va a ser el perfil que activemos para utilizar la conexión
@@ -254,7 +257,7 @@ cargar la configuración por defecto definida en `application.properties`.
     el dialecto que se va a utilizar para trabajar desde JPA con la
     base de datos (`org.hibernate.dialect.PostgreSQL9Dialect`).
    
-    La propiedad `spring.datasource.initialization-mode=never` indica
+    La propiedad `spring.sql.init.mode=never` indica
     que no se debe cargar ningún fichero de datos inicial. Por esto,
     el fichero `data.sql` no se va a cargar en la base de datos,
     deberás registrar un usuario inicial para poder probar la
@@ -351,11 +354,29 @@ cargar la configuración por defecto definida en `application.properties`.
 
     Prueba a introducir datos en la aplicación y comprueba que se
     están guardando en la base de datos utilizando por ejemplo el
-    panel `Database` de _IntelliJ_:
+    panel `Database` de _IntelliJ_. Deberás añadir una _Data Source_
+    de tipo _PostgreSQL_, configurando el usuario y contraseña de
+    acceso a p `mads`:
+    
+    <img src="imagenes/data-source.png" width="700px"/>
+    
+    Añade la conexión con la base de datos `mads` pulsando en el
+    pequeño recuadro junto al nombre de la fuente de datos:
+    
+    <img src="imagenes/conexion-data-source.png" width="400px"/>
 
+    Y después ya podrás examinar la base de datos `mads`:
+    
     <img src="imagenes/panel-database.png" width="700px"/>
 
-    También podemos arrancar la aplicación con el perfil de postgres
+7. Cierra la aplicación y vuelve a abrirla. Comprueba que los datos
+   que se han creado en la ejecución anterior siguen estando. 
+   
+    Podemos también parar el contenedor y volverlo a reiniciar y los
+    datos se conservarán. Al parar el contenedor no se eliminan los
+    datos, sólo al borrarlo.
+
+8.  También podemos arrancar la aplicación con el perfil de postgres
     lanzando directamente el fichero JAR de la siguiente forma:
     
     ```
@@ -368,16 +389,11 @@ cargar la configuración por defecto definida en `application.properties`.
     menú de configuraciones, duplicar la configuración `Application`,
     renombrándola por `Application PostgreSQL` y añadir en el campo
     `Active profiles` el nombre del perfil nuevo que acabamos de crear
-    `postgres`.
+    `postgres`. Es posible que debas recargar el proyecto Maven para
+    actualizar las dependencias.
 
-7. Cierra la aplicación y vuelve a abrirla. Comprueba que los datos
-   que se han creado en la ejecución anterior siguen estando. 
-   
-    Podemos también parar el contenedor y volverlo a reiniciar y los
-    datos se conservarán. Al parar el contenedor no se eliminan los
-    datos, sólo al borrarlo.
 
-8. Cierra la aplicación. Paramos el contenedor con la base de datos de
+9. Cierra la aplicación. Paramos el contenedor con la base de datos de
    desarrollo haciendo `docker container stop postgres-develop`:
 
     ```
@@ -391,7 +407,7 @@ cargar la configuración por defecto definida en `application.properties`.
     contenedores usando la aplicación _Docker Desktop_ que se
     encuentra en la propia instalación de Docker.
 
-9. Vamos ahora a ver cómo lanzar los tests sobre una base de datos
+10. Vamos ahora a ver cómo lanzar los tests sobre una base de datos
    PostgreSQL. Lanzamos ahora otro contenedor con la base de datos de test (`mads_test`):
 
     ```
@@ -404,12 +420,12 @@ cargar la configuración por defecto definida en `application.properties`.
       ./mvnw -D spring.profiles.active=postgres test
       ```
   
-10. Podemos lanzar también los tests desde _IntelliJ_ editando la
+11. Podemos lanzar también los tests desde _IntelliJ_ editando la
     configuración de lanzamiento de test y añadiendo la variable de
     entorno `spring.profiles.active=postgres`. Podríamos, por ejemplo,
     llamar a esta configuración `Tests con PostgreSQL`.
 
-11. Dado que las configuraciones de test y de ejecución utilizan
+12. Dado que las configuraciones de test y de ejecución utilizan
     distintas bases de datos, debemos tener en funcionamiento la base
     de datos correspondiente a lo que queremos hacer en cada
     momento. Esto es muy fácil usando los contenedores de Docker. Por
@@ -423,7 +439,7 @@ cargar la configuración por defecto definida en `application.properties`.
     $ docker container start postgres-develop
     ```
 
-12. Realiza un commit con los cambios, súbelos a la rama y cierra el
+13. Realiza un commit con los cambios, súbelos a la rama y cierra el
     pull request para integrarlo en `main`:
   
       ```
@@ -536,11 +552,19 @@ jobs:
           POSTGRES_HOST: postgres
 ```
 
-Vemos que en la última línea se actualiza el parámetro `POSTGRES_HOST`
-usado por el perfil `postgres` para que la conexión se realice con el
-host `postgres` que es el que nombre que se ha definido en el
-servicio.
+- Se especifica el servicio `postgres` que se va a usar en el flujo de
+  trabajo. Para configurar este servicio se define la imagen docker
+  (`postgres:13`) y las variables de entorno que se van a proporcionar
+  al arrancar, para configurar la base de datos (usuario, contraseña y
+  base de datos). Estamos definiendo un contenedor docker similar al
+  que hemos usado con los tests cuando hicimos la prueba en local.
 
+- El nuevo comando de test activa el perfil `postgres`. Es el mismo
+  comando que usamos cuando hicimos la prueba en local.
+
+- En la última línea se actualiza el parámetro `POSTGRES_HOST` para
+  que la conexión se realice con el host `postgres` que es el que
+  nombre que se ha definido en el servicio.
 
 ### Pasos a seguir ###
 
