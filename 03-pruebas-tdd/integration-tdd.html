@@ -1309,12 +1309,15 @@ refactorización deberás hacerlo en otro commit adicional.</p>
 <p>Crea una rama para desarrollar el primer <em>issue</em> (llámala
   <code>servicio-equipos</code>, por ejemplo) y pásalo en el
   tablero a <code>In progress</code>.</p>
+<div class="highlight"><pre><span></span><code>$ git checkout -b servicio-equipos
+$ git push -u origin servicio-equipos
+</code></pre></div>
 </li>
 </ul>
 <p>Este primer <em>issue</em> lo haremos de forma guiada usando TDD con los
 tests que enumeraremos a continuación. El otro <em>issue</em> lo deberás
 implementar por ti mismo. </p>
-<h4 id="primer-commit-test-y-codigo-clase-equipo">Primer commit - Test y código clase <code>Equipo</code><a class="headerlink" href="#primer-commit-test-y-codigo-clase-equipo" title="Permanent link">&para;</a></h4>
+<h4 id="primer-commit-clase-equipo">Primer commit - Clase <code>Equipo</code><a class="headerlink" href="#primer-commit-clase-equipo" title="Permanent link">&para;</a></h4>
 <p>El primer test es para crear la entidad <code>Equipo</code>. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoTest.java</code></strong>:
@@ -1339,14 +1342,19 @@ creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 <span class="p">}</span>
 </code></pre></div></p>
 <p>Escribe el código necesario para que pase el test. <strong>No debes escribir
-código de más, sólo el código mínimo para que el test pase</strong>. Haz un
-<em>commit</em> que contenga el test y el código y súbelo a la rama
-remota. Puedes crear el pull request para comprobar que el test pasa
+código de más, sólo el código mínimo para que el test pase</strong>. </p>
+<p>Haz un <em>commit</em> que contenga el test y el código y súbelo a la rama
+remota. Pon como descripción del commit el mismo título de esta
+sección: <em>Primer commit - Clase Equipo</em>.</p>
+<div class="highlight"><pre><span></span><code>$ git add .
+$ git commit -m &quot;Primer commit - Clase Equipo&quot;
+</code></pre></div>
+<p>Puedes crear el pull request para comprobar que el test pasa
 correctamente cuando se ejecuta sobre la base de datos Postgres.</p>
 <div class="admonition important">
 <p class="admonition-title">Importante</p>
 <p>Debes incluir en el commit tanto el código del test como el código
-que soluciona el test, de forma que el commit debe aparecer como
+que soluciona el test, de forma que el commit aparezca como
 correcto en GitHub.</p>
 </div>
 <h4 id="segundo-test-anadir-y-buscar-equipo-en-la-base-de-datos">Segundo test - Añadir y buscar equipo en la base de datos<a class="headerlink" href="#segundo-test-anadir-y-buscar-equipo-en-la-base-de-datos" title="Permanent link">&para;</a></h4>
@@ -1393,7 +1401,10 @@ tabla <code>equipos</code> al final de cada test.</p>
 <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">equipos</span><span class="p">;</span>
 <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">usuarios</span><span class="p">;</span>
 </code></pre></div>
-<p>Escribe el código necesario para se pase el test y haz un commit.</p>
+<p>Escribe el código necesario para se pase el test y haz un commit con
+el nombre del apartado como descripción. Súbelo a GitHub y comprueba
+en el pull request que el test pasa correctamente en el entorno de
+integración.</p>
 <h4 id="tercer-test-definicion-de-igualdad-entre-equipos">Tercer test - Definición de igualdad entre equipos<a class="headerlink" href="#tercer-test-definicion-de-igualdad-entre-equipos" title="Permanent link">&para;</a></h4>
 <p>Ahora que hemos introducido el <code>id</code> del equipo escribimos un test
 para comprobar que dos equipos son iguales. Debes escribir el código
