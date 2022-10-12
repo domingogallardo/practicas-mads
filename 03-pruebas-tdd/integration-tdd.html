@@ -1802,7 +1802,10 @@ para recuperar los usuarios de un equipo.</p>
 correctamente. Haz un commit y súbelo a GitHub.</p>
 <h4 id="decimo-test-recuperacion-eager-de-equipos">Décimo test - Recuperación <em>eager</em> de equipos<a class="headerlink" href="#decimo-test-recuperacion-eager-de-equipos" title="Permanent link">&para;</a></h4>
 <p>Y, por último, hacemos un test para que un usuario recupere de
-forma <em>eager</em> sus equipos:</p>
+forma <em>eager</em> sus equipos. Si recuperamos un usuario con cualquier
+método de servicio (por ejemplo, <code>usuarioService.findById</code>), el
+usuario debe ser devuelto con la colección con sus equipos
+actualizada.</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">comprobarRelacionUsuarioEquipos</span><span class="p">()</span> <span class="p">{</span>
@@ -1824,7 +1827,9 @@ forma <em>eager</em> sus equipos:</p>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">.</span><span class="na">getEquipos</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
     <span class="p">}</span>
 </code></pre></div>
-<p>Modifica el código para que el test pase, haz un commit y súbelo a GitHub.</p>
+<p>El test fallará, porque debes de cambiar algo en la definición de la
+relación entre usuarios y equipos. Modifica el código para que el test
+pase, haz un commit y súbelo a GitHub.</p>
 <h4 id="cierre-del-issue">Cierre del <em>issue</em><a class="headerlink" href="#cierre-del-issue" title="Permanent link">&para;</a></h4>
 <p>Cuando hayas terminado todos los ciclos de TDD anteriores habrás
 terminado el <em>issue</em> y testeado e implementado los métodos necesarios
