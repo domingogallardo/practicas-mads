@@ -878,9 +878,11 @@ Puedes guiarte por la implementación de `equals` y `hashCode` en
         Equipo equipo3 = new Equipo("Proyecto P2");
 
         // THEN
-        // Comprobamos igualdad basada en el atributo nombre
+        // Comprobamos igualdad basada en el atributo nombre y que el
+        // hashCode es el mismo para dos equipos con igual nombre
         assertThat(equipo1).isNotEqualTo(equipo2);
         assertThat(equipo2).isEqualTo(equipo3);
+        assertThat(equipo2.hashCode()).isEqualTo(equipo3.hashCode());
 
         // WHEN
         // Añadimos identificadores y comprobamos igualdad por identificadores
