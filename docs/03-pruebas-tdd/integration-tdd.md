@@ -1319,7 +1319,10 @@ correctamente. Haz un commit y súbelo a GitHub.
 #### Décimo test - Recuperación _eager_ de equipos ####
 
 Y, por último, hacemos un test para que un usuario recupere de
-forma _eager_ sus equipos:
+forma _eager_ sus equipos. Si recuperamos un usuario con cualquier
+método de servicio (por ejemplo, `usuarioService.findById`), el
+usuario debe ser devuelto con la colección con sus equipos
+actualizada.
 
 **Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
 
@@ -1345,7 +1348,9 @@ forma _eager_ sus equipos:
     }
 ```
 
-Modifica el código para que el test pase, haz un commit y súbelo a GitHub.
+El test fallará, porque debes de cambiar algo en la definición de la
+relación entre usuarios y equipos. Modifica el código para que el test
+pase, haz un commit y súbelo a GitHub.
 
 #### Cierre del _issue_ ####
 
