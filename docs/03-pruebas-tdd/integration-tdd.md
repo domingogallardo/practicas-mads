@@ -846,7 +846,7 @@ DELETE FROM equipos;
 DELETE FROM usuarios;
 ```
 
-Escribe el código necesario para se pase el test y haz un commit con
+Escribe el código necesario para pase el test y haz un commit con
 el nombre del apartado como descripción. Súbelo a GitHub y comprueba
 en el pull request que el test pasa correctamente en el entorno de
 integración.
@@ -895,7 +895,7 @@ Puedes guiarte por la implementación de `equals` y `hashCode` en
     }
 ```
 
-Escribe el código necesario para se pase el test y haz un commit.
+Escribe el código necesario para que pase el test y haz un commit.
 
 #### Cuarto test - Relación muchos-a-muchos entre equipos y usuarios ####
 
