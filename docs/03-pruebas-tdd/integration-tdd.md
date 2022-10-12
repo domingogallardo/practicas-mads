@@ -734,12 +734,17 @@ refactorización deberás hacerlo en otro commit adicional.
 - Crea una rama para desarrollar el primer _issue_ (llámala
   `servicio-equipos`, por ejemplo) y pásalo en el
   tablero a `In progress`.
+  
+    ```
+    $ git checkout -b servicio-equipos
+    $ git push -u origin servicio-equipos
+    ```
 
 Este primer _issue_ lo haremos de forma guiada usando TDD con los
 tests que enumeraremos a continuación. El otro _issue_ lo deberás
 implementar por ti mismo. 
 
-#### Primer commit - Test y código clase `Equipo` ####
+#### Primer commit - Clase `Equipo` ####
 
 El primer test es para crear la entidad `Equipo`. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo
@@ -768,14 +773,23 @@ public class EquipoTest {
 ```
 
 Escribe el código necesario para que pase el test. **No debes escribir
-código de más, sólo el código mínimo para que el test pase**. Haz un
-_commit_ que contenga el test y el código y súbelo a la rama
-remota. Puedes crear el pull request para comprobar que el test pasa
+código de más, sólo el código mínimo para que el test pase**. 
+
+Haz un _commit_ que contenga el test y el código y súbelo a la rama
+remota. Pon como descripción del commit el mismo título de esta
+sección: _Primer commit - Clase Equipo_.
+
+```
+$ git add .
+$ git commit -m "Primer commit - Clase Equipo"
+```
+
+Puedes crear el pull request para comprobar que el test pasa
 correctamente cuando se ejecuta sobre la base de datos Postgres.
 
 !!! Important "Importante"
     Debes incluir en el commit tanto el código del test como el código
-    que soluciona el test, de forma que el commit debe aparecer como
+    que soluciona el test, de forma que el commit aparezca como
     correcto en GitHub.
 
 #### Segundo test - Añadir y buscar equipo en la base de datos ####
@@ -832,7 +846,10 @@ DELETE FROM equipos;
 DELETE FROM usuarios;
 ```
 
-Escribe el código necesario para se pase el test y haz un commit.
+Escribe el código necesario para se pase el test y haz un commit con
+el nombre del apartado como descripción. Súbelo a GitHub y comprueba
+en el pull request que el test pasa correctamente en el entorno de
+integración.
 
 #### Tercer test - Definición de igualdad entre equipos ####
 
