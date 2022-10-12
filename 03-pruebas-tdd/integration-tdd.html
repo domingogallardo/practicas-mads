@@ -1428,9 +1428,11 @@ deben comparar sus nombres. Ahora bien, si los dos equipos tienen
         <span class="n">Equipo</span> <span class="n">equipo3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P2&quot;</span><span class="p">);</span>
 
         <span class="c1">// THEN</span>
-        <span class="c1">// Comprobamos igualdad basada en el atributo nombre</span>
+        <span class="c1">// Comprobamos igualdad basada en el atributo nombre y que el</span>
+        <span class="c1">// hashCode es el mismo para dos equipos con igual nombre</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo1</span><span class="p">).</span><span class="na">isNotEqualTo</span><span class="p">(</span><span class="n">equipo2</span><span class="p">);</span>
         <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo2</span><span class="p">).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">equipo3</span><span class="p">);</span>
+        <span class="n">assertThat</span><span class="p">(</span><span class="n">equipo2</span><span class="p">.</span><span class="na">hashCode</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">equipo3</span><span class="p">.</span><span class="na">hashCode</span><span class="p">());</span>
 
         <span class="c1">// WHEN</span>
         <span class="c1">// Añadimos identificadores y comprobamos igualdad por identificadores</span>
