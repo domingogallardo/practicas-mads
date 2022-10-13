@@ -784,8 +784,10 @@ $ git add .
 $ git commit -m "Primer commit - Clase Equipo"
 ```
 
-Puedes crear el pull request para comprobar que el test pasa
-correctamente cuando se ejecuta sobre la base de datos Postgres.
+Crea el pull request para comprobar que el test pasa correctamente
+cuando se ejecuta sobre la base de datos Postgres. Liga el pull
+request con el issue, para que cuando se mezcle el PR se cierre el
+issue.
 
 !!! Important "Importante"
     Debes incluir en el commit tanto el código del test como el código
@@ -1258,7 +1260,7 @@ se intenta acceder a la colección de usuarios de un equipo recuperado:
 **Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
 
 ```java
-   @Test
+    @Test
     public void accesoUsuariosGeneraExcepcion() {
         // Given
         // Un equipo en la base de datos
@@ -1292,7 +1294,7 @@ El test es el siguiente.
 **Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
 
 ```java
-@Test
+    @Test
     public void actualizarRecuperarUsuarioEquipo() {
         // GIVEN
         // Un equipo creado en la base de datos y un usuario registrado
@@ -1359,9 +1361,10 @@ terminado el _issue_ y testeado e implementado los métodos necesarios
 para la clase de servicio que gestiona el listado de equipos y
 usuarios de esos equipos.
 
-- Crea un pull request que cierre el _issue_, comprueba que GitHub
-Actions pasa correctamente los tests e intégralo en `main` en
-GitHub. Baja los cambios al repositorio local.
+- Comprueba que el pull request esté listo para mezclar (GitHub
+Actions pasa correctamente todos los tests) y realiza la mezcla para
+intégralo en `main` en GitHub. Comprueba que el issue asociado se
+ha cerrado y baja los cambios al repositorio local.
 
 #### Vista y controller listado de equipos ####
 
@@ -1371,12 +1374,7 @@ pulsando en un enlace en el nombre del equipo o con un botón en el listado).
 
 - Realiza el desarrollo del _issue_ usando varios commits en los que
   añadas las funcionalidades poco a poco. No hace falta que hagas TDD,
-  pero añade al menos un test por cada método del controller.
-
-- Para probar que los listados funcionan correctamente no debes
-  implementar métodos de actualización en el controller (eso lo harás
-  en las siguientes historias de usuario), sino que debes añadir
-  datos de prueba en el fichero `data.sql`.
+  pero añade pruebas para cada método del controller.
 
 ### Resto de historias de usuario ###
 
@@ -1387,9 +1385,9 @@ implementado la anterior.
 nuevos equipos y añadirme y eliminarme de cualquiera de ellos para poder
 participar y dejar de participar en ellos.
 
-Como los métodos de servicio para crear equipos o para añadir un
-usuario a un equipo ya han sido implementados en la historia anterior,
-puedes usar esta historia para mejorarlos. Por ejemplo, lanzar
+Los métodos de servicio para crear equipos o para añadir un usuario a
+un equipo ya han sido implementados en la historia anterior, por lo
+que puedes usar esta historia para mejorarlos. Por ejemplo, lanzar
 excepciones si la cadena del nombre es vacía o si no existe el usuario
 o el equipo.
 
@@ -1400,13 +1398,12 @@ o el equipo.
     JPA/Hibernate no lo hace automáticamente. En el código de
     la historia anterior al añadir el usuario a la colección de 
     usuarios del equipo y también añadíamos el equipo a la colección
-    de equipos del usuario.
+    de equipos del usuario. Lo mismo habría que hacer cuando se 
+    elimina un usuario de un equipo.
   
-    Lo mismo habría que hacer cuando se elimina un usuario de un equipo.
-  
-- **010 Gestión de equipos (opcional)**: Como administrador cambiar el
-nombre y eliminar los equipos para adaptarlos a los proyectos y
-estructura de la empresa.
+- **010 Gestión de equipos (opcional)**: Como administrador puedo
+cambiar el nombre y eliminar los equipos para adaptarlos a los
+proyectos y estructura de la empresa.
 
 ### Pasos a seguir ###
 
@@ -1447,9 +1444,7 @@ En la documentación debes incluir también una **captura de pantalla**
 en la que se muestren las tablas de la base de datos de desarrollo
 PostgreSQL en la versión final de la aplicación. Puedes mostrar, por
 ejempo, una pantalla con el panel `Database` de _IntelliJ_ o la
-herramienta que hayas utilizado. Basta solo con una captura de la base
-de datos de desarrollo, no hace falta mostrar la base de datos de
-test.
+herramienta que hayas utilizado.
 
 Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las **historias de usuario 009 y 010**.
@@ -1472,7 +1467,7 @@ Boot](https://github.com/domingogallardo/practicas-mads/blob/main/docs/01-intro-
 se puede ver pulsando el botón `Raw`. Verás el [texto Markdown](https://raw.githubusercontent.com/domingogallardo/practicas-mads/main/docs/01-intro-spring-boot/intro-spring-boot.md).
 
 - La práctica tiene una duración de 3 semanas y la fecha límite de
-  entrega es el martes 10 de noviembre.
+  entrega es el martes 8 de noviembre.
 - La parte obligatoria puntúa sobre 8 y la opcional sobre 2 puntos.
 - La calificación de la práctica tiene un peso de un 25% en la nota
   final de prácticas. 
