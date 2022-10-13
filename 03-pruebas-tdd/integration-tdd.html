@@ -1349,8 +1349,10 @@ sección: <em>Primer commit - Clase Equipo</em>.</p>
 <div class="highlight"><pre><span></span><code>$ git add .
 $ git commit -m &quot;Primer commit - Clase Equipo&quot;
 </code></pre></div>
-<p>Puedes crear el pull request para comprobar que el test pasa
-correctamente cuando se ejecuta sobre la base de datos Postgres.</p>
+<p>Crea el pull request para comprobar que el test pasa correctamente
+cuando se ejecuta sobre la base de datos Postgres. Liga el pull
+request con el issue, para que cuando se mezcle el PR se cierre el
+issue.</p>
 <div class="admonition important">
 <p class="admonition-title">Importante</p>
 <p>Debes incluir en el commit tanto el código del test como el código
@@ -1752,7 +1754,7 @@ diseño:</p>
 <code>LAZY</code>. Para ello debemos comprobar que se lanza una excepción cuando
 se intenta acceder a la colección de usuarios de un equipo recuperado:</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code>   <span class="nd">@Test</span>
+<div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accesoUsuariosGeneraExcepcion</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// Given</span>
         <span class="c1">// Un equipo en la base de datos</span>
@@ -1778,7 +1780,7 @@ funcionamiento deberemos implementar también el método de servicio
 para recuperar los usuarios de un equipo.</p>
 <p>El test es el siguiente.</p>
 <p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Test</span>
+<div class="highlight"><pre><span></span><code>    <span class="nd">@Test</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">actualizarRecuperarUsuarioEquipo</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">// GIVEN</span>
         <span class="c1">// Un equipo creado en la base de datos y un usuario registrado</span>
@@ -1836,9 +1838,10 @@ terminado el <em>issue</em> y testeado e implementado los métodos necesarios
 para la clase de servicio que gestiona el listado de equipos y
 usuarios de esos equipos.</p>
 <ul>
-<li>Crea un pull request que cierre el <em>issue</em>, comprueba que GitHub
-Actions pasa correctamente los tests e intégralo en <code>main</code> en
-GitHub. Baja los cambios al repositorio local.</li>
+<li>Comprueba que el pull request esté listo para mezclar (GitHub
+Actions pasa correctamente todos los tests) y realiza la mezcla para
+intégralo en <code>main</code> en GitHub. Comprueba que el issue asociado se
+ha cerrado y baja los cambios al repositorio local.</li>
 </ul>
 <h4 id="vista-y-controller-listado-de-equipos">Vista y controller listado de equipos<a class="headerlink" href="#vista-y-controller-listado-de-equipos" title="Permanent link">&para;</a></h4>
 <ul>
@@ -1850,13 +1853,7 @@ pulsando en un enlace en el nombre del equipo o con un botón en el listado).</p
 <li>
 <p>Realiza el desarrollo del <em>issue</em> usando varios commits en los que
   añadas las funcionalidades poco a poco. No hace falta que hagas TDD,
-  pero añade al menos un test por cada método del controller.</p>
-</li>
-<li>
-<p>Para probar que los listados funcionan correctamente no debes
-  implementar métodos de actualización en el controller (eso lo harás
-  en las siguientes historias de usuario), sino que debes añadir
-  datos de prueba en el fichero <code>data.sql</code>.</p>
+  pero añade pruebas para cada método del controller.</p>
 </li>
 </ul>
 <h3 id="resto-de-historias-de-usuario">Resto de historias de usuario<a class="headerlink" href="#resto-de-historias-de-usuario" title="Permanent link">&para;</a></h3>
@@ -1867,9 +1864,9 @@ implementado la anterior.</p>
 nuevos equipos y añadirme y eliminarme de cualquiera de ellos para poder
 participar y dejar de participar en ellos.</li>
 </ul>
-<p>Como los métodos de servicio para crear equipos o para añadir un
-usuario a un equipo ya han sido implementados en la historia anterior,
-puedes usar esta historia para mejorarlos. Por ejemplo, lanzar
+<p>Los métodos de servicio para crear equipos o para añadir un usuario a
+un equipo ya han sido implementados en la historia anterior, por lo
+que puedes usar esta historia para mejorarlos. Por ejemplo, lanzar
 excepciones si la cadena del nombre es vacía o si no existe el usuario
 o el equipo.</p>
 <div class="admonition important">
@@ -1880,13 +1877,13 @@ equipo hay que actualizar ambos lados de la relación, porque
 JPA/Hibernate no lo hace automáticamente. En el código de
 la historia anterior al añadir el usuario a la colección de 
 usuarios del equipo y también añadíamos el equipo a la colección
-de equipos del usuario.</p>
-<p>Lo mismo habría que hacer cuando se elimina un usuario de un equipo.</p>
+de equipos del usuario. Lo mismo habría que hacer cuando se 
+elimina un usuario de un equipo.</p>
 </div>
 <ul>
-<li><strong>010 Gestión de equipos (opcional)</strong>: Como administrador cambiar el
-nombre y eliminar los equipos para adaptarlos a los proyectos y
-estructura de la empresa.</li>
+<li><strong>010 Gestión de equipos (opcional)</strong>: Como administrador puedo
+cambiar el nombre y eliminar los equipos para adaptarlos a los
+proyectos y estructura de la empresa.</li>
 </ul>
 <h3 id="pasos-a-seguir_5">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_5" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1922,9 +1919,7 @@ implementado en las historias de usuario 009 y 010.</p>
 en la que se muestren las tablas de la base de datos de desarrollo
 PostgreSQL en la versión final de la aplicación. Puedes mostrar, por
 ejempo, una pantalla con el panel <code>Database</code> de <em>IntelliJ</em> o la
-herramienta que hayas utilizado. Basta solo con una captura de la base
-de datos de desarrollo, no hace falta mostrar la base de datos de
-test.</p>
+herramienta que hayas utilizado.</p>
 <p>Por ejemplo, puedes incluir en la documentación lo siguiente. Los
 puntos 2 en adelante son sobre las <strong>historias de usuario 009 y 010</strong>.</p>
 <ol>
@@ -1947,7 +1942,7 @@ Boot</a>
 se puede ver pulsando el botón <code>Raw</code>. Verás el <a href="https://raw.githubusercontent.com/domingogallardo/practicas-mads/main/docs/01-intro-spring-boot/intro-spring-boot.md">texto Markdown</a>.</p>
 <ul>
 <li>La práctica tiene una duración de 3 semanas y la fecha límite de
-  entrega es el martes 10 de noviembre.</li>
+  entrega es el martes 8 de noviembre.</li>
 <li>La parte obligatoria puntúa sobre 8 y la opcional sobre 2 puntos.</li>
 <li>La calificación de la práctica tiene un peso de un 25% en la nota
   final de prácticas. </li>
