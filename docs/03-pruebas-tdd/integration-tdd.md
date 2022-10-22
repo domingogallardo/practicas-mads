@@ -483,9 +483,17 @@ configuración adicional (poner en marcha la base de datos de test en
 nuestro caso) y se ejecutan menos frecuentemente.
 
 Vamos a actualizar GitHub Actions para que se lancen allí los tests
-usando la base de datos PostgreSQL. De esta forma nosotros lanzaremos en
-local los tests que usan la BD de memoria y los tests de integración
-se lanzarán en GitHub cada vez que vaya a mezclarse un pull request.
+que usan la base de datos PostgreSQL y nos ahorremos el trabajo de
+realizarlos en local.
+
+Seguiremos lanzando en local los tests que usan la BD de memoria
+mientras hacemos el desarrollo.
+
+Dejaremos también en GitHub Actions los tests que usan la BD de
+memoria. Quizás sean redundantes con los que usan la BD de Postgres,
+pero su ejecución no cuesta demasiado y no está de más lanzarlos
+también. Podríamos prescindir de ellos si en algún momento comprobamos
+que el tiempo de ejecución de los tests en GitHub se hace muy largo.
 
 ### Acción para lanzar los tests con la BD postgres ###
 
