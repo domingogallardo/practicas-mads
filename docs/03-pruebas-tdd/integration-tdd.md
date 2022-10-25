@@ -1485,6 +1485,9 @@ se puede ver pulsando el botón `Raw`. Verás el [texto Markdown](https://raw.gi
   **después de haber hecho un `./mvnw clean`** para eliminar el
   directorio `target` que contiene los binarios compilados. Debes
   dejar también en Moodle la URL del repositorio en GitHub.
+- Debes subir a DockerHub la imagen docker con la versión final
+  1.2.0. Es la que me descargaré y utilizaré para comprobar el
+  funcionamiento final de la práctica.
 
 Para la evaluación se tendrá en cuenta:
 
