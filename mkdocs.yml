@@ -8,7 +8,7 @@ nav:
    - 'Resumen de comandos Git': '01-intro-spring-boot/comandos-git.md'
 - 'Práctica 2': '02-todolist/practica2.md'
 - 'Práctica 3': '03-pruebas-tdd/integration-tdd.md'
-# - 'Práctica 4': '04-gitflow-despliegue/gitflow-despliegue.md'
+- 'Práctica 4': '04-gitflow-despliegue/gitflow-despliegue.md'
 # - 'Práctica 5': '05-iteracion-scrum/iteracion-scrum.md'
 # - 'Práctica C4': '06-practica-c4/practica-c4.md'
 
