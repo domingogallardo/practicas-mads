@@ -36,7 +36,7 @@ _team_ y el repositorio.
 
     El equipo trabajará con un repositorio creado por GitHub Classroom
     con el nombre `todolist--NOMBRE-EQUIPO`. Al igual que en
-    la práctica 2, el repositorio se creará en la organización `mads-ua-21-22`.
+    la práctica 2, el repositorio se creará en la organización `mads-ua-22-23`.
 
     <img src="imagenes/repo-creado-github-classroom.png" width="700px"/>
 
@@ -59,7 +59,7 @@ _team_ y el repositorio.
     repositorio local y haciendo un push:
 
     ```
-    $ git remote set-url origin https://github.com/mads-ua-21-22/todolist-NOMBRE-EQUIPO.git
+    $ git remote set-url origin https://github.com/mads-ua-22-23/todolist-NOMBRE-EQUIPO.git
     $ git push -u origin main
     ```
     Por último, los otros miembros del equipo deberán clonar el
