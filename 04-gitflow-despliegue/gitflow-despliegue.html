@@ -14,7 +14,7 @@
     
     
       
-        <title>Práctica 4: Trabajo en equipo con GitFlow y despliegue en producción - Prácticas MADS</title>
+        <title>Práctica 4 - Prácticas MADS</title>
       
     
     
@@ -92,7 +92,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Práctica 4: Trabajo en equipo con GitFlow y despliegue en producción
+              Práctica 4
             
           </span>
         </div>
@@ -255,6 +255,237 @@
       <a href="../03-pruebas-tdd/integration-tdd.html" class="md-nav__link">
         Práctica 3
       </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Práctica 4
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="gitflow-despliegue.html" class="md-nav__link md-nav__link--active">
+        Práctica 4
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-objetivos-y-resumen-de-la-practica" class="md-nav__link">
+    1. Objetivos y resumen de la práctica
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-formacion-de-equipos" class="md-nav__link">
+    2. Formación de equipos
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Formación de equipos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-nuevo-flujo-de-trabajo-para-los-issues" class="md-nav__link">
+    3. Nuevo flujo de trabajo para los issues
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Nuevo flujo de trabajo para los issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comandos-git" class="md-nav__link">
+    Comandos Git
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_1" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-contenedor-con-la-aplicacion-todolist" class="md-nav__link">
+    4. Contenedor con la aplicación ToDoList
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Contenedor con la aplicación ToDoList">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_2" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-despliegue-en-produccion-con-bd" class="md-nav__link">
+    5. Despliegue en producción con BD
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Despliegue en producción con BD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_3" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-perfil-de-produccion-y-mantenimiento-de-la-base-de-datos-de-produccion" class="md-nav__link">
+    6. Perfil de producción y mantenimiento de la base de datos de producción
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Perfil de producción y mantenimiento de la base de datos de producción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#perfil-de-produccion" class="md-nav__link">
+    Perfil de producción
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mantenimiento-de-la-base-de-datos-de-produccion" class="md-nav__link">
+    Mantenimiento de la base de datos de producción
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_4" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-desarrollo-de-la-nueva-version-con-gitflow" class="md-nav__link">
+    7. Desarrollo de la nueva versión con GitFlow
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Desarrollo de la nueva versión con GitFlow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ramas-de-largo-recorrido" class="md-nav__link">
+    Ramas de largo recorrido
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ramas-de-feature" class="md-nav__link">
+    Ramas de feature
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_5" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rama-de-release" class="md-nav__link">
+    Rama de release
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-a-seguir_6" class="md-nav__link">
+    Pasos a seguir
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-documentacion-entrega-y-evaluacion" class="md-nav__link">
+    9. Documentación, entrega y evaluación
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1380,6 +1611,25 @@ que deberéis incluir:</p>
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Pie">
+      
+        <a href="../03-pruebas-tdd/integration-tdd.html" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              Práctica 3
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
