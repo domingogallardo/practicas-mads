@@ -273,7 +273,7 @@ en repositorios y ramas remotas.
 ### Pasos a seguir ###
 
 1. Añadid el milestone 1.3.0 y etiquetad todos los próximos issues con
-  él. Probad el nuevo flujo de trabajo descrito anteriormente creando
+  él. Vamos a probar el nuevo flujo de trabajo descrito anteriormente creando
   un nuevo _issue_ denominado `Actualizar la página Acerca de`. En la
   descripción de _issue_ comentad que se debe modificar la página para
   que muestren todos los miembros del equipo y el nuevo número de
@@ -303,7 +303,7 @@ en repositorios y ramas remotas.
 ## 4. Contenedor con la aplicación ToDoList ##
 
 Una de las cosas que vamos a hacer en esta práctica (en el siguiente
-apartado) es poner en producción en el servidor de la asignatura la
+apartado) es poner en producción en uno de vuestros ordenadores la
 aplicación ToDoList conectándola con la base de datos. En las
 prácticas 1 y 2 ya hemos construido el contenedor Docker de la
 aplicación, con el siguiente fichero Dockerfile:
@@ -337,7 +337,8 @@ $ docker run --rm <usuario>/mads-todolist-equipoXX --spring.profiles.active=post
 ```
 
 Vamos a probarlo, creando y subiendo la nueva imagen a
-DockerHub y desplegándola en el servidor de la asignatura.
+DockerHub y desplegándola en uno de vuestros ordenadores. Este
+despliegue es lo que haré yo para corregir la práctica.
 
 ### Pasos a seguir ###
 
@@ -455,44 +456,36 @@ producción.
 
 ### Pasos a seguir ###
 
-Veamos paso a paso cómo crear la configuración anterior. En muchos
-casos tendremos que usar el nombre de nuestro equipo. En los ejemplos
-hemos usado `equipo01`. Debéis cambiarlo por el nombre de vuestro equipo.
+Veamos paso a paso cómo crear la configuración anterior en uno de
+vuestros ordenadores, que usaréis como ordenador de despliegue.
 
-1. Nos conectamos al servidor de la asignatura con uno de los usuarios
-   del equipo. La dirección IP está en un mensaje enviado al foro de
-   la asignatura.
+1. Creamos en nuestro ordenador de despliegue una red gestionada por
+   Docker: 
 
     ```
-    $ ssh alu02@<direccion-IP>
+    $ docker network create network-equipo
     ```
 
-2. Creamos una red gestionada por Docker:
-
-    ```
-    $ docker network create network-equipo01
-    ```
-
-3. Lanzamos el contenedor con la base de datos usando la red creada
-  anteriormente y con el nombre `db-equipo01`. Definimos el nombre del
+2. Lanzamos el contenedor con la base de datos usando la red creada
+  anteriormente y con el nombre `db-equipo`. Definimos el nombre del
   host creado en el contenedor como `postgres` con el modificador
   `--network-alias`.
 
     ```
-    $ docker run -d --network network-equipo01 --network-alias postgres -v ${PWD}:/mi-host --name db-equipo01 -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+    $ docker run -d --network network-equipo --network-alias postgres -v ${PWD}:/mi-host --name db-equipo -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
     ```
 
     El modificador `-v` permite montar el directorio actual en el
     directorio `/mi-host` del contenedor. Vamos a probar que funciona
     correctamente. 
 
-4. Nos conectamos al contenedor lanzando un `bash`
+3. Nos conectamos al contenedor lanzando un `bash`
    interactivo. Estando en el contenedor creamos un fichero en el
    directorio `/mi-host`, salimos del contenedor y comprobamos que
    está en el directorio actual
 
     ```
-    $ docker exec -it db-equipo01 bash
+    $ docker exec -it db-equipo bash
     root@e470db191dc6:/# cd /mi-host
     root@e470db191dc6:/mi-host# echo "Hola" > prueba.txt
     root@e470db191dc6:/mi-host# exit
@@ -502,7 +495,7 @@ hemos usado `equipo01`. Debéis cambiarlo por el nombre de vuestro equipo.
     Hola
     ```
 
-5. Con esto ya tenemos configurado y en marcha el contenedor con la
+4. Con esto ya tenemos configurado y en marcha el contenedor con la
    base de datos Postgres. Esta va a ser nuestra base de datos de
    producción. Vamos ahora a poner en marcha la aplicación.
 
@@ -512,8 +505,8 @@ hemos usado `equipo01`. Debéis cambiarlo por el nombre de vuestro equipo.
     contenedor esas variables del entorno.
 
     ```
-    $ docker pull <usuario>/mads-todolist-equipo01:1.3.0-snapshot
-    $ docker run --rm --name spring-boot-equipo01 --network network-equipo01 -p8080:8080 <usuario>/mads-todolist-equipo01:1.3.0-snapshot --spring.profiles.active=postgres --POSTGRES_HOST=postgres
+    $ docker pull <usuario>/mads-todolist-equipoXX:1.3.0-snapshot
+    $ docker run --rm --network network-equipo -p8080:8080 <usuario>/mads-todolist-equipoXX:1.3.0-snapshot --spring.profiles.active=postgres --POSTGRES_HOST=postgres
     ```
 
     ¡¡¡Enhorabuena!!! ¡Ya tenemos la aplicación en producción
@@ -526,12 +519,12 @@ hemos usado `equipo01`. Debéis cambiarlo por el nombre de vuestro equipo.
     paramos el contenedor y lo volvemos a arrancar para comprobar que los
     datos son persistentes.
 
-6. Para comprobar que la base de datos está funcionando correctamente
+5. Para comprobar que la base de datos está funcionando correctamente
    podemos conectarnos al contenedor y examinar la base de datos
    `mads` y alguna de sus tablas:
 
     ```
-    $ docker exec -it db-equipo01 bash
+    $ docker exec -it db-equipo bash
     # psql -U mads -W mads (nos pedirá la contraseña: mads)
     # \l (lista las bases de datos)
     # \dt (lista las tablas)
@@ -543,16 +536,9 @@ hemos usado `equipo01`. Debéis cambiarlo por el nombre de vuestro equipo.
     conservando los datos:
 
     ```
-    $ docker stop db-equipo01
-    $ docker start db-equipo01
+    $ docker stop db-equipo
+    $ docker start db-equipo
     ```
-
-7. Deja el contenedor de base de datos parado mientras que no lo estés
-   utilizando para no sobrecargar el servidor:
-   
-   ```
-   $ docker stop db-equipo01
-   ```
 
 ## 6. Perfil de producción y mantenimiento de la base de datos de producción ##
 
@@ -600,7 +586,8 @@ datos. Su valor puede ser:
 Vamos a definir en la aplicación un nuevo perfil de ejecución, llamado
 `postgres-prod`, en el que pondremos el valor del parámetro
 `spring.jpa.hibernate.ddl-auto` a `VALIDATE`. Y será este el perfil
-que usaremos para lanzar la aplicación en el servidor de producción.
+que usaremos para lanzar la aplicación en uno de vuestros ordenadores,
+que hará de servidor de producción.
 
 
 ### Mantenimiento de la base de datos de producción ###
@@ -638,7 +625,7 @@ podemos hacer una copia de seguridad de la base de datos `mads` en el
 directorio compartido:
 
 ```
-$ docker exec -it db-equipo01 bash
+$ docker exec -it db-equipo bash
 # pg_dump -U mads --clean mads > /mi-host/backup03092021.sql
 ```
 
@@ -650,7 +637,7 @@ Para restaurar una copia de seguridad basta con ejecutar el fichero
 SQL en la base de datos:
 
 ```
-$ docker exec -it db-equipo01 bash
+$ docker exec -it db-equipo bash
 # psql -U mads mads < /mi-host/backup03092021.sql
 # exit
 ```
@@ -662,7 +649,7 @@ las tablas, sin los datos) conectándonos al contenedor y ejecutando el
 siguiente comando para guardar el fichero en el directorio compartido:
 
 ```
-$ docker exec -it db-equipo01 bash
+$ docker exec -it db-equipo bash
 # pg_dump -U mads -s mads > /mi-host/schema.sql
 # exit
 ```
@@ -725,7 +712,7 @@ Para actualizar la base de datos de producción sólo tenemos que
 ejecutar el script anterior:
 
 ```
-$ docker exec -it db-equipo01 bash
+$ docker exec -it db-equipo bash
 $ psql -U mads mads < /mi-host/schema-1.2.0-1.3.0.sql
 ALTER TABLE
 $ exit
@@ -840,21 +827,26 @@ spring.jpa.hibernate.ddl-auto=validate
     org.hibernate.tool.schema.spi.SchemaManagementException: 
     Schema-validation: missing table [equipo_usuario]
     ```
+8. Actualizamos el contenedor postgres con el esquema de base de datos
+   salvado anteriormente:
+   
+    ```
+    $ docker exec -it db-equipo bash
+    # psql -U mads mads < sql/schema-1.2.0.sql
+    # exit
+    ```
+
+    Y arrancamos la aplicación y comprobamos que ahora sí que funciona
+    correctamente (la base de datos ya tiene el esquema de datos correcto).
     
-8. Si queremos volver a construir la base de datos, no tenemos más que
-   lanzar la aplicación con el perfile `postgres`, que tiene la
-   propiedad `spring.jpa.hibernate.ddl-auto` con el valor
-   `update`.
+9.  Introducimos en la aplicación algunos datos de prueba y hacemos
+    una copia de seguridad tal y como se explica
+    anteriormente. Dejamos el fichero en el directorio `sql` del
+    repositorio, indicando la fecha en el nombre del mismo. Por
+    ejemplo `sql/backup15112022.sql`.
 
-9. Hacemos un commit con el nuevo perfil, subimos los cambios y
-   cerramos el pull request y el issue.
-
-10. Nos conectamos al servidor de la asignatura y ponemos en marcha la
-    base de datos de producción y hacemos una copia de seguridad tal y
-    como se explica anteriormente. Dejamos el fichero en el servidor
-    de la asignatura, indicando la fecha en el nombre del mismo. Por
-    ejemplo `backup10112021.sql`.
-
+10. Hacemos un commit, subimos los cambios y cerramos el pull request y
+   el issue.
 
 ## 7. Desarrollo de la nueva versión con GitFlow ##
 
@@ -949,8 +941,29 @@ trabajo GitFlow.
       de migración con las instrucciones `ALTER TABLE` necesarias para
       actualizar la base de datos de producción de la versión 1.2.0 a
       la 1.3.0. Guardar el script en `sql/schema-1.2.0-1.3.0.sql`.
-    
-4. Publicad la rama `release-1.3.0` en GitHub y hacer un pull
+
+4. Comprobad que funciona correctamente el script de migración. Para
+   ello deberéis simular que ponéis en marcha la aplicación en modo
+   producción trabajando con una actualización de la base de datos:
+   
+    - Poner en marcha una base de datos de producción vacía.
+    - Actualizar la base de datos con la copia de seguridad guardada en
+      el directorio `sql`.
+    - Actualizar la base de datos con el script de migración
+      `sql/schema-1.2.0-1.3.0.sql`, tal y como se explica en el apartado
+      anterior. 
+    - Lanzar el contenedor de la aplicación con el perfil
+      `postgres-prod` y comprobar que funciona correctamente la
+      aplicación en producción y que se mantienen los datos
+      anteriores.
+    - Añadir nuevos datos y hacer una nueva copia de seguridad que se
+      debe guardar también en el directorio `src`, con la fecha actual
+      como nombre como hicimos anteriormente. Por ejemplo,
+      `src/backup-20112022.sql`.
+    - Haced un commit para añadir esta nueva copia de seguridad al
+      repositorio. 
+
+5. Publicad la rama `release-1.3.0` en GitHub y hacer un pull
    request sobre `main`. Una vez mezclado el PR añadir la
    etiqueta con la nueva versión `1.3.0` en `main` creando la
    página de release en GitHub.
@@ -962,542 +975,10 @@ trabajo GitFlow.
 
 7. Una vez hecho esto ya se puede borrar la rama `release-1.3.0` y las
   ramas `main` y `develop` estarán actualizadas a la nueva
-  versión. Hacer por último un commit en `develop` (no hace falta PR)
-  cambiando la versión a `1.4.0-SNAPSHOT`.
-
+  versión.
+  
 8. Debemos comprobar que GitHub Actions pasa correctamente todos los
    tests de las nuevas características que se añaden.
-
-
-## 8. Despliegue de la nueva versión y actualización de la BD de producción  ##
-
-Deberéis desplegar la nueva versión de la aplicación en el servidor de
-la asignatura, actualizando la base de datos de producción con los
-cambios introducidos.
-
-### Pasos a seguir ###
-
-1. Conectarse al servidor de la asignatura.
-2. Descargar la nueva versión de la aplicación.
-3. Hacer una copia de seguridad de la base de datos, tal y como se
-   explica en el apartado _Mantenimiento de la base de datos de
-   producción_. Dejar el fichero de copia de seguridad en el
-   directorio raíz del usuario `alu` con el que se está conectado al
-   servidor de la asignatura.
-5. Hacer un `git clone` del repositorio de la aplicación para
-   mover al servidor el fichero `sql/schema-1.2.0-1.3.0.sql`.
-6. Hacer una migración de la base de datos tal y como se explica en el
-   mismo apartado anterior.
-7. Lanzar el contenedor de la aplicación con el perfil `postgres-prod`
-   y comprobar que funciona correctamente la aplicación en producción.
-
-<!--
-
-## 9. Nuevas funcionalidades para la aplicación  ##
-
-Cambiamos totalmente de asunto. Tenemos ahora que dejar de pensar como
-desarrolladores y pensar como **responsables del producto**. Tenemos
-que pensar en las próximas funcionalidades a implementar en la
-aplicación. Las desarrollaremos en las 3 semanas que durará la
-práctica 4.
-
-Deberéis reuniros y pensar en cómo hacer el producto más interesante
-para los usuarios. Pensad que queréis poner la aplicación en
-producción y que estáis buscando funcionalidades que la hagan
-interesante para que los usuarios se suscriban a ella.
-
-Tenéis que poneros **en el lugar de los usuarios** y pensar en
-funcionalidades que les puedan ser útiles, resolver algún problema. No
-es cuestión de añadir funcionalidades porque sí, sino que tenéis que
-intentar hacer en 3 semanas un producto lo más coherente y útil
-posible. 
-
-Si os quedáis sin ideas, podéis mirar la aplicación
-[todoist](https://todoist.com/features). Se trata de una aplicación
-completa de gestión de tareas pendientes similar a la que estamos
-desarrollando (aunque ellos tienen muchos más desarrolladores y
-presupuesto que nosotros 😀).
-
-El resultado será un tablero Trello con columnas denominadas _Backlog
-(1)_ y _Backlog (2)_: en la que se encuentren las descripciones de las
-funcionalidades candidatas a implementarse en la siguiente práctica,
-ordenadas de más interesante a menos (de arriba a abajo y de izquierda
-a derecha) y etiquetadas con su tamaño. La imagen de abajo es un
-ejemplo, con los títulos de la mayoría de las funcionalidades borradas
-para no dar demasiadas ideas.
-
-<img src="imagenes/tablero.png" width="700px"/>
-
-En la primera semana de la práctica 5 el profesor se reunirá con el
-equipo y podrá pediros alguna aclaración sobre las propuestas y la
-estimación de tamaño de las funcionalidades antes de validarlas.
-
-### Pasos a seguir ###
-
-- Haced una reunión, generar ideas en un _brainstorming_, organizarlas
-  y estimar su dificultad. Sólo podréis definir funcionalidades de
-  tamaño de uno y dos puntos. Si alguna funcionalidad es mayor,
-  deberéis descomponerla en otras más pequeñas.
-
-    Los puntos indican un tamaño relativo. Si estimáis una historia de
-    usuario en 2 puntos es porque pensáis que tardaréis el doble en
-    terminarla que otra de 1 punto.
-
-    Para estimar la dificultad podéis usar _planning pocker_: se
-    explica la funcionalidad y cada miembro del equipo elige un
-    número: 1, 2, más de 2. Se enseñan simultáneamente y se explican
-    las diferencias. Se siguen haciendo rondas hasta que hay un
-    consenso.
-          
-- Debéis seleccionar historias que sumen entre 12 y 15 puntos para
-  implementar en la siguiente práctica 5. Para los equipos de 2
-  personas seleccionar entre 8 y 10 puntos. La práctica 4 tendrá una
-  duración de 3 semanas.
-  
-    Seleccionar las historias que penséis que hacen un producto
-    atractivo, coherente y útil para el usuario. Ordenar las historias
-    según su valor. Para estimar el valor podéis hacer algo similar al
-    _planning pocker_ pero usando los números 1, 2 y 3 como forma de
-    identificar la utilidad o valor de cada historia.
-
-- Cread un tablero Trello compartido e invitad al profesor
-  (`domingo.gallardo@ua.es`). Cread las etiquetas `1` y `2` con
-  distintos colores que indican el tamaño de cada funcionalidad.
-
-- Añadir historias de usuario, ordenadas de mayor a menor importancia
-  (arriba a la izquierda la más importante y abajo a la derecha la
-  menos). Cada tarjeta de Trello debe contener:
-
-    - **Título**. Aparece en la tarjeta.
-    - **Descripción**. Muy breve, al estilo de las historias de
-      XP. Podéis usar el estándar "Como XXX quiero XXX para XXX", o
-      cualquier otro estilo. Pero siempre debe quedar claro que la
-      característica debe ser una nueva funcionalidad que pueda usar o
-      que note un usuario de la aplicación.
-    - **Borrador de la interfaz de usuario**. Puede ser un dibujo
-      hecho a mano o un mockup hecho con alguna aplicación. No hace
-      falta mucho detalle, sólo para que el cliente (el profesor)
-      entienda la historia.
-    - **Condiciones de satisfacción**: condiciones que deben cumplirse
-      para considerar que la historia está terminada. Son
-      fundamentales a la hora de definir pruebas automáticas y
-      manuales. Las pruebas se definen a partir de estas condiciones
-      de satisfacción.
-  
-En la primera semana de la práctica 5 el profesor se reunirá con el
-equipo y podrá pediros alguna aclaración sobre las propuestas y la
-estimación de tamaño de las funcionalidades antes de validarlas.
-
-
--->
-
-<!--
-
-
-## Despliegue en producción con Docker ##
-
-
-Este apartado lo realizará el **responsable de integración continua**,
-pero todos los miembros del equipo deben conocer y entender todos los
-pasos.
-
-
-### Sobreescribir propiedades desde la línea de comando ###
-
-Hemos visto que al lanzar la aplicación Spring Boot podemos
-seleccionar el perfil activo. Por ejemplo para lanzar la aplicación
-usando como perfil activo el fichero `application-mysql.properties`:
-
-```
-mvn spring-boot:run -Dspring.profiles.active=mysql
-```
-
-También hemos visto que podemos seleccionar este perfile para lanzar los tests:
-
-```
-mvn test -Dspring.profiles.active=mysql
-```
-
-La opción `-D` permite sobreescribir una propiedad del fichero de
-propiedades. Por ejemplo, podemos lanzar la aplicación modificando el
-usuario y la contraseña de una conexión a una base de datos con el
-siguiente comando:
-
-```
-mvn spring-boot:run -Dspring.datasource.username=root -Dspring.datasource.password=12345678
-```
-
-También es posible definir variables en el propio fichero de
-propiedades para proporcionar nombres más cortos o reutilizar un mismo
-valor en varias propiedades.
-
-Por ejemplo, en el siguiente fichero `application.properties`
-definimos el [nivel de
-logging](https://stackoverflow.com/a/37167120/540801) (que puede ser
-`off`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`, `all`) y
-usamos el mismo nivel para los distintos paquetes de la aplicación:
-
-```
-logging=info
-logging.level.org.springframework=${logging}
-logging.level.root=${logging}
-logging.level.org.hibernate=${logging}
-logging.level.sql=${logging}
-```
-
-Podríamos entonces modificar el nivel de logs modificando la variable
-`logging` al lanzar los tests de la aplicación, para que sólo muestre
-los mensajes de error:
-
-```
-mvn test -Dloggin=error
-```
-
-En la aplicación vamos a usar esta variable y también otras que nos
-van a permitir configurar las propiedades relacionadas con la conexión
-con la base de datos.
-
-### Pasos a seguir ###
-
-- Abre un _issue_ denominado `Dockerización de la aplicación` en el
-  que vas a configurar la aplicación para lanzarla con
-  `docker-compose`. Como siempre, desarrolla el _issue_ en una rama
-  propia.
-
-- Modifica los ficheros de propiedades de ejecución para que queden de
-  la siguiente forma:
-
-    **Fichero `src/main/resources/application.properties`**
-
-        spring.datasource.url=jdbc:h2:mem:dev
-        spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
-        spring.jpa.hibernate.ddl-auto=update
-        spring.datasource.data=classpath:datos-dev.sql
-        spring.datasource.initialization-mode=always
-        spring.h2.console.enabled=true
-        spring.h2.console.path=/h2-console
-
-
-        logging=info
-        logging.level.org.springframework=${logging}
-        logging.level.root=${logging}
-        logging.level.org.hibernate=${logging}
-        logging.level.sql=${logging}
-
-    **Fichero `src/main/resources/application-mysql.properties`**
-
-        db_ip=localhost:3306
-        db_user=root
-        db_passwd=
-        spring.datasource.url=jdbc:mysql://${db_ip}/mads
-        spring.datasource.username=${db_user}
-        spring.datasource.password=${db_passwd}
-        spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect
-        spring.jpa.hibernate.ddl-auto=update
-        spring.datasource.initialization-mode=never
-
-- Probamos que funcionan bien las variables de
-  configuración. Para ello, lanzamos mysql en un puerto distinto, el 3316:
-  
-        docker run -d -p 3316:3306 --name mysql-otro-puerto -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=mads mysql:5 
-  
-    y probamos a lanzar la aplicación modificando la variable `db_ip`
-    para que se conecte a ese nuevo puerto:
-  
-        mvn spring-boot:run -Dspring.profiles.active=mysql -Ddb_ip=localhost:3316
-
-    La aplicación debe arrancar correctamente, conectándose a la base
-    de datos en el nuevo puerto.
-
-    Por último, borramos el contenendor de prueba creado:
-    
-         docker container stop mysql-otro-puerto
-         docker container rm mysql-otro-puerto
-
-- Realiza un commit con los nuevos ficheros de propiedades.
-
-!!! Note "Nota"
-    Es posible utilizar la variable `db_ip` para facilitar la conexión
-    de la aplicación a un contenedor Docker de MySQL lanzado en
-    Windows con _Docker Toolbox_. En este caso hay que especificar la
-    dirección IP en la que se está ejecutando el contenedor Docker.
-
-
-### Imagen Docker de la aplicación ###
-
-Hemos visto [en teoría](https://github.com/domingogallardo/apuntes-mads/blob/master/sesiones/08-integracion-entrega-continua/integracion-entrega-continua.md#demostración-de-docker) cómo crear imágenes Docker. Vamos a crear una
-imagen con nuestra aplicación `mads-todolist`.
-
-El fichero `Dockerfile` es el responsable de construir la máquina
-Docker. Usaremos el siguiente `Dockerfile`:
-
-```
-#### Stage 1: Build the application
-FROM openjdk:8-jdk-alpine as build
-    
-# Set the current working directory inside the image
-WORKDIR /app
-
-# Copy maven executable to the image
-COPY mvnw .
-COPY .mvn .mvn
-
-# Copy the pom.xml file
-COPY pom.xml .
-
-# Build all the dependencies in preparation to go offline.
-# This is a separate step so the dependencies will be cached unless
-# the pom.xml file has changed.
-RUN ./mvnw dependency:go-offline -B
-
-# Copy the project source
-COPY src src
-
-# Package the application
-RUN ./mvnw package -DskipTests
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
-
-#### Stage 2: A minimal docker image with command to run the app
-FROM openjdk:8-jre-alpine
-
-# Copy project dependencies from the build stage
-COPY --from=build /app/target/dependency/BOOT-INF/lib /app/lib
-COPY --from=build /app/target/dependency/META-INF /app/META-INF
-COPY --from=build /app/target/dependency/BOOT-INF/classes /app
-
-# Define environment variables
-ENV PROFILE=
-ENV DB_IP=
-ENV DB_USER=
-ENV DB_PASSWD=
-ENV LOGGING=
-
-CMD java -Dspring.profiles.active=$PROFILE -Ddb_ip=$DB_IP -Ddb_user=$DB_USER \
-    -Ddb_passwd=$DB_PASSWD -Dlogging=$LOGGING -cp app:app/lib/* madstodolist.Application
-```
-
-
-Se trata de un fichero que construye la imagen docker en dos fases. En
-una primera fase compila la aplicación y guarda todos los `jars` en el
-directorio `target`. En la segunda fase crea la máquina resultante, basada en
-`openjdk:8-jre-alpine`, con las librerías compiladas previamente.
-
-Docker permite definir variables de entorno que pueden ser modificadas
-al lanzar la máquina. Definimos las mismas variables que hemos
-definido en el fichero de propiedades de spring boot:
-
-- `PROFILE`: perfil a usar al lanzar la aplicación.
-- `DB_IP`: dirección IP y puerto de la base de datos con la que se
-  debe conectar la aplicación.
-- `DB_USER`: usuario de la base de datos con el que la aplicación se
-  conecta con la base de datos.
-- `DB_PASSWD`: contraseña del usuario de la base de datos.
-- `LOGGING`: nivel de logging que va a realizar la aplicación.
-
-Para lanzar una imagen docker definiendo un valor de una variable de
-entorno hay que utilizar el flag `-e VARIABLE=valor`. 
-
-
-### Pasos a seguir ###
-
-- Crea una cuenta en [DockerHub](https://hub.docker.com). En esta
-  cuenta se publicará la imagen docker de la aplicación.
-
-- Crea el fichero `Dockerfile` anterior en el directorio principal de
-  la aplicación.
-  
-- Construye la máquina docker. Utiliza como _usuario_ el usuario que
-  has creado en DockerHub.
-
-        docker build -t USUARIO/mads-todolist-equipo-XX .
-
-    Prueba a ejecutar la aplicación trabajando con la base de datos en
-    memoria y con logs de nivel `INFO`:
-    
-        docker run --rm -it -p 8080:8080 -e LOGGING=error USUARIO/mads-todolist-equipo-XX
-
-    El flag `-it` permite visualizar en el terminal de forma
-    interactiva la salida estándar de la aplicación Play y terminarla
-    haciendo un `CTRL-C`.
-
-    Y prueba por último a ejecutar la aplicación funcionando con la imagen docker
-    con la base de datos MySQL:
-
-        $ docker run -d -p 3306:3306 --name mysql-develop -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=mads mysql:5 
-        $ docker run --rm -it --link mysql-develop -p 8080:8080 \
-          -e PROFILE=mysql -e DB_IP=mysql-develop:3306 -e DB_USER=root -e LOGGING=info \
-          USUARIO/mads-todolist-equipo-XX
-
-
-- Cuando compruebes que todo funciona correctamente, sube a _docker hub_
-  la imagen compilada:
-  
-        $ docker login
-        # introduce tus credenciales en docker hub
-        $ docker push USUARIO/mads-todolist-equipo-XX
-      
-- Comprueba en _docker hub_ que la imagen se ha subido
-  correctamente. Uno de los compañeros debe probar que la imagen
-  funciona correctamente, ejecutando las dos instrucciones
-  anteriores en su máquina:
-
-        $ docker run -d -p 3306:3306 --name mysql-develop -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -e MYSQL_DATABASE=mads mysql:5 
-        $ docker run --rm -it --link mysql-develop -p 8080:8080 \
-          -e PROFILE=mysql -e DB_IP=mysql-develop:3306 -e DB_USER=root -e LOGGING=info \
-          USUARIO/mads-todolist-equipo-XX
-  
-    Comprobad que se descarga correctamente la máquina
-    `USUARIO/mads-todolist-equipo-XX` y que la aplicación se lanza sin
-    errores.
-
-- Por último, modifica el script de Travis para que sea Travis quien
-  construya y publique la máquina docker. Antes de que se ejecute el
-  script deberás configurar en los ajustes del repositorio en Travis
-  (_travis-ci.com > USUARIO/mads-todolist-equipo-XX > Settings >
-  Environment Variables_) las variables: `DOCKER_USERNAME` y
-  `DOCKER_PASSWORD`, para que Travis pueda publicar en tu cuenta de
-  DockerHub.
-  
-    <img src="imagenes/variables-entorno-travis.png" width="700px"/>
-  
-    Líneas a añadir al final del fichero `.travis.yml`:
-    
-        after_success:
-          - docker build -t USUARIO/mads-todolist-equipo-XX:$TRAVIS_BUILD_NUMBER .
-          - if [ "$TRAVIS_EVENT_TYPE" != "pull_request" ]; then
-            docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-            docker push USUARIO/mads-todolist-equipo-XX:$TRAVIS_BUILD_NUMBER;
-            docker tag USUARIO/mads-todolist-equipo-XX:$TRAVIS_BUILD_NUMBER USUARIO/mads-todolist-equipo-XX:latest;
-            docker push USUARIO/mads-todolist-equipo-XX:latest;
-            fi
-
-    Fíjate en el script `after_success`. Es lo que Travis hará después
-    de ejecutar con éxito los tests:
-    
-    - Construir la máquina docker de nuestra aplicación, asignándole
-    como etiqueta el número de build actuar.
-    - Si la ejecución de Travis es debida a un evento que no es un
-    _pull request_ (o sea, cuando sea un build disparado por el commit
-    de merge con la rama en la que se integra el PR) se logea en
-    docker hub con el usuario y la contraseña definidas en las
-    variables. Una vez logeado, publica la imagen usando como número
-    de _tag_ el número de build. Y esta última imagen también se
-    vuelve a etiquetar como `latest` y se vuelve a subir.
-  
-    Por ejemplo, cuando se realice el build `#28` se publicará la
-    imagen resultante de este build con las etiquetas `28` y `latest`:
-    `USUARIO/mads-todolist-equipo-XX:28` y
-    `USUARIO/mads-todolist-equipo-XX:latest`.
-
-
-- Por último, añade el siguiente fichero `docker-compose.yml` en el
-  directorio raíz de la aplicación. La aplicación `docker-compose`
-  permite automatizar la puesta en funcionamiento y conexión de más de
-  un contenedor docker. En nuestro caso, servirá para poner en marcha
-  con un único comando el contenedor de base de datos y nuestra
-  aplicación.
-
-    Fichero `docker-compose.yml`:
-        
-        version: '3.7'
-
-        # Define services
-        services:
-
-          # App backend service
-          mads-todolist:
-            image: USUARIO/mads-todolist-equipo-XX
-            ports:
-              - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
-            restart: always
-            depends_on:
-              - db # This service depends on mysql. Start that first.
-            environment: # Pass environment variables to the service
-              PROFILE: mysql
-              DB_IP: db:3306
-              DB_USER: root
-              LOGGING: info
-            networks: # Networks to join (Services on the same network can communicate with each other using their name)
-              - backend
-
-          # Database Service (Mysql)
-          db:
-            image: mysql:5
-            ports:
-              - "3306:3306"
-            restart: always
-            environment:
-              MYSQL_DATABASE: mads
-              MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-            volumes:
-              - db-data:/var/lib/mysql
-            networks:
-              - backend
-
-        # Volumes
-        volumes:
-          db-data:
-
-        # Networks to be created to facilitate communication between containers
-        networks:
-          backend:
-  
-  - Prueba que funciona correctamente `docker-compose` ejecutando el
-    comando `docker-compose up`. Para asegurarte de que la imagen que
-    ejecutas es la que se descarga de docker hub debes borrar
-    previamente la imagen que tengas en tu ordendador:
-    
-    ```
-    $ docker container prune
-    $ docker image rm USUARIO/mads-todolist-equipo-XX
-    $ docker-compose up
-    ```
-    
-    Verás cómo se ponen en marcha el contenedor `mysql` y el
-    contenedor con nuestra aplicación. Prueba a conectarte a la
-    aplicación y comprobar que todo funciona correctamente.
-    Puedes terminar la ejecución
-    haciendo `CTRL-C` o lanzando desde otra terminal el comando
-    
-    ```
-    docker-compose down
-    ```
-
-  - En el script de `docker-compose` el contenedor `mysql` utiliza un
-    [volumen](https://docs.docker.com/storage/volumes/). Esto permite
-    conservar los datos que se introduzcan en la ejecución del
-    programa, aunque el contenedor se borre. También sería posible
-    hacer un backup de estos datos a partir del volumen.
-    
-    Para listar los volúmenes mantenidos por docker:
-    
-    ```
-    docker volume ls
-    ```
-    
-    Para eliminar un volumen:
-    
-    ```
-    docker volume rm nombre-volumen
-    ```
-    
-    Y para elminar todos los volúmenes:
-    
-    ```
-    docker volume prune
-    ```
-
-- Haz un commit y sube los cambios a GitHub. 
-- Crea el pull request que cierra el _issue_ y ciérralo, comprobando
-  que Travis construye la máquina docker y la publica en docker hub.
-
-    <img src="imagenes/imagenes-docker-hub.png" width="700px"/>
-
-- Por último un compañero debe probar el comando `docker-compose up` y
-  comprobar si se ponen en marcha las imágenes docker y nuestra
-  aplicación funciona correctamente. 
-
--->
 
 
 ## 9. Documentación, entrega y evaluación ##
