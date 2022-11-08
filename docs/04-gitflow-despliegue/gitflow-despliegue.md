@@ -988,18 +988,16 @@ que deberéis incluir:
 
 - Breve documentación técnica de los cambios introducidos en la
   aplicación.
-- Detalles del despliegue de producción: usuario `alu` con el que se
-  ha realizado la puesta en producción, así como directorio y fichero
-  en el que se encuentra (en el servidor de la asignatura) el backup
-  de la base de datos de producción. Script de migración de la base de
-  datos.
-  
+- Detalles del despliegue de producción. Esquemas de datos de las
+  versiones 1.2.0 y de la versión 1.3.0. Script de migración de la
+  base de datos.
+
+Entrega:
 
 - La práctica tiene una duración de 2 semanas y debe estar terminada
-  el martes 23 de noviembre.
+  el martes 22 de noviembre.
 - La calificación de la práctica tiene un peso de un 15% en la nota
   final de prácticas.
-- 
 - Para realizar la entrega uno de los miembros del equipo debe subir a
   Moodle un ZIP que contenga todo el proyecto, incluyendo el
   directorio `.git` que contiene la historia Git. Para ello comprime
@@ -1014,5 +1012,7 @@ Para la evaluación se tendrá en cuenta:
 - Correcto desarrollo de la metodología.
 - Diseño e implementación del código y de los tests de las
   características desarrolladas.
+- Funcionamiento de la aplicación con las bases de datos de producción
+  y funcionamiento del script de migración.
 - Documentación.
 
