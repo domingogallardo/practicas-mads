@@ -119,57 +119,16 @@ en repositorios y ramas remotas.
   a ella
 
     ```
-    $ git fetch
+    $ git pull
+    (se descarga la rama nueva que hay en el repositorio remoto)
     $ git checkout nueva-rama 
     ```
 
-    El comando `git fetch` se descarga todos los cambios pero no los
-    mezcla con las ramas locales. Los deja en ramas locales conectadas
-    con las remotas (ramas _remote tracking_) a las que les da el
-    nombre del servidor y la rama (`origin/nueva-rama`). Estas ramas
-    _remote tracking_ son de solo lectura y no podemos hacer commits
-    en ellas. Para trabajar con ellas hay que crear una rama local
-    conectada a ella (normalmente tendrá el mismo nombre, por ejemplo
-    `nueva-rama`). 
-
-    En el caso del comando anterior, el comando
-    
-    ```
-    $ git checkout nueva-rama
-    ```
-    
-    es equivalente a 
-    
-    ```
-    $ git checkout -b nueva-rama origin/nueva-rama
-    ```
-    
-    Se está creando una rama local `nueva-rama` conectada a la rama
-    `origin/nueva-rama`.
-
-- Actualizar una rama con cambios que otros compañeros han subido al
-  repositorio remoto:
+- Subir cambios de la rama remota:
 
     ```
-    $ git checkout nueva-rama
-    $ git pull
-    ```
-
-    El comando `git pull` es equivalente a un `git fetch` seguido de
-    un `git merge`. El comando `git fetch` actualiza la rama local
-    conectada con la _remote tracking_ `origin/nueva-rama`. El comando `git pull`
-    es equivalente a hacer:
-
-    ```
-    $ git checkout nueva-rama
-    $ git fetch
-    $ git merge origin/nueva-rama
-    ```
-
-- Subir cambios de la rama actual:
-
-    ```
-    (estando en la rama que queremos subir)
+    $ git add .
+    $ git commit -m "Mis cambios"
     $ git push
     ```
 
@@ -180,7 +139,67 @@ en repositorios y ramas remotas.
     ```
     $ git push -u origin nueva-rama
     ```
-        
+    
+    Si algún compañero ha subido cambios a la rama remota que tenemos
+    pendientes de descargar, al hacer un `git push` tendremos un
+    error en el que nos indica que debemos hacer antes un `git pull`:
+    
+    ```
+    % git push
+    To https://github.com/domingogallardo/prueba-clase.git
+    ! [rejected]        prueba2 -> prueba2 (fetch first)
+    error: falló el push de algunas referencias a 'https://github.com/domingogallardo/prueba-clase.git'
+    ayuda: Actualizaciones fueron rechazadas porque el remoto contiene trabajo que
+    ayuda: no existe localmente. Esto es causado usualmente por otro repositorio
+    ayuda: realizando push a la misma ref. Quizás quieras integrar primero los cambios
+    ayuda: remotos (ej. 'git pull ...') antes de volver a hacer push.
+    ```
+    
+    Puede ser que al hacer `git pull` nos aparezca el siguiente mensaje de error:
+    
+    ```
+    % git pull
+    ayuda: Hacer un pull sin especificar cómo reconciliar las ramas es poco
+    ayuda: recomendable. Puedes eliminar este mensaje usando uno de los
+    ayuda: siguientes comandos antes de tu siguiente pull:
+    ayuda: 
+    ayuda:   git config pull.rebase false  # hacer merge (estrategia por defecto)
+    ayuda:   git config pull.rebase true   # aplicar rebase
+    ayuda:   git config pull.ff only       # aplicar solo fast-forward
+    ayuda: 
+    ayuda: Puedes reemplazar "git config" con "git config --global" para aplicar
+    ayuda: la preferencia en todos los repositorios. Puedes también pasar --rebase,
+    ayuda: --no-rebase, o --ff-only en el comando para sobrescribir la configuración
+    ayuda: por defecto en cada invocación.
+    fatal: Necesita especificar cómo reconciliar las ramas divergentes.
+    ```
+    
+    Debemos especificar entonces cómo se van a mezclar los cambios que se bajan
+    de la rama remota con los cambios locales. Para ello elegimos la
+    primera opción, que no se haga un rebase sino un merge:
+    
+    ```
+    $ git config pull.rebase false
+    ```
+    
+    Ahora ya funciona el `git pull` (hará un merge de la rama remota
+    con la rama local):
+    
+    ```
+    $ git pull
+    (aparecerá un editor en el que tenemos que especificar el mensaje
+    del commit de merge, grabar y salir)
+    ```
+    
+    Y ahora ya podemos hacer `push`. Se subirán nuestros cambios y el
+    commit de merge:
+    
+    ```
+    $ git push
+    ```
+    
+    
+    
 - Comprobar el estado de las ramas locales:
 
     ```
