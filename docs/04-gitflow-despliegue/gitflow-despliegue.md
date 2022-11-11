@@ -298,24 +298,31 @@ en repositorios y ramas remotas.
   que muestren todos los miembros del equipo y el nuevo número de
   versión de la aplicación (`1.3.0-SNAPSHOT`).
 
-2. Escoged una persona del equipo como responsable del _issue_. El
+2. Añadid la regla de que sea necesario un revisor en los pull
+   requests. Para ello seleccionar _Settings > Branches > Add branch
+   protection rule_, poned como patrón del nombre de rama el nombre
+   completo `main` y seleccionad _Require a pull request before
+   merging_ y _Require approvals_. Poned 1 como número de revisores
+   requeridos.
+
+3. Escoged una persona del equipo como responsable del _issue_. El
   responsable del _issue_ será el responsable de integrarlo en
   `main` y de solucionar los conflictos que puedan surgir.
 
-3. Probad los comandos Git anteriores en una rama en la que se
+4. Probad los comandos Git anteriores en una rama en la que se
   resuelva el _issue_. Cada miembro del equipo deberá descargar esa
   rama y realizar un commit en el que se añada su nombre a la lista de
   autores de la aplicación.
 
-4. Cread el pull request en GitHub, poniendo como responsable del PR al
+5. Cread el pull request en GitHub, poniendo como responsable del PR al
   mismo responsable del _issue_.
 
-5. Provocad un conflicto y arregladlo. Para ello se debe añadir un
+6. Provocad un conflicto y arregladlo. Para ello se debe añadir un
   commit en `main` que entre en conflicto con los cambios realizados
   en la rama. Después se arreglará el conflicto y se subirá la
   solución al pull request.
 
-6. Por último, revisad el código, aceptadlo e integrad el PR en
+7. Por último, revisad el código, aceptadlo e integrad el PR en
    _main_.
 
 
