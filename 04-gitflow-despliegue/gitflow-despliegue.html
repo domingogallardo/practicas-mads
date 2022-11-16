@@ -1136,8 +1136,19 @@ vuestros ordenadores, que usaréis como ordenador de despliegue.</p>
 <div class="highlight"><pre><span></span><code>$ docker run -d --network network-equipo --network-alias postgres -v ${PWD}:/mi-host --name db-equipo -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
 </code></pre></div>
 <p>El modificador <code>-v</code> permite montar el directorio actual en el
-directorio <code>/mi-host</code> del contenedor. Vamos a probar que funciona
-correctamente. </p>
+directorio <code>/mi-host</code> del contenedor. </p>
+<div class="admonition note">
+<p class="admonition-title">Opción -v de Docker en Windows</p>
+</div>
+<p>Si estáis en Windows deberéis especificar el directorio actual explícitamente, sustituyendo las barras por barras dobles:</p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="codehilite"><pre><span></span><code>```
+$ docker run -d --network network-equipo --network-alias postgres -v C:\\users\\domingo\\tmp:/mi-host --name db-equipo -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+```
+</code></pre></div>
+</td></tr></table>
+<p>Vamos a probar que funciona  correctamente. </p>
 </li>
 <li>
 <p>Nos conectamos al contenedor lanzando un <code>bash</code>
