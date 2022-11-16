@@ -502,8 +502,16 @@ vuestros ordenadores, que usaréis como ordenador de despliegue.
     ```
 
     El modificador `-v` permite montar el directorio actual en el
-    directorio `/mi-host` del contenedor. Vamos a probar que funciona
-    correctamente. 
+    directorio `/mi-host` del contenedor. 
+    
+    !!! Note "Opción -v de Docker en Windows"
+    Si estáis en Windows deberéis especificar el directorio actual explícitamente, sustituyendo las barras por barras dobles:
+    
+        ```
+        $ docker run -d --network network-equipo --network-alias postgres -v C:\\users\\domingo\\tmp:/mi-host --name db-equipo -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+        ```
+    
+    Vamos a probar que funciona  correctamente. 
 
 3. Nos conectamos al contenedor lanzando un `bash`
    interactivo. Estando en el contenedor creamos un fichero en el
