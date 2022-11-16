@@ -840,8 +840,8 @@ spring.jpa.hibernate.ddl-auto=validate
     y lo lanzamos de nuevo. Esto creará una base de datos vacía:
     
     ```
-    $ docker container stop docker-develop
-    $ docker container rm docker-develop
+    $ docker container stop postgres-develop
+    $ docker container rm postgres-develop
     $ docker run -d -p 5432:5432 -v ${PWD}:/mi-host --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
     ```
     
