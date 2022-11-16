@@ -864,7 +864,7 @@ spring.jpa.hibernate.ddl-auto=validate
    
     ```
     $ docker exec -it db-equipo bash
-    # psql -U mads mads < sql/schema-1.2.0.sql
+    # psql -U mads mads < /mi-host/sql/schema-1.2.0.sql
     # exit
     ```
 
