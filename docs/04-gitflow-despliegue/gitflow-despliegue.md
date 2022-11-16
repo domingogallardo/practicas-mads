@@ -505,8 +505,7 @@ vuestros ordenadores, que usaréis como ordenador de despliegue.
     directorio `/mi-host` del contenedor. 
     
     !!! Note "Opción -v de Docker en Windows"
-    Si estáis en Windows deberéis especificar el directorio actual explícitamente, sustituyendo las barras por barras dobles:
-    
+        Si estáis en Windows deberéis especificar el directorio actual explícitamente, sustituyendo las barras por barras dobles:
         ```
         $ docker run -d --network network-equipo --network-alias postgres -v C:\\users\\domingo\\tmp:/mi-host --name db-equipo -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
         ```
