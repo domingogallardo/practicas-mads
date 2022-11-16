@@ -1434,7 +1434,7 @@ Schema-validation: missing table [equipo_usuario]
 8. Actualizamos el contenedor postgres con el esquema de base de datos
    salvado anteriormente:</p>
 <div class="highlight"><pre><span></span><code>$ docker exec -it db-equipo bash
-# psql -U mads mads &lt; sql/schema-1.2.0.sql
+# psql -U mads mads &lt; /mi-host/sql/schema-1.2.0.sql
 # exit
 </code></pre></div>
 <p>Y arrancamos la aplicación y comprobamos que ahora sí que funciona
