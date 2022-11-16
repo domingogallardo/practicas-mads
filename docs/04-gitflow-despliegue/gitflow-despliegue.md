@@ -1017,6 +1017,7 @@ que deberéis incluir:
 - Detalles del despliegue de producción. Esquemas de datos de las
   versiones 1.2.0 y de la versión 1.3.0. Script de migración de la
   base de datos.
+- URL de la imagen Docker de la aplicación.
 
 Entrega:
 
