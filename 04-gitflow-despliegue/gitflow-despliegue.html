@@ -1049,7 +1049,7 @@ spring.datasource.url=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/mads
 spring.datasource.username=${DB_USER}
 spring.datasource.password=${DB_PASSWD}
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-spring.datasource.initialization-mode=never
+spring.sql.init.mode=never
 </code></pre></div>
 </li>
 <li>
@@ -1218,9 +1218,8 @@ datos. Su valor puede ser:</p>
 <li>
 <p><code>CREATE</code>: El esquema de datos se crea de nuevo cada vez que se lanza
   la aplicación. Una vez creado, se añaden los datos definidos en el
-  fichero <code>spring.datasource.data</code> si el
-  <code>spring.datasource.initialization-mode</code> tiene como valor
-  <code>always</code>. Esta es la forma de funcionar de los tests.</p>
+  fichero <code>data.sql</code> si el
+  <code>spring.sql.init.mode</code> tiene como valor <code>always</code>.</p>
 </li>
 <li>
 <p><code>UPDATE</code>: El esquema de datos de la base de datos se actualiza
@@ -1404,7 +1403,7 @@ spring.datasource.url=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/mads
 spring.datasource.username=${DB_USER}
 spring.datasource.password=${DB_PASSWD}
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-spring.datasource.initialization-mode=never
+spring.sql.init.mode=never
 <span class="hll">spring.jpa.hibernate.ddl-auto=validate
 </span></code></pre></div>
 </li>
