@@ -538,8 +538,7 @@ vuestros ordenadores, que usaréis como ordenador de despliegue.
     ¡¡¡Enhorabuena!!! ¡Ya tenemos la aplicación en producción
     trabajando con la base de datos!
 
-    Podremos conectarnos a la aplicación usando la dirección IP del
-    servidor de la asignatura y el puerto 8080.
+    Podremos conectarnos a la aplicación usando el puerto 8080.
 
     Probamos la aplicación y creamos algún usuario de prueba. Por último
     paramos el contenedor y lo volvemos a arrancar para comprobar que los
