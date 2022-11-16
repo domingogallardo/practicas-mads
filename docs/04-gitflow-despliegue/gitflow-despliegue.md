@@ -399,7 +399,7 @@ Debéis hacer lo siguiente:
     spring.datasource.username=${DB_USER}
     spring.datasource.password=${DB_PASSWD}
     spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-    spring.datasource.initialization-mode=never
+    spring.sql.init.mode=never
     ```
 
 4. Cread la nueva imagen Docker con el nombre
@@ -597,9 +597,8 @@ datos. Su valor puede ser:
 
 - `CREATE`: El esquema de datos se crea de nuevo cada vez que se lanza
   la aplicación. Una vez creado, se añaden los datos definidos en el
-  fichero `spring.datasource.data` si el
-  `spring.datasource.initialization-mode` tiene como valor
-  `always`. Esta es la forma de funcionar de los tests.
+  fichero `data.sql` si el
+  `spring.sql.init.mode` tiene como valor `always`.
 
 - `UPDATE`: El esquema de datos de la base de datos se actualiza
   automáticamente cuando hay un cambio en las entidades de la
@@ -825,7 +824,7 @@ spring.jpa.hibernate.ddl-auto=validate
     spring.datasource.username=${DB_USER}
     spring.datasource.password=${DB_PASSWD}
     spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-    spring.datasource.initialization-mode=never
+    spring.sql.init.mode=never
     spring.jpa.hibernate.ddl-auto=validate
     ```
 
