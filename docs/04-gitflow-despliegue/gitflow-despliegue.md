@@ -775,7 +775,7 @@ spring.jpa.hibernate.ddl-auto=validate
    montando el directorio actual en su directorio `/mi-host/`:
    
     ```
-    $ docker run -d -p 5432:5432 -v ${PWD}:/mi-host --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+    $ docker run -d -p 5432:5432 -v ${PWD}:/mi-host --name db-equipo -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
     $ ./mvnw spring-boot:run -D profiles=postgres
     ```
 
@@ -784,7 +784,7 @@ spring.jpa.hibernate.ddl-auto=validate
    actual:
    
     ```
-    $ docker exec -it postgres-develop bash
+    $ docker exec -it db-equipo bash
     # pg_dump -U mads -s mads > /mi-host/schema-1.2.0.sql
     # exit
     ```
@@ -839,9 +839,9 @@ spring.jpa.hibernate.ddl-auto=validate
     y lo lanzamos de nuevo. Esto creará una base de datos vacía:
     
     ```
-    $ docker container stop postgres-develop
-    $ docker container rm postgres-develop
-    $ docker run -d -p 5432:5432 -v ${PWD}:/mi-host --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
+    $ docker container stop db-equipo
+    $ docker container rm db-equipo
+    $ docker run -d -p 5432:5432 -v ${PWD}:/mi-host --name db-equipo -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
     ```
     
     Si ahora lanzamos la aplicación en modo `postgres-prod`
