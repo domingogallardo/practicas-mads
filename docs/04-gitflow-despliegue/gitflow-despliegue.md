@@ -1030,7 +1030,7 @@ Entrega:
   el martes 22 de noviembre.
 - La calificación de la práctica tiene un peso de un 15% en la nota
   final de prácticas.
-- Para realizar la entrega uno de los miembros del equipo debe subir a
+- Para realizar la entrega **uno de los miembros del equipo** debe subir a
   Moodle un ZIP que contenga todo el proyecto, incluyendo el
   directorio `.git` que contiene la historia Git. Para ello comprime
   tu directorio local del proyecto después de haber hecho un `mvn
