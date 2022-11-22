@@ -1,4 +1,4 @@
-# Práctica 5: Sprint final
++# Práctica 5: Sprint final
 
 ## Objetivos y resumen de la práctica
 
@@ -41,17 +41,18 @@ producción y que estáis buscando funcionalidades que la hagan
 interesante para que los usuarios se suscriban a ella.
 
 Podéis coger ideas del [tablero
-Trello](https://trello.com/b/Q35xhgzo/todolist-mads) resultante del
-taller de nuevas funcionalidades de la semana pasada.
+Trello](https://trello.com/b/Q35xhgzo/todolist-mads) resultante de
+ideas de cursos pasados y también de una aplicación web muy completa
+que hace algo similar a lo que estamos construyendo nosotros:
+[todoist](https://todoist.com/features) (mirad, por ejemplo, el
+[vídeo](https://youtu.be/8ZKq0r-g87M) explicando sus funcionalidades
+más importantes).
 
 Tenéis que poneros **en el lugar de los usuarios** y pensar en
 funcionalidades que les puedan ser útiles, resolver algún problema. No
 es cuestión de añadir funcionalidades porque sí, sino que tenéis que
 intentar hacer en 4 semanas un producto lo más coherente y útil
 posible. 
-
-Podéis también repasar la aplicación
-[todoist](https://todoist.com/features) que vimos la semana pasada.
 
 El resultado será un tablero Trello con columnas denominadas _Backlog
 (1)_ y _Backlog (2)_: en la que se encuentren las descripciones de las
@@ -63,19 +64,22 @@ para no dar demasiadas ideas.
 
 <img src="imagenes/tablero.png" width="700px"/>
 
-En la primera semana de la práctica el profesor podrá pediros alguna
-aclaración sobre las funcionalidades propuestas y la estimación de
-tamaño de las funcionalidades.
+El profesor podrá pediros alguna aclaración sobre las funcionalidades
+propuestas y la estimación de tamaño de las funcionalidades. También
+se valorará el alcance de las funcionalidades escogidas en la
+presentación final de la práctica, en donde se dará una puntuación extra
+a los proyectos en base a las funcionalidades implementadas, su
+coherencia y usabilidad. 
 
 ### Pasos a seguir ###
 
 - Haced una reunión en la que reviséis el [tablero
-Trelllo](https://trello.com/b/Q35xhgzo/todolist-mads) resultante del
-taller de nuevas funcionalidades de la semana pasada. Debéis
-seleccionar las que vais a incorporar a vuestra aplicación y estimar
-su dificultad. Sólo podréis definir funcionalidades de tamaño de 1 y
-2 puntos. Si alguna funcionalidad es mayor, deberéis descomponerla
-en otras más pequeñas.
+Trelllo](https://trello.com/b/Q35xhgzo/todolist-mads) con ejemplos de
+funcionalidades de cursos pasados y la aplicación web
+[todoist](https://todoist.com/features). Debéis seleccionar las que
+vais a incorporar a vuestra aplicación y estimar su dificultad. Sólo
+podréis definir funcionalidades de tamaño de 1 y 2 puntos. Si alguna
+funcionalidad es mayor, deberéis descomponerla en otras más pequeñas.
 
     Los puntos indican un tamaño relativo. Si estimáis una historia de
     usuario en 2 puntos es porque pensáis que tardaréis el doble en
@@ -125,9 +129,8 @@ en otras más pequeñas.
       manuales. Las pruebas se definen a partir de estas condiciones
       de satisfacción.
   
-En la primera semana de la práctica el profesor podrá pediros alguna
-aclaración sobre las propuestas y la estimación de tamaño de las
-funcionalidades.
+El profesor podrá pediros alguna aclaración sobre las propuestas y la
+estimación de tamaño de las funcionalidades.
 
 ## Artefactos del sprint ##
 
@@ -175,11 +178,12 @@ Durante el desarrollo del sprint, se deberá añadir en el tablero Trello:
     forma que queden también equilibrados los tamaños totales de las
     historias asignadas a cada uno.
 
-- Enlace a una **página Google Docs** de acceso público en la que el responsable de la
-  historia copiará, y ampliará y/o modificará sus detalles. La
-  descripción en Trello hay que dejarla tal cual, sin modificar. En la
-  página de Google Docs, el responsable de la historia de usuario
-  deberá incluir, **cuando la seleccione**, los siguientes ítems:
+- **Antes de comenzar el desarrollo de una historia** su responsable
+  crearáa una **página Google Docs** de acceso público en la copiará,
+  y ampliará y/o modificará sus detalles. La descripción en Trello hay
+  que dejarla tal cual, sin modificar. En la página de Google Docs, el
+  responsable de la historia de usuario deberá incluir, **cuando la
+  seleccione**, los siguientes ítems:
     - Título de historia de usuario
     - Descripción y detalles
     - Borrador del aspecto de la interfaz de usuario resultante. No es
@@ -238,7 +242,7 @@ Usaremos las etiquetas para definir el tipo de issue:
 
 - Código de historia de usuario
 - Bug
-- Refactor
+- Refactorización
 - Mejora técnica
 
 Los primeros tipos de issue serán obligatorios y los tres siguientes
@@ -306,11 +310,16 @@ la rama `main` usando los mismos pasos que en la práctica anterior. Se
 debe obtener el esquema de datos de la nueva versión y crear el script
 de migración de la base de datos de producción.
 
-Se debe subir a producción la nueva versión 1.4.0 y aplicar el script
-de migración a la base de datos de producción.
+Como se hizo en la práctica anterior, se debe hacer una copia de
+seguridad de algunos datos en producción **antes** de actualizar la
+base de datos, aplicar el script de migración a la base de datos de
+producción, comprobar que la aplicación funciona correctamente con las
+nuevas funcionalidades añadiendo algunos nuevos datos y hacer otra
+copia de seguridad de los datos **después** de probar la aplicación y
+añadir los nuevos datos.
 
-Por último, se comprobará que todas las funcionalidades funcionan
-correctamente en producción.
+Como en la práctica anterior, ambas copias de seguridad se deben
+incluir en el directorio `sql` del repositorio.
 
 ### Documentación del desarrollo ###
 
@@ -323,7 +332,7 @@ correctamente en producción.
 La práctica tiene una duración de 4 semanas.
 
 - Se realizará una **revisión del sprint** de 15 minutos en las
-  **clases de prácticas del 22 de diciembre**. La revisión
+  **clases de prácticas y teoría del 21 de diciembre**. La revisión
   constará de:
     - Presentación con diapositivas en la que se explicará la
       **metodología seguida** en el sprint, las **nuevas
@@ -332,7 +341,7 @@ La práctica tiene una duración de 4 semanas.
     - Demostración de las nuevas funcionalidades utilizando la última
       versión puesta en producción.
 
-    !!! Danger "El proyecto debe estar terminado el 22 de diciembre"
+    !!! Danger "El proyecto debe estar terminado el 21 de diciembre"
         En la fecha de la presentación debe estar completo el nuevo
         release 1.4.0 del proyecto y debe estar puesto en
         producción. Después de la presentación **no podréis añadir más
@@ -368,14 +377,13 @@ La práctica tiene una duración de 4 semanas.
       GitHub.
 
 La calificación de la práctica tiene un peso de un 25% en la nota
-final de prácticas.
+final de prácticas (1 punto en la nota final).
 
-Se evaluarán dos partes de la práctica: la calidad técnica y el valor
-aportado por las nuevas funcionalidades.
 
-La **calidad técnica** sumará **hasta 6 puntos** y se tendrá en cuenta:
+La evaluación se basará en: 
 
 - Desarrollo continuo de los issues
+- Complejidad de las funcionalidades añadidas
 - Corrección del código
 - Correcto funcionamiento
 - Informe de la práctica
@@ -383,14 +391,11 @@ La **calidad técnica** sumará **hasta 6 puntos** y se tendrá en cuenta:
   menor calidad y/o cantidad que el del resto, se penalizará su
   calificación
 
-El **valor aportado por las funcionalidades** sumará **hasta 4 puntos**. Se
-valorará que las nuevas funcionalidades sean coherentes, sencillas de
-usar, y atractivas. Para dar estos puntos una vez realizadas las
-presentaciones de los 14 equipos, se repartirán 35 puntos entre todos
-ellos. Por ejemplo, estos puntos se podrían repartir de la siguiente
-forma:
+A la nota anterior se le sumará una **puntación extra de hasta 0,5
+puntos** en la nota final que se basará en la demostración realizada,
+las funcionalidades implementadas, su coherencia y usabilidad. 
 
-- 4 puntos para 3 equipos (12 puntos)
-- 3 puntos para 4 equipos (12 puntos)
-- 2 puntos para 4 equipos (8 puntos)
-- 1 punto para 3 equipos (3 puntos)
+Al final de la sesión de presentaciones se publicará esta puntuación
+extra, que se sumará directamente a la nota final de la asignatura de
+todos los miembros de los equipos.
+
