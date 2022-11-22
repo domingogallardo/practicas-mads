@@ -1,4 +1,4 @@
-+# Práctica 5: Sprint final
+# Práctica 5: Sprint final
 
 ## Objetivos y resumen de la práctica
 
