@@ -369,7 +369,7 @@ La práctica tiene una duración de 4 semanas.
         - **Resultado de la retrospectiva**: qué ha ido bien en el
           sprint y qué se podría mejorar en el siguiente sprint.
     - El repositorio GitHub deberá incluir el tablero con el backlog
-      del sprint con los PR completados.
+      del sprint con los issues completados.
     - El tablero de Trello deberá incluir el backlog del producto con
       las historias de usuario que se debían implementar en el sprint
       y los enlaces a los documentos Google Docs con sus detalles.
