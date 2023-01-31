@@ -1,9 +1,6 @@
 
 # Práctica extraordinaria para la convocatoria C4 #
 
-!!! Danger "Versión del curso 2020-21"
-    Pendiente de actualizar
-
 ## Aplicación a desarrollar ##
 
 Debes desarrollar una aplicación similar a ToDoList. Por ejemplo, una
@@ -55,13 +52,16 @@ del desarrollo de la práctica:
   usuario en Google Docs, tablero de issues en GitHub y dividir cada
   historia de usuario en uno o más issues.
 
-Tanto el tablero Trello como el repositorio GitHub se deben compartir
-con el profesor de la asignatura (usuario: domingogallardo, e-mail:
-domingo.gallardo@ua.es).
+El repositorio GitHub se debe compartir con el profesor de la
+asignatura (usuario: domingogallardo, e-mail: domingo.gallardo@ua.es).
+
+El tablero Trello debe ser público y debes incluir su enlace en el
+README del repositorio.
+
 
 ## Entrega ##
 
-La fecha de entrega es la fecha del examen oficial de la convocatoria C4 (12/07/2021)
+La fecha de entrega es la fecha del examen oficial de la convocatoria C4 (10/07/2023)
 
 Se habilitará una entrega en Moodle, en la que se debe subir un
 documento PDF con:
