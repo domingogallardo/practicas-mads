@@ -1,8 +1,8 @@
 # Introducción a Spring Boot #
 
-Vamos a trabajar con la versión 2.6.10 de Spring Boot. Se puede
+Vamos a trabajar con la versión 2.7.14 de Spring Boot. Se puede
 consultar toda la documentación oficial sobre esta versión en [este
-enlace](https://docs.spring.io/spring-boot/docs/2.6.10/reference/html/index.html). 
+enlace](https://docs.spring.io/spring-boot/docs/2.7.14/reference/html/index.html). 
 
 ## 1. Aplicación ejemplo ##
 
@@ -34,7 +34,7 @@ Para lanzar una aplicación Spring Boot es suficiente tener instalados:
 
 Maven incluso no es necesario si la aplicación Spring Boot lo tiene ya
 instalado utilizando [Maven
-Wrapper](https://github.com/takari/maven-wrapper), como es el caso de
+Wrapper](https://github.com/apache/maven-wrapper), como es el caso de
 la aplicación ejemplo.
 
 Desde el directorio donde está la aplicación que queremos lanzar
@@ -92,6 +92,17 @@ Se abrirá un panel de ejecución desde el que se puede parar la
 aplicación, volverla a lanzar, etc:
 
 <img src="imagenes/panel-ejecucion.png" width="900px"/>
+
+### GitHub Copilot ###
+
+Es recomendable instalar el [plugin GithHub
+Copilot para JetBrains](https://plugins.jetbrains.com/plugin/17718-github-copilot) para
+trabajar con este asistente de IA como ayudante de código. Tras instalar el
+plugin deberás activarlo introduciendo tu usuario de GitHub.
+
+Puedes trabajar de forma gratuita con [GitHub
+Copilot](https://github.com/features/copilot/) dándote de alta en el [GitHub
+Student Developer Pack](https://education.github.com/pack).
 
 ## 4. Conceptos de Spring Boot ##
 
