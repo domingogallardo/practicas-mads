@@ -389,8 +389,7 @@ la desplegaremos en un _host_ para ponerla en producción.
         sistema `/dev/urandom` en lugar del fichero por defecto
         `/dev/random`. Es necesario para resolver un bug que aparece
         al ejecutar el contenedor en servidores como los alojados en
-        DigitalOcean (servidor que voy a usar para probar vuestros
-        contenedores).
+        DigitalOcean.
 
 4. Asegúrate de que en el directorio raíz de la aplicación está
    el fichero JAR resultado de la compilación de la aplicación.
@@ -422,13 +421,6 @@ la desplegaremos en un _host_ para ponerla en producción.
       REPOSITORY                            TAG
       domingogallardo/spring-boot-demoapp   latest 
       ```
-
-!!! Note "Nota para usuarios de Mac M1"
-    Los ordenadores Mac M1 tienen una arquitectura ARM que no es
-    compatible con la arquitectura del servidor de DigitalOcean en el 
-    que voy a probar vuestro contenedor (AMD). Docker puede
-    generar una imagen que contenga las dos arquitecturas. Debes
-    seguir los pasos que se indican en [este enlace](https://gist.github.com/domingogallardo/126d3b7841986b1ed73a577ed0527ad6).
 
 6. Pon en marcha un la imagen con la aplicación:
 
@@ -553,9 +545,8 @@ la desplegaremos en un _host_ para ponerla en producción.
       $ docker pull <usuario-docker>/spring-boot-demoapp:1.0
       ```
 
-9. Para evaluar la práctica me descargaré en mi servidor DigitalOcean la imagen
-   indicada en el README del repositorio y comprobaré que funciona
-   correctamente.
+9. Para evaluar la práctica me descargaré la imagen indicada en el README del
+   repositorio y comprobaré que funciona correctamente.
 
 ## 4. Estudia el funcionamiento de la aplicación y su arquitectura ##
 
