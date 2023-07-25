@@ -550,9 +550,8 @@ la desplegaremos en un _host_ para ponerla en producción.
 !!! Danger "Importante"
     Asegúrate de que es posible acceder al enlace **sin estar logeado en
     DockerHub**. Abre otro navegador diferente en el que no estés logeado y prueba
-    que el enlace funciona correctamente. Ese enlace es en el que voy a comprobar
-    el funcionamiento correcto de la práctica.
-
+    que el enlace funciona correctamente. Ese enlace es el que voy a usar para
+    comprobar el funcionamiento correcto de la práctica.
 
 ## 4. Estudia el funcionamiento de la aplicación y su arquitectura ##
 
@@ -667,9 +666,7 @@ Para la evaluación se tendrá en cuenta:
 - Diseño e implementación del código y de los tests de las
   características desarrolladas.
 
-!!! Danger "Importante"
-    Asegúrate que está disponible en el `README` del repositorio GitHub el
-    enlace al repositorio DockerHub donde se ha subido la máquina Docker
-    final. Esa máquina Docker es la que voy a usar para comprobar el
-    funcionamiento correcto de la práctica.
-
+!!! Danger "Penalización por realizar la práctica el último día"
+    En la asignatura se recompensa el trabajo continuo y la realización de los
+    _commits_ a lo largo de toda la semana. Si se realiza todo el trabajo en el
+    último día se tendrá una penalización en la nota.
