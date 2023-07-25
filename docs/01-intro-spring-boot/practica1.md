@@ -500,15 +500,12 @@ la desplegaremos en un _host_ para ponerla en producción.
 8. Vamos a terminar publicando la imagen en tu cuenta de Docker Hub.
 
     - Ve a [Docker Hub](https://hub.docker.com) y logéate.
+    
     - Crea un repositorio con el nombre `spring-boot-demoapp`. En ese
       repositorio vas a subir la imagen con el mismo nombre. En un
       repositorio Docker puedes mantener múltiples versiones de una
       misma imagen, usando _tags_.
       
-      **IMPORTANTE**: Escribe un enlace a al repositorio en Docker Hub
-      en el fichero `README.md` del repositorio de GitHub. De esta forma
-      podré consultar y descargar las imágenes que publiques en Docker Hub.
-
     - Una vez creado el repositorio puedes publicar la imagen en él
       logeándote desde la línea de comando (introduce tu usuario y
       contraseña de Docker Hub) y con el comando `docker push`:
@@ -545,8 +542,17 @@ la desplegaremos en un _host_ para ponerla en producción.
       $ docker pull <usuario-docker>/spring-boot-demoapp:1.0
       ```
 
-9. Para evaluar la práctica me descargaré la imagen indicada en el README del
-   repositorio y comprobaré que funciona correctamente.
+9.  Escribe en el fichero `README.md` del repositorio GitHub un enlace a la
+    **vista pública** de la imagen en Docker Hub. La vista pública tiene el
+    formato
+    [https://hub.docker.com/r/domingogallardo/spring-boot-demoapp](https://hub.docker.com/r/domingogallardo/spring-boot-demoapp).
+
+!!! Danger "Importante"
+    Asegúrate de que es posible acceder al enlace **sin estar logeado en
+    DockerHub**. Abre otro navegador diferente en el que no estés logeado y prueba
+    que el enlace funciona correctamente. Ese enlace es en el que voy a comprobar
+    el funcionamiento correcto de la práctica.
+
 
 ## 4. Estudia el funcionamiento de la aplicación y su arquitectura ##
 
@@ -639,8 +645,10 @@ Para realizar la entrega debes hacer lo siguiente:
 
 - Realizar la aplicación en el repositorio creado e ir subiendo los
   commits a GitHub conforme se van realizando.
-- Actualizar el fichero `README.md` con la URL del repositorio Docker
-  Hub donde se ha subido la máquina Docker final.
+- Actualizar el fichero `README.md` con el enlace a la vista pública de la
+  imagen subida DockerHub. En esa página debe estar la imagen con la etiqueta
+  `final`. El formato de la URL debe ser
+  `https://hub.docker.com/r/<usuario-docker>/spring-boot-demoapp`.
 - Añadir una página de documentación `doc/practica1.md` en la que se
   explique la funcionalidad y el código añadido. Incluir en la
   documentación la URL  de los repositorios en GitHub y en Docker
