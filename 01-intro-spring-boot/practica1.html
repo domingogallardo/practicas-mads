@@ -916,8 +916,7 @@ generador de números aleatorios de Java usando el fichero del
 sistema <code>/dev/urandom</code> en lugar del fichero por defecto
 <code>/dev/random</code>. Es necesario para resolver un bug que aparece
 al ejecutar el contenedor en servidores como los alojados en
-DigitalOcean (servidor que voy a usar para probar vuestros
-contenedores).</p>
+DigitalOcean.</p>
 </li>
 </ul>
 </li>
@@ -946,16 +945,6 @@ REPOSITORY<span class="w">                            </span>TAG
 domingogallardo/spring-boot-demoapp<span class="w">   </span>latest<span class="w"> </span>
 </code></pre></div>
 </li>
-</ol>
-<div class="admonition note">
-<p class="admonition-title">Nota para usuarios de Mac M1</p>
-<p>Los ordenadores Mac M1 tienen una arquitectura ARM que no es
-compatible con la arquitectura del servidor de DigitalOcean en el 
-que voy a probar vuestro contenedor (AMD). Docker puede
-generar una imagen que contenga las dos arquitecturas. Debes
-seguir los pasos que se indican en <a href="https://gist.github.com/domingogallardo/126d3b7841986b1ed73a577ed0527ad6">este enlace</a>.</p>
-</div>
-<ol start="6">
 <li>
 <p>Pon en marcha un la imagen con la aplicación:</p>
 <div class="highlight"><pre><span></span><code>$ docker run -p 8080:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
@@ -1016,19 +1005,20 @@ $ git push
 <li>
 <p>Vamos a terminar publicando la imagen en tu cuenta de Docker Hub.</p>
 <ul>
-<li>Ve a <a href="https://hub.docker.com">Docker Hub</a> y logéate.</li>
-<li>Crea un repositorio con el nombre <code>spring-boot-demoapp</code>. En ese
+<li>
+<p>Ve a <a href="https://hub.docker.com">Docker Hub</a> y logéate.</p>
+</li>
+<li>
+<p>Crea un repositorio con el nombre <code>spring-boot-demoapp</code>. En ese
   repositorio vas a subir la imagen con el mismo nombre. En un
   repositorio Docker puedes mantener múltiples versiones de una
-  misma imagen, usando <em>tags</em>.</li>
-</ul>
-<p><strong>IMPORTANTE</strong>: Escribe un enlace a al repositorio en Docker Hub
-  en el fichero <code>README.md</code> del repositorio de GitHub. De esta forma
-  podré consultar y descargar las imágenes que publiques en Docker Hub.</p>
-<ul>
-<li>Una vez creado el repositorio puedes publicar la imagen en él
+  misma imagen, usando <em>tags</em>.</p>
+</li>
+<li>
+<p>Una vez creado el repositorio puedes publicar la imagen en él
   logeándote desde la línea de comando (introduce tu usuario y
-  contraseña de Docker Hub) y con el comando <code>docker push</code>:</li>
+  contraseña de Docker Hub) y con el comando <code>docker push</code>:</p>
+</li>
 </ul>
 <div class="highlight"><pre><span></span><code>$ docker login
 $ docker push &lt;usuario-docker&gt;/spring-boot-demoapp
@@ -1055,11 +1045,19 @@ $ docker push &lt;usuario-docker&gt;/spring-boot-demoapp
 </code></pre></div>
 </li>
 <li>
-<p>Para evaluar la práctica me descargaré en mi servidor DigitalOcean la imagen
-   indicada en el README del repositorio y comprobaré que funciona
-   correctamente.</p>
+<p>Escribe en el fichero <code>README.md</code> del repositorio GitHub un enlace a la
+    <strong>vista pública</strong> de la imagen en Docker Hub. La vista pública tiene el
+    formato
+    <a href="https://hub.docker.com/r/domingogallardo/spring-boot-demoapp">https://hub.docker.com/r/domingogallardo/spring-boot-demoapp</a>.</p>
 </li>
 </ol>
+<div class="admonition danger">
+<p class="admonition-title">Importante</p>
+<p>Asegúrate de que es posible acceder al enlace <strong>sin estar logeado en
+DockerHub</strong>. Abre otro navegador diferente en el que no estés logeado y prueba
+que el enlace funciona correctamente. Ese enlace es en el que voy a comprobar
+el funcionamiento correcto de la práctica.</p>
+</div>
 <h2 id="4-estudia-el-funcionamiento-de-la-aplicacion-y-su-arquitectura">4. Estudia el funcionamiento de la aplicación y su arquitectura<a class="headerlink" href="#4-estudia-el-funcionamiento-de-la-aplicacion-y-su-arquitectura" title="Permanent link">&para;</a></h2>
 <p>En el documento <a href="intro-spring-boot.html">Introducción a Spring Boot</a>
 se comenta el código fuente de la aplicación Spring Boot con la que
@@ -1138,8 +1136,10 @@ asignatura.</p>
 <ul>
 <li>Realizar la aplicación en el repositorio creado e ir subiendo los
   commits a GitHub conforme se van realizando.</li>
-<li>Actualizar el fichero <code>README.md</code> con la URL del repositorio Docker
-  Hub donde se ha subido la máquina Docker final.</li>
+<li>Actualizar el fichero <code>README.md</code> con el enlace a la vista pública de la
+  imagen subida DockerHub. En esa página debe estar la imagen con la etiqueta
+  <code>final</code>. El formato de la URL debe ser
+  <code>https://hub.docker.com/r/&lt;usuario-docker&gt;/spring-boot-demoapp</code>.</li>
 <li>Añadir una página de documentación <code>doc/practica1.md</code> en la que se
   explique la funcionalidad y el código añadido. Incluir en la
   documentación la URL  de los repositorios en GitHub y en Docker
