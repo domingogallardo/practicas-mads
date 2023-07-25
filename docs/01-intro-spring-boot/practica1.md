@@ -21,8 +21,7 @@ Los objetivos principales son:
   pequeñas modificaciones en la aplicación que usen un formulario.
 - Trabajar de forma regular, realizando pequeños commits que se deben
   subir al repositorio personal de la asignatura en GitHub.
-- Crear una aplicación desplegable usando Docker
-- Desplegar la aplicación en el servidor de la asignatura.
+- Crear una aplicación desplegable usando Docker y publicar el contenedor en DockerHub
 
 ## 1. Instalación de software ##
 
@@ -389,9 +388,9 @@ la desplegaremos en un _host_ para ponerla en producción.
         generador de números aleatorios de Java usando el fichero del
         sistema `/dev/urandom` en lugar del fichero por defecto
         `/dev/random`. Es necesario para resolver un bug que aparece
-        al ejecutar el contenedor en un servidor alojado DigitalOcean
-        (el servidor de la asignatura, en el que pondrás la aplicación
-        en producción, usa ese servicio).
+        al ejecutar el contenedor en servidores como los alojados en
+        DigitalOcean (servidor que voy a usar para probar vuestros
+        contenedores).
 
 4. Asegúrate de que en el directorio raíz de la aplicación está
    el fichero JAR resultado de la compilación de la aplicación.
@@ -426,8 +425,8 @@ la desplegaremos en un _host_ para ponerla en producción.
 
 !!! Note "Nota para usuarios de Mac M1"
     Los ordenadores Mac M1 tienen una arquitectura ARM que no es
-    compatible con la arquitectura del servidor de la asignatura en
-    el que se va a poner la aplicación en producción (AMD). Docker puede
+    compatible con la arquitectura del servidor de DigitalOcean en el 
+    que voy a probar vuestro contenedor (AMD). Docker puede
     generar una imagen que contenga las dos arquitecturas. Debes
     seguir los pasos que se indican en [este enlace](https://gist.github.com/domingogallardo/126d3b7841986b1ed73a577ed0527ad6).
 
@@ -553,92 +552,10 @@ la desplegaremos en un _host_ para ponerla en producción.
       ```
       $ docker pull <usuario-docker>/spring-boot-demoapp:1.0
       ```
-    
-### Puesta en producción de la aplicación ###
-    
-Por último deberás poner en producción la aplicación, conectándote al
-servidor linux de la asignatura y poniendo allí en marcha la
-aplicación.
 
-1. Consulta en el foro de Moodle la dirección IP del servidor linux de
-   la asignatura y tu usuario.
-
-2. Conéctate al servidor con tu usuario con la contreseña `mads22` y
-   cambia tu contraseña. Por ejemplo, si tu usuario es `alu02` y la
-   dirección IP del servidor es `160.66.120.177`:
-
-    ```
-    $ ssh alu02@160.66.120.177
-    $ passwd
-    ```
-
-3. Comprueba si alguien más está utilizando el servidor:
-
-    ```
-    $ who
-    alu02    pts/1        2021-08-11 07:01 (80.29.50.137)
-    ```
-    
-    Si algún otro compañero está usando el servidor puede ser posible
-    que se ralentice o que ya el puerto `8080` ya esté ocupado por la
-    aplicación del compañero. En este último caso puedes usar un
-    puerto diferente para poner la aplicación en producción.
-    
-4. Descarga tu imagen de la aplicación y ponla en funcionamiento:
-
-    ```
-    $ docker pull <usuario-docker>/spring-boot-demoapp
-    $ docker run --rm --name spring-boot-alu<num> -p 8080:8080 <usuario-docker>/spring-boot-demoapp
-    ```
-    
-    El indicador `--rm` hace que cuando se pare el contenedor
-    automáticamente se borre. De esta forma evitamos tener que
-    borrarlo a mano después.
-    
-    El indicador `--name` define el nombre del contenedor. Ponemos
-    nuestro nombre, para poder identificar quiénes han creado cada contenedor.
-    
-    En el caso en que otro compañero tenga la aplicación en marcha en
-    ese puerto aparecerá el siguiente mensaje de error:
-    
-    ```
-    docker: Error response from daemon: driver failed programming ...
-    Bind for 0.0.0.0:8080 failed: port is already allocated.
-    ```
-    
-    En ese caso puedes usar otro puerto. El primer puerto es el que se
-    refiere al host y el segundo a la aplicación corriendo en el
-    contenedor. Por ejemplo, puedes usar el puerto `8081`:
-    
-    ```
-    $ docker run --rm --name spring-boot-alu02 -p 8081:8080 <usuario-docker>/spring-boot-demoapp
-    ```
-    
-5. Comprueba que la aplicación funciona correctamente conectándote
-   desde tu navegador al servidor linux de la asignatura y al puerto
-   correctamente: <http://161.35.65.197:8080>.
-   
-    ¡Enhorabuena, ya tienes tu aplicación en producción!. Puedes
-    llamar a cualquier amigo para que se conecte a esa URL y la pruebe.
-
-6. Si en algún momento tenemos problemas de espacio en el disco duro,
-   podemos borrar la imagen y el contenedor:
-   
-    ```
-    $ docker container ls -a 
-    $ docker container rm spring-boot-alu02
-    $ docker image ls -a 
-    $ docker image rm <nombre-imagen> o <image-id>
-    $ exit
-    ```
-
-    !!! Danger "No guardar ficheros en el servidor de la asignatura"
-        El servidor de la asignatura tiene una capacidad limitada de
-        disco duro y debemos tener cuidado de no sobrepasarla entre todos.
-        
-        Por ello, no debes guardar ningún fichero ajeno a la
-        asignatura en este servidor.
-        
+9. Para evaluar la práctica me descargaré en mi servidor DigitalOcean la imagen
+   indicada en el README del repositorio y comprobaré que funciona
+   correctamente.
 
 ## 4. Estudia el funcionamiento de la aplicación y su arquitectura ##
 
@@ -699,8 +616,7 @@ cualquiera de los siguientes ejemplos o alguno similar que se te ocurra:
 
 Cuando compruebes que los tests funcionan correctamente y que la
 aplicación funciona bien en local, debes crear la máquina Docker con
-la etiqueta `final` y probar que funciona bien en producción en el
-servidor de la asignatura.
+la etiqueta `final` y subirla a tu repositorio DockerHub.
 
 ## 6. Comandos Git ##
 
@@ -753,7 +669,8 @@ Para la evaluación se tendrá en cuenta:
   características desarrolladas.
 
 !!! Danger "Importante"
-    Después de entregar la práctica deberás ponerla en producción en el
-    servidor de la asignatura y el profesor comprobará que
-    funciona correctamente. Lo haremos en el horario de clase de prácticas.
+    Asegúrate que está disponible en el `README` del repositorio GitHub el
+    enlace al repositorio DockerHub donde se ha subido la máquina Docker
+    final. Esa máquina Docker es la que voy a usar para comprobar el
+    funcionamiento correcto de la práctica.
 
