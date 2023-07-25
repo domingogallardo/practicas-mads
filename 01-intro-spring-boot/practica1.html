@@ -302,13 +302,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#puesta-en-produccion-de-la-aplicacion" class="md-nav__link">
-    Puesta en producción de la aplicación
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -542,13 +535,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#puesta-en-produccion-de-la-aplicacion" class="md-nav__link">
-    Puesta en producción de la aplicación
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -618,8 +604,7 @@ https://classroom.github.com/help/upgrade-your-organization
   pequeñas modificaciones en la aplicación que usen un formulario.</li>
 <li>Trabajar de forma regular, realizando pequeños commits que se deben
   subir al repositorio personal de la asignatura en GitHub.</li>
-<li>Crear una aplicación desplegable usando Docker</li>
-<li>Desplegar la aplicación en el servidor de la asignatura.</li>
+<li>Crear una aplicación desplegable usando Docker y publicar el contenedor en DockerHub</li>
 </ul>
 <h2 id="1-instalacion-de-software">1. Instalación de software<a class="headerlink" href="#1-instalacion-de-software" title="Permanent link">&para;</a></h2>
 <p>Vamos a trabajar bastante con el terminal. En Linux o macOS podemos
@@ -930,9 +915,9 @@ instrucciones con las que se construye la máquina Docker:</p>
 generador de números aleatorios de Java usando el fichero del
 sistema <code>/dev/urandom</code> en lugar del fichero por defecto
 <code>/dev/random</code>. Es necesario para resolver un bug que aparece
-al ejecutar el contenedor en un servidor alojado DigitalOcean
-(el servidor de la asignatura, en el que pondrás la aplicación
-en producción, usa ese servicio).</p>
+al ejecutar el contenedor en servidores como los alojados en
+DigitalOcean (servidor que voy a usar para probar vuestros
+contenedores).</p>
 </li>
 </ul>
 </li>
@@ -965,8 +950,8 @@ domingogallardo/spring-boot-demoapp<span class="w">   </span>latest<span class="
 <div class="admonition note">
 <p class="admonition-title">Nota para usuarios de Mac M1</p>
 <p>Los ordenadores Mac M1 tienen una arquitectura ARM que no es
-compatible con la arquitectura del servidor de la asignatura en
-el que se va a poner la aplicación en producción (AMD). Docker puede
+compatible con la arquitectura del servidor de DigitalOcean en el 
+que voy a probar vuestro contenedor (AMD). Docker puede
 generar una imagen que contenga las dos arquitecturas. Debes
 seguir los pasos que se indican en <a href="https://gist.github.com/domingogallardo/126d3b7841986b1ed73a577ed0527ad6">este enlace</a>.</p>
 </div>
@@ -1069,78 +1054,10 @@ $ docker push &lt;usuario-docker&gt;/spring-boot-demoapp
 <div class="highlight"><pre><span></span><code>$ docker pull &lt;usuario-docker&gt;/spring-boot-demoapp:1.0
 </code></pre></div>
 </li>
-</ol>
-<h3 id="puesta-en-produccion-de-la-aplicacion">Puesta en producción de la aplicación<a class="headerlink" href="#puesta-en-produccion-de-la-aplicacion" title="Permanent link">&para;</a></h3>
-<p>Por último deberás poner en producción la aplicación, conectándote al
-servidor linux de la asignatura y poniendo allí en marcha la
-aplicación.</p>
-<ol>
 <li>
-<p>Consulta en el foro de Moodle la dirección IP del servidor linux de
-   la asignatura y tu usuario.</p>
-</li>
-<li>
-<p>Conéctate al servidor con tu usuario con la contreseña <code>mads22</code> y
-   cambia tu contraseña. Por ejemplo, si tu usuario es <code>alu02</code> y la
-   dirección IP del servidor es <code>160.66.120.177</code>:</p>
-<div class="highlight"><pre><span></span><code>$ ssh alu02@160.66.120.177
-$ passwd
-</code></pre></div>
-</li>
-<li>
-<p>Comprueba si alguien más está utilizando el servidor:</p>
-<div class="highlight"><pre><span></span><code>$ who
-alu02    pts/1        2021-08-11 07:01 (80.29.50.137)
-</code></pre></div>
-<p>Si algún otro compañero está usando el servidor puede ser posible
-que se ralentice o que ya el puerto <code>8080</code> ya esté ocupado por la
-aplicación del compañero. En este último caso puedes usar un
-puerto diferente para poner la aplicación en producción.</p>
-</li>
-<li>
-<p>Descarga tu imagen de la aplicación y ponla en funcionamiento:</p>
-<div class="highlight"><pre><span></span><code>$ docker pull &lt;usuario-docker&gt;/spring-boot-demoapp
-$ docker run --rm --name spring-boot-alu&lt;num&gt; -p 8080:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
-</code></pre></div>
-<p>El indicador <code>--rm</code> hace que cuando se pare el contenedor
-automáticamente se borre. De esta forma evitamos tener que
-borrarlo a mano después.</p>
-<p>El indicador <code>--name</code> define el nombre del contenedor. Ponemos
-nuestro nombre, para poder identificar quiénes han creado cada contenedor.</p>
-<p>En el caso en que otro compañero tenga la aplicación en marcha en
-ese puerto aparecerá el siguiente mensaje de error:</p>
-<div class="highlight"><pre><span></span><code>docker: Error response from daemon: driver failed programming ...
-Bind for 0.0.0.0:8080 failed: port is already allocated.
-</code></pre></div>
-<p>En ese caso puedes usar otro puerto. El primer puerto es el que se
-refiere al host y el segundo a la aplicación corriendo en el
-contenedor. Por ejemplo, puedes usar el puerto <code>8081</code>:</p>
-<div class="highlight"><pre><span></span><code>$ docker run --rm --name spring-boot-alu02 -p 8081:8080 &lt;usuario-docker&gt;/spring-boot-demoapp
-</code></pre></div>
-</li>
-<li>
-<p>Comprueba que la aplicación funciona correctamente conectándote
-   desde tu navegador al servidor linux de la asignatura y al puerto
-   correctamente: <a href="http://161.35.65.197:8080">http://161.35.65.197:8080</a>.</p>
-<p>¡Enhorabuena, ya tienes tu aplicación en producción!. Puedes
-llamar a cualquier amigo para que se conecte a esa URL y la pruebe.</p>
-</li>
-<li>
-<p>Si en algún momento tenemos problemas de espacio en el disco duro,
-   podemos borrar la imagen y el contenedor:</p>
-<div class="highlight"><pre><span></span><code>$ docker container ls -a 
-$ docker container rm spring-boot-alu02
-$ docker image ls -a 
-$ docker image rm &lt;nombre-imagen&gt; o &lt;image-id&gt;
-$ exit
-</code></pre></div>
-<div class="admonition danger">
-<p class="admonition-title">No guardar ficheros en el servidor de la asignatura</p>
-<p>El servidor de la asignatura tiene una capacidad limitada de
-disco duro y debemos tener cuidado de no sobrepasarla entre todos.</p>
-<p>Por ello, no debes guardar ningún fichero ajeno a la
-asignatura en este servidor.</p>
-</div>
+<p>Para evaluar la práctica me descargaré en mi servidor DigitalOcean la imagen
+   indicada en el README del repositorio y comprobaré que funciona
+   correctamente.</p>
 </li>
 </ol>
 <h2 id="4-estudia-el-funcionamiento-de-la-aplicacion-y-su-arquitectura">4. Estudia el funcionamiento de la aplicación y su arquitectura<a class="headerlink" href="#4-estudia-el-funcionamiento-de-la-aplicacion-y-su-arquitectura" title="Permanent link">&para;</a></h2>
@@ -1193,8 +1110,7 @@ cualquiera de los siguientes ejemplos o alguno similar que se te ocurra:</p>
 </ul>
 <p>Cuando compruebes que los tests funcionan correctamente y que la
 aplicación funciona bien en local, debes crear la máquina Docker con
-la etiqueta <code>final</code> y probar que funciona bien en producción en el
-servidor de la asignatura.</p>
+la etiqueta <code>final</code> y subirla a tu repositorio DockerHub.</p>
 <h2 id="6-comandos-git">6. Comandos Git<a class="headerlink" href="#6-comandos-git" title="Permanent link">&para;</a></h2>
 <p>Comandos Git necesarios para realizar la práctica:</p>
 <ul>
@@ -1244,9 +1160,10 @@ asignatura.</p>
 </ul>
 <div class="admonition danger">
 <p class="admonition-title">Importante</p>
-<p>Después de entregar la práctica deberás ponerla en producción en el
-servidor de la asignatura y el profesor comprobará que
-funciona correctamente. Lo haremos en el horario de clase de prácticas.</p>
+<p>Asegúrate que está disponible en el <code>README</code> del repositorio GitHub el
+enlace al repositorio DockerHub donde se ha subido la máquina Docker
+final. Esa máquina Docker es la que voy a usar para comprobar el
+funcionamiento correcto de la práctica.</p>
 </div>
 
 
