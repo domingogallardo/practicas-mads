@@ -251,6 +251,15 @@ pago, es posible [obtener una licencia de
 estudiante](https://www.jetbrains.com/shop/eform/students) usando la
 dirección de correo de la UA.
 
+También es recomendable instalar el [plugin GithHub
+Copilot para JetBrains](https://plugins.jetbrains.com/plugin/17718-github-copilot) para
+trabajar con este asistente de IA como ayudante de código. Tras instalar el
+plugin deberás activarlo introduciendo tu usuario de GitHub.
+
+Puedes trabajar de forma gratuita con [GitHub
+Copilot](https://github.com/features/copilot/) dándote de alta en el [GitHub
+Student Developer Pack](https://education.github.com/pack).
+
 5. Abre proyecto el en IntelliJ. Debes importar el directorio donde se
    encuentre el fichero `pom.xml`. Se puede hacer desde la pantalla de
    bienvenida de IntelliJ con la opción **Import Project** o usando la
