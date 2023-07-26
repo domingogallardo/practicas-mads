@@ -151,7 +151,7 @@ esta práctica debes seguir los siguientes pasos:
     <img src="imagenes/aceptar-classroom.png" width="500px"></img>
    
     Se creará automáticamente el repositorio `springboot-demo-app-<usuario>` en la
-    organización [mads-ua-22-23](https://github.com/mads-ua-22-23/repositories). Es un
+    organización [mads-ua-23-24](https://github.com/mads-ua-23-24/repositories). Es un
     repositorio privado al que tienes acceso tú y el profesor. Contiene
     el código inicial del proyecto demostración de Spring Boot (es una
     copia del repositorio
@@ -161,15 +161,15 @@ esta práctica debes seguir los siguientes pasos:
     
     Es importante que tengas en cuenta que el repositorio recién
     creado no reside en tu cuenta, sino en la organización
-    `mads-ua-22-23`. Puedes acceder a él desde el _dashboard_ de GitHub que
+    `mads-ua-23-24`. Puedes acceder a él desde el _dashboard_ de GitHub que
     aparece cuando te logeas o pulsando en el icono de GitHub:
    
     <img src="imagenes/dashboard-github.png" width="700px"/>
 
-4. El profesor te invitará a formar parte de la organización `mads-ua-22-23`
+4. El profesor te invitará a formar parte de la organización `mads-ua-23-24`
    y recibirás un mensaje de correo electrónico en el que deberás
    aceptar esta invitación. También se puede aceptar la invitación
-   accediendo a <https://github.com/mads-ua-22-23>.
+   accediendo a <https://github.com/mads-ua-23-24>.
    
 
 ## 3. Aplicación Demo de Spring Boot ##
@@ -201,7 +201,7 @@ Lo primero que deberás hacer será descargar la aplicación
    anterior, usando el comando `git clone`:
   
     ```
-    $ git clone https://github.com/mads-ua-22-23/springboot-demo-app-<usuario>.git
+    $ git clone https://github.com/mads-ua-23-24/springboot-demo-app-<usuario>.git
     ```
 
     Cuando git te pida autenticación, usa como nombre de usuario tu usuario
