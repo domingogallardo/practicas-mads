@@ -2176,7 +2176,7 @@ de GitHub](https://help.github.com/categories/writing-on-github/).
 1. Una vez logeado en GitHub, copia el enlace con una invitación que
    compartiremos en el foro de Moodle. Con esa invitación se creará
    automáticamente tu repositorio `mads-todolist-<usuario>` en la
-   organización [mads-ua](https://github.com/mads-ua-22-23). Al igual
+   organización [mads-ua](https://github.com/mads-ua-23-24). Al igual
    que el repositorio de la primera parte de la práctica es un
    repositorio privado al que tienes acceso tú y el profesor. Contiene
    el código inicial de un proyecto base (es una copia del repositorio
@@ -2185,7 +2185,7 @@ de GitHub](https://help.github.com/categories/writing-on-github/).
 
     Es importante que tengas en cuenta que el repositorio recién
     creado no reside en tu cuenta, sino en la organización
-    `mads-ua-22-23`. Puedes acceder a él desde el _dashboard_ de GitHub que
+    `mads-ua-23-24`. Puedes acceder a él desde el _dashboard_ de GitHub que
     aparece cuando te logeas.
    
 2. Descarga el proyecto y comprueba que se compila y ejecuta
@@ -2313,7 +2313,7 @@ podremos acceder a los pull requests desde cada uno de los issues
     real que tiene en la actualidad.
 
 Lo primero que debes hacer es crear un proyecto desde el enlace
-`Projects` en la organización [mads-ua-22-23](https://github.com/mads-ua-22-23).
+`Projects` en la organización [mads-ua-23-24](https://github.com/mads-ua-23-24).
 
 <img src="./imagenes/project-profile.png" width="600px">
 

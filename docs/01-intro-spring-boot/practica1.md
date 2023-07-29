@@ -46,11 +46,22 @@ operativo. Debemos instalar el siguiente software:
     tienes Windows, te recomiendo que instales una máquina virtual
     Linux y la uses para la práctica.
 
+### IntelliJ Ultimate ###
+
 Recomendamos hacer el desarrollo usando el IDE [IntelliJ
 Ultimate](https://www.jetbrains.com/idea/download/). Aunque es de
 pago, es posible [obtener una licencia de
 estudiante](https://www.jetbrains.com/shop/eform/students) usando la
 dirección de correo de la UA.
+
+### Alta en GitHub educativo ###
+
+Darse de alta en GitHub con el correo de la UA y solicitar el [registro como
+estudiante](https://education.github.com/discount_requests/application) para
+obtener beneficios como el uso de GitHub Pro (que incluye Copilot) y poder
+solicitar el [GitHub Student Developer
+pack](https://education.github.com/pack/offers) con ofertas como $200 en 
+servidores de Digital Ocean.
 
 ### Instalación básica ###
 
