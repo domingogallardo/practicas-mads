@@ -654,9 +654,8 @@ asignatura.
 ## 7. Entrega ##
 
 - La práctica tiene una duración de 1 semana y debe estar terminada
-  el martes 21 de septiembre. El miércoles 22 de septiembre el
-  profesor comprobará en clase de prácticas el funcionamiento de la
-  práctica en producción.
+  el martes 19 de septiembre.
+
 - La calificación de la práctica tiene un peso de un 10% en la nota
   final de prácticas.
 
