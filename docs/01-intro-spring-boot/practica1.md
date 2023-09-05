@@ -162,7 +162,7 @@ esta práctica debes seguir los siguientes pasos:
     <img src="imagenes/aceptar-classroom.png" width="500px"></img>
    
     Se creará automáticamente el repositorio `springboot-demo-app-<usuario>` en la
-    organización [mads-ua-23-24](https://github.com/mads-ua-23-24/repositories). Es un
+    organización [mads-ua-23-24](https://github.com/mads-ua-23-24/). Es un
     repositorio privado al que tienes acceso tú y el profesor. Contiene
     el código inicial del proyecto demostración de Spring Boot (es una
     copia del repositorio
@@ -568,7 +568,7 @@ la desplegaremos en un _host_ para ponerla en producción.
     [https://hub.docker.com/r/domingogallardo/spring-boot-demoapp](https://hub.docker.com/r/domingogallardo/spring-boot-demoapp).
 
 !!! Danger "Importante"
-    Asegúrate de que es posible acceder al enlace **sin estar logeado en
+    Asegúrate de que es posible acceder al enlace de tu imagen docker  **sin estar logeado en
     DockerHub**. Abre otro navegador diferente en el que no estés logeado y prueba
     que el enlace funciona correctamente. Ese enlace es el que voy a usar para
     comprobar el funcionamiento correcto de la práctica.
