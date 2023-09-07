@@ -411,14 +411,9 @@ la desplegaremos en un _host_ para ponerla en producción.
         al ejecutar el contenedor en servidores como los alojados en
         DigitalOcean.
 
-4. Asegúrate de que en el directorio raíz de la aplicación está
-   el fichero JAR resultado de la compilación de la aplicación.
+4. Vuelve a compilar la aplicación para asegurarte de que se genera el fichero
+   JAR que la contiene. Este fichero es que vamos a _dockerizar_.
 
-    Tal y como se explica en la [introducción a Spring
-    Boot](./intro-spring-boot.md), el fichero `.jar` es el ejecutable
-    Java de la aplicación, que se crea cuando con el objetivo
-    `package` de Maven:
-    
     ```
     $ ./mvnw package
     $ ls -l ./target/*.jar
@@ -521,10 +516,10 @@ la desplegaremos en un _host_ para ponerla en producción.
 
     - Ve a [Docker Hub](https://hub.docker.com) y logéate.
     
-    - Crea un repositorio con el nombre `spring-boot-demoapp`. En ese
-      repositorio vas a subir la imagen con el mismo nombre. En un
-      repositorio Docker puedes mantener múltiples versiones de una
-      misma imagen, usando _tags_.
+    - Crea un repositorio **público** con el nombre `spring-boot-demoapp`. En
+      ese repositorio vas a subir la imagen con el mismo nombre. En un
+      repositorio Docker puedes mantener múltiples versiones de una misma
+      imagen, usando _tags_.
       
     - Una vez creado el repositorio puedes publicar la imagen en él
       logeándote desde la línea de comando (introduce tu usuario y
@@ -608,7 +603,15 @@ public void checkPersonInfoWhenNameTooShortThenFailure() throws Exception {
 
 Para demostrar que comprendes el funcionamiento de una aplicación
 Spring Boot, debes añadir alguna funcionalidad sencilla a la aplicación
-Demo que realice lo siguiente:
+Demo. Debes definir tú la funcionalidad a implementar. Por ejemplo,
+cualquiera de los siguientes ejemplos o alguno similar que se te ocurra:
+
+- Palíndroma: lee una palabra y comprueba si es palíndroma.
+- Número par: lee un número y comprueba si es par
+- Cuadrado: lee dos números y comprueba si el segundo es el cuadrado del primero
+- Calculadora: lee un par de números y una operación y devuelve el resultado.
+
+La aplicación debe realizar lo siguiente:
 
 - Leer datos de un formulario usando Thymeleaf y **realizar alguna validación**.
 - Llamar a un **método de servicio** que procese los datos leídos.
@@ -617,18 +620,36 @@ Demo que realice lo siguiente:
   (controllers web).
 - En la página principal de la aplicación debe aparecer tu nombre y apellidos.
 
-Muy importante, debemos desarrollar la aplicación en **pequeños
+**Muy importante**, debemos desarrollar la aplicación en **pequeños
 commits**. Cada commit debe compilar correctamente y añadir una
-pequeña funcionalidad. Debemos subir los commits al repositorio
-personal de GitHub.
+pequeña funcionalidad o debe realizar una refactorización en la que no se
+incluye ninguna nueva funcionalidad pero se mejora el código. 
 
-Debes definir tú la funcionalidad a implementar. Por ejemplo,
-cualquiera de los siguientes ejemplos o alguno similar que se te ocurra:
+Debemos subir los commits al repositorio de GitHub.
 
-- Palíndroma: lee una palabra y comprueba si es palíndroma.
-- Número par: lee un número y comprueba si es par
-- Cuadrado: lee dos números y comprueba si el segundo es el cuadrado del primero
-- Calculadora: lee un par de números y una operación y devuelve el resultado.
+!!! Note "Pequeños commits"
+    Para la realización correcta de la práctica debes ir construyendo la
+    aplicación a base de pequeños commits que incrementen su funcionalidad. Si
+    no has trabajado nunca de esta forma te resultará algo complicado al
+    principio, pero poco a poco irás cogiéndole el tranquillo.
+    
+    La idea es que antes de emepezar a escribir el código debes tener claro qué
+    cosas quieres hacer. Veremos que la técnica de TDD nos ayuda a ello, pero
+    por ahora no vamos a usarla. 
+    
+    Por ejemplo, si queremos hacer una aplicación que compruebe si una palabra 
+    es palíndroma necestaremos una función en un servicio que haga esa
+    comprobación. Procedemos entonces a escribir código para
+    implementarla. Antes de grabar el commit debemos comprobar que funciona
+    correctamente. ¿Cómo lo hacemos? Podemos hacerlo de dos formas: crear un
+    sencillo controller que la llame a esa función con un ejemplo concreto o
+    crear un test. Una vez comprobado que funciona correctamente la función
+    grabamos el commit.
+    
+    Una vez terminada la capa de servicio deberemos programar la controller y el
+    formulario para usar la aplicación. También lo podemos hacer poco a poco,
+    primero programando una versión sencilla y después añadiendo las validaciones.
+
 
 Cuando compruebes que los tests funcionan correctamente y que la
 aplicación funciona bien en local, debes crear la máquina Docker con
@@ -681,6 +702,8 @@ Para la evaluación se tendrá en cuenta:
 
 - Desarrollo continuo (los _commits_ deben realizarse a lo largo de
   toda la semana y no dejar todo para el último día).
+- Commits pequeños, cada commit debe ser funcional e introducir algún elemento
+  nuevo o realizar alguna refactorización.
 - Correcto desarrollo de la metodología.
 - Diseño e implementación del código y de los tests de las
   características desarrolladas.
