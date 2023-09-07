@@ -37,13 +37,13 @@ operativo. Debemos instalar el siguiente software:
 - Java JDK 8 o posterior
 - IntelliJ Ultimate
 
-!!! Note "Nota del profesor sobre en el sistema operativo en el que realizar la práctica" 
-    Aunque en los apuntes aparezca información
-    sobre cómo trabajar desde Windows, no puedo garantizar que las
-    instrucciones funcionen correctamente en todas las posibles
-    configuraciones, ni te podré ayudar con posibles problemas, porque no
-    es un sistema operativo que maneje habitualmente. Por tanto, si
-    tienes Windows, te recomiendo que instales una máquina virtual
+!!! Note "No puedo ayudar con posibles problemas en Windows"
+    Aunque en los apuntes aparezca información sobre cómo trabajar desde
+    Windows, no puedo garantizar que las instrucciones funcionen correctamente
+    en todas las posibles configuraciones (aunque deberían funcionar bien, por
+    estar trabajando con tecnología Java), ni te podré ayudar con posibles
+    problemas, porque no es un sistema operativo que maneje habitualmente. Por
+    tanto, si tienes Windows, te recomiendo que instales una máquina virtual
     Linux y la uses para la práctica.
 
 ### IntelliJ Ultimate ###
