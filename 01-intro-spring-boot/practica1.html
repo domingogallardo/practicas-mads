@@ -964,12 +964,8 @@ DigitalOcean.</p>
 </ul>
 </li>
 <li>
-<p>Asegúrate de que en el directorio raíz de la aplicación está
-   el fichero JAR resultado de la compilación de la aplicación.</p>
-<p>Tal y como se explica en la <a href="intro-spring-boot.html">introducción a Spring
-Boot</a>, el fichero <code>.jar</code> es el ejecutable
-Java de la aplicación, que se crea cuando con el objetivo
-<code>package</code> de Maven:</p>
+<p>Vuelve a compilar la aplicación para asegurarte de que se genera el fichero
+   JAR que la contiene. Este fichero es que vamos a <em>dockerizar</em>.</p>
 <div class="highlight"><pre><span></span><code>$ ./mvnw package
 $ ls -l ./target/*.jar
 ./target/demoapp-0.0.1-SNAPSHOT.jar
@@ -1052,10 +1048,10 @@ $ git push
 <p>Ve a <a href="https://hub.docker.com">Docker Hub</a> y logéate.</p>
 </li>
 <li>
-<p>Crea un repositorio con el nombre <code>spring-boot-demoapp</code>. En ese
-  repositorio vas a subir la imagen con el mismo nombre. En un
-  repositorio Docker puedes mantener múltiples versiones de una
-  misma imagen, usando <em>tags</em>.</p>
+<p>Crea un repositorio <strong>público</strong> con el nombre <code>spring-boot-demoapp</code>. En
+  ese repositorio vas a subir la imagen con el mismo nombre. En un
+  repositorio Docker puedes mantener múltiples versiones de una misma
+  imagen, usando <em>tags</em>.</p>
 </li>
 <li>
 <p>Una vez creado el repositorio puedes publicar la imagen en él
@@ -1128,7 +1124,15 @@ de uno de los tests:</p>
 <h2 id="5-anadimos-alguna-funcionalidad-sencilla-a-la-aplicacion">5. Añadimos alguna funcionalidad sencilla a la aplicación<a class="headerlink" href="#5-anadimos-alguna-funcionalidad-sencilla-a-la-aplicacion" title="Permanent link">&para;</a></h2>
 <p>Para demostrar que comprendes el funcionamiento de una aplicación
 Spring Boot, debes añadir alguna funcionalidad sencilla a la aplicación
-Demo que realice lo siguiente:</p>
+Demo. Debes definir tú la funcionalidad a implementar. Por ejemplo,
+cualquiera de los siguientes ejemplos o alguno similar que se te ocurra:</p>
+<ul>
+<li>Palíndroma: lee una palabra y comprueba si es palíndroma.</li>
+<li>Número par: lee un número y comprueba si es par</li>
+<li>Cuadrado: lee dos números y comprueba si el segundo es el cuadrado del primero</li>
+<li>Calculadora: lee un par de números y una operación y devuelve el resultado.</li>
+</ul>
+<p>La aplicación debe realizar lo siguiente:</p>
 <ul>
 <li>Leer datos de un formulario usando Thymeleaf y <strong>realizar alguna validación</strong>.</li>
 <li>Llamar a un <strong>método de servicio</strong> que procese los datos leídos.</li>
@@ -1137,18 +1141,32 @@ Demo que realice lo siguiente:</p>
   (controllers web).</li>
 <li>En la página principal de la aplicación debe aparecer tu nombre y apellidos.</li>
 </ul>
-<p>Muy importante, debemos desarrollar la aplicación en <strong>pequeños
+<p><strong>Muy importante</strong>, debemos desarrollar la aplicación en <strong>pequeños
 commits</strong>. Cada commit debe compilar correctamente y añadir una
-pequeña funcionalidad. Debemos subir los commits al repositorio
-personal de GitHub.</p>
-<p>Debes definir tú la funcionalidad a implementar. Por ejemplo,
-cualquiera de los siguientes ejemplos o alguno similar que se te ocurra:</p>
-<ul>
-<li>Palíndroma: lee una palabra y comprueba si es palíndroma.</li>
-<li>Número par: lee un número y comprueba si es par</li>
-<li>Cuadrado: lee dos números y comprueba si el segundo es el cuadrado del primero</li>
-<li>Calculadora: lee un par de números y una operación y devuelve el resultado.</li>
-</ul>
+pequeña funcionalidad o debe realizar una refactorización en la que no se
+incluye ninguna nueva funcionalidad pero se mejora el código. </p>
+<p>Debemos subir los commits al repositorio de GitHub.</p>
+<div class="admonition note">
+<p class="admonition-title">Pequeños commits</p>
+<p>Para la realización correcta de la práctica debes ir construyendo la
+aplicación a base de pequeños commits que incrementen su funcionalidad. Si
+no has trabajado nunca de esta forma te resultará algo complicado al
+principio, pero poco a poco irás cogiéndole el tranquillo.</p>
+<p>La idea es que antes de emepezar a escribir el código debes tener claro qué
+cosas quieres hacer. Veremos que la técnica de TDD nos ayuda a ello, pero
+por ahora no vamos a usarla. </p>
+<p>Por ejemplo, si queremos hacer una aplicación que compruebe si una palabra 
+es palíndroma necestaremos una función en un servicio que haga esa
+comprobación. Procedemos entonces a escribir código para
+implementarla. Antes de grabar el commit debemos comprobar que funciona
+correctamente. ¿Cómo lo hacemos? Podemos hacerlo de dos formas: crear un
+sencillo controller que la llame a esa función con un ejemplo concreto o
+crear un test. Una vez comprobado que funciona correctamente la función
+grabamos el commit.</p>
+<p>Una vez terminada la capa de servicio deberemos programar la controller y el
+formulario para usar la aplicación. También lo podemos hacer poco a poco,
+primero programando una versión sencilla y después añadiendo las validaciones.</p>
+</div>
 <p>Cuando compruebes que los tests funcionan correctamente y que la
 aplicación funciona bien en local, debes crear la máquina Docker con
 la etiqueta <code>final</code> y subirla a tu repositorio DockerHub.</p>
@@ -1199,6 +1217,8 @@ asignatura.</p>
 <ul>
 <li>Desarrollo continuo (los <em>commits</em> deben realizarse a lo largo de
   toda la semana y no dejar todo para el último día).</li>
+<li>Commits pequeños, cada commit debe ser funcional e introducir algún elemento
+  nuevo o realizar alguna refactorización.</li>
 <li>Correcto desarrollo de la metodología.</li>
 <li>Diseño e implementación del código y de los tests de las
   características desarrolladas.</li>
