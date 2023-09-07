@@ -646,9 +646,12 @@ Debemos subir los commits al repositorio de GitHub.
     crear un test. Una vez comprobado que funciona correctamente la función
     grabamos el commit.
     
-    Una vez terminada la capa de servicio deberemos programar la controller y el
-    formulario para usar la aplicación. También lo podemos hacer poco a poco,
-    primero programando una versión sencilla y después añadiendo las validaciones.
+    Una vez terminada la capa de servicio deberemos programar el controller y el
+    formulario para usar la aplicación. También lo debemos hacer poco a poco,
+    con commits pequeños. Por ejemplo, primero podemos programar una versión
+    sencilla (primer commit), después podemos añadir validaciones al formulario
+    (segundo commit) y por último podemos hacer algún retoque del aspecto de la
+    aplicación (tercer commit).
 
 
 Cuando compruebes que los tests funcionan correctamente y que la
