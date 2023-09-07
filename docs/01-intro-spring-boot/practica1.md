@@ -654,9 +654,10 @@ Debemos subir los commits al repositorio de GitHub.
     aplicación (tercer commit).
 
 
-Cuando compruebes que los tests funcionan correctamente y que la
-aplicación funciona bien en local, debes crear la máquina Docker con
-la etiqueta `final` y subirla a tu repositorio DockerHub.
+Cuando termines de implementar todos los tests (cuantos más mejor) y compruebes
+que funcionan correctamente y que la aplicación funciona bien en local, debes
+crear la máquina Docker con la etiqueta `final` y subirla a tu repositorio
+DockerHub.
 
 ## 6. Comandos Git ##
 
