@@ -333,6 +333,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#dtos-data-transfer-objects" class="md-nav__link">
+    DTOs (Data Transfer Objects)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#servicios" class="md-nav__link">
     Servicios
   </a>
@@ -559,6 +566,13 @@
           <li class="md-nav__item">
   <a href="#gestion-de-persistencia-con-jpa" class="md-nav__link">
     Gestión de persistencia con JPA
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dtos-data-transfer-objects" class="md-nav__link">
+    DTOs (Data Transfer Objects)
   </a>
   
 </li>
@@ -924,12 +938,9 @@ obligatorios (en este caso el correo electrónico).</p>
 <span class="w">    </span><span class="nd">@Temporal</span><span class="p">(</span><span class="n">TemporalType</span><span class="p">.</span><span class="na">DATE</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Date</span><span class="w"> </span><span class="n">fechaNacimiento</span><span class="p">;</span>
 
-<span class="w">    </span><span class="c1">// Definimos el tipo de fetch como EAGER para que</span>
-<span class="w">    </span><span class="c1">// cualquier consulta que devuelve un usuario rellene automáticamente</span>
-<span class="w">    </span><span class="c1">// toda su lista de tareas</span>
-<span class="w">    </span><span class="c1">// CUIDADO!! No es recomendable hacerlo en aquellos casos en los</span>
-<span class="w">    </span><span class="c1">// que la relación pueda traer a memoria una gran cantidad de entidades</span>
-<span class="w">    </span><span class="nd">@OneToMany</span><span class="p">(</span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;usuario&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FetchType</span><span class="p">.</span><span class="na">EAGER</span><span class="p">)</span>
+<span class="w">    </span><span class="c1">// La relación es lazy por defecto,</span>
+<span class="w">    </span><span class="c1">// es necesario acceder a la lista de tareas para que se carguen</span>
+<span class="w">    </span><span class="nd">@OneToMany</span><span class="p">(</span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;usuario&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tareas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
 
 <span class="w">    </span><span class="c1">// Constructor vacío necesario para JPA/Hibernate.</span>
@@ -985,8 +996,15 @@ obligatorios (en este caso el correo electrónico).</p>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setTareas</span><span class="p">(</span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tareas</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">tareas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addTarea</span><span class="p">(</span><span class="n">Tarea</span><span class="w"> </span><span class="n">tarea</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Si la tarea ya está en la lista, no la añadimos</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tareas</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="n">tarea</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// Añadimos la tarea a la lista</span>
+<span class="w">        </span><span class="n">tareas</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// Establecemos la relación inversa del usuario en la tarea</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">getUsuario</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">tarea</span><span class="p">.</span><span class="na">setUsuario</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="nd">@Override</span>
@@ -997,7 +1015,7 @@ obligatorios (en este caso el correo electrónico).</p>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">usuario</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
 <span class="w">            </span><span class="c1">// Si tenemos los ID, comparamos por ID</span>
 <span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Objects</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">usuario</span><span class="p">.</span><span class="na">id</span><span class="p">);</span>
-<span class="w">        </span><span class="c1">// sino comparamos por campos obligatorios</span>
+<span class="w">        </span><span class="c1">// si no comparamos por campos obligatorios</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">email</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">email</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 
@@ -1048,13 +1066,10 @@ entidad <code>Tarea</code>.</p>
 <span class="w">    </span><span class="c1">// No debe usarse desde la aplicación.</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Tarea</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
 
-<span class="w">    </span><span class="c1">// Al crear una tarea la asociamos automáticamente a un</span>
-<span class="w">    </span><span class="c1">// usuario. Actualizamos por tanto la lista de tareas del</span>
-<span class="w">    </span><span class="c1">// usuario.</span>
+<span class="w">    </span><span class="c1">// Al crear una tarea la asociamos automáticamente a un usuario</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Tarea</span><span class="p">(</span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">titulo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuario</span><span class="p">;</span>
 <span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">titulo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">titulo</span><span class="p">;</span>
-<span class="w">        </span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="w">        </span><span class="n">setUsuario</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span><span class="w"> </span><span class="c1">// Esto añadirá la tarea a la lista de tareas del usuario</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="nf">getId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1078,9 +1093,13 @@ entidad <code>Tarea</code>.</p>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setUsuario</span><span class="p">(</span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuario</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// Comprueba si el usuario ya está establecido</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="na">usuario</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">usuario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="na">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuario</span><span class="p">;</span>
+<span class="w">            </span><span class="c1">// Añade la tarea a la lista de tareas del usuario</span>
+<span class="w">            </span><span class="n">usuario</span><span class="p">.</span><span class="na">addTarea</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
-
 
 <span class="w">    </span><span class="nd">@Override</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">equals</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1090,7 +1109,7 @@ entidad <code>Tarea</code>.</p>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">tarea</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
 <span class="w">            </span><span class="c1">// Si tenemos los ID, comparamos por ID</span>
 <span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Objects</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">tarea</span><span class="p">.</span><span class="na">id</span><span class="p">);</span>
-<span class="w">        </span><span class="c1">// sino comparamos por campos obligatorios</span>
+<span class="w">        </span><span class="c1">// si no comparamos por campos obligatorios</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">titulo</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">titulo</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span>
 <span class="w">                </span><span class="n">usuario</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">tarea</span><span class="p">.</span><span class="na">usuario</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
@@ -1101,7 +1120,7 @@ entidad <code>Tarea</code>.</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h4 id="recuperacion-eager-y-lazy-de-las-colecciones">Recuperación <em>eager</em> y <em>lazy</em> de las colecciones<a class="headerlink" href="#recuperacion-eager-y-lazy-de-las-colecciones" title="Permanent link">&para;</a></h4>
+<h4 id="recuperacion-de-colecciones-lazy">Recuperación de colecciones <em>lazy</em><a class="headerlink" href="#recuperacion-de-colecciones-lazy" title="Permanent link">&para;</a></h4>
 <p>Como hemos visto anteriormente, en la aplicación se define la relación
 <em>uno-a-muchos</em> entre usuarios y tareas: un usuario tiene muchas
 tareas.</p>
@@ -1110,63 +1129,42 @@ tipo <code>LAZY</code>. </p>
 <p>La característica de los atributos marcados como <em>lazy</em> en JPA es que
 no se traen a memoria cuando se recupera la entidad, sino cuando se
 consultan explícitamente accediendo al atributo. Para que se traigan a
-memoria <strong>la conexión con la base de datos debe estar abierta</strong>. Una
-forma de hacerlo, la que usamos en la aplicación, es marcando el
-método que accede a las entidades con la anotación
-<code>@Transactional</code>. Las entidades que usemos en los métodos con esa
-anotación estarán conectadas a la base de datos y podremos recuperar
-sus relaciones <em>lazy</em>. Una vez terminada la transacción, por ejemplo fuera
-del método anotado con <code>@Transactional</code>, si intentamos acceder a una
-relación <em>lazy</em> sin haberla inicializado se producirá un error.</p>
-<p>En la práctica 3 definiremos una relación <em>lazy</em> y explicaremos cómo
-gestionarla en la capa de servicios. En esta práctica, sin embargo,
-usaremos relaciones de tipo <em>EAGER</em>.</p>
-<p>En el caso de definir un relación entre entidades de tipo <em>EAGER</em>, JPA
-traerá siempre a memoria todos los elementos cuando se recupere
-cualquier entidad. Hemos definido de esta forma la relación entre un usuario
-y sus tareas. Por ejemplo, cuando se realice una búsqueda y se
-recupere un usuario, se recuperarán también automáticamente todas sus
-tareas y se inicializará en memoria la colección de tareas del usuario.</p>
-<p>En general, no es conveniente definir una relación como <em>eager</em> porque
-puede provocar problemas de rendimiento en el caso en que haya muchos
-elementos relacionados. Pero si no hay muchos datos en la relación y
-los vamos a usar con frecuencia, sí que es aconsejable usar el tipo
-<em>EAGER</em> para facilitar el manejo de la entidad.</p>
-<p>El código queda como hemos visto anteriormente:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span>
-<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Usuario</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="p">...</span>
-<span class="w">    </span><span class="c1">// Definimos el tipo de fetch como EAGER para que</span>
-<span class="w">    </span><span class="c1">// cualquier consulta que devuelve un usuario rellene automáticamente</span>
-<span class="w">    </span><span class="c1">// toda su lista de tareas</span>
-<span class="w">    </span><span class="c1">// CUIDADO!! No es recomendable hacerlo en aquellos casos en los</span>
-<span class="w">    </span><span class="c1">// que la relación pueda traer a memoria una gran cantidad de entidades</span>
-<span class="w">    </span><span class="nd">@OneToMany</span><span class="p">(</span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;usuario&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FetchType</span><span class="p">.</span><span class="na">EAGER</span><span class="p">)</span>
-<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tareas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span><span class="p">();</span>
-<span class="w">    </span><span class="p">...</span>
-<span class="p">}</span>
-
-<span class="nd">@Entity</span>
-<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Tarea</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="p">...</span>
-<span class="w">    </span><span class="c1">// Relación muchos-a-uno entre tareas y usuario</span>
-<span class="w">    </span><span class="nd">@ManyToOne</span>
-<span class="w">    </span><span class="c1">// Nombre de la columna en la BD que guarda físicamente</span>
-<span class="w">    </span><span class="c1">// el ID del usuario con el que está asociado una tarea</span>
-<span class="w">    </span><span class="nd">@JoinColumn</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;usuario_id&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="p">;</span>
-<span class="w">    </span><span class="p">...</span>
-<span class="p">}</span>
+memoria debe accederse a la colección de la entidad <strong>estando abierta la
+conexión con la base de datos</strong>. Normalmente esto se hace en la capa de servicio
+marcando en los métodos en los que se accede a las entidades con la anotación
+<code>@Transactional</code>. </p>
+<p>Las entidades que usemos en estos métodos estarán conectadas a la base de datos
+y podremos recuperar sus relaciones <em>lazy</em>, accediendo a la colección. Si
+queremos obtener todos los datos de la relación podemos por ejemplo llamar al
+método <code>size()</code> de la misma, o convertirla en un objeto DTO (<code>TareaData</code>) para devolverla al
+controller, tal y como se hace en el código de la aplicación:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">TareaData</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">allTareasUsuario</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">idUsuario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">debug</span><span class="p">(</span><span class="s">&quot;Devolviendo todas las tareas del usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idUsuario</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">idUsuario</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuario</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TareaServiceException</span><span class="p">(</span><span class="s">&quot;Usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idUsuario</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; no existe al listar tareas &quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">// Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">TareaData</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tareas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">().</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">tarea</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">tarea</span><span class="p">,</span><span class="w"> </span><span class="n">TareaData</span><span class="p">.</span><span class="na">class</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+<span class="w">        </span><span class="c1">// Ordenamos la lista por id de tarea</span>
+<span class="w">        </span><span class="n">Collections</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">tareas</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
 </code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>La diferencia entre recuperación <em>lazy</em> y recuperación <em>eager</em> de
-las relaciones es uno de los conceptos que causan más problemas al
-trabajar con Hibernate. Te recomiendo que lo estudies bien. Un
-ejercicio que te recomiendo es cambiar el atributo anterior a
-<em>LAZY</em> y comprobar qué errores se producen en el código y en los
-tests.</p>
-</div>
+<p>Si devolviéramos al controller directamente una entidad que contiene una
+colección <em>lazy</em> sin haberla inicializado, cuando se intentar acceder a ella se
+produciría un error por estar fuera del método anotado con
+<code>@Transactional</code>.</p>
+<p>La otra forma de definir una relación es usar el tipo <em>eager</em>, en el que JPA
+traerá siempre a memoria todos los elementos cuando se recupere cualquier
+entidad. En general, no es conveniente definir una relación como <em>eager</em> porque
+puede provocar problemas de rendimiento en el caso en que haya muchos elementos
+relacionados. Por ello, por defecto solo se definen como <em>eager</em> las relaciones
+uno-a-uno.</p>
+<p>En la práctica 3 veremos más ejemplo de trabajo con relaciones <em>lazy</em>.</p>
 <h4 id="clases-repository">Clases Repository<a class="headerlink" href="#clases-repository" title="Permanent link">&para;</a></h4>
 <p>Spring define la clase genérica <code>CrudRepository</code> que contienen métodos por
 defecto para actualizar las entidades y realizar <em>queries</em> sobre
@@ -1183,42 +1181,67 @@ se definen con interfaces.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>Para usar estos métodos con nuestras entidades basta con definir
-interfaces que extienden esta clase genérica. Por ejemplo, la interfaz <code>TareaRepository</code>:</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/model/TareaRepository.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.model</span><span class="p">;</span>
+interfaces que extienden esta clase genérica. Lo hemos hecho en el package
+<code>repository</code>.</p>
+<p>Por ejemplo, la interfaz <code>UsuarioRepository</code>:</p>
+<p><strong>Fichero <code>src/main/java/madstodolist/repository/UsuarioRepository.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.repository</span><span class="p">;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.data.repository.CrudRepository</span><span class="p">;</span>
 
-<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">TareaRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CrudRepository</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{}</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Optional</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">UsuarioRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CrudRepository</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByEmail</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
+<p>En la interfaz se añade un método <code>findByEmail</code> que hace que
+Spring construya automáticamente una consulta sobre  la base de datos. Al
+usar como nombre del método el nombre de la propiedad de la entidad
+(<code>email</code>), Spring puede generar automáticamente la consulta.</p>
+<p>Puedes consultar una lista completa de las traducciones de nombres de
+métodos a consultas a la base de datos en <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation">este
+enlace</a>
+de la documentación de Spring Boot.</p>
+<p>También es posible definir explícitamente en el Repository la consulta
+a realizar a la base de datos utilizando la anotación <code>@Query</code>. Puedes encontrar varios ejemplos en <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.at-query">este enlace</a>.</p>
 <p>Una vez definida la interfaz, ya podemos inyectar una instancia de
 <em>repository</em> y usarla en las clases de servicio. Por ejemplo,
-mostramos el método de servicio que modifica el título de una tarea:</p>
+mostramos el método de servicio que registra un usuario:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
-<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TareaService</span><span class="w"> </span><span class="p">{</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UsuarioService</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Autowired</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">UsuarioRepository</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">;</span>
 <span class="w">    </span><span class="nd">@Autowired</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">TareaRepository</span><span class="w"> </span><span class="n">tareaRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ModelMapper</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">;</span>
 
 <span class="w">    </span><span class="p">...</span>
 
+<span class="w">    </span><span class="c1">// Se añade un usuario en la aplicación.</span>
+<span class="w">    </span><span class="c1">// El email y password del usuario deben ser distinto de null</span>
+<span class="w">    </span><span class="c1">// El email no debe estar registrado en la base de datos</span>
 <span class="w">    </span><span class="nd">@Transactional</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Tarea</span><span class="w"> </span><span class="nf">modificaTarea</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">idTarea</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nuevoTitulo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">Tarea</span><span class="w"> </span><span class="n">tarea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">idTarea</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tarea</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TareaServiceException</span><span class="p">(</span><span class="s">&quot;No existe tarea con id &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idTarea</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">UsuarioData</span><span class="w"> </span><span class="nf">registrar</span><span class="p">(</span><span class="n">UsuarioData</span><span class="w"> </span><span class="n">usuario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span><span class="w"> </span><span class="n">usuarioBD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getEmail</span><span class="p">());</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">.</span><span class="na">isPresent</span><span class="p">())</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UsuarioServiceException</span><span class="p">(</span><span class="s">&quot;El usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">usuario</span><span class="p">.</span><span class="na">getEmail</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; ya está registrado&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getEmail</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UsuarioServiceException</span><span class="p">(</span><span class="s">&quot;El usuario no tiene email&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getPassword</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UsuarioServiceException</span><span class="p">(</span><span class="s">&quot;El usuario no tiene password&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuarioNuevo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span><span class="w"> </span><span class="n">Usuario</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">            </span><span class="n">usuarioNuevo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">usuarioNuevo</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">usuarioNuevo</span><span class="p">,</span><span class="w"> </span><span class="n">UsuarioData</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="n">tarea</span><span class="p">.</span><span class="na">setTitulo</span><span class="p">(</span><span class="n">nuevoTitulo</span><span class="p">);</span>
-<span class="w">        </span><span class="n">tareaRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">tarea</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="p">...</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>En el cuerpo del método se llama al método <code>findById</code> del
+<p>En el cuerpo del método se llama al método <code>findByEmail</code> del
 repositorio que realiza una búsqueda en la base de datos y al método
 <code>save</code> que actualiza el valor de la entidad.</p>
 <p>La anotación <code>@Transactional</code> hace dos cosas. En primer lugar, abre
@@ -1235,103 +1258,203 @@ indica, hace que las acciones sobre la base de datos se ejecuten de
 forma transaccional. Se abre la transacción al del método y se cierra
 al final. Si sucede alguna excepción durante su ejecución la
 transacción se deshace.</p>
-<p>La interfaz <code>UsuarioRepository</code> es similar.</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/model/UsuarioRepository.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.model</span><span class="p">;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.data.repository.CrudRepository</span><span class="p">;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Optional</span><span class="p">;</span>
-
-<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">UsuarioRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CrudRepository</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByEmail</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="p">);</span>
-<span class="p">}</span>
+<p>La interfaz <code>TareaRepository</code> es similar.</p>
+<h3 id="dtos-data-transfer-objects">DTOs (Data Transfer Objects)<a class="headerlink" href="#dtos-data-transfer-objects" title="Permanent link">&para;</a></h3>
+<p>Los Data Transfer Objects (DTOs) son una práctica efectiva para separar la
+representación de datos que usa la capa de negocio de la que se expone a través
+de la API. En el mundo de Spring, los DTOs resultan especialmente útiles para
+manipular y transferir datos entre distintas capas de la aplicación, como de los
+repositorios a los servicios o de los servicios a los controladores. </p>
+<p>Los DTOs permiten separar la representación de datos utilizada en la capa de
+negocio de la que se expone a través de la API. Esto es particularmente útil
+cuando tienes una entidad con múltiples campos pero, en ciertas circunstancias,
+sólo necesitas un subconjunto de ellos. Usar un DTO en estos casos permite
+transferir solo los datos necesarios, lo que hace la operación más eficiente y
+segura. </p>
+<p>Además, los DTOs proporcionan un desacoplamiento con la base de datos. A
+diferencia de las entidades que se obtienen directamente de los repositorios,
+los DTOs están desacoplados de la base de datos. Mientras que cualquier cambio
+en un objeto de entidad podría propagarse a la base de datos si estás dentro de
+un contexto transaccional, los cambios en un DTO no tienen ningún efecto en la
+base de datos. Por ello es recomendado que sean este tipo de objetos los
+devueltos por los servicios, para que los controllers no puedan realizar
+modificaciones en la base de datos.</p>
+<p>En nuestra aplicación todas las clases DTO están en el paquete <code>dto</code>:</p>
+<ul>
+<li><code>LoginData</code></li>
+<li><code>RegistroData</code></li>
+<li><code>TareaData</code></li>
+<li><code>UsuarioData</code></li>
+</ul>
+<p>Las clases <code>LoginData</code> y <code>RegistroData</code> transportan los datos entre las
+plantillas de la vista y el controller. Y las clases <code>TareaData</code> y <code>UsuarioData</code>
+se usan para devolver datos del servicio al controller.</p>
+<h4 id="modelmapper">ModelMapper<a class="headerlink" href="#modelmapper" title="Permanent link">&para;</a></h4>
+<p><code>ModelMapper</code> es una biblioteca de mapeo de objetos en Java que agiliza y
+estandariza la conversión entre entidades de base de datos y Data Transfer
+Objects (DTOs). Al usarla, puedes evitar el tedio y los posibles errores de
+escribir código de mapeo manual. Además, te brinda una gran flexibilidad
+mediante diversas estrategias de coincidencia y configuraciones
+personalizables. </p>
+<p>Por ejemplo, si tienes una clase <code>Estudiante</code> con campos como <code>nombre</code>, <code>edad</code> y
+<code>numeroMatricula</code>, y un DTO llamado <code>EstudianteDTO</code> que solo necesita nombre y edad,
+podrías encontrarte escribiendo un código manual para asignar cada campo de la
+entidad al DTO correspondiente: </p>
+<div class="highlight"><pre><span></span><code><span class="n">Estudiante</span><span class="w"> </span><span class="n">estudiante</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Estudiante</span><span class="p">(</span><span class="s">&quot;Ana&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123ABC&quot;</span><span class="p">);</span>
+<span class="n">EstudianteDTO</span><span class="w"> </span><span class="n">estudianteDTO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EstudianteDTO</span><span class="p">();</span>
+<span class="n">estudianteDTO</span><span class="p">.</span><span class="na">setNombre</span><span class="p">(</span><span class="n">estudiante</span><span class="p">.</span><span class="na">getNombre</span><span class="p">());</span>
+<span class="n">estudianteDTO</span><span class="p">.</span><span class="na">setEdad</span><span class="p">(</span><span class="n">estudiante</span><span class="p">.</span><span class="na">getEdad</span><span class="p">());</span>
 </code></pre></div>
-<p>La diferencia es que se añade un método <code>findByEmail</code> que hace que
-Spring construya automáticamente una consulta sobre  la base de datos. Al
-usar como nombre del método el nombre de la propiedad de la entidad
-(<code>email</code>), Spring puede generar automáticamente la consulta.</p>
-<p>Puedes consultar una lista completa de las traducciones de nombres de
-métodos a consultas a la base de datos en <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation">este
-enlace</a>
-de la documentación de Spring Boot.</p>
-<p>También es posible definir explícitamente en el Repository la consulta
-a realizar a la base de datos utilizando la anotación <code>@Query</code>. Puedes encontrar varios ejemplos en <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.at-query">este enlace</a>.</p>
+<p>Con ModelMapper, esta tarea se condensa en unas pocas líneas:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ModelMapper</span><span class="w"> </span><span class="n">modelMapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ModelMapper</span><span class="p">();</span>
+<span class="n">Estudiante</span><span class="w"> </span><span class="n">estudiante</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Estudiante</span><span class="p">(</span><span class="s">&quot;Ana&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123ABC&quot;</span><span class="p">);</span>
+<span class="n">EstudianteDTO</span><span class="w"> </span><span class="n">estudianteDTO</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">estudiante</span><span class="p">,</span><span class="w"> </span><span class="n">EstudianteDTO</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+</code></pre></div>
+<p>El uso de <code>ModelMapper</code> no solo hace que tu código sea más sencillo de escribir y
+mantener, sino que también proporciona un enfoque coherente para el mapeo de
+objetos en tu aplicación, lo cual es de mucha importancia en proyectos de gran
+envergadura.</p>
+<h4 id="ejemplos-de-dtos-en-nuestra-aplicacion">Ejemplos de DTOs en nuestra aplicación<a class="headerlink" href="#ejemplos-de-dtos-en-nuestra-aplicacion" title="Permanent link">&para;</a></h4>
+<p>Veamos dos ejemplos de construcción de DTOs como objetos devueltos por métodos
+de servicios de nuestra aplicación.</p>
+<p>Primer ejemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">TareaData</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">tareaId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">debug</span><span class="p">(</span><span class="s">&quot;Buscando tarea &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tareaId</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Tarea</span><span class="w"> </span><span class="n">tarea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">tareaId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tarea</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">tarea</span><span class="p">,</span><span class="w"> </span><span class="n">TareaData</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+<p>En este primer ejemplo, el método <code>findById</code> se encarga de buscar una tarea
+específica en la base de datos utilizando su <code>tareaId</code>. Si la tarea no se
+encuentra, devuelve <code>null</code>. En caso contrario, utiliza <code>ModelMapper</code> para convertir
+la entidad <code>Tarea</code> a su representación DTO <code>TareaData</code>. </p>
+<p>Segundo ejemplo:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">TareaData</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">allTareasUsuario</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">idUsuario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">debug</span><span class="p">(</span><span class="s">&quot;Devolviendo todas las tareas del usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idUsuario</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">idUsuario</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuario</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TareaServiceException</span><span class="p">(</span><span class="s">&quot;Usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idUsuario</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; no existe al listar tareas &quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">// Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">TareaData</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tareas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">().</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">tarea</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">tarea</span><span class="p">,</span><span class="w"> </span><span class="n">TareaData</span><span class="p">.</span><span class="na">class</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+<span class="w">        </span><span class="c1">// Ordenamos la lista por id de tarea</span>
+<span class="w">        </span><span class="n">Collections</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">tareas</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+<p>El segundo ejemplo muestra cómo listar todas las tareas de un usuario
+específico. Se obtiene el usuario con el método <code>findById</code> y, si no se encuentra,
+se lanza una excepción. Si el usuario existe, se hace uso de la Java Stream API
+para transformar la lista de tareas del usuario (entidades) en una lista de DTOs
+<code>TareaData</code>. Finalmente, la lista se ordena por el id de la tarea. </p>
 <h3 id="servicios">Servicios<a class="headerlink" href="#servicios" title="Permanent link">&para;</a></h3>
-<p>La capa de servicios es la capa intermedia entre la capa de
-<em>controllers</em> y la de <em>repository</em>. Es la capa que implementa toda la
-lógica de negocio de la aplicación.</p>
-<p>La responsabilidad principal de la capa de servicios es crear, obtener
-o modificar los objetos entidad necesarios para cada funcionalidad a
-partir de los datos que manda la capa <em>controller</em>, trabajar con ellos
-en memoria y hacer persistentes los cambios utilizando la capa
-<em>repository</em>.</p>
-<p>La capa de servicios también gestionará errores y lanzará excepciones
-cuando no se pueda realizar alguna funcionalidad.</p>
-<p>Los servicios obtienen instancias de <em>Repository</em> usando inyección de
-dependencias.</p>
-<p>Como hemos comentado anteriormente, los métodos de la capa de
-servicios estarán anotados con <code>@Transactional</code> actualizar
-correctamente la base de datos y las conexiones <em>lazy</em> y para
-garantizar la transaccionalidad.</p>
+<p>Aunque ya hemos visto ejemplos de servicios en la sección anterior, vamos a
+detallar algo más la utilidad de esta capa. </p>
+<p>La capa de servicios es la capa intermedia entre la capa de <em>controllers</em> y la
+de <em>repository</em>. Es la capa que implementa toda la lógica de negocio de la
+aplicación. En determinados contextos, también utilizamos objetos de
+transferencia de datos, o DTOs, para devolver información a los <em>controllers</em> de
+manera más eficiente. </p>
+<p>La responsabilidad principal de la capa de servicios es crear, obtener o
+modificar los objetos entidad necesarios para cada funcionalidad a partir de los
+datos que envía la capa <em>controller</em>. Estos objetos entidad se trabajan en
+memoria y, cuando es necesario, se hacen persistentes los cambios utilizando la
+capa <em>repository</em>. Cuando la funcionalidad lo requiere, los datos se transforman
+a DTOs para su retorno al <em>controller</em>, añadiendo un nivel de desacoplamiento y
+eficiencia. </p>
+<p>La capa de servicios también gestionará errores y lanzará excepciones cuando no
+se pueda realizar alguna funcionalidad. Los servicios obtienen instancias de
+<em>Repository</em> y de <em>ModelMapper</em> para la conversión entre entidades y DTOs,
+cuando sea necesario, mediante la inyección de dependencias. </p>
+<p>Como hemos comentado anteriormente, los métodos de la capa de servicios estarán
+anotados con <code>@Transactional</code> actualizar correctamente la base de datos y las
+conexiones <em>lazy</em> y para garantizar la transaccionalidad.</p>
 <p>Por ejemplo, la clase <code>UsuarioService</code> se define como se muestra a
 continuación.</p>
 <p><strong>Fichero <code>src/main/java/madstodolist/service/UsuarioService.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">npackage</span><span class="w"> </span><span class="n">madstodolist</span><span class="p">.</span><span class="na">service</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TareaService</span><span class="w"> </span><span class="p">{</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.UsuarioRepository</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.slf4j.Logger</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.slf4j.LoggerFactory</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Service</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.transaction.annotation.Transactional</span><span class="p">;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Optional</span><span class="p">;</span>
-
-<span class="nd">@Service</span>
-<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UsuarioService</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="n">LoginStatus</span><span class="w"> </span><span class="p">{</span><span class="n">LOGIN_OK</span><span class="p">,</span><span class="w"> </span><span class="n">USER_NOT_FOUND</span><span class="p">,</span><span class="w"> </span><span class="n">ERROR_PASSWORD</span><span class="p">}</span>
+<span class="w">    </span><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoggerFactory</span><span class="p">.</span><span class="na">getLogger</span><span class="p">(</span><span class="n">TareaService</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 
 <span class="w">    </span><span class="nd">@Autowired</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">UsuarioRepository</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">TareaRepository</span><span class="w"> </span><span class="n">tareaRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ModelMapper</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">;</span>
 
-<span class="w">    </span><span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">LoginStatus</span><span class="w"> </span><span class="nf">login</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">eMail</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">eMail</span><span class="p">);</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">usuario</span><span class="p">.</span><span class="na">isPresent</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">LoginStatus</span><span class="p">.</span><span class="na">USER_NOT_FOUND</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">usuario</span><span class="p">.</span><span class="na">get</span><span class="p">().</span><span class="na">getPassword</span><span class="p">().</span><span class="na">equals</span><span class="p">(</span><span class="n">password</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">LoginStatus</span><span class="p">.</span><span class="na">ERROR_PASSWORD</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">LoginStatus</span><span class="p">.</span><span class="na">LOGIN_OK</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="c1">// Se añade un usuario en la aplicación.</span>
-<span class="w">    </span><span class="c1">// El email y password del usuario deben ser distinto de null</span>
-<span class="w">    </span><span class="c1">// El email no debe estar registrado en la base de datos</span>
 <span class="w">    </span><span class="nd">@Transactional</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Usuario</span><span class="w"> </span><span class="nf">registrar</span><span class="p">(</span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span><span class="w"> </span><span class="n">usuarioBD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getEmail</span><span class="p">());</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">.</span><span class="na">isPresent</span><span class="p">())</span>
-<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UsuarioServiceException</span><span class="p">(</span><span class="s">&quot;El usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">usuario</span><span class="p">.</span><span class="na">getEmail</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; ya está registrado&quot;</span><span class="p">);</span>
-<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getEmail</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
-<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UsuarioServiceException</span><span class="p">(</span><span class="s">&quot;El usuario no tiene email&quot;</span><span class="p">);</span>
-<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getPassword</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
-<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UsuarioServiceException</span><span class="p">(</span><span class="s">&quot;El usuario no tiene password&quot;</span><span class="p">);</span>
-<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">TareaData</span><span class="w"> </span><span class="nf">nuevaTareaUsuario</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">idUsuario</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">tituloTarea</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">debug</span><span class="p">(</span><span class="s">&quot;Añadiendo tarea &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tituloTarea</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; al usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idUsuario</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">idUsuario</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuario</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TareaServiceException</span><span class="p">(</span><span class="s">&quot;Usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idUsuario</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; no existe al crear tarea &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tituloTarea</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">Tarea</span><span class="w"> </span><span class="n">tarea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Tarea</span><span class="p">(</span><span class="n">usuario</span><span class="p">,</span><span class="w"> </span><span class="n">tituloTarea</span><span class="p">);</span>
+<span class="w">        </span><span class="n">tareaRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">tarea</span><span class="p">,</span><span class="w"> </span><span class="n">TareaData</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Usuario</span><span class="w"> </span><span class="nf">findByEmail</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">email</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">TareaData</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">allTareasUsuario</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">idUsuario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">debug</span><span class="p">(</span><span class="s">&quot;Devolviendo todas las tareas del usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idUsuario</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">idUsuario</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuario</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TareaServiceException</span><span class="p">(</span><span class="s">&quot;Usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idUsuario</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; no existe al listar tareas &quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">// Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">TareaData</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tareas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">().</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">tarea</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">tarea</span><span class="p">,</span><span class="w"> </span><span class="n">TareaData</span><span class="p">.</span><span class="na">class</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+<span class="w">        </span><span class="c1">// Ordenamos la lista por id de tarea</span>
+<span class="w">        </span><span class="n">Collections</span><span class="p">.</span><span class="na">sort</span><span class="p">(</span><span class="n">tareas</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Usuario</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">usuarioId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">TareaData</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">tareaId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">debug</span><span class="p">(</span><span class="s">&quot;Buscando tarea &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tareaId</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Tarea</span><span class="w"> </span><span class="n">tarea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">tareaId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tarea</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">tarea</span><span class="p">,</span><span class="w"> </span><span class="n">TareaData</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Transactional</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">TareaData</span><span class="w"> </span><span class="nf">modificaTarea</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">idTarea</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nuevoTitulo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">debug</span><span class="p">(</span><span class="s">&quot;Modificando tarea &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idTarea</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; - &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nuevoTitulo</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Tarea</span><span class="w"> </span><span class="n">tarea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">idTarea</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tarea</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TareaServiceException</span><span class="p">(</span><span class="s">&quot;No existe tarea con id &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idTarea</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">tarea</span><span class="p">.</span><span class="na">setTitulo</span><span class="p">(</span><span class="n">nuevoTitulo</span><span class="p">);</span>
+<span class="w">        </span><span class="n">tarea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tareaRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">tarea</span><span class="p">,</span><span class="w"> </span><span class="n">TareaData</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Transactional</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">borraTarea</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">idTarea</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">debug</span><span class="p">(</span><span class="s">&quot;Borrando tarea &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idTarea</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Tarea</span><span class="w"> </span><span class="n">tarea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">idTarea</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tarea</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TareaServiceException</span><span class="p">(</span><span class="s">&quot;No existe tarea con id &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">idTarea</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">tareaRepository</span><span class="p">.</span><span class="na">delete</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Transactional</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">usuarioContieneTarea</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">usuarioId</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">tareaId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Tarea</span><span class="w"> </span><span class="n">tarea</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tareaRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">tareaId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">usuarioId</span><span class="p">).</span><span class="na">orElse</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tarea</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TareaServiceException</span><span class="p">(</span><span class="s">&quot;No existe tarea o usuario id&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">usuario</span><span class="p">.</span><span class="na">getTareas</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="n">tarea</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1345,50 +1468,38 @@ continuación.</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><strong>Ventajas de utilizar una capa de servicios</strong></p>
-<p>Al utilizar clases de servicios podemos aislar la lógica de negocio de
-la aplicación usando métodos y objetos Java, sin preocuparnos de cómo
-obtener los datos de la interfaz de usuario ni de cómo mostrar los
-resultados. De esto ya se ocuparán las clases <em>controller</em>. De esta
-forma, si se necesita modificar la interfaz de usuario de la
-aplicación, o convertirla en un servicio REST que devuelva JSON en
-lugar de HTML sólo tendremos que tocar las clases <em>controller</em>, no las
-de servicio.</p>
-<p>Además, al no tener ninguna dependencia con la interfaz de usuario,
-estas clases de servicios también podrán ser fácilmente testeadas. La
-mayoría de los tests automáticos los haremos sobre ellas.</p>
+<h4 id="ventajas-de-utilizar-una-capa-de-servicios">Ventajas de utilizar una capa de servicios<a class="headerlink" href="#ventajas-de-utilizar-una-capa-de-servicios" title="Permanent link">&para;</a></h4>
+<p>Al utilizar clases de servicios, podemos aislar la lógica de negocio de la
+aplicación utilizando métodos y objetos Java, sin preocuparnos de cómo obtener
+los datos de la interfaz de usuario ni de cómo mostrar los resultados. De esta
+manera, si se necesita modificar la interfaz de usuario de la aplicación, o
+convertirla en un servicio REST que devuelva JSON en lugar de HTML, solo
+tendremos que tocar las clases <em>controller</em>, no las de servicio. </p>
+<p>Además, al no tener ninguna dependencia con la interfaz de usuario, estas clases
+de servicios también podrán ser fácilmente testeadas. La mayoría de los tests
+automáticos los haremos sobre ellas. </p>
 <h3 id="controllers">Controllers<a class="headerlink" href="#controllers" title="Permanent link">&para;</a></h3>
-<p>Las clases <em>controllers</em> son las que gestionan la interfaz de usuario
-de la aplicación. Se encargan de recibir los datos de las peticiones
-HTTP, llamar a la clase de servicio necesaria para procesar la lógica
-de negocio y mostrar la vista con la información resultante
-proporcionada por la clase de servicio.</p>
-<p>En la aplicación se definen dos clases controller:</p>
+<p>Los <em>controllers</em> son el punto de entrada a la lógica de negocio de la
+aplicación. Actúan como intermediarios entre las peticiones HTTP del usuario y
+la capa de servicios. Su rol es recibir datos de la petición, invocar el
+servicio apropiado para procesar la lógica de negocio y, finalmente, devolver la
+vista o los datos adecuados. </p>
+<p>En esta aplicación, tenemos dos controladores principales:</p>
 <ul>
-<li><code>LoginController</code>: con métodos para registrar y logear usuarios.</li>
-<li><code>TareasController</code>: con métodos para crear, borrar y modificar
-  tareas de un usuario.</li>
+<li><code>LoginController</code>: gestiona el registro y el inicio de sesión de los
+  usuarios.</li>
+<li><code>TareasController</code>: se encarga de las operaciones CRUD relacionadas con las
+  tareas del usuario. </li>
 </ul>
-<p>Los controllers usan clases auxiliares en las que se guardan los datos
-introducidos en los formularios. Por ejemplo, la clase
-<code>LoginController</code> usa las clases <code>LoginData</code> y <code>RegistroData</code>.</p>
+<p>Para facilitar la manipulación de los datos del formulario, los <em>controllers</em>
+emplean clases auxiliares como <code>LoginData</code> y <code>RegistroData</code>. Estas clases ayudan
+a recopilar los datos del usuario en un formato más manejable. </p>
+<p><strong>Ejemplo de <code>LoginController</code></strong></p>
+<p>El siguiente fragmento de código muestra un ejemplo de cómo se implementa un
+controlador en nuestra aplicación: </p>
 <p><strong>Fichero <code>src/main/java/madstodolist/controller/LoginController.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.controller</span><span class="p">;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.authentication.ManagerUserSession</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.service.TareaService</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.service.UsuarioService</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Controller</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.ui.Model</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.validation.BindingResult</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.ModelAttribute</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.PostMapping</span><span class="p">;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">javax.servlet.http.HttpSession</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">javax.validation.Valid</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// Importaciones y anotaciones</span>
+<span class="p">...</span>
 
 <span class="nd">@Controller</span>
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoginController</span><span class="w"> </span><span class="p">{</span>
@@ -1399,74 +1510,17 @@ introducidos en los formularios. Por ejemplo, la clase
 <span class="w">    </span><span class="nd">@Autowired</span>
 <span class="w">    </span><span class="n">ManagerUserSession</span><span class="w"> </span><span class="n">managerUserSession</span><span class="p">;</span>
 
-<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">home</span><span class="p">(</span><span class="n">Model</span><span class="w"> </span><span class="n">model</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;redirect:/login&quot;</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
 <span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">loginForm</span><span class="p">(</span><span class="n">Model</span><span class="w"> </span><span class="n">model</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;loginData&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LoginData</span><span class="p">());</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;formLogin&quot;</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="nd">@PostMapping</span><span class="p">(</span><span class="s">&quot;/login&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">loginSubmit</span><span class="p">(</span><span class="nd">@ModelAttribute</span><span class="w"> </span><span class="n">LoginData</span><span class="w"> </span><span class="n">loginData</span><span class="p">,</span><span class="w"> </span><span class="n">Model</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">HttpSession</span><span class="w"> </span><span class="n">session</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">        </span><span class="c1">// Llamada al servicio para comprobar si el login es correcto</span>
-<span class="w">        </span><span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="w"> </span><span class="n">loginStatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioService</span><span class="p">.</span><span class="na">login</span><span class="p">(</span><span class="n">loginData</span><span class="p">.</span><span class="na">geteMail</span><span class="p">(),</span><span class="w"> </span><span class="n">loginData</span><span class="p">.</span><span class="na">getPassword</span><span class="p">());</span>
-
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">loginStatus</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">LOGIN_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">loginData</span><span class="p">.</span><span class="na">geteMail</span><span class="p">());</span>
-
-<span class="w">            </span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">logearUsuario</span><span class="p">(</span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
-
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;redirect:/usuarios/&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">usuario</span><span class="p">.</span><span class="na">getId</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;/tareas&quot;</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">loginStatus</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">USER_NOT_FOUND</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;error&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;No existe usuario&quot;</span><span class="p">);</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;formLogin&quot;</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">loginStatus</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">UsuarioService</span><span class="p">.</span><span class="na">LoginStatus</span><span class="p">.</span><span class="na">ERROR_PASSWORD</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;error&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Contraseña incorrecta&quot;</span><span class="p">);</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;formLogin&quot;</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;formLogin&quot;</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/registro&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">registroForm</span><span class="p">(</span><span class="n">Model</span><span class="w"> </span><span class="n">model</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;registroData&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RegistroData</span><span class="p">());</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;formRegistro&quot;</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">   </span><span class="nd">@PostMapping</span><span class="p">(</span><span class="s">&quot;/registro&quot;</span><span class="p">)</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">registroSubmit</span><span class="p">(</span><span class="nd">@Valid</span><span class="w"> </span><span class="n">RegistroData</span><span class="w"> </span><span class="n">registroData</span><span class="p">,</span><span class="w"> </span><span class="n">BindingResult</span><span class="w"> </span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">Model</span><span class="w"> </span><span class="n">model</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="na">hasErrors</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;formRegistro&quot;</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">usuarioService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">registroData</span><span class="p">.</span><span class="na">geteMail</span><span class="p">())</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;registroData&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">registroData</span><span class="p">);</span>
-<span class="w">            </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">&quot;error&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;El usuario &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">registroData</span><span class="p">.</span><span class="na">geteMail</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; ya existe&quot;</span><span class="p">);</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;formRegistro&quot;</span><span class="p">;</span>
-<span class="w">        </span><span class="p">}</span>
-
-<span class="w">        </span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Usuario</span><span class="p">(</span><span class="n">registroData</span><span class="p">.</span><span class="na">geteMail</span><span class="p">());</span>
-<span class="w">        </span><span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="n">registroData</span><span class="p">.</span><span class="na">getPassword</span><span class="p">());</span>
-<span class="w">        </span><span class="n">usuario</span><span class="p">.</span><span class="na">setFechaNacimiento</span><span class="p">(</span><span class="n">registroData</span><span class="p">.</span><span class="na">getFechaNacimiento</span><span class="p">());</span>
-<span class="w">        </span><span class="n">usuario</span><span class="p">.</span><span class="na">setNombre</span><span class="p">(</span><span class="n">registroData</span><span class="p">.</span><span class="na">getNombre</span><span class="p">());</span>
-
-<span class="w">        </span><span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;redirect:/login&quot;</span><span class="p">;</span>
-<span class="w">   </span><span class="p">}</span>
-
-<span class="w">   </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/logout&quot;</span><span class="p">)</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">logout</span><span class="p">(</span><span class="n">HttpSession</span><span class="w"> </span><span class="n">session</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">managerUserSession</span><span class="p">.</span><span class="na">logout</span><span class="p">();</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;redirect:/login&quot;</span><span class="p">;</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// ... más código para gestionar el inicio de sesión y el registro</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>Y el siguiente código muestra la implementación de la clase <code>LoginData</code> que se
+usará para recoger los datos del formulario rellenado por el usuario.</p>
 <p><strong>Fichero <code>src/main/java/madstodolist/controller/LoginData.java</code></strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.controller</span><span class="p">;</span>
 
@@ -1491,6 +1545,17 @@ introducidos en los formularios. Por ejemplo, la clase
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>En este caso, el método <code>loginForm</code> se encarga de manejar las peticiones GET a
+la URL <code>/login</code>. Crea una nueva instancia de la clase <code>LoginData</code> y la añade al
+modelo, que posteriormente se pasará a la vista para ser completado por el
+usuario. </p>
+<p>Los controllers suelen interactuar con varios servicios y componentes, como se
+muestra en los ejemplos de <code>UsuarioService</code> y <code>ManagerUserSession</code>, que se inyectan
+en LoginController.</p>
+<p>Las clases auxiliares como <code>LoginData</code> o <code>RegistroData</code> facilitan la validación
+y el manejo de datos en el controller. Estos objetos se llenan automáticamente
+con los datos del formulario, y permiten que los métodos del controller sean más
+limpios y más fáciles de leer. </p>
 <h4 id="peticiones-y-rutas">Peticiones y rutas<a class="headerlink" href="#peticiones-y-rutas" title="Permanent link">&para;</a></h4>
 <p>Las rutas (<em>endpoints</em>) que se definen en los controllers para realizar las acciones
 de la aplicación son:</p>
