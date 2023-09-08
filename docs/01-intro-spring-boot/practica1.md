@@ -274,7 +274,7 @@ Student Developer Pack](https://education.github.com/pack).
 5. Abre proyecto el en IntelliJ. Debes importar el directorio donde se
    encuentre el fichero `pom.xml`. Se puede hacer desde la pantalla de
    bienvenida de IntelliJ con la opción **Import Project** o usando la
-   opción **File > Open"** o **"File > New > Project from Existing
+   opción **"File > New > Project from Existing
    Sources**. Aparecerá la pantalla de importación y seleccionamos el
    importador **Maven**:
 
