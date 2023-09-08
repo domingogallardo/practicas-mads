@@ -668,6 +668,17 @@ base de datos. Por ello es recomendado que sean este tipo de objetos los
 devueltos por los servicios, para que los controllers no puedan realizar
 modificaciones en la base de datos.
 
+En nuestra aplicación todas las clases DTO están en el paquete `dto`:
+
+- `LoginData`
+- `RegistroData`
+- `TareaData`
+- `UsuarioData`
+
+Las clases `LoginData` y `RegistroData` transportan los datos entre las
+plantillas de la vista y el controller. Y las clases `TareaData` y `UsuarioData`
+se usan para devolver datos del servicio al controller.
+
 #### ModelMapper ####
 
 `ModelMapper` es una biblioteca de mapeo de objetos en Java que agiliza y
