@@ -286,12 +286,9 @@ public class Usuario implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
-    // Definimos el tipo de fetch como EAGER para que
-    // cualquier consulta que devuelve un usuario rellene automáticamente
-    // toda su lista de tareas
-    // CUIDADO!! No es recomendable hacerlo en aquellos casos en los
-    // que la relación pueda traer a memoria una gran cantidad de entidades
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    // La relación es lazy por defecto,
+    // es necesario acceder a la lista de tareas para que se carguen
+    @OneToMany(mappedBy = "usuario")
     Set<Tarea> tareas = new HashSet<>();
 
     // Constructor vacío necesario para JPA/Hibernate.
@@ -347,8 +344,15 @@ public class Usuario implements Serializable {
         return tareas;
     }
 
-    public void setTareas(Set<Tarea> tareas) {
-        this.tareas = tareas;
+    public void addTarea(Tarea tarea) {
+        // Si la tarea ya está en la lista, no la añadimos
+        if (tareas.contains(tarea)) return;
+        // Añadimos la tarea a la lista
+        tareas.add(tarea);
+        // Establecemos la relación inversa del usuario en la tarea
+        if (tarea.getUsuario() != this) {
+            tarea.setUsuario(this);
+        }
     }
 
     @Override
@@ -359,7 +363,7 @@ public class Usuario implements Serializable {
         if (id != null && usuario.id != null)
             // Si tenemos los ID, comparamos por ID
             return Objects.equals(id, usuario.id);
-        // sino comparamos por campos obligatorios
+        // si no comparamos por campos obligatorios
         return email.equals(usuario.email);
     }
 
@@ -416,13 +420,10 @@ public class Tarea implements Serializable {
     // No debe usarse desde la aplicación.
     public Tarea() {}
 
-    // Al crear una tarea la asociamos automáticamente a un
-    // usuario. Actualizamos por tanto la lista de tareas del
-    // usuario.
+    // Al crear una tarea la asociamos automáticamente a un usuario
     public Tarea(Usuario usuario, String titulo) {
-        this.usuario = usuario;
         this.titulo = titulo;
-        usuario.getTareas().add(this);
+        setUsuario(usuario); // Esto añadirá la tarea a la lista de tareas del usuario
     }
 
     public Long getId() {
@@ -446,9 +447,13 @@ public class Tarea implements Serializable {
     }
 
     public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+        // Comprueba si el usuario ya está establecido
+        if(this.usuario != usuario) {
+            this.usuario = usuario;
+            // Añade la tarea a la lista de tareas del usuario
+            usuario.addTarea(this);
+        }
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -458,7 +463,7 @@ public class Tarea implements Serializable {
         if (id != null && tarea.id != null)
             // Si tenemos los ID, comparamos por ID
             return Objects.equals(id, tarea.id);
-        // sino comparamos por campos obligatorios
+        // si no comparamos por campos obligatorios
         return titulo.equals(tarea.titulo) &&
                 usuario.equals(tarea.usuario);
     }
@@ -470,12 +475,11 @@ public class Tarea implements Serializable {
 }
 ```
 
-#### Recuperación _eager_ y _lazy_ de las colecciones ####
+#### Recuperación de colecciones _lazy_ ####
 
 Como hemos visto anteriormente, en la aplicación se define la relación
 _uno-a-muchos_ entre usuarios y tareas: un usuario tiene muchas
 tareas.
-
 
 Por defecto, todas las relaciones _a-muchos_ en JPA se definen de
 tipo `LAZY`. 
@@ -483,68 +487,48 @@ tipo `LAZY`.
 La característica de los atributos marcados como _lazy_ en JPA es que
 no se traen a memoria cuando se recupera la entidad, sino cuando se
 consultan explícitamente accediendo al atributo. Para que se traigan a
-memoria **la conexión con la base de datos debe estar abierta**. Una
-forma de hacerlo, la que usamos en la aplicación, es marcando el
-método que accede a las entidades con la anotación
-`@Transactional`. Las entidades que usemos en los métodos con esa
-anotación estarán conectadas a la base de datos y podremos recuperar
-sus relaciones _lazy_. Una vez terminada la transacción, por ejemplo fuera
-del método anotado con `@Transactional`, si intentamos acceder a una
-relación _lazy_ sin haberla inicializado se producirá un error.
+memoria debe accederse a la colección de la entidad **estando abierta la
+conexión con la base de datos**. Normalmente esto se hace en la capa de servicio
+marcando en los métodos en los que se accede a las entidades con la anotación
+`@Transactional`. 
 
-En la práctica 3 definiremos una relación _lazy_ y explicaremos cómo
-gestionarla en la capa de servicios. En esta práctica, sin embargo,
-usaremos relaciones de tipo _EAGER_.
-
-En el caso de definir un relación entre entidades de tipo _EAGER_, JPA
-traerá siempre a memoria todos los elementos cuando se recupere
-cualquier entidad. Hemos definido de esta forma la relación entre un usuario
-y sus tareas. Por ejemplo, cuando se realice una búsqueda y se
-recupere un usuario, se recuperarán también automáticamente todas sus
-tareas y se inicializará en memoria la colección de tareas del usuario.
-
-En general, no es conveniente definir una relación como _eager_ porque
-puede provocar problemas de rendimiento en el caso en que haya muchos
-elementos relacionados. Pero si no hay muchos datos en la relación y
-los vamos a usar con frecuencia, sí que es aconsejable usar el tipo
-_EAGER_ para facilitar el manejo de la entidad.
-
-El código queda como hemos visto anteriormente:
+Las entidades que usemos en estos métodos estarán conectadas a la base de datos
+y podremos recuperar sus relaciones _lazy_, accediendo a la colección. Si
+queremos obtener todos los datos de la relación podemos por ejemplo llamar al
+método `size()` de la misma, o convertirla en un objeto DTO (`TareaData`) para devolverla al
+controller, tal y como se hace en el código de la aplicación:
 
 ```java
-@Entity
-public class Usuario {
-    ...
-    // Definimos el tipo de fetch como EAGER para que
-    // cualquier consulta que devuelve un usuario rellene automáticamente
-    // toda su lista de tareas
-    // CUIDADO!! No es recomendable hacerlo en aquellos casos en los
-    // que la relación pueda traer a memoria una gran cantidad de entidades
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    List<Tarea> tareas = new ArrayList<Tarea>();
-    ...
-}
-
-@Entity
-public class Tarea {
-    ...
-    // Relación muchos-a-uno entre tareas y usuario
-    @ManyToOne
-    // Nombre de la columna en la BD que guarda físicamente
-    // el ID del usuario con el que está asociado una tarea
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
-    ...
-}
+    @Transactional(readOnly = true)
+    public List<TareaData> allTareasUsuario(Long idUsuario) {
+        logger.debug("Devolviendo todas las tareas del usuario " + idUsuario);
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        if (usuario == null) {
+            throw new TareaServiceException("Usuario " + idUsuario + " no existe al listar tareas ");
+        }
+        // Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.
+        List<TareaData> tareas = usuario.getTareas().stream()
+                .map(tarea -> modelMapper.map(tarea, TareaData.class))
+                .collect(Collectors.toList());
+        // Ordenamos la lista por id de tarea
+        Collections.sort(tareas, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+        return tareas;
+    }
 ```
 
-!!! Note
-    La diferencia entre recuperación _lazy_ y recuperación _eager_ de
-    las relaciones es uno de los conceptos que causan más problemas al
-    trabajar con Hibernate. Te recomiendo que lo estudies bien. Un
-    ejercicio que te recomiendo es cambiar el atributo anterior a
-    _LAZY_ y comprobar qué errores se producen en el código y en los
-    tests.
+Si devolviéramos al controller directamente una entidad que contiene una
+colección _lazy_ sin haberla inicializado, cuando se intentar acceder a ella se
+produciría un error por estar fuera del método anotado con
+`@Transactional`.
+
+La otra forma de definir una relación es usar el tipo _eager_, en el que JPA
+traerá siempre a memoria todos los elementos cuando se recupere cualquier
+entidad. En general, no es conveniente definir una relación como _eager_ porque
+puede provocar problemas de rendimiento en el caso en que haya muchos elementos
+relacionados. Por ello, por defecto solo se definen como _eager_ las relaciones
+uno-a-uno.
+
+En la práctica 3 veremos más ejemplo de trabajo con relaciones _lazy_.
 
 #### Clases Repository ####
 
@@ -566,49 +550,79 @@ public interface CrudRepository<T, ID extends Serializable>  extends Repository<
 ```
 
 Para usar estos métodos con nuestras entidades basta con definir
-interfaces que extienden esta clase genérica. Por ejemplo, la interfaz `TareaRepository`:
+interfaces que extienden esta clase genérica. Lo hemos hecho en el package
+`repository`.
 
-**Fichero `src/main/java/madstodolist/model/TareaRepository.java`**:
+Por ejemplo, la interfaz `UsuarioRepository`:
+
+**Fichero `src/main/java/madstodolist/repository/UsuarioRepository.java`**:
 
 ```java
-package madstodolist.model;
+package madstodolist.repository;
 
+import madstodolist.model.Usuario;
 import org.springframework.data.repository.CrudRepository;
 
-public interface TareaRepository extends CrudRepository<Tarea, Long> {}
+import java.util.Optional;
+
+public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
+    Optional<Usuario> findByEmail(String s);
+}
 ```
+
+En la interfaz se añade un método `findByEmail` que hace que
+Spring construya automáticamente una consulta sobre  la base de datos. Al
+usar como nombre del método el nombre de la propiedad de la entidad
+(`email`), Spring puede generar automáticamente la consulta.
+
+
+Puedes consultar una lista completa de las traducciones de nombres de
+métodos a consultas a la base de datos en [este
+enlace](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation)
+de la documentación de Spring Boot.
+
+También es posible definir explícitamente en el Repository la consulta
+a realizar a la base de datos utilizando la anotación `@Query`. Puedes encontrar varios ejemplos en [este enlace](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.at-query).
 
 Una vez definida la interfaz, ya podemos inyectar una instancia de
 _repository_ y usarla en las clases de servicio. Por ejemplo,
-mostramos el método de servicio que modifica el título de una tarea:
+mostramos el método de servicio que registra un usuario:
 
 ```java
 @Service
-public class TareaService {
+public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
-    private TareaRepository tareaRepository;
+    private ModelMapper modelMapper;
 
     ...
     
+    // Se añade un usuario en la aplicación.
+    // El email y password del usuario deben ser distinto de null
+    // El email no debe estar registrado en la base de datos
     @Transactional
-    public Tarea modificaTarea(Long idTarea, String nuevoTitulo) {
-        Tarea tarea = tareaRepository.findById(idTarea).orElse(null);
-        if (tarea == null) {
-            throw new TareaServiceException("No existe tarea con id " + idTarea);
+    public UsuarioData registrar(UsuarioData usuario) {
+        Optional<Usuario> usuarioBD = usuarioRepository.findByEmail(usuario.getEmail());
+        if (usuarioBD.isPresent())
+            throw new UsuarioServiceException("El usuario " + usuario.getEmail() + " ya está registrado");
+        else if (usuario.getEmail() == null)
+            throw new UsuarioServiceException("El usuario no tiene email");
+        else if (usuario.getPassword() == null)
+            throw new UsuarioServiceException("El usuario no tiene password");
+        else {
+            Usuario usuarioNuevo = modelMapper.map(usuario, Usuario.class);
+            usuarioNuevo = usuarioRepository.save(usuarioNuevo);
+            return modelMapper.map(usuarioNuevo, UsuarioData.class);
         }
-        tarea.setTitulo(nuevoTitulo);
-        tareaRepository.save(tarea);
-        return tarea;
     }
     
     ...
 }
 ```
 
-En el cuerpo del método se llama al método `findById` del
+En el cuerpo del método se llama al método `findByEmail` del
 repositorio que realiza una búsqueda en la base de datos y al método
 `save` que actualiza el valor de la entidad.
 
@@ -628,57 +642,143 @@ forma transaccional. Se abre la transacción al del método y se cierra
 al final. Si sucede alguna excepción durante su ejecución la
 transacción se deshace.
 
-La interfaz `UsuarioRepository` es similar.
+La interfaz `TareaRepository` es similar.
 
-**Fichero `src/main/java/madstodolist/model/UsuarioRepository.java`**:
+### DTOs (Data Transfer Objects) ###
+
+Los Data Transfer Objects (DTOs) son una práctica efectiva para separar la
+representación de datos que usa la capa de negocio de la que se expone a través
+de la API. En el mundo de Spring, los DTOs resultan especialmente útiles para
+manipular y transferir datos entre distintas capas de la aplicación, como de los
+repositorios a los servicios o de los servicios a los controladores. 
+
+Los DTOs permiten separar la representación de datos utilizada en la capa de
+negocio de la que se expone a través de la API. Esto es particularmente útil
+cuando tienes una entidad con múltiples campos pero, en ciertas circunstancias,
+sólo necesitas un subconjunto de ellos. Usar un DTO en estos casos permite
+transferir solo los datos necesarios, lo que hace la operación más eficiente y
+segura. 
+
+Además, los DTOs proporcionan un desacoplamiento con la base de datos. A
+diferencia de las entidades que se obtienen directamente de los repositorios,
+los DTOs están desacoplados de la base de datos. Mientras que cualquier cambio
+en un objeto de entidad podría propagarse a la base de datos si estás dentro de
+un contexto transaccional, los cambios en un DTO no tienen ningún efecto en la
+base de datos. Por ello es recomendado que sean este tipo de objetos los
+devueltos por los servicios, para que los controllers no puedan realizar
+modificaciones en la base de datos.
+
+#### ModelMapper ####
+
+`ModelMapper` es una biblioteca de mapeo de objetos en Java que agiliza y
+estandariza la conversión entre entidades de base de datos y Data Transfer
+Objects (DTOs). Al usarla, puedes evitar el tedio y los posibles errores de
+escribir código de mapeo manual. Además, te brinda una gran flexibilidad
+mediante diversas estrategias de coincidencia y configuraciones
+personalizables. 
+
+Por ejemplo, si tienes una clase `Estudiante` con campos como `nombre`, `edad` y
+`numeroMatricula`, y un DTO llamado `EstudianteDTO` que solo necesita nombre y edad,
+podrías encontrarte escribiendo un código manual para asignar cada campo de la
+entidad al DTO correspondiente: 
 
 ```java
-package madstodolist.model;
-
-import org.springframework.data.repository.CrudRepository;
-
-import java.util.Optional;
-
-public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
-    Optional<Usuario> findByEmail(String s);
-}
+Estudiante estudiante = new Estudiante("Ana", 20, "123ABC");
+EstudianteDTO estudianteDTO = new EstudianteDTO();
+estudianteDTO.setNombre(estudiante.getNombre());
+estudianteDTO.setEdad(estudiante.getEdad());
 ```
 
-La diferencia es que se añade un método `findByEmail` que hace que
-Spring construya automáticamente una consulta sobre  la base de datos. Al
-usar como nombre del método el nombre de la propiedad de la entidad
-(`email`), Spring puede generar automáticamente la consulta.
+Con ModelMapper, esta tarea se condensa en unas pocas líneas:
 
-Puedes consultar una lista completa de las traducciones de nombres de
-métodos a consultas a la base de datos en [este
-enlace](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation)
-de la documentación de Spring Boot.
+```java
+ModelMapper modelMapper = new ModelMapper();
+Estudiante estudiante = new Estudiante("Ana", 20, "123ABC");
+EstudianteDTO estudianteDTO = modelMapper.map(estudiante, EstudianteDTO.class);
+```
 
-También es posible definir explícitamente en el Repository la consulta
-a realizar a la base de datos utilizando la anotación `@Query`. Puedes encontrar varios ejemplos en [este enlace](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.at-query).
+El uso de `ModelMapper` no solo hace que tu código sea más sencillo de escribir y
+mantener, sino que también proporciona un enfoque coherente para el mapeo de
+objetos en tu aplicación, lo cual es de mucha importancia en proyectos de gran
+envergadura.
+
+
+#### Ejemplos de DTOs en nuestra aplicación ####
+
+Veamos dos ejemplos de construcción de DTOs como objetos devueltos por métodos
+de servicios de nuestra aplicación.
+
+Primer ejemplo:
+
+```java
+    @Transactional(readOnly = true)
+    public TareaData findById(Long tareaId) {
+        logger.debug("Buscando tarea " + tareaId);
+        Tarea tarea = tareaRepository.findById(tareaId).orElse(null);
+        if (tarea == null) return null;
+        else return modelMapper.map(tarea, TareaData.class);
+    }
+```
+
+En este primer ejemplo, el método `findById` se encarga de buscar una tarea
+específica en la base de datos utilizando su `tareaId`. Si la tarea no se
+encuentra, devuelve `null`. En caso contrario, utiliza `ModelMapper` para convertir
+la entidad `Tarea` a su representación DTO `TareaData`. 
+
+Segundo ejemplo:
+
+```java
+    @Transactional(readOnly = true)
+    public List<TareaData> allTareasUsuario(Long idUsuario) {
+        logger.debug("Devolviendo todas las tareas del usuario " + idUsuario);
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        if (usuario == null) {
+            throw new TareaServiceException("Usuario " + idUsuario + " no existe al listar tareas ");
+        }
+        // Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.
+        List<TareaData> tareas = usuario.getTareas().stream()
+                .map(tarea -> modelMapper.map(tarea, TareaData.class))
+                .collect(Collectors.toList());
+        // Ordenamos la lista por id de tarea
+        Collections.sort(tareas, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+        return tareas;
+    }
+```
+
+El segundo ejemplo muestra cómo listar todas las tareas de un usuario
+específico. Se obtiene el usuario con el método `findById` y, si no se encuentra,
+se lanza una excepción. Si el usuario existe, se hace uso de la Java Stream API
+para transformar la lista de tareas del usuario (entidades) en una lista de DTOs
+`TareaData`. Finalmente, la lista se ordena por el id de la tarea. 
+
 
 ### Servicios ###
 
-La capa de servicios es la capa intermedia entre la capa de
-_controllers_ y la de _repository_. Es la capa que implementa toda la
-lógica de negocio de la aplicación.
+Aunque ya hemos visto ejemplos de servicios en la sección anterior, vamos a
+detallar algo más la utilidad de esta capa. 
 
-La responsabilidad principal de la capa de servicios es crear, obtener
-o modificar los objetos entidad necesarios para cada funcionalidad a
-partir de los datos que manda la capa _controller_, trabajar con ellos
-en memoria y hacer persistentes los cambios utilizando la capa
-_repository_.
+La capa de servicios es la capa intermedia entre la capa de _controllers_ y la
+de _repository_. Es la capa que implementa toda la lógica de negocio de la
+aplicación. En determinados contextos, también utilizamos objetos de
+transferencia de datos, o DTOs, para devolver información a los _controllers_ de
+manera más eficiente. 
 
-La capa de servicios también gestionará errores y lanzará excepciones
-cuando no se pueda realizar alguna funcionalidad.
+La responsabilidad principal de la capa de servicios es crear, obtener o
+modificar los objetos entidad necesarios para cada funcionalidad a partir de los
+datos que envía la capa _controller_. Estos objetos entidad se trabajan en
+memoria y, cuando es necesario, se hacen persistentes los cambios utilizando la
+capa _repository_. Cuando la funcionalidad lo requiere, los datos se transforman
+a DTOs para su retorno al _controller_, añadiendo un nivel de desacoplamiento y
+eficiencia. 
 
-Los servicios obtienen instancias de _Repository_ usando inyección de
-dependencias.
+La capa de servicios también gestionará errores y lanzará excepciones cuando no
+se pueda realizar alguna funcionalidad. Los servicios obtienen instancias de
+_Repository_ y de _ModelMapper_ para la conversión entre entidades y DTOs,
+cuando sea necesario, mediante la inyección de dependencias. 
 
-Como hemos comentado anteriormente, los métodos de la capa de
-servicios estarán anotados con `@Transactional` actualizar
-correctamente la base de datos y las conexiones _lazy_ y para
-garantizar la transaccionalidad.
+Como hemos comentado anteriormente, los métodos de la capa de servicios estarán
+anotados con `@Transactional` actualizar correctamente la base de datos y las
+conexiones _lazy_ y para garantizar la transaccionalidad.
 
 Por ejemplo, la clase `UsuarioService` se define como se muestra a
 continuación.
@@ -686,61 +786,84 @@ continuación.
 **Fichero `src/main/java/madstodolist/service/UsuarioService.java`**:
 
 ```java
-npackage madstodolist.service;
-
-import madstodolist.model.Usuario;
-import madstodolist.model.UsuarioRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
-
 @Service
-public class UsuarioService {
+public class TareaService {
 
-    public enum LoginStatus {LOGIN_OK, USER_NOT_FOUND, ERROR_PASSWORD}
+    Logger logger = LoggerFactory.getLogger(TareaService.class);
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private TareaRepository tareaRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
-    @Transactional(readOnly = true)
-    public LoginStatus login(String eMail, String password) {
-        Optional<Usuario> usuario = usuarioRepository.findByEmail(eMail);
-        if (!usuario.isPresent()) {
-            return LoginStatus.USER_NOT_FOUND;
-        } else if (!usuario.get().getPassword().equals(password)) {
-            return LoginStatus.ERROR_PASSWORD;
-        } else {
-            return LoginStatus.LOGIN_OK;
-        }
-    }
-
-    // Se añade un usuario en la aplicación.
-    // El email y password del usuario deben ser distinto de null
-    // El email no debe estar registrado en la base de datos
     @Transactional
-    public Usuario registrar(Usuario usuario) {
-        Optional<Usuario> usuarioBD = usuarioRepository.findByEmail(usuario.getEmail());
-        if (usuarioBD.isPresent())
-            throw new UsuarioServiceException("El usuario " + usuario.getEmail() + " ya está registrado");
-        else if (usuario.getEmail() == null)
-            throw new UsuarioServiceException("El usuario no tiene email");
-        else if (usuario.getPassword() == null)
-            throw new UsuarioServiceException("El usuario no tiene password");
-        else return usuarioRepository.save(usuario);
+    public TareaData nuevaTareaUsuario(Long idUsuario, String tituloTarea) {
+        logger.debug("Añadiendo tarea " + tituloTarea + " al usuario " + idUsuario);
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        if (usuario == null) {
+            throw new TareaServiceException("Usuario " + idUsuario + " no existe al crear tarea " + tituloTarea);
+        }
+        Tarea tarea = new Tarea(usuario, tituloTarea);
+        tareaRepository.save(tarea);
+        return modelMapper.map(tarea, TareaData.class);
     }
 
     @Transactional(readOnly = true)
-    public Usuario findByEmail(String email) {
-        return usuarioRepository.findByEmail(email).orElse(null);
+    public List<TareaData> allTareasUsuario(Long idUsuario) {
+        logger.debug("Devolviendo todas las tareas del usuario " + idUsuario);
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        if (usuario == null) {
+            throw new TareaServiceException("Usuario " + idUsuario + " no existe al listar tareas ");
+        }
+        // Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.
+        List<TareaData> tareas = usuario.getTareas().stream()
+                .map(tarea -> modelMapper.map(tarea, TareaData.class))
+                .collect(Collectors.toList());
+        // Ordenamos la lista por id de tarea
+        Collections.sort(tareas, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+        return tareas;
     }
 
     @Transactional(readOnly = true)
-    public Usuario findById(Long usuarioId) {
-        return usuarioRepository.findById(usuarioId).orElse(null);
+    public TareaData findById(Long tareaId) {
+        logger.debug("Buscando tarea " + tareaId);
+        Tarea tarea = tareaRepository.findById(tareaId).orElse(null);
+        if (tarea == null) return null;
+        else return modelMapper.map(tarea, TareaData.class);
+    }
+
+    @Transactional
+    public TareaData modificaTarea(Long idTarea, String nuevoTitulo) {
+        logger.debug("Modificando tarea " + idTarea + " - " + nuevoTitulo);
+        Tarea tarea = tareaRepository.findById(idTarea).orElse(null);
+        if (tarea == null) {
+            throw new TareaServiceException("No existe tarea con id " + idTarea);
+        }
+        tarea.setTitulo(nuevoTitulo);
+        tarea = tareaRepository.save(tarea);
+        return modelMapper.map(tarea, TareaData.class);
+    }
+
+    @Transactional
+    public void borraTarea(Long idTarea) {
+        logger.debug("Borrando tarea " + idTarea);
+        Tarea tarea = tareaRepository.findById(idTarea).orElse(null);
+        if (tarea == null) {
+            throw new TareaServiceException("No existe tarea con id " + idTarea);
+        }
+        tareaRepository.delete(tarea);
+    }
+
+    @Transactional
+    public boolean usuarioContieneTarea(Long usuarioId, Long tareaId) {
+        Tarea tarea = tareaRepository.findById(tareaId).orElse(null);
+        Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
+        if (tarea == null || usuario == null) {
+            throw new TareaServiceException("No existe tarea o usuario id");
+        }
+        return usuario.getTareas().contains(tarea);
     }
 }
 ```
@@ -759,61 +882,49 @@ public class UsuarioServiceException extends RuntimeException {
 }
 ```
 
+#### Ventajas de utilizar una capa de servicios ####
 
-**Ventajas de utilizar una capa de servicios**
+Al utilizar clases de servicios, podemos aislar la lógica de negocio de la
+aplicación utilizando métodos y objetos Java, sin preocuparnos de cómo obtener
+los datos de la interfaz de usuario ni de cómo mostrar los resultados. De esta
+manera, si se necesita modificar la interfaz de usuario de la aplicación, o
+convertirla en un servicio REST que devuelva JSON en lugar de HTML, solo
+tendremos que tocar las clases _controller_, no las de servicio. 
 
-Al utilizar clases de servicios podemos aislar la lógica de negocio de
-la aplicación usando métodos y objetos Java, sin preocuparnos de cómo
-obtener los datos de la interfaz de usuario ni de cómo mostrar los
-resultados. De esto ya se ocuparán las clases _controller_. De esta
-forma, si se necesita modificar la interfaz de usuario de la
-aplicación, o convertirla en un servicio REST que devuelva JSON en
-lugar de HTML sólo tendremos que tocar las clases _controller_, no las
-de servicio.
-
-Además, al no tener ninguna dependencia con la interfaz de usuario,
-estas clases de servicios también podrán ser fácilmente testeadas. La
-mayoría de los tests automáticos los haremos sobre ellas.
+Además, al no tener ninguna dependencia con la interfaz de usuario, estas clases
+de servicios también podrán ser fácilmente testeadas. La mayoría de los tests
+automáticos los haremos sobre ellas. 
 
 
 ### Controllers ###
 
-Las clases _controllers_ son las que gestionan la interfaz de usuario
-de la aplicación. Se encargan de recibir los datos de las peticiones
-HTTP, llamar a la clase de servicio necesaria para procesar la lógica
-de negocio y mostrar la vista con la información resultante
-proporcionada por la clase de servicio.
+Los _controllers_ son el punto de entrada a la lógica de negocio de la
+aplicación. Actúan como intermediarios entre las peticiones HTTP del usuario y
+la capa de servicios. Su rol es recibir datos de la petición, invocar el
+servicio apropiado para procesar la lógica de negocio y, finalmente, devolver la
+vista o los datos adecuados. 
 
-En la aplicación se definen dos clases controller:
+En esta aplicación, tenemos dos controladores principales:
 
-- `LoginController`: con métodos para registrar y logear usuarios.
-- `TareasController`: con métodos para crear, borrar y modificar
-  tareas de un usuario.
+- `LoginController`: gestiona el registro y el inicio de sesión de los
+  usuarios.
+- `TareasController`: se encarga de las operaciones CRUD relacionadas con las
+  tareas del usuario. 
 
-Los controllers usan clases auxiliares en las que se guardan los datos
-introducidos en los formularios. Por ejemplo, la clase
-`LoginController` usa las clases `LoginData` y `RegistroData`.
+Para facilitar la manipulación de los datos del formulario, los _controllers_
+emplean clases auxiliares como `LoginData` y `RegistroData`. Estas clases ayudan
+a recopilar los datos del usuario en un formato más manejable. 
 
+**Ejemplo de `LoginController`**
+
+El siguiente fragmento de código muestra un ejemplo de cómo se implementa un
+controlador en nuestra aplicación: 
 
 **Fichero `src/main/java/madstodolist/controller/LoginController.java`**:
 
 ```java
-package madstodolist.controller;
-
-import madstodolist.authentication.ManagerUserSession;
-import madstodolist.model.Usuario;
-import madstodolist.service.TareaService;
-import madstodolist.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+// Importaciones y anotaciones
+...
 
 @Controller
 public class LoginController {
@@ -824,74 +935,18 @@ public class LoginController {
     @Autowired
     ManagerUserSession managerUserSession;
 
-    @GetMapping("/")
-    public String home(Model model) {
-        return "redirect:/login";
-    }
-
     @GetMapping("/login")
     public String loginForm(Model model) {
         model.addAttribute("loginData", new LoginData());
         return "formLogin";
     }
 
-    @PostMapping("/login")
-    public String loginSubmit(@ModelAttribute LoginData loginData, Model model, HttpSession session) {
-
-        // Llamada al servicio para comprobar si el login es correcto
-        UsuarioService.LoginStatus loginStatus = usuarioService.login(loginData.geteMail(), loginData.getPassword());
-
-        if (loginStatus == UsuarioService.LoginStatus.LOGIN_OK) {
-            Usuario usuario = usuarioService.findByEmail(loginData.geteMail());
-
-            managerUserSession.logearUsuario(usuario.getId());
-
-            return "redirect:/usuarios/" + usuario.getId() + "/tareas";
-        } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
-            model.addAttribute("error", "No existe usuario");
-            return "formLogin";
-        } else if (loginStatus == UsuarioService.LoginStatus.ERROR_PASSWORD) {
-            model.addAttribute("error", "Contraseña incorrecta");
-            return "formLogin";
-        }
-        return "formLogin";
-    }
-
-    @GetMapping("/registro")
-    public String registroForm(Model model) {
-        model.addAttribute("registroData", new RegistroData());
-        return "formRegistro";
-    }
-
-   @PostMapping("/registro")
-   public String registroSubmit(@Valid RegistroData registroData, BindingResult result, Model model) {
-
-        if (result.hasErrors()) {
-            return "formRegistro";
-        }
-
-        if (usuarioService.findByEmail(registroData.geteMail()) != null) {
-            model.addAttribute("registroData", registroData);
-            model.addAttribute("error", "El usuario " + registroData.geteMail() + " ya existe");
-            return "formRegistro";
-        }
-
-        Usuario usuario = new Usuario(registroData.geteMail());
-        usuario.setPassword(registroData.getPassword());
-        usuario.setFechaNacimiento(registroData.getFechaNacimiento());
-        usuario.setNombre(registroData.getNombre());
-
-        usuarioService.registrar(usuario);
-        return "redirect:/login";
-   }
-
-   @GetMapping("/logout")
-   public String logout(HttpSession session) {
-        managerUserSession.logout();
-        return "redirect:/login";
-   }
+    // ... más código para gestionar el inicio de sesión y el registro
 }
 ```
+
+Y el siguiente código muestra la implementación de la clase `LoginData` que se
+usará para recoger los datos del formulario rellenado por el usuario.
 
 
 **Fichero `src/main/java/madstodolist/controller/LoginData.java`**:
@@ -920,6 +975,21 @@ public class LoginData {
     }
 }
 ```
+
+En este caso, el método `loginForm` se encarga de manejar las peticiones GET a
+la URL `/login`. Crea una nueva instancia de la clase `LoginData` y la añade al
+modelo, que posteriormente se pasará a la vista para ser completado por el
+usuario. 
+
+Los controllers suelen interactuar con varios servicios y componentes, como se
+muestra en los ejemplos de `UsuarioService` y `ManagerUserSession`, que se inyectan
+en LoginController.
+
+Las clases auxiliares como `LoginData` o `RegistroData` facilitan la validación
+y el manejo de datos en el controller. Estos objetos se llenan automáticamente
+con los datos del formulario, y permiten que los métodos del controller sean más
+limpios y más fáciles de leer. 
+
 
 #### Peticiones y rutas ####
 
