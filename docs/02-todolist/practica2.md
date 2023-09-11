@@ -2434,9 +2434,9 @@ necesarios para la página _acerca de_:
 
 Añade los siguientes ficheros:
 
-**Controller `main/java/madstodolist/controller/HomeController.java`**
+**Controller**
 
-```java
+```java title="main/java/madstodolist/controller/HomeController.java"
 package madstodolist.controller;
 
 import org.springframework.stereotype.Controller;
@@ -2454,9 +2454,9 @@ public class HomeController {
 }
 ```
 
-**Vista `main/resources/templates/about.html`**:
+**Vista**:
 
-```html
+```html title="main/resources/templates/about.html"
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -2490,9 +2490,9 @@ Prueba la página accediendo a la url
 Añade un test que automatiza la comprobación de que la URL `/about`
 debe devolver el nombre de la aplicación.
 
-**Test `test/java/madstodolist/AcercaDeWebTest.java`**:
+**Test**:
 
-```java
+```java title="test/java/madstodolist/AcercaDeWebTest.java"
 package madstodolist;
 
 import org.junit.jupiter.api.Test;
@@ -2527,7 +2527,7 @@ AcercaDeWebTest_.
 Puedes lanzar también todos los tests en el terminal para comprobar
 que no se ha roto nada.
 
-```
+```hl_lines="1"
 (acerca-de) $ ./mvnw test
 ...
 [INFO] 
@@ -2543,7 +2543,7 @@ que no se ha roto nada.
 Por último, confirma el commit en la rama y súbelo a GitHub. En el
 panel `Git`:
 
-```text
+```text hl_lines="1 2 3 4"
 (acerca-de) $ git add .
 (acerca-de) $ git status (comprueba que se han añadido los ficheros)
 (acerca-de) $ git commit -m "Añadida vista y controller 'about'"
@@ -2567,7 +2567,7 @@ Realiza el siguiente cambio:
 Prueba que funciona correctamente, prueba los tests, haz el commit y
 súbelo a GitHub:
 
-```text
+```text hl_lines="1 2 3 4"
 (acerca-de) $ git status
 (acerca-de) $ git add .
 (acerca-de) $ git commit -m "Añadido enlace a página 'about' en página 'login'"
@@ -2636,7 +2636,7 @@ Antes de pulsar el botón para realizar el merge, lanzamos los tests
 tests que se han añadido pasan correctamente (en este caso no hemos
 añadido ninguno).
 
-```text
+```text hl_lines="1"
 (acerca-de) $ ./mvnw test
 ...
 [INFO] 
@@ -2737,7 +2737,7 @@ Borra la rama en GitHub, pulsando el botón correspondiente.
 Este _merge_ lo has hecho en GitHub. Debes por último integrarlo en tu
 repositorio local. En el terminal:
 
-```text
+```text hl_lines="1 2 3 4 5"
 (acerca-de) $ git checkout main
 (main) $ git pull (bajamos los cambios)
 (main) $ git branch -d acerca-de (borramos la rama)
@@ -2807,7 +2807,7 @@ los ficheros `pom.xml` y `about.html`
 
 Añadimos el commit y lo subimos a GitHub
 
-```text
+```text hl_lines="1 2 3"
 (main) $ git add .
 (main) $ git commit -m "Cambio de versión a 1.0.1"
 (main) $ git push
