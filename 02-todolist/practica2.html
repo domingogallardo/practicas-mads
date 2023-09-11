@@ -778,7 +778,7 @@ código todos estos elementos.</p>
 <p>Los distintos parámetros de la aplicación Spring Boot se configuran un
 fichero de propiedades. El fichero de propiedades por defecto es
 <code>application.properties</code>.</p>
-<div class="highlight"><span class="filename">/src/main/resources/application.properties</span><pre><span></span><code><span class="na">spring.application.name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">mads-todolist</span>
+<div class="highlight"><span class="filename">src/main/resources/application.properties</span><pre><span></span><code><span class="na">spring.application.name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">mads-todolist</span>
 <span class="na">spring.datasource.url</span><span class="o">=</span><span class="s">jdbc:h2:mem:dev</span>
 <span class="na">spring.jpa.properties.hibernate.dialect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">org.hibernate.dialect.H2Dialect</span>
 <span class="na">spring.jpa.hibernate.ddl-auto</span><span class="o">=</span><span class="s">update</span>
@@ -812,7 +812,7 @@ con la que trabaja la aplicación (la base de datos en memoria H2):</p>
 </ul>
 <p>Los datos iniciales de la aplicación se cargan mediante el servicio
 <code>InitDbService</code>. Sólo se cargan si el perfil activo es <code>dev</code>.</p>
-<div class="highlight"><span class="filename">/src/main/java/madstodolist/service/InitDbService.java</span><pre><span></span><code><span class="nd">@Service</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/service/InitDbService.java</span><pre><span></span><code><span class="nd">@Service</span>
 <span class="c1">// Se ejecuta solo si el perfil activo es &#39;dev&#39;</span>
 <span class="nd">@Profile</span><span class="p">(</span><span class="s">&quot;dev&quot;</span><span class="p">)</span>
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">InitDbService</span><span class="w"> </span><span class="p">{</span>
