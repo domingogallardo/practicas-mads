@@ -1888,9 +1888,7 @@ datos que queremos que devuelvan (no tocamos la base de datos) y, al igual que
 antes, comprobamos que los controllers devuelven las páginas HTML con los datos
 correctos.
 
-**Fichero `src/test/java/madstodolist/controller/UsuarioWebTest.java`**:
-
-```java
+```java title="src/test/java/madstodolist/controller/UsuarioWebTest.java"
 package madstodolist.controller;
 
 // Imports
