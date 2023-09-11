@@ -98,9 +98,7 @@ Los distintos parámetros de la aplicación Spring Boot se configuran un
 fichero de propiedades. El fichero de propiedades por defecto es
 `application.properties`.
 
-**Fichero `/src/main/resources/application.properties`**:
-
-```properties
+```properties title="/src/main/resources/application.properties"
 spring.application.name = mads-todolist
 spring.datasource.url=jdbc:h2:mem:dev
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
@@ -137,9 +135,7 @@ con la que trabaja la aplicación (la base de datos en memoria H2):
 Los datos iniciales de la aplicación se cargan mediante el servicio
 `InitDbService`. Sólo se cargan si el perfil activo es `dev`.
 
-**Fichero `/src/main/java/madstodolist/service/InitDbService.java`**:
-
-```java
+```java title="/src/main/java/madstodolist/service/InitDbService.java"
 @Service
 // Se ejecuta solo si el perfil activo es 'dev'
 @Profile("dev")
@@ -200,9 +196,7 @@ usar. Lo veremos en la práctica 3.
 En esta práctica se define otra configuración en el directorio de
 test, que es la que se carga cuando se lanzan los tests:
 
-**Fichero `src/test/resources/application.properties`**:
-
-```properties
+```properties title="src/test/resources/application.properties"
 spring.datasource.url=jdbc:h2:mem:test
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=create
@@ -278,9 +272,7 @@ vinculada (se acaba de crear o la estamos usando para alguna parte de
 la lógica de negocio y no se va a persistir) se comparan los atributos
 obligatorios (en este caso el correo electrónico).
 
-**Fichero `src/main/java/madstodolist/model/Usuario.java`**:
-
-```java
+```java title="src/main/java/madstodolist/model/Usuario.java"
 package madstodolist.model;
 
 // Imports 
@@ -369,9 +361,7 @@ entidad `Tarea`.
 
 La definición de `Tarea` es la siguiente:
 
-**Fichero `src/main/java/madstodolist/model/Tarea.java`**:
-
-```java
+```java title="src/main/java/madstodolist/model/Tarea.java"
 package madstodolist.model;
 
 // Imports
@@ -527,9 +517,7 @@ interfaces que extienden esta clase genérica. Lo hemos hecho en el package
 
 Por ejemplo, la interfaz `UsuarioRepository`:
 
-**Fichero `src/main/java/madstodolist/repository/UsuarioRepository.java`**:
-
-```java
+```java title="src/main/java/madstodolist/repository/UsuarioRepository.java"
 package madstodolist.repository;
 
 import madstodolist.model.Usuario;
@@ -689,9 +677,7 @@ Para poder trabajar con `ModelMapper` en la aplicación lo declaramos como una
 dependencia en el fichero POM y creamos un `Bean` de Spring para poder usarlo con
 inyección de dependencias:
 
-**Fichero `src/main/java/madstodolist/config/ModelMapperConfig.java`**:
-
-```java
+```java title="src/main/java/madstodolist/config/ModelMapperConfig.java"
 package madstodolist.config;
 
 // Imports
@@ -787,9 +773,7 @@ conexiones _lazy_ y para garantizar la transaccionalidad.
 Por ejemplo, la clase `UsuarioService` se define como se muestra a
 continuación.
 
-**Fichero `src/main/java/madstodolist/service/UsuarioService.java`**:
-
-```java
+```java title="src/main/java/madstodolist/service/UsuarioService.java"
 package madstodolist.service;
 
 // Imports
@@ -858,10 +842,7 @@ public class UsuarioService {
 }
 ```
 
-
-**Fichero `src/main/java/madstodolist/service/UsuarioServiceException.java`**:
-
-```java
+```java title="src/main/java/madstodolist/service/UsuarioServiceException.java"
 package madstodolist.service;
 
 public class UsuarioServiceException extends RuntimeException {
@@ -912,9 +893,7 @@ a recopilar los datos del usuario en un formato más manejable.
 El siguiente fragmento de código muestra un ejemplo de cómo se implementa un
 controlador en nuestra aplicación: 
 
-**Fichero `src/main/java/madstodolist/controller/LoginController.java`**:
-
-```java
+```java title="src/main/java/madstodolist/controller/LoginController.java"
 // Importaciones y anotaciones
 ...
 
@@ -940,10 +919,7 @@ public class LoginController {
 Y el siguiente código muestra la implementación de la clase `LoginData` que se
 usará para recoger los datos del formulario rellenado por el usuario.
 
-
-**Fichero `src/main/java/madstodolist/dto/LoginData.java`**:
-
-```java
+```java title="src/main/java/madstodolist/dto/LoginData.java"
 package madstodolist.dto;
 
 public class LoginData {
@@ -1014,9 +990,7 @@ página. Para centralizar estos elementos se usa la característica de
 fragmentos de Thymeleaf. Los fragmentos comunes se definen en el
 fichero `fragments.html`.
 
-**Fichero `src/main/resources/templates/fragments.html`**:
-
-```html
+```html title="src/main/resources/templates/fragments.html"
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -1044,9 +1018,7 @@ guardan los recursos estáticos de una aplicación Spring Boot.
 La vista principal de la aplicación es el listado de tareas que vemos
 a continuación.
 
-**Fichero `src/main/resources/templates/listaTareas.html`**:
-
-```html
+```html title="src/main/resources/templates/listaTareas.html"
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -1150,9 +1122,7 @@ sesión consultando el diccionario.
 La implementación de la autenticación y del control de acceso se
 realiza con en la clase `ManagerUserSesion`:
 
-**Fichero `src/main/java/madstodolist/authentication/ManagerUserSesion.java`**:
-
-```java
+```java title="src/main/java/madstodolist/authentication/ManagerUserSesion.java"
 package madstodolist.authentication;
 
 // Imports
@@ -1211,9 +1181,7 @@ public class TareaTest {
 ...
 ```
 
-**Fichero `src/test/resources/clean-db.sql`**:
-
-```sql
+```sql title="src/test/resources/clean-db.sql"
 DELETE FROM tareas;
 DELETE FROM usuarios;
 ```
@@ -1227,9 +1195,7 @@ Se realizan tests automáticos sobre las entidades y repository:
 
 Veamos, por ejemplo, el fichero `TareaTest.java`:
 
-**Fichero `src/test/java/madstodolist/repository/TareaTest.java`**:
-
-```java
+```java title="src/test/java/madstodolist/repository/TareaTest.java"
 package madstodolist.repository;
 
 // Imports
@@ -1502,9 +1468,7 @@ cada operación.
 
 Veamos, por ejemplo, el fichero `TareaServiceTest.java`:
 
-**Fichero `src/test/java/madstodolist/service/TareaServiceTest.java`**:
-
-```java
+```java title="src/test/java/madstodolist/service/TareaServiceTest.java"
 package madstodolist.service;
 
 // Imports
@@ -1688,13 +1652,11 @@ está logeado.
 
 Mostramos a continuación los ficheros de test de controllers.
 
-**Fichero `src/test/java/madstodolist/controller/TareaWebTest.java`**:
-
 Para los tests de tareas se añaden datos de prueba a la base de datos y después
 se comprueba que los controllers devuelven páginas HTML que contienen los
 resultados esperados.
 
-```java
+```java title="src/test/java/madstodolist/controller/TareaWebTest.java"
 package madstodolist.controller;
 
 // Imports
@@ -2595,9 +2557,7 @@ login de la aplicación.
 
 Realiza el siguiente cambio:
 
-**Fichero `formLogin.html`**:
-
-```diff
+```diff title="formLogin.html"
                          <a class="btn btn-link" href="/registro">Ir a registro</a>
 +                        <a class="btn btn-link" href="/about">Acerca de</a>
                      </div>
@@ -2823,9 +2783,7 @@ release, cuando expliquemos el flujo de trabajo de GitFlow).
 Crea un commit con la confirmación del número de versión y fecha en
 los ficheros `pom.xml` y `about.html`
 
-**Fichero `pom.xml`**:
-
-```diff
+```diff title="pom.xml"
      <groupId>es.ua.mads</groupId>
      <artifactId>mads-todolist-dgallardo</artifactId>
 -    <version>1.0.1-SNAPSHOT</version>
@@ -2833,9 +2791,7 @@ los ficheros `pom.xml` y `about.html`
  
 ```
 
-**Fichero `about.html`**:
-
-```diff
+```diff title="about.html"
     <h1>ToDo List</h1>
         <ul>
          <h1>ToDo List</h1>
