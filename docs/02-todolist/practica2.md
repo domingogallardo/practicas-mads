@@ -98,7 +98,7 @@ Los distintos parámetros de la aplicación Spring Boot se configuran un
 fichero de propiedades. El fichero de propiedades por defecto es
 `application.properties`.
 
-```properties title="/src/main/resources/application.properties"
+```properties title="src/main/resources/application.properties"
 spring.application.name = mads-todolist
 spring.datasource.url=jdbc:h2:mem:dev
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
@@ -135,7 +135,7 @@ con la que trabaja la aplicación (la base de datos en memoria H2):
 Los datos iniciales de la aplicación se cargan mediante el servicio
 `InitDbService`. Sólo se cargan si el perfil activo es `dev`.
 
-```java title="/src/main/java/madstodolist/service/InitDbService.java"
+```java title="src/main/java/madstodolist/service/InitDbService.java"
 @Service
 // Se ejecuta solo si el perfil activo es 'dev'
 @Profile("dev")
