@@ -685,6 +685,27 @@ mantener, sino que también proporciona un enfoque coherente para el mapeo de
 objetos en tu aplicación, lo cual es de mucha importancia en proyectos de gran
 envergadura.
 
+Para poder trabajar con `ModelMapper` en la aplicación lo declaramos como una
+dependencia en el fichero POM y creamos un `Bean` de Spring para poder usarlo con
+inyección de dependencias:
+
+**Fichero `src/main/java/madstodolist/config/ModelMapperConfig.java`**:
+
+```java
+package madstodolist.config;
+
+// Imports
+...
+
+@Configuration
+public class ModelMapperConfig {
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+}
+```
 
 #### Ejemplos de DTOs en nuestra aplicación ####
 
