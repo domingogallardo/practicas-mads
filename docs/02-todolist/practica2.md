@@ -107,13 +107,13 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
 logging.level.org.hibernate.SQL=debug
 logging.level.madstodolist=debug
-spring.sql.init.mode=always
-# cargar los datos despues de que Hibernate inicialice
-# los esquemas de datos
-# https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.5-Release-Notes#sql-script-datasource-initialization
-spring.jpa.defer-datasource-initialization=true
+spring.sql.init.mode=never
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
+
+# Activamos el perfil dev
+spring.profiles.active=dev
+
 # Deshabilitamos Open EntityManager in View
 # https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/html/data.html#data.sql.jpa-and-spring-data.open-entity-manager-in-view
 # Ver tambien https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/hibernate5/support/OpenSessionInViewInterceptor.html
@@ -128,23 +128,45 @@ con la que trabaja la aplicación (la base de datos en memoria H2):
   Hibernate actualice automáticamente los esquemas de la base de
   datos, construyéndolos a partir de las clases `Entity`. En un
   entorno de producción el valor de esta propiedad deberá ser
-  `validate` para no modificar la base de datos de producción. 
-- El parámetro `spring.sql.init.mode=always` hace que se carguen datos
-  iniciales en la base de datos al arrancar la aplicación. El
-  parámetro `spring.jpa.defer-datasource-initialization=true` hace que
-  los datos se carguen después de que Hibernate haya actualizado el
-  esquema de datos. 
+  `validate` para no modificar la base de datos de producción.
+- El parámetro `spring.profiles.active=dev` define el perfil que se activa por
+  defecto al lanzar la aplicación, el perfil de desarrollo (`dev`). En prácticas
+  posteriores veremos cómo es útil usar distintos perfiles (por ejemplo,
+  desarrollo y producción) para configurar qué bases de datos se van a usar.
 
-Los datos iniciales de la aplicación se encuentran en el fichero `data.sql`:
+Los datos iniciales de la aplicación se cargan mediante el servicio
+`InitDbService`. Sólo se cargan si el perfil activo es `dev`.
 
+**Fichero `/src/main/java/madstodolist/service/InitDbService.java`**:
 
-**Fichero `/src/main/resources/data.sql`**:
+```java
+@Service
+// Se ejecuta solo si el perfil activo es 'dev'
+@Profile("dev")
+public class InitDbService {
 
-```sql
-/* Populate tables */
-INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
-INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
-INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private TareaRepository tareaRepository;
+
+    // Se ejecuta tras crear el contexto de la aplicación
+    // para inicializar la base de datos
+    @PostConstruct
+    public void initDatabase() {
+        Usuario usuario = new Usuario("user@ua");
+        usuario.setNombre("Usuario Ejemplo");
+        usuario.setPassword("123");
+        usuarioRepository.save(usuario);
+
+        Tarea tarea1 = new Tarea(usuario, "Lavar coche");
+        tareaRepository.save(tarea1);
+
+        Tarea tarea2 = new Tarea(usuario, "Renovar DNI");
+        tareaRepository.save(tarea2);
+    }
+
+}
 ```
 
 !!! Note "Base de datos H2 en memoria en desarrollo"
@@ -152,7 +174,7 @@ INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
     memoria. Esto significa que los datos que introduzcamos van a estar
     presentes mientras que la aplicación esté funcionando. Cuando matemos
     la aplicación y la volvamos a reiniciar sólo estarán los datos
-    iniciales, los datos que se cargan del fichero `data.sql`.
+    iniciales, los datos que se cargan con el servicio `InitDbService`.
 
     En la práctica 3 utilizaremos una base de datos real, que deberemos
     gestionar también en producción. En concreto, se tratará de una base
@@ -185,12 +207,12 @@ spring.datasource.url=jdbc:h2:mem:test
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=create
 logging.level.org.hibernate.SQL=debug
-# Es necesario definir el sql.init.mode a never para evitar
-# que se carguen los datos de src/main/resources/data.sql
 spring.sql.init.mode=never
+
 # obligamos a que Hibernate inicialice los esquemas de datos
 # https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.5-Release-Notes#sql-script-datasource-initialization
 spring.jpa.defer-datasource-initialization=true
+
 # Deshabilitamos Open EntityManager in View
 # https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/html/data.html#data.sql.jpa-and-spring-data.open-entity-manager-in-view
 # Ver tambien https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/orm/hibernate5/support/OpenSessionInViewInterceptor.html
@@ -203,9 +225,9 @@ nombre de la fuente de datos, el modo del
 `spring.jpa.hibernate.ddl-auto`, que es `create` y el fichero de datos
 iniciales que se carga al ejecutar los tests.
 
-La otra diferencia importante es que evitamos que se carguen los datos
-poniendo el parámetro `spring.sql.init.mode` a `never`. Cargaremos los
-datos de prueba manualmente en los tests.
+La otra diferencia es que no se activa el perfil `dev`, por lo que no se carga
+ningún dato en la aplicación para los tests. Ya veremos más adelante que los
+datos para los tests se cargan en los propios tests.
 
 ### Gestión de persistencia con JPA ###
 
@@ -261,13 +283,8 @@ obligatorios (en este caso el correo electrónico).
 ```java
 package madstodolist.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+// Imports 
+...
 
 @Entity
 @Table(name = "usuarios")
@@ -300,50 +317,16 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
+    // Getters y setters atributos básicos
+    ...
+    
+    // Getters y setters de la relación
 
     public Set<Tarea> getTareas() {
         return tareas;
     }
-
+    
+    // Método helper para añadir una tarea a la lista y establecer la relación inversa
     public void addTarea(Tarea tarea) {
         // Si la tarea ya está en la lista, no la añadimos
         if (tareas.contains(tarea)) return;
@@ -391,10 +374,8 @@ La definición de `Tarea` es la siguiente:
 ```java
 package madstodolist.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Objects;
+// Imports
+...
 
 @Entity
 @Table(name = "tareas")
@@ -426,25 +407,16 @@ public class Tarea implements Serializable {
         setUsuario(usuario); // Esto añadirá la tarea a la lista de tareas del usuario
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+    // Getters y setters atributos básicos
+    ...
+    
+    // Getters y setters de la relación
 
     public Usuario getUsuario() {
         return usuario;
     }
+    
+    // Método para establecer la relación con el usuario
 
     public void setUsuario(Usuario usuario) {
         // Comprueba si el usuario ya está establecido
@@ -797,84 +769,70 @@ continuación.
 **Fichero `src/main/java/madstodolist/service/UsuarioService.java`**:
 
 ```java
-@Service
-public class TareaService {
+package madstodolist.service;
 
-    Logger logger = LoggerFactory.getLogger(TareaService.class);
+// Imports
+...
+
+@Service
+public class UsuarioService {
+
+    Logger logger = LoggerFactory.getLogger(UsuarioService.class);
+
+    public enum LoginStatus {LOGIN_OK, USER_NOT_FOUND, ERROR_PASSWORD}
 
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
-    private TareaRepository tareaRepository;
-    @Autowired
     private ModelMapper modelMapper;
 
-    @Transactional
-    public TareaData nuevaTareaUsuario(Long idUsuario, String tituloTarea) {
-        logger.debug("Añadiendo tarea " + tituloTarea + " al usuario " + idUsuario);
-        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
-        if (usuario == null) {
-            throw new TareaServiceException("Usuario " + idUsuario + " no existe al crear tarea " + tituloTarea);
+    @Transactional(readOnly = true)
+    public LoginStatus login(String eMail, String password) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(eMail);
+        if (!usuario.isPresent()) {
+            return LoginStatus.USER_NOT_FOUND;
+        } else if (!usuario.get().getPassword().equals(password)) {
+            return LoginStatus.ERROR_PASSWORD;
+        } else {
+            return LoginStatus.LOGIN_OK;
         }
-        Tarea tarea = new Tarea(usuario, tituloTarea);
-        tareaRepository.save(tarea);
-        return modelMapper.map(tarea, TareaData.class);
+    }
+
+    // Se añade un usuario en la aplicación.
+    // El email y password del usuario deben ser distinto de null
+    // El email no debe estar registrado en la base de datos
+    @Transactional
+    public UsuarioData registrar(UsuarioData usuario) {
+        Optional<Usuario> usuarioBD = usuarioRepository.findByEmail(usuario.getEmail());
+        if (usuarioBD.isPresent())
+            throw new UsuarioServiceException("El usuario " + usuario.getEmail() + " ya está registrado");
+        else if (usuario.getEmail() == null)
+            throw new UsuarioServiceException("El usuario no tiene email");
+        else if (usuario.getPassword() == null)
+            throw new UsuarioServiceException("El usuario no tiene password");
+        else {
+            Usuario usuarioNuevo = modelMapper.map(usuario, Usuario.class);
+            usuarioNuevo = usuarioRepository.save(usuarioNuevo);
+            return modelMapper.map(usuarioNuevo, UsuarioData.class);
+        }
     }
 
     @Transactional(readOnly = true)
-    public List<TareaData> allTareasUsuario(Long idUsuario) {
-        logger.debug("Devolviendo todas las tareas del usuario " + idUsuario);
-        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
-        if (usuario == null) {
-            throw new TareaServiceException("Usuario " + idUsuario + " no existe al listar tareas ");
+    public UsuarioData findByEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
+        if (usuario == null) return null;
+        else {
+            return modelMapper.map(usuario, UsuarioData.class);
         }
-        // Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.
-        List<TareaData> tareas = usuario.getTareas().stream()
-                .map(tarea -> modelMapper.map(tarea, TareaData.class))
-                .collect(Collectors.toList());
-        // Ordenamos la lista por id de tarea
-        Collections.sort(tareas, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
-        return tareas;
     }
 
     @Transactional(readOnly = true)
-    public TareaData findById(Long tareaId) {
-        logger.debug("Buscando tarea " + tareaId);
-        Tarea tarea = tareaRepository.findById(tareaId).orElse(null);
-        if (tarea == null) return null;
-        else return modelMapper.map(tarea, TareaData.class);
-    }
-
-    @Transactional
-    public TareaData modificaTarea(Long idTarea, String nuevoTitulo) {
-        logger.debug("Modificando tarea " + idTarea + " - " + nuevoTitulo);
-        Tarea tarea = tareaRepository.findById(idTarea).orElse(null);
-        if (tarea == null) {
-            throw new TareaServiceException("No existe tarea con id " + idTarea);
-        }
-        tarea.setTitulo(nuevoTitulo);
-        tarea = tareaRepository.save(tarea);
-        return modelMapper.map(tarea, TareaData.class);
-    }
-
-    @Transactional
-    public void borraTarea(Long idTarea) {
-        logger.debug("Borrando tarea " + idTarea);
-        Tarea tarea = tareaRepository.findById(idTarea).orElse(null);
-        if (tarea == null) {
-            throw new TareaServiceException("No existe tarea con id " + idTarea);
-        }
-        tareaRepository.delete(tarea);
-    }
-
-    @Transactional
-    public boolean usuarioContieneTarea(Long usuarioId, Long tareaId) {
-        Tarea tarea = tareaRepository.findById(tareaId).orElse(null);
+    public UsuarioData findById(Long usuarioId) {
         Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
-        if (tarea == null || usuario == null) {
-            throw new TareaServiceException("No existe tarea o usuario id");
+        if (usuario == null) return null;
+        else {
+            return modelMapper.map(usuario, UsuarioData.class);
         }
-        return usuario.getTareas().contains(tarea);
     }
 }
 ```
@@ -892,6 +850,8 @@ public class UsuarioServiceException extends RuntimeException {
     }
 }
 ```
+
+Estudia con detalle esta clase y la otra clase de servicio, `TareaService`.
 
 #### Ventajas de utilizar una capa de servicios ####
 
@@ -960,10 +920,10 @@ Y el siguiente código muestra la implementación de la clase `LoginData` que se
 usará para recoger los datos del formulario rellenado por el usuario.
 
 
-**Fichero `src/main/java/madstodolist/controller/LoginData.java`**:
+**Fichero `src/main/java/madstodolist/dto/LoginData.java`**:
 
 ```java
-package madstodolist.controller;
+package madstodolist.dto;
 
 public class LoginData {
     private String eMail;
@@ -1174,11 +1134,8 @@ realiza con en la clase `ManagerUserSesion`:
 ```java
 package madstodolist.authentication;
 
-import madstodolist.controller.exception.UsuarioNoLogeadoException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpSession;
+// Imports
+...
 
 @Component
 public class ManagerUserSession {
@@ -1223,15 +1180,6 @@ ejecución trabajando sobre una base de datos con valores
 iniciales. Estos valores iniciales se cargan en la aplicación al
 comenzar.
 
-**Fichero `src/main/resources/data.sql`**:
-
-```sql
-/* Populate tables */
-INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'user@ua', 'Usuario Ejemplo', '123', '2001-02-10');
-INSERT INTO tareas (id, titulo, usuario_id) VALUES('1', 'Lavar coche', '1');
-INSERT INTO tareas (id, titulo, usuario_id) VALUES('2', 'Renovar DNI', '1');
-```
-
 En los tests automáticos se cargan los datos de prueba al comienzo de
 cada test y, usando la anotación `@Sql`, se limpian las tablas con el
 script `clean-db.sql`.
@@ -1258,30 +1206,16 @@ Se realizan tests automáticos sobre las entidades y repository:
 
 Veamos, por ejemplo, el fichero `TareaTest.java`:
 
-**Fichero `src/test/java/madstodolist/TareaTest.java`**:
+**Fichero `src/test/java/madstodolist/repository/TareaTest.java`**:
 
 ```java
-package madstodolist;
+package madstodolist.repository;
 
-
-import madstodolist.model.Tarea;
-import madstodolist.model.TareaRepository;
-import madstodolist.model.Usuario;
-import madstodolist.model.UsuarioRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+// Imports
+...
 
 @SpringBootTest
-@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
+@Sql(scripts = "/clean-db.sql")
 public class TareaTest {
 
     @Autowired
@@ -1547,167 +1481,148 @@ cada operación.
 
 Veamos, por ejemplo, el fichero `TareaServiceTest.java`:
 
-**Fichero `src/test/java/madstodolist/TareaServiceTest.java`**:
+**Fichero `src/test/java/madstodolist/service/TareaServiceTest.java`**:
 
 ```java
-package madstodolist;
+package madstodolist.service;
 
-import madstodolist.model.Usuario;
-import madstodolist.service.UsuarioService;
-import madstodolist.service.UsuarioServiceException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
+// Imports
+...
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+// Hemos eliminado todos los @Transactional de los tests
+// y usado un script para limpiar la BD de test después de
+// cada test
+// https://dev.to/henrykeys/don-t-use-transactional-in-tests-40eb
 
 @SpringBootTest
-@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
-public class UsuarioServiceTest {
+@Sql(scripts = "/clean-db.sql")
+public class TareaServiceTest {
 
     @Autowired
-    private UsuarioService usuarioService;
+    UsuarioService usuarioService;
+
+    @Autowired
+    TareaService tareaService;
 
     // Método para inicializar los datos de prueba en la BD
-    // Devuelve el identificador del usuario de la BD
-    Long addUsuarioBD() {
-        Usuario usuario = new Usuario("user@ua");
-        usuario.setNombre("Usuario Ejemplo");
+    // Devuelve un mapa con los identificadores del usuario y de la primera tarea añadida
+    Map<String, Long> addUsuarioTareasBD() {
+        UsuarioData usuario = new UsuarioData();
+        usuario.setEmail("user@ua");
         usuario.setPassword("123");
-        usuario = usuarioService.registrar(usuario);
-        return usuario.getId();
+
+        // Añadimos un usuario a la base de datos
+        UsuarioData usuarioNuevo = usuarioService.registrar(usuario);
+
+        // Y añadimos dos tareas asociadas a ese usuario
+        TareaData tarea1 = tareaService.nuevaTareaUsuario(usuarioNuevo.getId(), "Lavar coche");
+        tareaService.nuevaTareaUsuario(usuarioNuevo.getId(), "Renovar DNI");
+        
+        // Devolvemos los ids del usuario y de la primera tarea añadida
+        Map<String, Long> ids = new HashMap<>();
+        ids.put("usuarioId", usuarioNuevo.getId());
+        ids.put("tareaId", tarea1.getId());
+        return ids;
     }
 
     @Test
-    public void servicioLoginUsuario() {
+    public void testNuevaTareaUsuario() {
         // GIVEN
         // Un usuario en la BD
 
-        addUsuarioBD();
+        Long usuarioId = addUsuarioTareasBD().get("usuarioId");
 
         // WHEN
-        // intentamos logear un usuario y contraseña correctos
-        UsuarioService.LoginStatus loginStatus1 = usuarioService.login("user@ua", "123");
-
-        // intentamos logear un usuario correcto, con una contraseña incorrecta
-        UsuarioService.LoginStatus loginStatus2 = usuarioService.login("user@ua", "000");
-
-        // intentamos logear un usuario que no existe,
-        UsuarioService.LoginStatus loginStatus3 = usuarioService.login("pepito.perez@gmail.com", "12345678");
+        // creamos una nueva tarea asociada al usuario,
+        TareaData nuevaTarea = tareaService.nuevaTareaUsuario(usuarioId, "Práctica 1 de MADS");
 
         // THEN
+        // al recuperar la lista de tareas del usuario, la nueva tarea
+        // está en la lista de tareas del usuario.
 
-        // el valor devuelto por el primer login es LOGIN_OK,
-        assertThat(loginStatus1).isEqualTo(UsuarioService.LoginStatus.LOGIN_OK);
+        List<TareaData> tareas = tareaService.allTareasUsuario(usuarioId);
 
-        // el valor devuelto por el segundo login es ERROR_PASSWORD,
-        assertThat(loginStatus2).isEqualTo(UsuarioService.LoginStatus.ERROR_PASSWORD);
-
-        // y el valor devuelto por el tercer login es USER_NOT_FOUND.
-        assertThat(loginStatus3).isEqualTo(UsuarioService.LoginStatus.USER_NOT_FOUND);
+        assertThat(tareas).hasSize(3);
+        assertThat(tareas).contains(nuevaTarea);
     }
 
     @Test
-    public void servicioRegistroUsuario() {
+    public void testBuscarTarea() {
         // GIVEN
-        // Creado un usuario nuevo, con una contraseña
+        // Una tarea en la BD
 
-        Usuario usuario = new Usuario("usuario.prueba2@gmail.com");
-        usuario.setPassword("12345678");
+        Long tareaId = addUsuarioTareasBD().get("tareaId");
 
         // WHEN
-        // registramos el usuario,
+        // recuperamos una tarea de la base de datos a partir de su ID,
 
-        usuarioService.registrar(usuario);
+        TareaData lavarCoche = tareaService.findById(tareaId);
 
         // THEN
-        // el usuario se añade correctamente al sistema.
+        // los datos de la tarea recuperada son correctos.
 
-        Usuario usuarioBaseDatos = usuarioService.findByEmail("usuario.prueba2@gmail.com");
-        assertThat(usuarioBaseDatos).isNotNull();
-        assertThat(usuarioBaseDatos.getPassword()).isEqualTo(usuario.getPassword());
+        assertThat(lavarCoche).isNotNull();
+        assertThat(lavarCoche.getTitulo()).isEqualTo("Lavar coche");
     }
 
     @Test
-    public void servicioRegistroUsuarioExcepcionConNullPassword() {
+    public void testModificarTarea() {
         // GIVEN
-        // Un usuario creado sin contraseña,
+        // Un usuario y una tarea en la BD
 
-        Usuario usuario =  new Usuario("usuario.prueba@gmail.com");
-
-        // WHEN, THEN
-        // intentamos registrarlo, se produce una excepción de tipo UsuarioServiceException
-        Assertions.assertThrows(UsuarioServiceException.class, () -> {
-            usuarioService.registrar(usuario);
-        });
-    }
-
-
-    @Test
-    public void servicioRegistroUsuarioExcepcionConEmailRepetido() {
-        // GIVEN
-        // Un usuario en la BD
-
-        addUsuarioBD();
+        Map<String, Long> ids = addUsuarioTareasBD();
+        Long usuarioId = ids.get("usuarioId");
+        Long tareaId = ids.get("tareaId");
 
         // WHEN
-        // Creamos un usuario con un e-mail ya existente en la base de datos,
-        Usuario usuario =  new Usuario("user@ua");
-        usuario.setPassword("12345678");
+        // modificamos la tarea correspondiente al identificador,
+
+        tareaService.modificaTarea(tareaId, "Limpiar los cristales del coche");
 
         // THEN
-        // si lo registramos, se produce una excepción de tipo UsuarioServiceException
-        Assertions.assertThrows(UsuarioServiceException.class, () -> {
-            usuarioService.registrar(usuario);
-        });
+        // al buscar por el identificador en la base de datos se devuelve la tarea modificada
+
+        TareaData tareaBD = tareaService.findById(tareaId);
+        assertThat(tareaBD.getTitulo()).isEqualTo("Limpiar los cristales del coche");
+
+        // y el usuario tiene también esa tarea modificada.
+        List<TareaData> tareas = tareaService.allTareasUsuario(usuarioId);
+        assertThat(tareas).contains(tareaBD);
     }
 
     @Test
-    public void servicioRegistroUsuarioDevuelveUsuarioConId() {
+    public void testBorrarTarea() {
         // GIVEN
-        // Dado un usuario con contraseña nuevo y sin identificador,
+        // Un usuario y una tarea en la BD
 
-        Usuario usuario = new Usuario("usuario.prueba@gmail.com");
-        usuario.setPassword("12345678");
+        Map<String, Long> ids = addUsuarioTareasBD();
+        Long usuarioId = ids.get("usuarioId");
+        Long tareaId = ids.get("tareaId");
 
         // WHEN
-        // lo registramos en el sistema,
+        // borramos la tarea correspondiente al identificador,
 
-        usuarioService.registrar(usuario);
+        tareaService.borraTarea(tareaId);
 
         // THEN
-        // se actualiza el identificador del usuario
+        // la tarea ya no está en la base de datos ni en las tareas del usuario.
 
-        assertThat(usuario.getId()).isNotNull();
+        assertThat(tareaService.findById(tareaId)).isNull();
 
-        // con el identificador que se ha guardado en la BD.
-
-        Usuario usuarioBD = usuarioService.findById(usuario.getId());
-        assertThat(usuarioBD).isEqualTo(usuario);
+        List<TareaData> tareas = tareaService.allTareasUsuario(usuarioId);
+        assertThat(tareas).hasSize(1);
     }
 
     @Test
-    public void servicioConsultaUsuarioDevuelveUsuario() {
-        // GIVEN
-        // Un usuario en la BD
+    public void asignarEtiquetaATarea(){
 
-        Long usuarioId = addUsuarioBD();
+        Map<String, Long> ids = addUsuarioTareasBD();
+        Long usuarioId = ids.get("usuarioId");
+        Long tareaId = ids.get("tareaId");
 
-        // WHEN
-        // recuperamos un usuario usando su e-mail,
-
-        Usuario usuario = usuarioService.findByEmail("user@ua");
-
-        // THEN
-        // el usuario obtenido es el correcto.
-
-        assertThat(usuario.getId()).isEqualTo(usuarioId);
-        assertThat(usuario.getEmail()).isEqualTo("user@ua");
-        assertThat(usuario.getNombre()).isEqualTo("Usuario Ejemplo");
+        assertThat(tareaService.usuarioContieneTarea(usuarioId,tareaId)).isTrue();
     }
+
 }
 ```
 
@@ -1752,33 +1667,21 @@ está logeado.
 
 Mostramos a continuación los ficheros de test de controllers.
 
-**Fichero `src/test/java/madstodolist/TareaWebTest.java`**:
+**Fichero `src/test/java/madstodolist/controller/TareaWebTest.java`**:
+
+Para los tests de tareas se añaden datos de prueba a la base de datos y después
+se comprueba que los controllers devuelven páginas HTML que contienen los
+resultados esperados.
 
 ```java
-package madstodolist;
+package madstodolist.controller;
 
-import madstodolist.authentication.ManagerUserSession;
-import madstodolist.model.Tarea;
-import madstodolist.model.Usuario;
-import madstodolist.service.TareaService;
-import madstodolist.service.UsuarioService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MockMvc;
-
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+// Imports
+...
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
+@Sql(scripts = "/clean-db.sql")
 public class TareaWebTest {
 
     @Autowired
@@ -1795,31 +1698,33 @@ public class TareaWebTest {
     @MockBean
     private ManagerUserSession managerUserSession;
 
-    class DosIds {
-        Long usuarioId;
-        Long tareaId;
-        public DosIds(Long usuarioId, Long tareaId) {
-            this.usuarioId = usuarioId;
-            this.tareaId = tareaId;
-        }
-    }
-
     // Método para inicializar los datos de prueba en la BD
-    // Devuelve una pareja de identificadores del usuario y la primera tarea añadida
-    DosIds addUsuarioTareasBD() {
-        Usuario usuario = new Usuario("user@ua");
+    // Devuelve un mapa con los identificadores del usuario y de la primera tarea añadida
+
+    Map<String, Long> addUsuarioTareasBD() {
+        // Añadimos un usuario a la base de datos
+        UsuarioData usuario = new UsuarioData();
+        usuario.setEmail("user@ua");
         usuario.setPassword("123");
         usuario = usuarioService.registrar(usuario);
-        Tarea tarea1 = tareaService.nuevaTareaUsuario(usuario.getId(), "Lavar coche");
+
+        // Y añadimos dos tareas asociadas a ese usuario
+        TareaData tarea1 = tareaService.nuevaTareaUsuario(usuario.getId(), "Lavar coche");
         tareaService.nuevaTareaUsuario(usuario.getId(), "Renovar DNI");
-        return new DosIds(usuario.getId(), tarea1.getId());
+
+        // Devolvemos los ids del usuario y de la primera tarea añadida
+        Map<String, Long> ids = new HashMap<>();
+        ids.put("usuarioId", usuario.getId());
+        ids.put("tareaId", tarea1.getId());
+        return ids;
+
     }
 
     @Test
     public void listaTareas() throws Exception {
         // GIVEN
         // Un usuario con dos tareas en la BD
-        Long usuarioId = addUsuarioTareasBD().usuarioId;
+        Long usuarioId = addUsuarioTareasBD().get("usuarioId");
 
         // Moqueamos el método usuarioLogeado para que devuelva el usuario 1L,
         // el mismo que se está usando en la petición. De esta forma evitamos
@@ -1844,7 +1749,7 @@ public class TareaWebTest {
     public void getNuevaTareaDevuelveForm() throws Exception {
         // GIVEN
         // Un usuario con dos tareas en la BD
-        Long usuarioId = addUsuarioTareasBD().usuarioId;
+        Long usuarioId = addUsuarioTareasBD().get("usuarioId");
 
         // Ver el comentario en el primer test
         when(managerUserSession.usuarioLogeado()).thenReturn(usuarioId);
@@ -1868,7 +1773,7 @@ public class TareaWebTest {
     public void postNuevaTareaDevuelveRedirectYAñadeTarea() throws Exception {
         // GIVEN
         // Un usuario con dos tareas en la BD
-        Long usuarioId = addUsuarioTareasBD().usuarioId;
+        Long usuarioId = addUsuarioTareasBD().get("usuarioId");
 
         // Ver el comentario en el primer test
         when(managerUserSession.usuarioLogeado()).thenReturn(usuarioId);
@@ -1897,9 +1802,9 @@ public class TareaWebTest {
     public void deleteTareaDevuelveOKyBorraTarea() throws Exception {
         // GIVEN
         // Un usuario con dos tareas en la BD
-        DosIds dosIds = addUsuarioTareasBD();
-        Long usuarioId = dosIds.usuarioId;
-        Long tareaLavarCocheId = dosIds.tareaId;
+        Map<String, Long> ids = addUsuarioTareasBD();
+        Long usuarioId = ids.get("usuarioId");
+        Long tareaLavarCocheId = ids.get("tareaId");
 
         // Ver el comentario en el primer test
         when(managerUserSession.usuarioLogeado()).thenReturn(usuarioId);
@@ -1927,9 +1832,9 @@ public class TareaWebTest {
     public void editarTareaActualizaLaTarea() throws Exception {
         // GIVEN
         // Un usuario con dos tareas en la BD
-        DosIds dosIds = addUsuarioTareasBD();
-        Long usuarioId = dosIds.usuarioId;
-        Long tareaLavarCocheId = dosIds.tareaId;
+        Map<String, Long> ids = addUsuarioTareasBD();
+        Long usuarioId = ids.get("usuarioId");
+        Long tareaLavarCocheId = ids.get("tareaId");
 
         // Ver el comentario en el primer test
         when(managerUserSession.usuarioLogeado()).thenReturn(usuarioId);
@@ -1954,26 +1859,21 @@ public class TareaWebTest {
                 .andExpect(content().string(containsString("Limpiar cristales coche")));
     }
 }
+
 ```
 
-**Fichero `src/test/java/madstodolist/UsuarioWebTest.java`**:
+Para los tests de usuarios usamos el enfoque de moquear los servicios con los
+datos que queremos que devuelvan (no tocamos la base de datos) y, al igual que
+antes, comprobamos que los controllers devuelven las páginas HTML con los datos
+correctos.
+
+**Fichero `src/test/java/madstodolist/controller/UsuarioWebTest.java`**:
 
 ```java
-package madstodolist;
+package madstodolist.controller;
 
-import madstodolist.model.Usuario;
-import madstodolist.service.UsuarioService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+// Imports
+...
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -2000,7 +1900,8 @@ public class UsuarioWebTest {
         // devuelva un LOGIN_OK y la llamada a usuarioServicie.findByEmail
         // para que devuelva un usuario determinado.
 
-        Usuario anaGarcia = new Usuario("ana.garcia@gmail.com");
+        UsuarioData anaGarcia = new UsuarioData();
+        anaGarcia.setNombre("Ana García");
         anaGarcia.setId(1L);
 
         when(usuarioService.login("ana.garcia@gmail.com", "12345678"))
@@ -2251,7 +2152,6 @@ de GitHub](https://help.github.com/categories/writing-on-github/).
     realizar en la asignatura y para aprender los objetivos y el
     funcionamiento de estos tipos de sistemas basados en incidencias.
 
-
 ## 5. Antes de empezar la práctica
 
 1. Una vez logeado en GitHub, copia el enlace con una invitación que
@@ -2307,7 +2207,6 @@ de GitHub](https://help.github.com/categories/writing-on-github/).
     Y examinar tablas en concreto:
 
     <img src="./imagenes/h2-console-tablas.png" width="600px"/>
-
 
 ## 6. Desarrollo de la práctica
 
@@ -2696,7 +2595,6 @@ súbelo a GitHub:
 (acerca-de) $ git push
 ```
 
-
 #### Pull request ####
 
 Una vez terminada la implementación de la feature en la rama,
@@ -2885,14 +2783,12 @@ principal de desarrollo. El issue ligado al PR se habrá cerrado
 automáticamente y en el tablero de proyecto debe haber cambiado
 la tarjeta a la columna `Done`.
 
-
 #### Actualizamos tablero Trello ####
 
 Actualizamos el tablero Trello moviendo la historia de usuario a la
 columna _Terminadas_.
 
 <img src="./imagenes/trello-terminadas.png" width="600px"/>
-
 
 #### Release 1.0.1 ####
 
@@ -3112,8 +3008,7 @@ GitHub una breve pero útil [introducción a
 Markdown](https://guides.github.com/features/mastering-markdown/).
 
 - La práctica tiene una duración de 4 semanas y debe estar terminada
-  el martes 18 de octubre. El profesor comprobará en clase de
-  prácticas el funcionamiento de la práctica en producción.
+  el martes 17 de octubre.
 - La parte obligatoria puntúa sobre 6 y la opcional sobre 4 puntos.
 - La calificación de la práctica tiene un peso de un 25% en la nota
   final de prácticas.
