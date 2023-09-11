@@ -1287,6 +1287,24 @@ entidad al DTO correspondiente: </p>
 mantener, sino que también proporciona un enfoque coherente para el mapeo de
 objetos en tu aplicación, lo cual es de mucha importancia en proyectos de gran
 envergadura.</p>
+<p>Para poder trabajar con <code>ModelMapper</code> en la aplicación lo declaramos como una
+dependencia en el fichero POM y creamos un <code>Bean</code> de Spring para poder usarlo con
+inyección de dependencias:</p>
+<p><strong>Fichero <code>src/main/java/madstodolist/config/ModelMapperConfig.java</code></strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.config</span><span class="p">;</span>
+
+<span class="c1">// Imports</span>
+<span class="p">...</span>
+
+<span class="nd">@Configuration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ModelMapperConfig</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ModelMapper</span><span class="w"> </span><span class="nf">modelMapper</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ModelMapper</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h4 id="ejemplos-de-dtos-en-nuestra-aplicacion">Ejemplos de DTOs en nuestra aplicación<a class="headerlink" href="#ejemplos-de-dtos-en-nuestra-aplicacion" title="Permanent link">&para;</a></h4>
 <p>Veamos dos ejemplos de construcción de DTOs como objetos devueltos por métodos
 de servicios de nuestra aplicación.</p>
