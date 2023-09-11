@@ -2832,21 +2832,21 @@ la versión a <code>1.0.1-SNAPSHOT</code>. El sufijo <code>SNAPSHOT</code> indic
 desarrollo</em>. Cuando hagamos el release de la versión 1.0.1
 eliminaremos el sufijo.</p>
 <p>Realiza el commit y súbelo a GitHub:</p>
-<div class="highlight"><pre><span></span><code><span class="hll">(acerca-de) <span class="s">$</span><span class="nb"> git status </span><span class="o">(</span><span class="nb">comprobamos los ficheros que han cambiado</span><span class="o">)</span>
-</span><span class="nb">On branch acerca</span><span class="o">-</span><span class="nb">de</span>
-<span class="nb">Your branch is up to date with &#39;origin</span><span class="o">/</span><span class="nb">acerca</span><span class="o">-</span><span class="nb">de&#39;.</span>
+<div class="highlight"><pre><span></span><code><span class="hll">(acerca-de) $ git status (comprobamos los ficheros que han cambiado)
+</span>On branch acerca-de
+Your branch is up to date with &#39;origin/acerca-de&#39;.
 
-<span class="nb">Changes not staged for commit:</span>
-<span class="nb">  </span><span class="o">(</span><span class="nb">use &quot;git add &lt;file&gt;...&quot; to update what will be committed</span><span class="o">)</span>
-<span class="nb">  </span><span class="o">(</span><span class="nb">use &quot;git checkout </span><span class="o">--</span><span class="nb"> &lt;file&gt;...&quot; to discard changes in working directory</span><span class="o">)</span>
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
 
-<span class="nb">    modified:   README.md</span>
-<span class="nb">    modified:   pom.xml</span>
+    modified:   README.md
+    modified:   pom.xml
 
-<span class="nb">no changes added to commit </span><span class="o">(</span><span class="nb">use &quot;git add&quot; and</span><span class="o">/</span><span class="nb">or &quot;git commit </span><span class="o">-</span><span class="nb">a&quot;</span><span class="o">)</span>
-<span class="hll"><span class="o">(</span><span class="nb">acerca</span><span class="o">-</span><span class="nb">de</span><span class="o">)</span><span class="nb"> </span><span class="s">$</span> git add .
-</span><span class="hll">(acerca-de) <span class="s">$</span><span class="nb"> git status </span><span class="o">(</span><span class="nb">comprobamos que está listo para añadirse en el commit</span><span class="o">)</span>
-</span><span class="hll"><span class="o">(</span><span class="nb">acerca</span><span class="o">-</span><span class="nb">de</span><span class="o">)</span><span class="nb"> </span><span class="s">$</span> git commit -m &quot;Cambiado el nombre del proyecto y empezamos versión 1.0.1&quot;
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+<span class="hll">(acerca-de) $ git add .
+</span><span class="hll">(acerca-de) $ git status (comprobamos que está listo para añadirse en el commit)
+</span><span class="hll">(acerca-de) $ git commit -m &quot;Cambiado el nombre del proyecto y empezamos versión 1.0.1&quot;
 </span>On branch acerca-de
 Your branch is up to date with &#39;origin/acerca-de&#39;.
 
@@ -2855,7 +2855,7 @@ Changes to be committed:
 
     modified:   README.md
     modified:   pom.xml
-(acerca-de) <span class="s">$</span><span class="nb"> git push</span>
+(acerca-de) $ git push
 </code></pre></div>
 <p>Consulta en GitHub que el <em>commit</em> se ha subido en GitHub:</p>
 <p><img src="./imagenes/commit-practica-github.png" width="600px"/></p>
