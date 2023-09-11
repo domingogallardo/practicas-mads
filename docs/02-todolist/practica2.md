@@ -2252,9 +2252,10 @@ deberás desarrollar tu mismo y entregar la versión 1.1.0.
 
 ### Versión 1.0.1 ###
 
-La versión 1.0.1 será la versión inicial de la
-aplicación. Desarrollaremos en esta versión la primera característica:
-**Página _Acerca de_**.
+Para que veas la metodología de desarrollo, vamos a desarrollar una **versión
+1.0.1** en la que se implementa la primera característica: **Página _Acerca
+de_**. Todo el resto de funcionalidades las deberás incorporar en la **versión
+1.1.0**, que deberás desarrollar durante las cuatro semanas que dura esta práctica.
 
 #### Tablero Trello ####
 
