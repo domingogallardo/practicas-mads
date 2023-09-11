@@ -2851,8 +2851,8 @@ necesarios para la página <em>acerca de</em>:</p>
 <li>Vista</li>
 </ul>
 <p>Añade los siguientes ficheros:</p>
-<p><strong>Controller <code>main/java/madstodolist/controller/HomeController.java</code></strong></p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.controller</span><span class="p">;</span>
+<p><strong>Controller</strong></p>
+<div class="highlight"><span class="filename">main/java/madstodolist/controller/HomeController.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.controller</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Controller</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.ui.Model</span><span class="p">;</span>
@@ -2868,8 +2868,8 @@ necesarios para la página <em>acerca de</em>:</p>
 
 <span class="p">}</span>
 </code></pre></div>
-<p><strong>Vista <code>main/resources/templates/about.html</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<p><strong>Vista</strong>:</p>
+<div class="highlight"><span class="filename">main/resources/templates/about.html</span><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:th</span><span class="o">=</span><span class="s">&quot;http://www.thymeleaf.org&quot;</span><span class="p">&gt;</span>
 
 <span class="p">&lt;</span><span class="nt">head</span> <span class="na">th:replace</span><span class="o">=</span><span class="s">&quot;fragments :: head (titulo=&#39;Acerca de&#39;)&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -2897,8 +2897,8 @@ necesarios para la página <em>acerca de</em>:</p>
 <p><img src="./imagenes/pagina-acerca-de.png" width="400px"/></p>
 <p>Añade un test que automatiza la comprobación de que la URL <code>/about</code>
 debe devolver el nombre de la aplicación.</p>
-<p><strong>Test <code>test/java/madstodolist/AcercaDeWebTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist</span><span class="p">;</span>
+<p><strong>Test</strong>:</p>
+<div class="highlight"><span class="filename">test/java/madstodolist/AcercaDeWebTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
@@ -2929,8 +2929,8 @@ fichero (en el panel del proyecto) y seleccionando la opción <em>Run
 AcercaDeWebTest</em>.</p>
 <p>Puedes lanzar también todos los tests en el terminal para comprobar
 que no se ha roto nada.</p>
-<div class="highlight"><pre><span></span><code>(acerca-de) $ ./mvnw test
-...
+<div class="highlight"><pre><span></span><code><span class="hll">(acerca-de) $ ./mvnw test
+</span>...
 [INFO] 
 [INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
@@ -2941,11 +2941,11 @@ que no se ha roto nada.</p>
 </code></pre></div>
 <p>Por último, confirma el commit en la rama y súbelo a GitHub. En el
 panel <code>Git</code>:</p>
-<div class="highlight"><pre><span></span><code>(acerca-de) $ git add .
-(acerca-de) $ git status (comprueba que se han añadido los ficheros)
-(acerca-de) $ git commit -m &quot;Añadida vista y controller &#39;about&#39;&quot;
-(acerca-de) $ git push
-</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="hll">(acerca-de) $ git add .
+</span><span class="hll">(acerca-de) $ git status (comprueba que se han añadido los ficheros)
+</span><span class="hll">(acerca-de) $ git commit -m &quot;Añadida vista y controller &#39;about&#39;&quot;
+</span><span class="hll">(acerca-de) $ git push
+</span></code></pre></div>
 <h5 id="tercer-commit">Tercer commit<a class="headerlink" href="#tercer-commit" title="Permanent link">&para;</a></h5>
 <p>En el tercer commit pondremos un enlace a la página <em>acerca de</em> en la página de
 login de la aplicación.</p>
@@ -2957,11 +2957,11 @@ login de la aplicación.</p>
 </code></pre></div>
 <p>Prueba que funciona correctamente, prueba los tests, haz el commit y
 súbelo a GitHub:</p>
-<div class="highlight"><pre><span></span><code>(acerca-de) $ git status
-(acerca-de) $ git add .
-(acerca-de) $ git commit -m &quot;Añadido enlace a página &#39;about&#39; en página &#39;login&#39;&quot;
-(acerca-de) $ git push
-</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="hll">(acerca-de) $ git status
+</span><span class="hll">(acerca-de) $ git add .
+</span><span class="hll">(acerca-de) $ git commit -m &quot;Añadido enlace a página &#39;about&#39; en página &#39;login&#39;&quot;
+</span><span class="hll">(acerca-de) $ git push
+</span></code></pre></div>
 <h4 id="pull-request">Pull request<a class="headerlink" href="#pull-request" title="Permanent link">&para;</a></h4>
 <p>Una vez terminada la implementación de la feature en la rama,
 creamos un pull request en GitHub para indicar que estamos listos
@@ -3003,8 +3003,8 @@ indicadas.</p>
 (estando en la rama) para comprobar que no se ha roto nada y que los
 tests que se han añadido pasan correctamente (en este caso no hemos
 añadido ninguno).</p>
-<div class="highlight"><pre><span></span><code>(acerca-de) $ ./mvnw test
-...
+<div class="highlight"><pre><span></span><code><span class="hll">(acerca-de) $ ./mvnw test
+</span>...
 [INFO] 
 [INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
@@ -3093,12 +3093,12 @@ podemos confirmar la mezcla del PR en GitHub.
 <p><img src="./imagenes/merge-pull-request-1.png" width="600px"/></p>
 <p>Este <em>merge</em> lo has hecho en GitHub. Debes por último integrarlo en tu
 repositorio local. En el terminal:</p>
-<div class="highlight"><pre><span></span><code>(acerca-de) $ git checkout main
-(main) $ git pull (bajamos los cambios)
-(main) $ git branch -d acerca-de (borramos la rama)
-(main) $ git remote prune origin (borramos referencias a rama remota)
-(main) $ git log --oneline --graph --all
-    *   9527ae2 (HEAD -&gt; main, origin/main, origin/HEAD) Merge pull request #2 from mads-ua-18/acerca-de
+<div class="highlight"><pre><span></span><code><span class="hll">(acerca-de) $ git checkout main
+</span><span class="hll">(main) $ git pull (bajamos los cambios)
+</span><span class="hll">(main) $ git branch -d acerca-de (borramos la rama)
+</span><span class="hll">(main) $ git remote prune origin (borramos referencias a rama remota)
+</span><span class="hll">(main) $ git log --oneline --graph --all
+</span>    *   9527ae2 (HEAD -&gt; main, origin/main, origin/HEAD) Merge pull request #2 from mads-ua-18/acerca-de
     |\  
     | * 672c28f Añadido enlace a página &#39;about&#39; en página &#39;login&#39;
     | * 3fdfb83 Añadida ruta, vista y controller &#39;about&#39;
@@ -3145,10 +3145,10 @@ los ficheros <code>pom.xml</code> y <code>about.html</code></p>
 }
 </code></pre></div>
 <p>Añadimos el commit y lo subimos a GitHub</p>
-<div class="highlight"><pre><span></span><code>(main) $ git add .
-(main) $ git commit -m &quot;Cambio de versión a 1.0.1&quot;
-(main) $ git push
-</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="hll">(main) $ git add .
+</span><span class="hll">(main) $ git commit -m &quot;Cambio de versión a 1.0.1&quot;
+</span><span class="hll">(main) $ git push
+</span></code></pre></div>
 <p>Y creamos la versión 1.0.1 en GitHub pulsando en el enlace <code>Create a new release</code> en la página principal: </p>
 <p><img src="./imagenes/release-practica1.png" width="700px"/></p>
 <p>Un release en GitHub se guarda como una una etiqueta Git, junto con
