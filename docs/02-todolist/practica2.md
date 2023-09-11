@@ -2428,7 +2428,7 @@ eliminaremos el sufijo.
 
 Realiza el commit y súbelo a GitHub:
    
-```tex hl_lines="1 13 14 15"
+```text hl_lines="1 13 14 15"
 (acerca-de) $ git status (comprobamos los ficheros que han cambiado)
 On branch acerca-de
 Your branch is up to date with 'origin/acerca-de'.
