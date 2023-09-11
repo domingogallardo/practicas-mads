@@ -778,8 +778,7 @@ código todos estos elementos.</p>
 <p>Los distintos parámetros de la aplicación Spring Boot se configuran un
 fichero de propiedades. El fichero de propiedades por defecto es
 <code>application.properties</code>.</p>
-<p><strong>Fichero <code>/src/main/resources/application.properties</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="na">spring.application.name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">mads-todolist</span>
+<div class="highlight"><span class="filename">/src/main/resources/application.properties</span><pre><span></span><code><span class="na">spring.application.name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">mads-todolist</span>
 <span class="na">spring.datasource.url</span><span class="o">=</span><span class="s">jdbc:h2:mem:dev</span>
 <span class="na">spring.jpa.properties.hibernate.dialect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">org.hibernate.dialect.H2Dialect</span>
 <span class="na">spring.jpa.hibernate.ddl-auto</span><span class="o">=</span><span class="s">update</span>
@@ -813,8 +812,7 @@ con la que trabaja la aplicación (la base de datos en memoria H2):</p>
 </ul>
 <p>Los datos iniciales de la aplicación se cargan mediante el servicio
 <code>InitDbService</code>. Sólo se cargan si el perfil activo es <code>dev</code>.</p>
-<p><strong>Fichero <code>/src/main/java/madstodolist/service/InitDbService.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<div class="highlight"><span class="filename">/src/main/java/madstodolist/service/InitDbService.java</span><pre><span></span><code><span class="nd">@Service</span>
 <span class="c1">// Se ejecuta solo si el perfil activo es &#39;dev&#39;</span>
 <span class="nd">@Profile</span><span class="p">(</span><span class="s">&quot;dev&quot;</span><span class="p">)</span>
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">InitDbService</span><span class="w"> </span><span class="p">{</span>
@@ -869,8 +867,7 @@ ejecución de la aplicación Spring Boot qué fichero de configuración
 usar. Lo veremos en la práctica 3.</p>
 <p>En esta práctica se define otra configuración en el directorio de
 test, que es la que se carga cuando se lanzan los tests:</p>
-<p><strong>Fichero <code>src/test/resources/application.properties</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="na">spring.datasource.url</span><span class="o">=</span><span class="s">jdbc:h2:mem:test</span>
+<div class="highlight"><span class="filename">src/test/resources/application.properties</span><pre><span></span><code><span class="na">spring.datasource.url</span><span class="o">=</span><span class="s">jdbc:h2:mem:test</span>
 <span class="na">spring.jpa.properties.hibernate.dialect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">org.hibernate.dialect.H2Dialect</span>
 <span class="na">spring.jpa.hibernate.ddl-auto</span><span class="o">=</span><span class="s">create</span>
 <span class="na">logging.level.org.hibernate.SQL</span><span class="o">=</span><span class="s">debug</span>
@@ -933,8 +930,7 @@ se usará para comparar. En el caso en que la instancia no esté
 vinculada (se acaba de crear o la estamos usando para alguna parte de
 la lógica de negocio y no se va a persistir) se comparan los atributos
 obligatorios (en este caso el correo electrónico).</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/model/Usuario.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.model</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/model/Usuario.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.model</span><span class="p">;</span>
 
 <span class="c1">// Imports </span>
 <span class="p">...</span>
@@ -1018,8 +1014,7 @@ clave ajena. El atributo <code>mappedBy</code> indica que la clave ajena se va a
 guardar en la columna correspondiente con el atributo <code>usuario</code> de la
 entidad <code>Tarea</code>.</p>
 <p>La definición de <code>Tarea</code> es la siguiente:</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/model/Tarea.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.model</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/model/Tarea.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.model</span><span class="p">;</span>
 
 <span class="c1">// Imports</span>
 <span class="p">...</span>
@@ -1157,8 +1152,7 @@ se definen con interfaces.</p>
 interfaces que extienden esta clase genérica. Lo hemos hecho en el package
 <code>repository</code>.</p>
 <p>Por ejemplo, la interfaz <code>UsuarioRepository</code>:</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/repository/UsuarioRepository.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.repository</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/repository/UsuarioRepository.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.repository</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.Usuario</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.data.repository.CrudRepository</span><span class="p">;</span>
@@ -1290,8 +1284,7 @@ envergadura.</p>
 <p>Para poder trabajar con <code>ModelMapper</code> en la aplicación lo declaramos como una
 dependencia en el fichero POM y creamos un <code>Bean</code> de Spring para poder usarlo con
 inyección de dependencias:</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/config/ModelMapperConfig.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.config</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/config/ModelMapperConfig.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.config</span><span class="p">;</span>
 
 <span class="c1">// Imports</span>
 <span class="p">...</span>
@@ -1367,8 +1360,7 @@ anotados con <code>@Transactional</code> actualizar correctamente la base de dat
 conexiones <em>lazy</em> y para garantizar la transaccionalidad.</p>
 <p>Por ejemplo, la clase <code>UsuarioService</code> se define como se muestra a
 continuación.</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/service/UsuarioService.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/service/UsuarioService.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
 
 <span class="c1">// Imports</span>
 <span class="p">...</span>
@@ -1435,8 +1427,7 @@ continuación.</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><strong>Fichero <code>src/main/java/madstodolist/service/UsuarioServiceException.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/service/UsuarioServiceException.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UsuarioServiceException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">RuntimeException</span><span class="w"> </span><span class="p">{</span>
 
@@ -1475,8 +1466,7 @@ a recopilar los datos del usuario en un formato más manejable. </p>
 <p><strong>Ejemplo de <code>LoginController</code></strong></p>
 <p>El siguiente fragmento de código muestra un ejemplo de cómo se implementa un
 controlador en nuestra aplicación: </p>
-<p><strong>Fichero <code>src/main/java/madstodolist/controller/LoginController.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// Importaciones y anotaciones</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/controller/LoginController.java</span><pre><span></span><code><span class="c1">// Importaciones y anotaciones</span>
 <span class="p">...</span>
 
 <span class="nd">@Controller</span>
@@ -1499,8 +1489,7 @@ controlador en nuestra aplicación: </p>
 </code></pre></div>
 <p>Y el siguiente código muestra la implementación de la clase <code>LoginData</code> que se
 usará para recoger los datos del formulario rellenado por el usuario.</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/dto/LoginData.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.dto</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/dto/LoginData.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.dto</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoginData</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">eMail</span><span class="p">;</span>
@@ -1560,8 +1549,7 @@ añadir una tarea al usuario con identificador <code>{id}</code></li>
 página. Para centralizar estos elementos se usa la característica de
 fragmentos de Thymeleaf. Los fragmentos comunes se definen en el
 fichero <code>fragments.html</code>.</p>
-<p><strong>Fichero <code>src/main/resources/templates/fragments.html</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight"><span class="filename">src/main/resources/templates/fragments.html</span><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:th</span><span class="o">=</span><span class="s">&quot;http://www.thymeleaf.org&quot;</span><span class="p">&gt;</span>
 
 <span class="p">&lt;</span><span class="nt">head</span> <span class="na">th:fragment</span><span class="o">=</span><span class="s">&quot;head (titulo)&quot;</span><span class="p">&gt;</span>
@@ -1585,8 +1573,7 @@ y varias librerías JavaScript. Ambos se encuentran en el directorio
 guardan los recursos estáticos de una aplicación Spring Boot.</p>
 <p>La vista principal de la aplicación es el listado de tareas que vemos
 a continuación.</p>
-<p><strong>Fichero <code>src/main/resources/templates/listaTareas.html</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight"><span class="filename">src/main/resources/templates/listaTareas.html</span><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:th</span><span class="o">=</span><span class="s">&quot;http://www.thymeleaf.org&quot;</span><span class="p">&gt;</span>
 
 <span class="p">&lt;</span><span class="nt">head</span> <span class="na">th:replace</span><span class="o">=</span><span class="s">&quot;fragments :: head (titulo=&#39;Login&#39;)&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -1685,8 +1672,7 @@ podemos añadir datos. En el servidor podemos obtener los datos de la
 sesión consultando el diccionario.</p>
 <p>La implementación de la autenticación y del control de acceso se
 realiza con en la clase <code>ManagerUserSesion</code>:</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/authentication/ManagerUserSesion.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.authentication</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/authentication/ManagerUserSesion.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.authentication</span><span class="p">;</span>
 
 <span class="c1">// Imports</span>
 <span class="p">...</span>
@@ -1735,8 +1721,7 @@ script <code>clean-db.sql</code>.</p>
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TareaTest</span><span class="w"> </span><span class="p">{</span>
 <span class="p">...</span>
 </code></pre></div>
-<p><strong>Fichero <code>src/test/resources/clean-db.sql</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/test/resources/clean-db.sql</span><pre><span></span><code><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
 <span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">usuarios</span><span class="p">;</span>
 </code></pre></div>
 <h4 id="tests-de-las-entidades-y-de-la-capa-repository">Tests de las entidades y de la capa repository<a class="headerlink" href="#tests-de-las-entidades-y-de-la-capa-repository" title="Permanent link">&para;</a></h4>
@@ -1746,8 +1731,7 @@ script <code>clean-db.sql</code>.</p>
 <li><code>UsuarioTest.java</code>:</li>
 </ul>
 <p>Veamos, por ejemplo, el fichero <code>TareaTest.java</code>:</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/repository/TareaTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.repository</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/repository/TareaTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.repository</span><span class="p">;</span>
 
 <span class="c1">// Imports</span>
 <span class="p">...</span>
@@ -2013,8 +1997,7 @@ comprueban los resultados.</p>
 correctamente y modifican la base de datos tal y como se pretende en
 cada operación.</p>
 <p>Veamos, por ejemplo, el fichero <code>TareaServiceTest.java</code>:</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/service/TareaServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/service/TareaServiceTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
 
 <span class="c1">// Imports</span>
 <span class="p">...</span>
@@ -2187,11 +2170,10 @@ operación. Por ejemplo, la consulta o modificación de una
 tarea. Mockeamos el <code>managerUserSession</code> para simular que el usuario
 está logeado.</p>
 <p>Mostramos a continuación los ficheros de test de controllers.</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/controller/TareaWebTest.java</code></strong>:</p>
 <p>Para los tests de tareas se añaden datos de prueba a la base de datos y después
 se comprueba que los controllers devuelven páginas HTML que contienen los
 resultados esperados.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.controller</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/controller/TareaWebTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.controller</span><span class="p">;</span>
 
 <span class="c1">// Imports</span>
 <span class="p">...</span>
@@ -2968,8 +2950,7 @@ panel <code>Git</code>:</p>
 <p>En el tercer commit pondremos un enlace a la página <em>acerca de</em> en la página de
 login de la aplicación.</p>
 <p>Realiza el siguiente cambio:</p>
-<p><strong>Fichero <code>formLogin.html</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span>                        &lt;a class=&quot;btn btn-link&quot; href=&quot;/registro&quot;&gt;Ir a registro&lt;/a&gt;
+<div class="highlight"><span class="filename">formLogin.html</span><pre><span></span><code><span class="w"> </span>                        &lt;a class=&quot;btn btn-link&quot; href=&quot;/registro&quot;&gt;Ir a registro&lt;/a&gt;
 <span class="gi">+                        &lt;a class=&quot;btn btn-link&quot; href=&quot;/about&quot;&gt;Acerca de&lt;/a&gt;</span>
 <span class="w"> </span>                    &lt;/div&gt;
 <span class="w"> </span>            &lt;/form&gt;
@@ -3146,14 +3127,12 @@ release 1.1.0.</p>
 release, cuando expliquemos el flujo de trabajo de GitFlow).</p>
 <p>Crea un commit con la confirmación del número de versión y fecha en
 los ficheros <code>pom.xml</code> y <code>about.html</code></p>
-<p><strong>Fichero <code>pom.xml</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span>    &lt;groupId&gt;es.ua.mads&lt;/groupId&gt;
+<div class="highlight"><span class="filename">pom.xml</span><pre><span></span><code><span class="w"> </span>    &lt;groupId&gt;es.ua.mads&lt;/groupId&gt;
 <span class="w"> </span>    &lt;artifactId&gt;mads-todolist-dgallardo&lt;/artifactId&gt;
 <span class="gd">-    &lt;version&gt;1.0.1-SNAPSHOT&lt;/version&gt;</span>
 <span class="gi">+    &lt;version&gt;1.0.1&lt;/version&gt;</span>
 </code></pre></div>
-<p><strong>Fichero <code>about.html</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span>   &lt;h1&gt;ToDo List&lt;/h1&gt;
+<div class="highlight"><span class="filename">about.html</span><pre><span></span><code><span class="w"> </span>   &lt;h1&gt;ToDo List&lt;/h1&gt;
 <span class="w"> </span>       &lt;ul&gt;
 <span class="w"> </span>        &lt;h1&gt;ToDo List&lt;/h1&gt;
 <span class="w"> </span>        &lt;ul&gt;
