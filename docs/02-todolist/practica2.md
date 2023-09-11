@@ -2264,11 +2264,10 @@ como _backlog_ de las historias de usuario que debes realizar en
 la práctica.  Añade en él 3 columnas, tal y se explica en el
 apartado anterior de metodología de desarrollo.
    
-Añade el enlace en la descripción del repositorio GitHub, para que
-el profesor pueda acceder a consultar el estado del proyecto.
+Añade el enlace en el README del repositorio GitHub, para que el profesor pueda
+acceder a consultar el estado del proyecto.
    
 Un ejemplo de tablero es el [Trello del proyecto mads-todolist-inicial](https://trello.com/b/5zWOT6uO/todolist-inicial).
-
 
 Utilizaremos el tablero Trello para documentar las características a
 desarrollar en la aplicación. Deberá haber una tarjeta para cada
@@ -2431,7 +2430,7 @@ eliminaremos el sufijo.
 
 Realiza el commit y súbelo a GitHub:
    
-```text
+```tex hl_lines="1 13 14 15"
 (acerca-de) $ git status (comprobamos los ficheros que han cambiado)
 On branch acerca-de
 Your branch is up to date with 'origin/acerca-de'.
