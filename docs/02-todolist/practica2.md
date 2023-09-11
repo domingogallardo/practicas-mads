@@ -471,21 +471,21 @@ método `size()` de la misma, o convertirla en un objeto DTO (`TareaData`) para 
 controller, tal y como se hace en el código de la aplicación:
 
 ```java
-    @Transactional(readOnly = true)
-    public List<TareaData> allTareasUsuario(Long idUsuario) {
-        logger.debug("Devolviendo todas las tareas del usuario " + idUsuario);
-        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
-        if (usuario == null) {
-            throw new TareaServiceException("Usuario " + idUsuario + " no existe al listar tareas ");
-        }
-        // Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.
-        List<TareaData> tareas = usuario.getTareas().stream()
-                .map(tarea -> modelMapper.map(tarea, TareaData.class))
-                .collect(Collectors.toList());
-        // Ordenamos la lista por id de tarea
-        Collections.sort(tareas, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
-        return tareas;
+@Transactional(readOnly = true)
+public List<TareaData> allTareasUsuario(Long idUsuario) {
+    logger.debug("Devolviendo todas las tareas del usuario " + idUsuario);
+    Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+    if (usuario == null) {
+        throw new TareaServiceException("Usuario " + idUsuario + " no existe al listar tareas ");
     }
+    // Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.
+    List<TareaData> tareas = usuario.getTareas().stream()
+            .map(tarea -> modelMapper.map(tarea, TareaData.class))
+            .collect(Collectors.toList());
+    // Ordenamos la lista por id de tarea
+    Collections.sort(tareas, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return tareas;
+}
 ```
 
 Si devolviéramos al controller directamente una entidad que contiene una
@@ -694,13 +694,13 @@ de servicios de nuestra aplicación.
 Primer ejemplo:
 
 ```java
-    @Transactional(readOnly = true)
-    public TareaData findById(Long tareaId) {
-        logger.debug("Buscando tarea " + tareaId);
-        Tarea tarea = tareaRepository.findById(tareaId).orElse(null);
-        if (tarea == null) return null;
-        else return modelMapper.map(tarea, TareaData.class);
-    }
+@Transactional(readOnly = true)
+public TareaData findById(Long tareaId) {
+    logger.debug("Buscando tarea " + tareaId);
+    Tarea tarea = tareaRepository.findById(tareaId).orElse(null);
+    if (tarea == null) return null;
+    else return modelMapper.map(tarea, TareaData.class);
+}
 ```
 
 En este primer ejemplo, el método `findById` se encarga de buscar una tarea
@@ -711,21 +711,21 @@ la entidad `Tarea` a su representación DTO `TareaData`.
 Segundo ejemplo:
 
 ```java
-    @Transactional(readOnly = true)
-    public List<TareaData> allTareasUsuario(Long idUsuario) {
-        logger.debug("Devolviendo todas las tareas del usuario " + idUsuario);
-        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
-        if (usuario == null) {
-            throw new TareaServiceException("Usuario " + idUsuario + " no existe al listar tareas ");
-        }
-        // Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.
-        List<TareaData> tareas = usuario.getTareas().stream()
-                .map(tarea -> modelMapper.map(tarea, TareaData.class))
-                .collect(Collectors.toList());
-        // Ordenamos la lista por id de tarea
-        Collections.sort(tareas, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
-        return tareas;
+@Transactional(readOnly = true)
+public List<TareaData> allTareasUsuario(Long idUsuario) {
+    logger.debug("Devolviendo todas las tareas del usuario " + idUsuario);
+    Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+    if (usuario == null) {
+        throw new TareaServiceException("Usuario " + idUsuario + " no existe al listar tareas ");
     }
+    // Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.
+    List<TareaData> tareas = usuario.getTareas().stream()
+            .map(tarea -> modelMapper.map(tarea, TareaData.class))
+            .collect(Collectors.toList());
+    // Ordenamos la lista por id de tarea
+    Collections.sort(tareas, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return tareas;
+}
 ```
 
 El segundo ejemplo muestra cómo listar todas las tareas de un usuario
