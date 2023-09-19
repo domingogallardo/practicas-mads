@@ -693,8 +693,8 @@ Para realizar la entrega debes hacer lo siguiente:
   `final`. El formato de la URL debe ser
   `https://hub.docker.com/r/<usuario-docker>/spring-boot-demoapp`.
 - Añadir una página de documentación `doc/practica1.md` en la que se
-  explique la funcionalidad y el código añadido. Incluir en la
-  documentación la URL  de los repositorios en GitHub y en Docker
+  explique brevemente tanto la funcionalidad como la implementación y tests
+  añadidos. Se debe incluir también la URL  de los repositorios en GitHub y en Docker
   Hub. Deberás escribir esta documentación en Markdown. Tienes
   disponible en GitHub una breve pero útil [introducción a
   Markdown](https://guides.github.com/features/mastering-markdown/).
