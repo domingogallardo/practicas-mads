@@ -1168,12 +1168,44 @@ comprobar que los cambios que vamos introduciendo funcionan correctamente.
 
 Para estas pruebas manuales recomendamos utilizar la configuración de
 ejecución trabajando sobre una base de datos con valores
-iniciales. Estos valores iniciales se cargan en la aplicación al
-comenzar.
+iniciales. Como hemos visto en la configuración de la aplicación, estos valores
+iniciales se cargan al arrancar la aplicación cuando el perfil activo es `dev`
+(se configura en la variable `spring.profiles.active` del fichero
+`application.properties`.
 
-En los tests automáticos se cargan los datos de prueba al comienzo de
-cada test y, usando la anotación `@Sql`, se limpian las tablas con el
-script `clean-db.sql`.
+Sin embargo, en los tests automáticos no se activa este perfil, por lo que no se
+carga ningún dato automáticamente. En cada test hay que cargar manualmente los
+datos de prueba al comienzo de cada test. Por ejemplo, el siguiente código:
+
+```java
+
+    // Método para inicializar los datos de prueba en la BD
+    // Devuelve un mapa con los identificadores del usuario y de la primera tarea añadida
+    Map<String, Long> addUsuarioTareasBD() {
+        UsuarioData usuario = new UsuarioData();
+        usuario.setEmail("user@ua");
+        usuario.setPassword("123");
+
+        // Añadimos un usuario a la base de datos
+        UsuarioData usuarioNuevo = usuarioService.registrar(usuario);
+
+        // Y añadimos dos tareas asociadas a ese usuario
+        TareaData tarea1 = tareaService.nuevaTareaUsuario(usuarioNuevo.getId(), "Lavar coche");
+        tareaService.nuevaTareaUsuario(usuarioNuevo.getId(), "Renovar DNI");
+
+        // Devolvemos los ids del usuario y de la primera tarea añadida
+        Map<String, Long> ids = new HashMap<>();
+        ids.put("usuarioId", usuarioNuevo.getId());
+        ids.put("tareaId", tarea1.getId());
+        return ids;
+    }
+```
+
+Es importante que al terminar la ejecución de cada test se limpie la base de
+datos y se borren todos los datos existentes, para que la ejecución de un test
+no interfiera con la de otro. Una forma de hacer esto en SpringBoot es usando la
+anotación `@Sql`, con la que se define un script de SQL a realizar después de
+cada test:
 
 ```java
 @Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
