@@ -2249,17 +2249,32 @@ Para que veas la metodología de desarrollo, vamos a desarrollar una **versión
 de_**. Todo el resto de funcionalidades las deberás incorporar en la **versión
 1.1.0**, que deberás desarrollar durante las cuatro semanas que dura esta práctica.
 
+!!! Important "No hay que hacer versiones 1.0.2, 1.0.3, etc."
+    No, no hay que hacer un release nuevo para cada nueva característica. El
+    milestone 1.1.0 tiene que contener todas las nuevas funcionalidades de la
+    práctica y el release de la versión 1.1.0 se hace al final, cuando se
+    entregue la práctica. La versión 1.0.1 la usamos solo como ejemplo, para
+    explicar el proceso de lanzar una nueva versión. Por ello no hay que hacer
+    versiones 1.0.2, 1.0.3, etc., solo la 1.1.0.
+
 #### Tablero Trello ####
 
 Crea un en Trello un **tablero público** llamado `ToDoList MADS`. Va a servir
 como _backlog_ de las historias de usuario que debes realizar en
 la práctica.  Añade en él 3 columnas, tal y se explica en el
 apartado anterior de metodología de desarrollo.
-   
+
 Añade el enlace en el README del repositorio GitHub, para que el profesor pueda
 acceder a consultar el estado del proyecto.
-   
-Un ejemplo de tablero es el [Trello del proyecto mads-todolist-inicial](https://trello.com/b/5zWOT6uO/todolist-inicial).
+
+!!! Important "El tablero Trello debe ser público"
+    Para evitar tener que gestionar invitaciones de colaboración en tableros
+    Trello, debéis hacer público el tablero. El profesor podrá acceder al
+    tablero a través del enlace en el README del proyecto. El proyecto es
+    privado, por lo que solo vosotros y el profesor tendréis acceso al tablero.
+
+Un ejemplo de tablero es el [Trello del proyecto
+mads-todolist-inicial](https://trello.com/b/5zWOT6uO/todolist-inicial). 
 
 Utilizaremos el tablero Trello para documentar las características a
 desarrollar en la aplicación. Deberá haber una tarjeta para cada
