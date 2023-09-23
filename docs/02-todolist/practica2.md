@@ -2896,7 +2896,13 @@ Y después construir la imagen docker:
 $ docker build -t <usuario-docker>/mads-todolist .
 ```
 
-Sube la máquina a Docker Hub (automáticamente se etiquetara como
+Prueba que la imagen funciona correctamente:
+
+```
+$ docker run --rm -p 8080:8080 <usuario-docker>/mads-todolist
+```
+
+Y sube la máquina a Docker Hub (automáticamente se etiquetara como
 `latest`). Y etiqueta la máquina docker con la versión `1.0.1` y
 súbela también.
 
@@ -2906,13 +2912,6 @@ Using default tag: latest
 $ docker tag <usuario-docker>/mads-todolist <usuario-docker>/mads-todolist:1.0.1
 $ docker push <usuario-docker>/mads-todolist:1.0.1
 ```
-
-Conéctate al servidor de la asignatura, descarga en él la máquina
-Docker y pon en producción la aplicación. Comprueba que todo funciona
-correctamente y después para y borra el contenedor y la imagen.
-
-En clase de prácticas deberás hacer lo mismo y el profesor revisará
-que la aplicación en producción funciona correctamente.
 
 ### Resto de la práctica (versión 1.1.0) ###
 
