@@ -3010,7 +3010,8 @@ palabras.
 Debes suponer que estás trabajando con un equipo de desarrollo y que
 debes dejar una breve documentación para que el resto del equipo sepa
 cómo ha evolucionado la implementación de la aplicación. **No debe ser
-una manual de usuario, no es una documentación para el cliente**.
+una manual de usuario, no es una documentación para el cliente, sino para los
+compañeros desarrolladores del equipo**.
 
 Por ejemplo, la documentación podría contener:
 
