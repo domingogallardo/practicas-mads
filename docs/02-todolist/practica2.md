@@ -2250,7 +2250,7 @@ de_**. Todo el resto de funcionalidades las deberás incorporar en la **versión
 1.1.0**, que deberás desarrollar durante las cuatro semanas que dura esta práctica.
 
 !!! Important "No hay que hacer versiones 1.0.2, 1.0.3, etc."
-    No, no hay que hacer un release nuevo para cada nueva característica. El
+    No hay que hacer un release nuevo para cada nueva característica. El
     milestone 1.1.0 tiene que contener todas las nuevas funcionalidades de la
     práctica y el release de la versión 1.1.0 se hace al final, cuando se
     entregue la práctica. La versión 1.0.1 la usamos solo como ejemplo, para
