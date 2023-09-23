@@ -3216,7 +3216,10 @@ target/mads-todolist-domingogallardo-1.0.1.jar
 <p>Y después construir la imagen docker:</p>
 <div class="highlight"><pre><span></span><code>$ docker build -t &lt;usuario-docker&gt;/mads-todolist .
 </code></pre></div>
-<p>Sube la máquina a Docker Hub (automáticamente se etiquetara como
+<p>Prueba que la imagen funciona correctamente:</p>
+<div class="highlight"><pre><span></span><code>$ docker run --rm -p 8080:8080 &lt;usuario-docker&gt;/mads-todolist
+</code></pre></div>
+<p>Y sube la máquina a Docker Hub (automáticamente se etiquetara como
 <code>latest</code>). Y etiqueta la máquina docker con la versión <code>1.0.1</code> y
 súbela también.</p>
 <div class="highlight"><pre><span></span><code>$ docker push &lt;usuario-docker&gt;/mads-todolist 
@@ -3224,11 +3227,6 @@ Using default tag: latest
 $ docker tag &lt;usuario-docker&gt;/mads-todolist &lt;usuario-docker&gt;/mads-todolist:1.0.1
 $ docker push &lt;usuario-docker&gt;/mads-todolist:1.0.1
 </code></pre></div>
-<p>Conéctate al servidor de la asignatura, descarga en él la máquina
-Docker y pon en producción la aplicación. Comprueba que todo funciona
-correctamente y después para y borra el contenedor y la imagen.</p>
-<p>En clase de prácticas deberás hacer lo mismo y el profesor revisará
-que la aplicación en producción funciona correctamente.</p>
 <h3 id="resto-de-la-practica-version-110">Resto de la práctica (versión 1.1.0)<a class="headerlink" href="#resto-de-la-practica-version-110" title="Permanent link">&para;</a></h3>
 <p>El resto de la práctica consistirá en desarrollar la versión 1.1.0,
 usando la misma metodología vista anteriormente.</p>
