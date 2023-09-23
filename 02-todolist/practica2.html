@@ -1712,11 +1712,39 @@ manuales</strong> de la aplicación, introducir datos en sus pantallas y
 comprobar que los cambios que vamos introduciendo funcionan correctamente.</p>
 <p>Para estas pruebas manuales recomendamos utilizar la configuración de
 ejecución trabajando sobre una base de datos con valores
-iniciales. Estos valores iniciales se cargan en la aplicación al
-comenzar.</p>
-<p>En los tests automáticos se cargan los datos de prueba al comienzo de
-cada test y, usando la anotación <code>@Sql</code>, se limpian las tablas con el
-script <code>clean-db.sql</code>.</p>
+iniciales. Como hemos visto en la configuración de la aplicación, estos valores
+iniciales se cargan al arrancar la aplicación cuando el perfil activo es <code>dev</code>
+(se configura en la variable <code>spring.profiles.active</code> del fichero
+<code>application.properties</code>.</p>
+<p>Sin embargo, en los tests automáticos no se activa este perfil, por lo que no se
+carga ningún dato automáticamente. En cada test hay que cargar manualmente los
+datos de prueba al comienzo de cada test. Por ejemplo, el siguiente código:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="c1">// Método para inicializar los datos de prueba en la BD</span>
+<span class="w">    </span><span class="c1">// Devuelve un mapa con los identificadores del usuario y de la primera tarea añadida</span>
+<span class="w">    </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">addUsuarioTareasBD</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">UsuarioData</span><span class="w"> </span><span class="n">usuario</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UsuarioData</span><span class="p">();</span>
+<span class="w">        </span><span class="n">usuario</span><span class="p">.</span><span class="na">setEmail</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">usuario</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="s">&quot;123&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Añadimos un usuario a la base de datos</span>
+<span class="w">        </span><span class="n">UsuarioData</span><span class="w"> </span><span class="n">usuarioNuevo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usuarioService</span><span class="p">.</span><span class="na">registrar</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Y añadimos dos tareas asociadas a ese usuario</span>
+<span class="w">        </span><span class="n">TareaData</span><span class="w"> </span><span class="n">tarea1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="n">usuarioNuevo</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Lavar coche&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">tareaService</span><span class="p">.</span><span class="na">nuevaTareaUsuario</span><span class="p">(</span><span class="n">usuarioNuevo</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Renovar DNI&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Devolvemos los ids del usuario y de la primera tarea añadida</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ids</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;usuarioId&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">usuarioNuevo</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+<span class="w">        </span><span class="n">ids</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;tareaId&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">tarea1</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ids</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+<p>Es importante que al terminar la ejecución de cada test se limpie la base de
+datos y se borren todos los datos existentes, para que la ejecución de un test
+no interfiera con la de otro. Una forma de hacer esto en SpringBoot es usando la
+anotación <code>@Sql</code>, con la que se define un script de SQL a realizar después de
+cada test:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">executionPhase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TareaTest</span><span class="w"> </span><span class="p">{</span>
 <span class="p">...</span>
@@ -2697,6 +2725,15 @@ deberás desarrollar tu mismo y entregar la versión 1.1.0.</p>
 1.0.1</strong> en la que se implementa la primera característica: <strong>Página <em>Acerca
 de</em></strong>. Todo el resto de funcionalidades las deberás incorporar en la <strong>versión
 1.1.0</strong>, que deberás desarrollar durante las cuatro semanas que dura esta práctica.</p>
+<div class="admonition important">
+<p class="admonition-title">No hay que hacer versiones 1.0.2, 1.0.3, etc.</p>
+<p>No, no hay que hacer un release nuevo para cada nueva característica. El
+milestone 1.1.0 tiene que contener todas las nuevas funcionalidades de la
+práctica y el release de la versión 1.1.0 se hace al final, cuando se
+entregue la práctica. La versión 1.0.1 la usamos solo como ejemplo, para
+explicar el proceso de lanzar una nueva versión. Por ello no hay que hacer
+versiones 1.0.2, 1.0.3, etc., solo la 1.1.0.</p>
+</div>
 <h4 id="tablero-trello">Tablero Trello<a class="headerlink" href="#tablero-trello" title="Permanent link">&para;</a></h4>
 <p>Crea un en Trello un <strong>tablero público</strong> llamado <code>ToDoList MADS</code>. Va a servir
 como <em>backlog</em> de las historias de usuario que debes realizar en
@@ -2704,7 +2741,15 @@ la práctica.  Añade en él 3 columnas, tal y se explica en el
 apartado anterior de metodología de desarrollo.</p>
 <p>Añade el enlace en el README del repositorio GitHub, para que el profesor pueda
 acceder a consultar el estado del proyecto.</p>
-<p>Un ejemplo de tablero es el <a href="https://trello.com/b/5zWOT6uO/todolist-inicial">Trello del proyecto mads-todolist-inicial</a>.</p>
+<div class="admonition important">
+<p class="admonition-title">El tablero Trello debe ser público</p>
+<p>Para evitar tener que gestionar invitaciones de colaboración en tableros
+Trello, debéis hacer público el tablero. El profesor podrá acceder al
+tablero a través del enlace en el README del proyecto. El proyecto es
+privado, por lo que solo vosotros y el profesor tendréis acceso al tablero.</p>
+</div>
+<p>Un ejemplo de tablero es el <a href="https://trello.com/b/5zWOT6uO/todolist-inicial">Trello del proyecto
+mads-todolist-inicial</a>. </p>
 <p>Utilizaremos el tablero Trello para documentar las características a
 desarrollar en la aplicación. Deberá haber una tarjeta para cada
 característica. Cada característica deberá tener un número y un título.</p>
