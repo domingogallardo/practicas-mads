@@ -2877,9 +2877,7 @@ El resultado será:
 
 #### Puesta en producción ####
 
-Debes por último poner en producción la nueva versión, igual que
-hicimos en la práctica 1, creando una imagen Docker, subiéndola a
-Docker Hub y poniéndola en ejecución en el servidor de la asignatura.
+Debes por último poner simular la puesta en producción de la nueva versión.
 
 Para crear la imagen Docker primero debes crear el fichero JAR con la
 aplicación:
@@ -2911,6 +2909,16 @@ $ docker push <usuario-docker>/mads-todolist
 Using default tag: latest
 $ docker tag <usuario-docker>/mads-todolist <usuario-docker>/mads-todolist:1.0.1
 $ docker push <usuario-docker>/mads-todolist:1.0.1
+```
+
+Una vez subida la imagen docker prueba a descargarla en tu máquina y comprobar
+que funciona correctamente.
+
+```
+$ docker image ls -a
+$ docker image rm <id-imagen>
+$ docker pull <usuario-docker>/mads-todolist:1.0.1
+$ docker run --rm -p 8080:8080 <usuario-docker>/mads-todolist
 ```
 
 ### Resto de la práctica (versión 1.1.0) ###
