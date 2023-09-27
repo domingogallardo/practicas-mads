@@ -3204,9 +3204,7 @@ añadidos. </p>
 <p>El resultado será:</p>
 <p><img src="./imagenes/release-practica1-terminado.png" width="400px"/></p>
 <h4 id="puesta-en-produccion">Puesta en producción<a class="headerlink" href="#puesta-en-produccion" title="Permanent link">&para;</a></h4>
-<p>Debes por último poner en producción la nueva versión, igual que
-hicimos en la práctica 1, creando una imagen Docker, subiéndola a
-Docker Hub y poniéndola en ejecución en el servidor de la asignatura.</p>
+<p>Debes por último poner simular la puesta en producción de la nueva versión.</p>
 <p>Para crear la imagen Docker primero debes crear el fichero JAR con la
 aplicación:</p>
 <div class="highlight"><pre><span></span><code>$ ./mvnw package
@@ -3226,6 +3224,13 @@ súbela también.</p>
 Using default tag: latest
 $ docker tag &lt;usuario-docker&gt;/mads-todolist &lt;usuario-docker&gt;/mads-todolist:1.0.1
 $ docker push &lt;usuario-docker&gt;/mads-todolist:1.0.1
+</code></pre></div>
+<p>Una vez subida la imagen docker prueba a descargarla en tu máquina y comprobar
+que funciona correctamente.</p>
+<div class="highlight"><pre><span></span><code>$ docker image ls -a
+$ docker image rm &lt;id-imagen&gt;
+$ docker pull &lt;usuario-docker&gt;/mads-todolist:1.0.1
+$ docker run --rm -p 8080:8080 &lt;usuario-docker&gt;/mads-todolist
 </code></pre></div>
 <h3 id="resto-de-la-practica-version-110">Resto de la práctica (versión 1.1.0)<a class="headerlink" href="#resto-de-la-practica-version-110" title="Permanent link">&para;</a></h3>
 <p>El resto de la práctica consistirá en desarrollar la versión 1.1.0,
