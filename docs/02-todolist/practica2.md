@@ -2653,7 +2653,10 @@ sólo `#` verás una lista de los últimos issues.
 
 De esta forma estamos enlazando el PR con el issue. Cuando se cierre
 el pull request se cerrará automáticamente el issue. También podremos
-acceder desde el issue al PR enlazado.
+acceder desde el issue al PR enlazado. Lo puedes comprobar en la pantalla del
+issue, en la columna de la derecha, en el apartado denominado _Development_,
+donde aparece el texto _Successfully merging a pull request may close this
+issue_ y, bajo este texto, el PR enlazado.
 
 Pulsa en el botón para crear el pull request. Debe quedar la
 siguiente pantalla en la que informa del PR recién creado:
@@ -2661,8 +2664,8 @@ siguiente pantalla en la que informa del PR recién creado:
 <img src="./imagenes/pull-request-practica.png" width="700px"/>
 
 En el proyecto mueve la tarjeta con el issue a la columna `In
-Pull Request`. Verás que se ha añadido en la parte inferior de la
-tarjeta un desplegable con la información sobre el PR enlazado.
+Pull Request`. Pinchando en el nombre del issue se abre un panel en el que
+puedes comprobar toda su información, incluyendo el PR enlazado.
 
 <img src="./imagenes/movido-a-in-pull-request.png" width="700px"/>
 
