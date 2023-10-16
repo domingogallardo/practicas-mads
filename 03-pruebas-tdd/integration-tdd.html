@@ -862,12 +862,12 @@ naranja significa que el proceso está en ejecución.</p>
 <ul>
 <li>
 <p>Crea un <em>issue</em> llamado <code>Integración continua con GitHub
-  Actions</code>. Abre una rama <code>integracion-continua-actions</code>, súbela a GitHub y abre un pull
-  request.</p>
+  Actions</code>. Abre una rama <code>integracion-continua-actions</code> y súbela a GitHub. </p>
 </li>
 <li>
-<p>Añade el fichero <code>.github/workflows/developer-tests.yml</code>. Haz un
-  commit y súbelo a GitHub.</p>
+<p>Añade el fichero anterior <code>.github/workflows/developer-tests.yml</code>. Haz un
+  commit, súbelo a GitHub y abre un pull request con el nombre `Integración
+ continua con GitHub Actions".</p>
 </li>
 <li>
 <p>Comprueba que se pasan los tests y que se marca como correcto el
@@ -894,6 +894,9 @@ $ (main) git remote prune origin
 </code></pre></div>
 </li>
 </ul>
+<p>En el listado de commits de la rama <code>main</code> aparecerá junto a cada commit el
+indicador de si en ese commit los tests han pasado correctamente o no.</p>
+<p><img src="imagenes/listado-commits.png" width="600px"/></p>
 <h2 id="3-configuracion-de-la-aplicacion-para-usar-una-bd-postgresql">3. Configuración de la aplicación para usar una BD PostgreSQL<a class="headerlink" href="#3-configuracion-de-la-aplicacion-para-usar-una-bd-postgresql" title="Permanent link">&para;</a></h2>
 <p>Hasta ahora hemos trabajado con la aplicación en una configuración
 local con nuestro ordenador de desarrollo trabajando sobre una base de
