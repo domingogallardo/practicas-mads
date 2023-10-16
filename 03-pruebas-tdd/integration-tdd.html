@@ -808,8 +808,7 @@ el <em>merge</em> del PR en main.</p>
 <p>Para configurar GitHub Actions basta con añadir un fichero de flujo de
 trabajo en el directorio <code>.github/workflows</code>.</p>
 <p>El fichero con el flujo de trabajo inicial lo llamaremos <code>developer-tests.yml</code>:</p>
-<p><strong>Fichero <code>.github/workflows/developer-tests.yml</code></strong></p>
-<div class="highlight"><pre><span></span><code>name: Tests
+<div class="highlight"><span class="filename">.github/workflows/developer-tests.yml</span><pre><span></span><code>name: Tests
 
 on: push
 
@@ -1175,8 +1174,7 @@ variables con unos valores por defecto que se pueden modificar
 definiendo su valor en variables de entorno con el mismo nombre.</p>
 <p>En concreto, definimos las variables <code>POSTGRES_HOST</code>, <code>POSTGRES_PORT</code>,
 <code>DB_USER</code> y <code>DB_PASSWD</code>.</p>
-<p><strong>Fichero <code>src/test/resources/application-postgres.properties</code></strong>:</p>
-<div class="highlight"><pre><span></span><code>POSTGRES_HOST=localhost
+<div class="highlight"><span class="filename">src/test/resources/application-postgres.properties</span><pre><span></span><code>POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 DB_USER=mads
 DB_PASSWD=mads
@@ -1186,8 +1184,7 @@ spring.datasource.password=${DB_PASSWD}
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
 </code></pre></div>
 <p>Ya podemos añadir un nuevo fichero de flujo de trabajo. Lo llamamos <code>integration-tests.yml</code></p>
-<p><strong>Fichero <code>.github/workflows/integration-tests.yml</code></strong>:</p>
-<div class="highlight"><pre><span></span><code>name: Integration tests
+<div class="highlight"><span class="filename">.github/workflows/integration-tests.yml</span><pre><span></span><code>name: Integration tests
 
 on: push
 
@@ -1401,8 +1398,7 @@ implementar por ti mismo. </p>
 <h4 id="primer-commit-clase-equipo">Primer commit - Clase <code>Equipo</code><a class="headerlink" href="#primer-commit-clase-equipo" title="Permanent link">&para;</a></h4>
 <p>El primer test es para crear la entidad <code>Equipo</code>. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/EquipoTest.java</code></strong>:
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
@@ -1421,7 +1417,7 @@ creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 <span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></p>
+</code></pre></div>
 <p>Escribe el código necesario para que pase el test. <strong>No debes escribir
 código de más, sólo el código mínimo para que el test pase</strong>. </p>
 <p>Haz un <em>commit</em> que contenga el test y el código y súbelo a la rama
@@ -1479,8 +1475,7 @@ como se hace en las clases de servicio de <code>Tarea</code> y <code>Usuario</co
 </code></pre></div>
 <p>Actualizamos también el fichero <code>clean-db.sql</code> para que se borre la
 tabla <code>equipos</code> al final de cada test.</p>
-<p><strong>Fichero <code>src/test/resources/clean-db.sql</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/test/resources/clean-db.sql</span><pre><span></span><code><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
 <span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">equipos</span><span class="p">;</span>
 <span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">usuarios</span><span class="p">;</span>
 </code></pre></div>
@@ -1582,8 +1577,7 @@ costosa, traería a memoria todos sus usuarios (con sus tareas incluidas).</p>
 guardar la relación, e indicamos el papel de cada una de sus dos
 columnas.</p>
 <p>También creamos el getter para obtener los usuarios. </p>
-<p><strong>Fichero <code>src/main/java/madstodolist/model/Equipo.java</code></strong>:
-<div class="highlight"><pre><span></span><code><span class="gi">+    private String nombre;</span>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/model/Equipo.java</span><pre><span></span><code><span class="gi">+    private String nombre;</span>
 <span class="gi">+    // Declaramos el tipo de recuperación como LAZY.</span>
 <span class="gi">+    // No haría falta porque es el tipo por defecto en una</span>
 <span class="gi">+    // relación a muchos.</span>
@@ -1608,14 +1602,13 @@ columnas.</p>
 <span class="gi">+    public Set&lt;Usuario&gt; getUsuarios() {</span>
 <span class="gi">+        return usuarios;</span>
 <span class="gi">+    }</span>
-</code></pre></div></p>
+</code></pre></div>
 <p>En el fichero <code>Usuario.java</code> definimos la parte inversa de la
 relación. El <code>mappedBy</code> indica que la especificación de la tabla join
 está en el otro lado de la relación. Esta relación la definimos como
 <code>EAGER</code> porque el otro lado de la relación es <code>LAZY</code>. Al recuperar un
 usuario solo se van a traer a memoria la información de sus equipos.</p>
-<p><strong>Fichero <code>src/main/java/madstodolist/model/Usuario.java</code></strong>:
-<div class="highlight"><pre><span></span><code><span class="w"> </span>   @OneToMany(mappedBy = &quot;usuario&quot;, fetch = FetchType.EAGER)
+<div class="highlight"><span class="filename">src/main/java/madstodolist/model/Usuario.java</span><pre><span></span><code><span class="w"> </span>   @OneToMany(mappedBy = &quot;usuario&quot;, fetch = FetchType.EAGER)
 <span class="w"> </span>   Set&lt;Tarea&gt; tareas = new HashSet&lt;&gt;();
 
 <span class="gi">+    @ManyToMany(mappedBy = &quot;usuarios&quot;)</span>
@@ -1626,7 +1619,7 @@ usuario solo se van a traer a memoria la información de sus equipos.</p>
 <span class="gi">+    public Set&lt;Equipo&gt; getEquipos() {</span>
 <span class="gi">+        return equipos;</span>
 <span class="gi">+    }</span>
-</code></pre></div></p>
+</code></pre></div>
 <p>Y por último añadimos en <code>Equipo.java</code> el método que actualiza ambos
 lados de la relación. Añade el usuario a la colección de usuarios del
 equipo y añade el equipo a la colección de equipos del usuario.</p>
@@ -1637,8 +1630,7 @@ equipo y añade el equipo a la colección de equipos del usuario.</p>
 </code></pre></div>
 <p>También actualizamos el fichero de limpieza de datos al final de cada
 test, para añadir la nueva tabla <code>equipo_usuario</code>.</p>
-<p><strong>Fichero <code>src/test/resources/clean-db.sql</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">equipo_usuario</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/test/resources/clean-db.sql</span><pre><span></span><code><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">equipo_usuario</span><span class="p">;</span>
 <span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
 <span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">equipos</span><span class="p">;</span>
 <span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">usuarios</span><span class="p">;</span>
@@ -1667,8 +1659,7 @@ sea <em>List</em>.</p>
 p<code>EquipoRepository</code>, definiendo el tipo devuelto como <em>List</em>. Spring
 Boot se encarga de construir automáticamente la implementación de este
 método.</p>
-<p><strong>Fichero <code>EquipoRepository.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="gi">+ import java.util.List;</span>
+<div class="highlight"><span class="filename">EquipoRepository.java</span><pre><span></span><code><span class="gi">+ import java.util.List;</span>
 
 public interface EquipoRepository extends CrudRepository&lt;Equipo, Long&gt; {
 <span class="gi">+     public List&lt;Equipo&gt; findAll();</span>
@@ -1687,8 +1678,7 @@ controller a los métodos de servicio no se usará la anotación
 <code>@Transactional</code> para evitar en el código del controller se pueda
 acceder a los objetos repository y modificar directamente la base de
 datos.</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.Equipo</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.service.EquipoService</span><span class="p">;</span>
@@ -1719,8 +1709,7 @@ datos.</p>
 <p>Para que funcione correctamente el test tenemos que crear la clase
 <code>EquipoService</code> con los métodos <code>crearEquipo</code> y
 <code>recuperarEquipo</code>. Completa el código en los lugares indicados.</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.Equipo</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.EquipoRepository</span><span class="p">;</span>
@@ -1760,8 +1749,7 @@ base de datos.</p>
 <p>Añadimos el test que obliga a crear el método de servicio que recupera
 la lista de equipos existentes, ordenada por orden alfabético del
 nombre del equipo:</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">listadoEquiposOrdenAlfabetico</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// GIVEN</span>
 <span class="w">        </span><span class="c1">// Dos equipos en la base de datos</span>
@@ -1834,8 +1822,7 @@ diseño:</p>
 <p>Vamos a comprobar que la relación entre equipos y usuarios es
 <code>LAZY</code>. Para ello debemos comprobar que se lanza una excepción cuando
 se intenta acceder a la colección de usuarios de un equipo recuperado:</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">accesoUsuariosGeneraExcepcion</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// Given</span>
 <span class="w">        </span><span class="c1">// Un equipo en la base de datos</span>
@@ -1860,8 +1847,7 @@ servicio para añadir un usuario a un equipo. Para comprobar su
 funcionamiento deberemos implementar también el método de servicio
 para recuperar los usuarios de un equipo.</p>
 <p>El test es el siguiente.</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">actualizarRecuperarUsuarioEquipo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// GIVEN</span>
 <span class="w">        </span><span class="c1">// Un equipo creado en la base de datos y un usuario registrado</span>
@@ -1889,8 +1875,7 @@ forma <em>eager</em> sus equipos. Si recuperamos un usuario con cualquier
 método de servicio (por ejemplo, <code>usuarioService.findById</code>), el
 usuario debe ser devuelto con la colección con sus equipos
 actualizada.</p>
-<p><strong>Fichero <code>src/test/java/madstodolist/EquipoServiceTest.java</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">comprobarRelacionUsuarioEquipos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// GIVEN</span>
 <span class="w">        </span><span class="c1">// Un equipo creado en la base de datos y un usuario registrado</span>
