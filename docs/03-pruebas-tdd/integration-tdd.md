@@ -78,9 +78,7 @@ trabajo en el directorio `.github/workflows`.
 
 El fichero con el flujo de trabajo inicial lo llamaremos `developer-tests.yml`:
 
-**Fichero `.github/workflows/developer-tests.yml`**
-
-```yml
+```yml title=".github/workflows/developer-tests.yml"
 name: Tests
 
 on: push
@@ -510,9 +508,7 @@ definiendo su valor en variables de entorno con el mismo nombre.
 En concreto, definimos las variables `POSTGRES_HOST`, `POSTGRES_PORT`,
 `DB_USER` y `DB_PASSWD`.
 
-**Fichero `src/test/resources/application-postgres.properties`**:
-
-```
+```title="src/test/resources/application-postgres.properties"
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 DB_USER=mads
@@ -525,9 +521,7 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Diale
 
 Ya podemos añadir un nuevo fichero de flujo de trabajo. Lo llamamos `integration-tests.yml`
 
-**Fichero `.github/workflows/integration-tests.yml`**:
-
-```yml
+```yml title=".github/workflows/integration-tests.yml"
 name: Integration tests
 
 on: push
@@ -757,8 +751,7 @@ implementar por ti mismo.
 El primer test es para crear la entidad `Equipo`. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo
 
-**Fichero `src/test/java/madstodolist/EquipoTest.java`**:
-```java
+```java title="src/test/java/madstodolist/EquipoTest.java"
 package madstodolist;
 
 import org.junit.jupiter.api.Test;
@@ -848,9 +841,7 @@ como se hace en las clases de servicio de `Tarea` y `Usuario`.
 Actualizamos también el fichero `clean-db.sql` para que se borre la
 tabla `equipos` al final de cada test.
 
-**Fichero `src/test/resources/clean-db.sql`**:
-
-```sql
+```sql title="src/test/resources/clean-db.sql"
 DELETE FROM tareas;
 DELETE FROM equipos;
 DELETE FROM usuarios;
@@ -971,8 +962,7 @@ columnas.
 
 También creamos el getter para obtener los usuarios. 
 
-**Fichero `src/main/java/madstodolist/model/Equipo.java`**:
-```diff
+```diff title="src/main/java/madstodolist/model/Equipo.java"
 +    private String nombre;
 +    // Declaramos el tipo de recuperación como LAZY.
 +    // No haría falta porque es el tipo por defecto en una
@@ -1006,8 +996,7 @@ está en el otro lado de la relación. Esta relación la definimos como
 `EAGER` porque el otro lado de la relación es `LAZY`. Al recuperar un
 usuario solo se van a traer a memoria la información de sus equipos.
 
-**Fichero `src/main/java/madstodolist/model/Usuario.java`**:
-```diff
+```diff title="src/main/java/madstodolist/model/Usuario.java"
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     Set<Tarea> tareas = new HashSet<>();
 
@@ -1035,9 +1024,7 @@ equipo y añade el equipo a la colección de equipos del usuario.
 También actualizamos el fichero de limpieza de datos al final de cada
 test, para añadir la nueva tabla `equipo_usuario`.
 
-**Fichero `src/test/resources/clean-db.sql`**:
-
-```sql
+```sql title="src/test/resources/clean-db.sql"
 DELETE FROM equipo_usuario;
 DELETE FROM tareas;
 DELETE FROM equipos;
@@ -1074,9 +1061,7 @@ p`EquipoRepository`, definiendo el tipo devuelto como _List_. Spring
 Boot se encarga de construir automáticamente la implementación de este
 método.
 
-**Fichero `EquipoRepository.java`**:
-
-```diff
+```diff title="EquipoRepository.java"
 + import java.util.List;
 
 public interface EquipoRepository extends CrudRepository<Equipo, Long> {
@@ -1102,9 +1087,7 @@ controller a los métodos de servicio no se usará la anotación
 acceder a los objetos repository y modificar directamente la base de
 datos.
 
-**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
-
-```java
+```java title="src/test/java/madstodolist/EquipoServiceTest.java"
 package madstodolist;
 
 import madstodolist.model.Equipo;
@@ -1138,9 +1121,7 @@ Para que funcione correctamente el test tenemos que crear la clase
 `EquipoService` con los métodos `crearEquipo` y
 `recuperarEquipo`. Completa el código en los lugares indicados.
 
-**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
-
-```java
+```java title="src/test/java/madstodolist/EquipoServiceTest.java"
 package madstodolist.service;
 
 import madstodolist.model.Equipo;
@@ -1188,9 +1169,7 @@ Añadimos el test que obliga a crear el método de servicio que recupera
 la lista de equipos existentes, ordenada por orden alfabético del
 nombre del equipo:
 
-**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
-
-```java
+```java title="src/test/java/madstodolist/EquipoServiceTest.java"
     @Test
     public void listadoEquiposOrdenAlfabetico() {
         // GIVEN
@@ -1265,9 +1244,7 @@ Vamos a comprobar que la relación entre equipos y usuarios es
 `LAZY`. Para ello debemos comprobar que se lanza una excepción cuando
 se intenta acceder a la colección de usuarios de un equipo recuperado:
 
-**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
-
-```java
+```java title="src/test/java/madstodolist/EquipoServiceTest.java"
     @Test
     public void accesoUsuariosGeneraExcepcion() {
         // Given
@@ -1299,9 +1276,7 @@ para recuperar los usuarios de un equipo.
 
 El test es el siguiente.
 
-**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
-
-```java
+```java title="src/test/java/madstodolist/EquipoServiceTest.java"
     @Test
     public void actualizarRecuperarUsuarioEquipo() {
         // GIVEN
@@ -1334,9 +1309,7 @@ método de servicio (por ejemplo, `usuarioService.findById`), el
 usuario debe ser devuelto con la colección con sus equipos
 actualizada.
 
-**Fichero `src/test/java/madstodolist/EquipoServiceTest.java`**:
-
-```java
+```java title="src/test/java/madstodolist/EquipoServiceTest.java"
     @Test
     public void comprobarRelacionUsuarioEquipos() {
         // GIVEN
