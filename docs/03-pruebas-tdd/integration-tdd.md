@@ -158,7 +158,15 @@ naranja significa que el proceso está en ejecución.
 
 - Cierra el _pull request_, mezclándolo con `main`. Se volverán a
   lanzar los tests en GitHub y el commit aparecerá marcado como
-  correcto. Baja los cambios al repositorio local y borra la rama.
+  correcto. 
+  
+    En el listado de commits de la rama `main` aparecerá junto a cada commit el
+    indicador de si en ese commit los tests han pasado correctamente o no. 
+
+    <img src="imagenes/listado-commits.png" width="600px"/>
+
+  
+- Baja los cambios al repositorio local y borra la rama.
 
     ```
     $ (integracion-continua-actions) git checkout main
@@ -166,11 +174,6 @@ naranja significa que el proceso está en ejecución.
     $ (main) git branch -d integracion-continua-actions
     $ (main) git remote prune origin
     ```
-
-En el listado de commits de la rama `main` aparecerá junto a cada commit el
-indicador de si en ese commit los tests han pasado correctamente o no.
-
-<img src="imagenes/listado-commits.png" width="600px"/>
 
 ## 3. Configuración de la aplicación para usar una BD PostgreSQL ##
 
