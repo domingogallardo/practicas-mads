@@ -2539,8 +2539,8 @@ debe devolver el nombre de la aplicación.
 
 **Test**:
 
-```java title="test/java/madstodolist/AcercaDeWebTest.java"
-package madstodolist;
+```java title="test/java/madstodolist/controller/AcercaDeWebTest.java"
+package madstodolist.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2850,7 +2850,7 @@ los ficheros `pom.xml` y `about.html`
 -            <li>Versión 1.0.1 (en desarrollo)</li>
 -            <li>Fecha de release: pendiente de release</li>
 +            <li>Versión 1.0.1</li>
-+            <li>Fecha de release: 17/9/2018</li>
++            <li>Fecha de release: 25/9/2023</li>
          </ul>
 }
 ```
@@ -3016,7 +3016,7 @@ se gestionan los accesos a las páginas de tareas sin estar logeado).
 
 Deberás añadir una página documentación `/doc/practica2.md` en la que
 debes realizar una breve **documentación técnica** de entre 500 y 800
-palabras.
+palabras (excluyendo el código fuente).
 
 Debes suponer que estás trabajando con un equipo de desarrollo y que
 debes dejar una breve documentación para que el resto del equipo sepa

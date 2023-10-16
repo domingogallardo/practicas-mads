@@ -119,17 +119,18 @@ en repositorios y ramas remotas.
   a ella
 
     ```
-    $ git pull
-    (se descarga la rama nueva que hay en el repositorio remoto)
-    $ git checkout nueva-rama 
+    $ (main) git pull
+    $ (main) git branch -r (comprobamos las ramas remotas)
+    $ (main) git checkout nueva-rama 
+    $ (nueva-rama)
     ```
 
 - Subir cambios de la rama remota:
 
     ```
-    $ git add .
-    $ git commit -m "Mis cambios"
-    $ git push
+    $ (nueva-rama) git add .
+    $ (nueva-rama) git commit -m "Mis cambios"
+    $ (nueva-rama) git push
     ```
 
     Si somos nosotros los que hemos creado la rama, hay que
@@ -137,7 +138,7 @@ en repositorios y ramas remotas.
     haciendo:
     
     ```
-    $ git push -u origin nueva-rama
+    $ (nueva-rama) git push -u origin nueva-rama
     ```
     
     Si algún compañero ha subido cambios a la rama remota que tenemos
@@ -145,7 +146,7 @@ en repositorios y ramas remotas.
     error en el que nos indica que debemos hacer antes un `git pull`:
     
     ```
-    % git push
+    % (nueva-rama) git push
     To https://github.com/domingogallardo/prueba-clase.git
     ! [rejected]        prueba2 -> prueba2 (fetch first)
     error: falló el push de algunas referencias a 'https://github.com/domingogallardo/prueba-clase.git'
@@ -158,7 +159,7 @@ en repositorios y ramas remotas.
     Puede ser que al hacer `git pull` nos aparezca el siguiente mensaje de error:
     
     ```
-    % git pull
+    % (nueva-rama) git pull
     ayuda: Hacer un pull sin especificar cómo reconciliar las ramas es poco
     ayuda: recomendable. Puedes eliminar este mensaje usando uno de los
     ayuda: siguientes comandos antes de tu siguiente pull:
@@ -179,14 +180,14 @@ en repositorios y ramas remotas.
     primera opción, que no se haga un rebase sino un merge:
     
     ```
-    $ git config pull.rebase false
+    $ (nueva-rama) git config pull.rebase false
     ```
     
     Ahora ya funciona el `git pull` (hará un merge de la rama remota
     con la rama local):
-    
+    n
     ```
-    $ git pull
+    $ (nueva-rama) git pull
     (aparecerá un editor en el que tenemos que especificar el mensaje
     del commit de merge, grabar y salir)
     ```
@@ -195,7 +196,7 @@ en repositorios y ramas remotas.
     commit de merge:
     
     ```
-    $ git push
+    $ (nueva-rama) git push
     ```
     
     
