@@ -878,26 +878,27 @@ $ git push -u origin nueva-rama
 <li>
 <p>Descargar por primera vez una rama del repositorio remoto y moverse
   a ella</p>
-<div class="highlight"><pre><span></span><code>$ git pull
-(se descarga la rama nueva que hay en el repositorio remoto)
-$ git checkout nueva-rama 
+<div class="highlight"><pre><span></span><code>$ (main) git pull
+$ (main) git branch -r (comprobamos las ramas remotas)
+$ (main) git checkout nueva-rama 
+$ (nueva-rama)
 </code></pre></div>
 </li>
 <li>
 <p>Subir cambios de la rama remota:</p>
-<div class="highlight"><pre><span></span><code>$ git add .
-$ git commit -m &quot;Mis cambios&quot;
-$ git push
+<div class="highlight"><pre><span></span><code>$ (nueva-rama) git add .
+$ (nueva-rama) git commit -m &quot;Mis cambios&quot;
+$ (nueva-rama) git push
 </code></pre></div>
 <p>Si somos nosotros los que hemos creado la rama, hay que
 configurarla para que funcione correctamente el <code>git push</code>
 haciendo:</p>
-<div class="highlight"><pre><span></span><code>$ git push -u origin nueva-rama
+<div class="highlight"><pre><span></span><code>$ (nueva-rama) git push -u origin nueva-rama
 </code></pre></div>
 <p>Si algún compañero ha subido cambios a la rama remota que tenemos
 pendientes de descargar, al hacer un <code>git push</code> tendremos un
 error en el que nos indica que debemos hacer antes un <code>git pull</code>:</p>
-<div class="highlight"><pre><span></span><code>% git push
+<div class="highlight"><pre><span></span><code>% (nueva-rama) git push
 To https://github.com/domingogallardo/prueba-clase.git
 ! [rejected]        prueba2 -&gt; prueba2 (fetch first)
 error: falló el push de algunas referencias a &#39;https://github.com/domingogallardo/prueba-clase.git&#39;
@@ -907,7 +908,7 @@ ayuda: realizando push a la misma ref. Quizás quieras integrar primero los camb
 ayuda: remotos (ej. &#39;git pull ...&#39;) antes de volver a hacer push.
 </code></pre></div>
 <p>Puede ser que al hacer <code>git pull</code> nos aparezca el siguiente mensaje de error:</p>
-<div class="highlight"><pre><span></span><code>% git pull
+<div class="highlight"><pre><span></span><code>% (nueva-rama) git pull
 ayuda: Hacer un pull sin especificar cómo reconciliar las ramas es poco
 ayuda: recomendable. Puedes eliminar este mensaje usando uno de los
 ayuda: siguientes comandos antes de tu siguiente pull:
@@ -925,17 +926,18 @@ fatal: Necesita especificar cómo reconciliar las ramas divergentes.
 <p>Debemos especificar entonces cómo se van a mezclar los cambios que se bajan
 de la rama remota con los cambios locales. Para ello elegimos la
 primera opción, que no se haga un rebase sino un merge:</p>
-<div class="highlight"><pre><span></span><code>$ git config pull.rebase false
+<div class="highlight"><pre><span></span><code>$ (nueva-rama) git config pull.rebase false
 </code></pre></div>
 <p>Ahora ya funciona el <code>git pull</code> (hará un merge de la rama remota
-con la rama local):</p>
-<div class="highlight"><pre><span></span><code>$ git pull
+con la rama local):
+n
+<div class="highlight"><pre><span></span><code>$ (nueva-rama) git pull
 (aparecerá un editor en el que tenemos que especificar el mensaje
 del commit de merge, grabar y salir)
-</code></pre></div>
+</code></pre></div></p>
 <p>Y ahora ya podemos hacer <code>push</code>. Se subirán nuestros cambios y el
 commit de merge:</p>
-<div class="highlight"><pre><span></span><code>$ git push
+<div class="highlight"><pre><span></span><code>$ (nueva-rama) git push
 </code></pre></div>
 </li>
 <li>
