@@ -139,11 +139,11 @@ naranja significa que el proceso está en ejecución.
 ### Pasos a seguir ###
 
 - Crea un _issue_ llamado `Integración continua con GitHub
-  Actions`. Abre una rama `integracion-continua-actions`, súbela a GitHub y abre un pull
-  request.
-
-- Añade el fichero `.github/workflows/developer-tests.yml`. Haz un
-  commit y súbelo a GitHub.
+  Actions`. Abre una rama `integracion-continua-actions` y súbela a GitHub. 
+  
+- Añade el fichero anterior `.github/workflows/developer-tests.yml`. Haz un
+  commit, súbelo a GitHub y abre un pull request con el nombre `Integración
+ continua con GitHub Actions".
 
 - Comprueba que se pasan los tests y que se marca como correcto el
   _pull request_.
@@ -167,7 +167,10 @@ naranja significa que el proceso está en ejecución.
     $ (main) git remote prune origin
     ```
 
+En el listado de commits de la rama `main` aparecerá junto a cada commit el
+indicador de si en ese commit los tests han pasado correctamente o no.
 
+<img src="imagenes/listado-commits.png" width="600px"/>
 
 ## 3. Configuración de la aplicación para usar una BD PostgreSQL ##
 
