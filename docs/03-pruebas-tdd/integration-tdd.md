@@ -1018,7 +1018,6 @@ Y por último añadimos el método que actualiza ambos lados de la relación. El
 método debe añadir el usuario a la colección de usuarios del equipo y añadir el
 equipo a la colección de equipos del usuario.
 
-
 ```java title="src/main/java/madstodolist/model/Equipo.java"
 
 // ... resto de imports
@@ -1056,6 +1055,8 @@ public class Equipo implements Serializable {
     }
 
     public void addUsuario(Usuario usuario) {
+        // Hay que actualiar ambas colecciones, porque
+        // JPA/Hibernate no lo hace automáticamente
         this.getUsuarios().add(usuario);
         usuario.getEquipos().add(this);
     }
