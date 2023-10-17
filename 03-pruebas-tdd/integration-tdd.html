@@ -1412,7 +1412,7 @@ $ git push -u origin servicio-equipos
 <p>Este primer <em>issue</em> lo haremos de forma guiada usando TDD con los
 tests que enumeraremos a continuación. El otro <em>issue</em> lo deberás
 implementar por ti mismo. </p>
-<h4 id="primer-commit-clase-equipo">Primer commit - Clase <code>Equipo</code><a class="headerlink" href="#primer-commit-clase-equipo" title="Permanent link">&para;</a></h4>
+<h4 id="primer-test-clase-equipo">Primer Test - Clase <code>Equipo</code><a class="headerlink" href="#primer-test-clase-equipo" title="Permanent link">&para;</a></h4>
 <p>El primer test es para crear la entidad <code>Equipo</code>. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 <div class="highlight"><span class="filename">src/test/java/madstodolist/repository/EquipoTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.repository</span><span class="p">;</span>
@@ -1440,7 +1440,7 @@ código de más, sólo el código mínimo para que el test pase</strong>. </p>
 remota. Pon como descripción del commit el mismo título de esta
 sección: <em>Primer commit - Clase Equipo</em>.</p>
 <div class="highlight"><pre><span></span><code>$ git add .
-$ git commit -m &quot;Primer commit - Clase Equipo&quot;
+$ git commit -m &quot;Primer test - Clase Equipo&quot;
 $ git push
 </code></pre></div>
 <p>Crea el pull request para comprobar que el test pasa correctamente
@@ -1521,7 +1521,7 @@ el nombre del apartado como descripción. Súbelo a GitHub y comprueba
 en el pull request que el test pasa correctamente en el entorno de
 integración.</p>
 <div class="highlight"><pre><span></span><code>$ git add .
-$ git commit -m &quot;Segundo commit - Añadir y buscar equipo en la base de datos&quot;
+$ git commit -m &quot;Segundo test - Añadir y buscar equipo en la base de datos&quot;
 $ git push
 </code></pre></div>
 <h4 id="tercer-test-definicion-de-igualdad-entre-equipos">Tercer test - Definición de igualdad entre equipos<a class="headerlink" href="#tercer-test-definicion-de-igualdad-entre-equipos" title="Permanent link">&para;</a></h4>
@@ -1747,20 +1747,20 @@ controller a los métodos de servicio no se usará la anotación
 <code>@Transactional</code> para evitar en el código del controller se pueda
 acceder a los objetos repository y modificar directamente la base de
 datos.</p>
-<div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist</span><span class="p">;</span>
+<p>También debemos usar, tal y como hemos hecho en el resto de la aplicación, el
+patrón <em>Data Transfer Object</em> y ambos métodos de servicio deben devolver un
+<code>EquipoData</code>.</p>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/service/EquipoServiceTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.Equipo</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.service.EquipoService</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.test.context.jdbc.Sql</span><span class="p">;</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.dto.EquipoData</span><span class="p">;</span>
 <span class="kn">import static</span><span class="w"> </span><span class="nn">org.assertj.core.api.Assertions.assertThat</span><span class="p">;</span>
-<span class="kn">import static</span><span class="w"> </span><span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
 
 <span class="nd">@SpringBootTest</span>
-<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">executionPhase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/clean-db.sql&quot;</span><span class="p">)</span>
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EquipoServiceTest</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Autowired</span>
@@ -1768,32 +1768,82 @@ datos.</p>
 
 <span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">crearRecuperarEquipo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">Equipo</span><span class="w"> </span><span class="n">equipo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto 1&quot;</span><span class="p">);</span>
-<span class="w">        </span><span class="n">Equipo</span><span class="w"> </span><span class="n">equipoBd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">equipoService</span><span class="p">.</span><span class="na">recuperarEquipo</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+<span class="w">        </span><span class="n">EquipoData</span><span class="w"> </span><span class="n">equipo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">equipoService</span><span class="p">.</span><span class="na">crearEquipo</span><span class="p">(</span><span class="s">&quot;Proyecto 1&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">()).</span><span class="na">isNotNull</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">EquipoData</span><span class="w"> </span><span class="n">equipoBd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">equipoService</span><span class="p">.</span><span class="na">recuperarEquipo</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
 <span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">equipoBd</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
 <span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">equipoBd</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto 1&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Para que funcione correctamente el test tenemos que crear la clase
-<code>EquipoService</code> con los métodos <code>crearEquipo</code> y
-<code>recuperarEquipo</code>. Completa el código en los lugares indicados.</p>
-<div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
+<code>EquipoData</code> que define el <em>transfer object</em>. Por el momento, la definimos solo
+con los atributos <code>id</code> y <code>nombre</code>.</p>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/dto/EquipoData.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.dto</span><span class="p">;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Objects</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EquipoData</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setId</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="nf">getId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setNombre</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">nombre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getNombre</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">equals</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">o</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">getClass</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="na">getClass</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">        </span><span class="n">EquipoData</span><span class="w"> </span><span class="n">equipo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">EquipoData</span><span class="p">)</span><span class="w"> </span><span class="n">o</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">equipo</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
+<span class="w">            </span><span class="c1">// Si tenemos los ID, comparamos por ID</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Objects</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">equipo</span><span class="p">.</span><span class="na">id</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// si no comparamos por campos obligatorios</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">nombre</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">equipo</span><span class="p">.</span><span class="na">nombre</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">hashCode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Generamos un hash basado en los campos obligatorios</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Objects</span><span class="p">.</span><span class="na">hash</span><span class="p">(</span><span class="n">nombre</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Y ahora ya podemos crear la clase <code>EquipoService</code> con los métodos <code>crearEquipo</code>
+y <code>recuperarEquipo</code>. </p>
+<p>Completa el código en los lugares indicados.</p>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/service/EquipoService.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.service</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.dto.EquipoData</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.Equipo</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.model.EquipoRepository</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.slf4j.Logger</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">org.slf4j.LoggerFactory</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">madstodolist.repository.EquipoRepository</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.modelmapper.ModelMapper</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Service</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.transaction.annotation.Transactional</span><span class="p">;</span>
 
 <span class="nd">@Service</span>
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EquipoService</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoggerFactory</span><span class="p">.</span><span class="na">getLogger</span><span class="p">(</span><span class="n">EquipoService</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 
 <span class="w">    </span><span class="nd">@Autowired</span>
 <span class="w">    </span><span class="n">EquipoRepository</span><span class="w"> </span><span class="n">equipoRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ModelMapper</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">;</span>
 
 <span class="w">    </span><span class="nd">@Transactional</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Equipo</span><span class="w"> </span><span class="nf">crearEquipo</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1815,9 +1865,13 @@ se realiza una consulta) es recomendable utilizar la anotación con el
 atributo <code>readOnly = true</code> para hacer más eficiente la conexión con la
 base de datos.</p>
 <h4 id="septimo-test-metodo-de-servicio-para-el-listado-de-equipos">Séptimo test - Método de servicio para el listado de equipos<a class="headerlink" href="#septimo-test-metodo-de-servicio-para-el-listado-de-equipos" title="Permanent link">&para;</a></h4>
-<p>Añadimos el test que obliga a crear el método de servicio que recupera
+<p>Pendiente.</p>
+<!--
+
+Añadimos el test que obliga a crear el método de servicio que recupera
 la lista de equipos existentes, ordenada por orden alfabético del
-nombre del equipo:</p>
+nombre del equipo:
+
 <div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">listadoEquiposOrdenAlfabetico</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// GIVEN</span>
@@ -1837,60 +1891,64 @@ nombre del equipo:</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Escribe en el servicio el código estríctamente necesario para que
-pase el test. Haz un commit en la rama y súbelo a GitHub.</p>
-<h4 id="octavo-test-comprobacion-de-relacion-lazy-entre-equipo-y-usuarios">Octavo test - Comprobación de relación lazy entre equipo y usuarios<a class="headerlink" href="#octavo-test-comprobacion-de-relacion-lazy-entre-equipo-y-usuarios" title="Permanent link">&para;</a></h4>
-<p>Vamos a centrar este test en la forma de traer a memoria los objetos
-que participan en la relación <code>USUARIO-EQUIPO</code>. </p>
-<p>En JPA hay dos formas de definir una relación a-muchos:</p>
-<ul>
-<li>
-<p><code>EAGER</code>: Si una relación a-muchos es <code>EAGER</code>, cuando la clase
+
+Escribe en el servicio el código estríctamente necesario para que
+pase el test. Haz un commit en la rama y súbelo a GitHub.
+
+-->
+
+<h4 id="octavo-test-comprobacion-de-relacion-entre-equipo-y-usuarios">Octavo test - Comprobación de relación entre equipo y usuarios<a class="headerlink" href="#octavo-test-comprobacion-de-relacion-entre-equipo-y-usuarios" title="Permanent link">&para;</a></h4>
+<p>Pendiente.</p>
+<!--
+
+Vamos a centrar este test en la forma de traer a memoria los objetos
+que participan en la relación `USUARIO-EQUIPO`. 
+
+En JPA hay dos formas de definir una relación a-muchos:
+
+- `EAGER`: Si una relación a-muchos es `EAGER`, cuando la clase
   repository devuelve un objeto (ya sea al recuperarlo
   individualmente, o en una consulta en la que se recupera una
   colección), se obtienen también de la base de datos todos los
   objetos con los que está relacionado. Por ejemplo, en la práctica
-  tenemos definida de esta forma la relación entre usuarios y tareas.</p>
-</li>
-<li>
-<p><code>LAZY</code>: Si una relación a-muchos es <code>LAZY</code>, cuando la clase
+  tenemos definida de esta forma la relación entre usuarios y tareas.
+
+- `LAZY`: Si una relación a-muchos es `LAZY`, cuando la clase
   repository devuelve un objeto, no recupera de la base de datos los
   objetos relacionados. Sólo lo hace cuando se accede a la colección
   que contiene la relación. Entonces es cuando se realiza la consulta
   a la base de datos y se traen estos objetos a memoria. Si estos
   objetos tienen otras relaciones se traerán a memoria o no
-  dependiendo de si son <code>EAGER</code> o <code>LAZY</code>.</p>
-</li>
-</ul>
-<p>Para que funcione la recuperación perezosa debe estar abierta la
+  dependiendo de si son `EAGER` o `LAZY`.
+
+  Para que funcione la recuperación perezosa debe estar abierta la
   conexión con la base de datos en el momento en que se accede a la
   colección. Para ello es muy importante la etiqueta
-  <code>@Transactional</code>. Cuando ponemos esta etiqueta en los métodos de las
+  `@Transactional`. Cuando ponemos esta etiqueta en los métodos de las
   clases de servicio se garantiza que todo el método se realiza en una
   única transacción. Por ello, al finalizar el método se cerrará la
   conexión con la base de datos y el objeto que se devolverá al
-  <em>controller</em> <strong>estará desconectado de la base de datos</strong>, por lo que
-  la recuperación perezosa no funcionará en el <em>controller</em>.</p>
-<p>En el caso de la relación USUARIO-EQUIPO hemos definido el siguiente
-diseño:</p>
-<ul>
-<li>
-<p>La relación entre un usuario y sus equipos será <code>EAGER</code>. Cuando
+  _controller_ **estará desconectado de la base de datos**, por lo que
+  la recuperación perezosa no funcionará en el _controller_.
+
+En el caso de la relación USUARIO-EQUIPO hemos definido el siguiente
+diseño:
+
+- La relación entre un usuario y sus equipos será `EAGER`. Cuando
   recuperamos un usuario, recuperaremos también la información de
   todos los equipos en los que participa. Esta parte de la relación
-  está pendiente de implementar. Lo haremos más adelante.</p>
-</li>
-<li>
-<p>La relación entre un equipo y sus usuarios es <code>LAZY</code>. Esto es muy
+  está pendiente de implementar. Lo haremos más adelante.
+
+- La relación entre un equipo y sus usuarios es `LAZY`. Esto es muy
   importante. Si no lo hiciéramos así ¡podríamos fácilmente traernos a
   memoria toda la base de datos!. Un equipo recuperaría todos sus
   usuarios, que también pueden estar en otros equipos, que a su vez
-  también se traerían a memoria. </p>
-</li>
-</ul>
-<p>Vamos a comprobar que la relación entre equipos y usuarios es
-<code>LAZY</code>. Para ello debemos comprobar que se lanza una excepción cuando
-se intenta acceder a la colección de usuarios de un equipo recuperado:</p>
+  también se traerían a memoria. 
+
+Vamos a comprobar que la relación entre equipos y usuarios es
+`LAZY`. Para ello debemos comprobar que se lanza una excepción cuando
+se intenta acceder a la colección de usuarios de un equipo recuperado:
+
 <div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">accesoUsuariosGeneraExcepcion</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// Given</span>
@@ -1908,14 +1966,22 @@ se intenta acceder a la colección de usuarios de un equipo recuperado:</p>
 <span class="w">        </span><span class="p">}).</span><span class="na">isInstanceOf</span><span class="p">(</span><span class="n">LazyInitializationException</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 </code></pre></div>
-<p>Comprueba si hay que modificar el código, haz un commit y súbelo a
-GitHub.</p>
+
+Comprueba si hay que modificar el código, haz un commit y súbelo a
+GitHub.
+
+-->
+
 <h4 id="noveno-test-metodo-de-servicio-para-anadir-un-usuario-a-un-equipo">Noveno test - Método de servicio para añadir un usuario a un equipo<a class="headerlink" href="#noveno-test-metodo-de-servicio-para-anadir-un-usuario-a-un-equipo" title="Permanent link">&para;</a></h4>
-<p>Vamos a crear un test que nos obligue a implementar el método de
+<p>Pendiente.</p>
+<!--
+Vamos a crear un test que nos obligue a implementar el método de
 servicio para añadir un usuario a un equipo. Para comprobar su
 funcionamiento deberemos implementar también el método de servicio
-para recuperar los usuarios de un equipo.</p>
-<p>El test es el siguiente.</p>
+para recuperar los usuarios de un equipo.
+
+El test es el siguiente.
+
 <div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">actualizarRecuperarUsuarioEquipo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// GIVEN</span>
@@ -1936,14 +2002,22 @@ para recuperar los usuarios de un equipo.</p>
 <span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">usuarios</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getEmail</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;user@ua&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 </code></pre></div>
-<p>Implementa los métodos de servicio necesarios para que el test pase
-correctamente. Haz un commit y súbelo a GitHub.</p>
-<h4 id="decimo-test-recuperacion-eager-de-equipos">Décimo test - Recuperación <em>eager</em> de equipos<a class="headerlink" href="#decimo-test-recuperacion-eager-de-equipos" title="Permanent link">&para;</a></h4>
-<p>Y, por último, hacemos un test para que un usuario recupere de
-forma <em>eager</em> sus equipos. Si recuperamos un usuario con cualquier
-método de servicio (por ejemplo, <code>usuarioService.findById</code>), el
+
+Implementa los métodos de servicio necesarios para que el test pase
+correctamente. Haz un commit y súbelo a GitHub.
+
+-->
+
+<h4 id="decimo-test-recuperacion-de-equipos-de-un-usuario">Décimo test - Recuperación de equipos de un usuario<a class="headerlink" href="#decimo-test-recuperacion-de-equipos-de-un-usuario" title="Permanent link">&para;</a></h4>
+<p>Pendiente.</p>
+<!--
+
+Y, por último, hacemos un test para que un usuario recupere de
+forma _eager_ sus equipos. Si recuperamos un usuario con cualquier
+método de servicio (por ejemplo, `usuarioService.findById`), el
 usuario debe ser devuelto con la colección con sus equipos
-actualizada.</p>
+actualizada.
+
 <div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoServiceTest.java</span><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">comprobarRelacionUsuarioEquipos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// GIVEN</span>
@@ -1964,9 +2038,13 @@ actualizada.</p>
 <span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">usuarioBD</span><span class="p">.</span><span class="na">getEquipos</span><span class="p">()).</span><span class="na">hasSize</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
 </code></pre></div>
-<p>El test fallará, porque debes de cambiar algo en la definición de la
+
+El test fallará, porque debes de cambiar algo en la definición de la
 relación entre usuarios y equipos. Modifica el código para que el test
-pase, haz un commit y súbelo a GitHub.</p>
+pase, haz un commit y súbelo a GitHub.
+
+-->
+
 <h4 id="cierre-del-issue">Cierre del <em>issue</em><a class="headerlink" href="#cierre-del-issue" title="Permanent link">&para;</a></h4>
 <p>Cuando hayas terminado todos los ciclos de TDD anteriores habrás
 terminado el <em>issue</em> y testeado e implementado los métodos necesarios
@@ -2077,7 +2155,7 @@ Boot</a>
 se puede ver pulsando el botón <code>Raw</code>. Verás el <a href="https://raw.githubusercontent.com/domingogallardo/practicas-mads/main/docs/01-intro-spring-boot/intro-spring-boot.md">texto Markdown</a>.</p>
 <ul>
 <li>La práctica tiene una duración de 3 semanas y la fecha límite de
-  entrega es el martes 8 de noviembre.</li>
+  entrega es el martes 7 de noviembre.</li>
 <li>La parte obligatoria puntúa sobre 8 y la opcional sobre 2 puntos.</li>
 <li>La calificación de la práctica tiene un peso de un 25% en la nota
   final de prácticas. </li>
