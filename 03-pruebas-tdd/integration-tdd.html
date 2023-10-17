@@ -942,8 +942,15 @@ el nombre del perfil. En nuestro caso definiremos los ficheros
 <code>application-postgres.properties</code> (uno en el directorio <code>main</code> y otro
 en <code>test</code>) para definir las configuraciones de ejecución y de test con
 PostgreSQL.</p>
-<p>Estos ficheros de configuración adicionales se cargan después de
-cargar la configuración por defecto definida en <code>application.properties</code>.</p>
+<p>Estos ficheros de configuración adicionales se cargan (cuando se lanza la
+aplicación con el perfil específico) después de cargar la configuración por
+defecto definida en <code>application.properties</code>. Recordemos que en este perfil por
+defecto se define el perfil como perfil activo <code>dev</code>:</p>
+<div class="highlight"><pre><span></span><code># Activamos el perfil dev
+spring.profiles.active=dev
+</code></pre></div>
+<p>Cuando se lance un perfil específico, el perfil activo ya no será ese, sino el
+especificado por el perfil específico.</p>
 <h3 id="pasos-a-seguir_2">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir_2" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
@@ -960,21 +967,14 @@ $ (perfiles) git push -u origin perfiles
 spring.datasource.username=mads
 spring.datasource.password=mads
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-spring.sql.init.mode=never
 </code></pre></div>
 <p>Este va a ser el perfil que activemos para utilizar la conexión
 con la BD PostgreSQL.</p>
 <p>En este fichero de configuración se define la URL de conexión a la
 base de datos <code>mads</code>, su usuario (<code>mads</code>) y contraseña (<code>mads</code>) y
 el dialecto que se va a utilizar para trabajar desde JPA con la
-base de datos (<code>org.hibernate.dialect.PostgreSQL9Dialect</code>).</p>
-<p>La propiedad <code>spring.sql.init.mode=never</code> indica
-que no se debe cargar ningún fichero de datos inicial. Por esto,
-el fichero <code>data.sql</code> no se va a cargar en la base de datos,
-deberás registrar un usuario inicial para poder probar la
-aplicación. La ventaja es que al trabajar con la base de datos
-real todos los datos van a quedar grabados aunque se pare la
-aplicación.</p>
+base de datos (<code>org.hibernate.dialect.PostgreSQL9Dialect</code>). La base de datos
+PostgreSQL debe estar funcionando en el puerto <code>5432</code> del <code>localhost</code>.</p>
 </li>
 <li>
 <p>Vamos ahora a añadir el perfil de test. Copia el siguiente fichero
@@ -1050,6 +1050,10 @@ $ docker container rm nombre o id de contenedor&gt; (elimina un contenedor)
 <p>Se activará el perfil <code>postgres</code> y se cargarán las preferencias de
 <code>src/main/resource/application.properties</code> y
 <code>src/main/resource/application-postgres.properties</code>.</p>
+<p>Al lanzarse la aplicación con el perfil activo <code>postgres</code> no se ejecutará el
+servicio <code>InitDbService</code> que añade datos por defecto en la
+aplicación. Ahora ya no tiene sentido trabajar con datos por defecto porque
+los datos van a ser grabados en la base de datos real.</p>
 <p>Prueba a introducir datos en la aplicación y comprueba que se
 están guardando en la base de datos utilizando por ejemplo el
 panel <code>Database</code> de <em>IntelliJ</em>. Deberás añadir una <em>Data Source</em>
@@ -1083,6 +1087,7 @@ renombrándola por <code>Application PostgreSQL</code> y añadir en el campo
 <code>Active profiles</code> el nombre del perfil nuevo que acabamos de crear
 <code>postgres</code>. Es posible que debas recargar el proyecto Maven para
 actualizar las dependencias.</p>
+<p><img src="imagenes/intellij-run-postgres.png" width="500px"/></p>
 </li>
 <li>
 <p>Cierra la aplicación. Paramos el contenedor con la base de datos de
