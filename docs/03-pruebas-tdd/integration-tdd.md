@@ -627,7 +627,9 @@ Actions`. Crea la rama `integracion-gh-actions`.
     ...
     Caused by: java.net.UnknownHostException: postgres
     ```
-   
+
+    Pulsa CTRL-C para detener la ejecución de los tests que fallan.
+
 5. Crea un commit, súbelo a GitHub y crea el Pull Request
 
     ```
@@ -636,10 +638,14 @@ Actions`. Crea la rama `integracion-gh-actions`.
     $ git push
     ```
 
-6. Añade el fichero del flujo de trabajo de la acción de GitHub,
-   tal y como se indica anteriormente. Haz un commit, súbelo a GitHub
-   y comprueba que los tests pasan correctamente y se lanzan allí
-   usando la base de datos postgres.
+6. Añade el fichero `.github/workflows/integration-tests.yml` con el flujo de
+   trabajo de la acción de GitHub visto anteriormente. 
+   
+   Modifica también el nombre de la acción definida en el fichero
+   `devoloper-tests.yml` para que sea `Developer tests`.
+
+   Haz un commit, súbelo a  GitHub y comprueba que los tests de las dos acciones
+   pasan correctamente  y que la acción `Integration tests` usa la base de datos postgres.
 
     <img src="imagenes/pr-tests-integracion.png" width="600px"/>
 
