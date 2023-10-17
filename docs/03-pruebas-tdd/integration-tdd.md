@@ -771,7 +771,7 @@ Este primer _issue_ lo haremos de forma guiada usando TDD con los
 tests que enumeraremos a continuación. El otro _issue_ lo deberás
 implementar por ti mismo. 
 
-#### Primer commit - Clase `Equipo` ####
+#### Primer Test - Clase `Equipo` ####
 
 El primer test es para crear la entidad `Equipo`. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo
@@ -806,7 +806,7 @@ sección: _Primer commit - Clase Equipo_.
 
 ```
 $ git add .
-$ git commit -m "Primer commit - Clase Equipo"
+$ git commit -m "Primer test - Clase Equipo"
 $ git push
 ```
 
@@ -900,7 +900,7 @@ integración.
 
 ```
 $ git add .
-$ git commit -m "Segundo commit - Añadir y buscar equipo en la base de datos"
+$ git commit -m "Segundo test - Añadir y buscar equipo en la base de datos"
 $ git push
 ```
 
@@ -1170,21 +1170,22 @@ controller a los métodos de servicio no se usará la anotación
 acceder a los objetos repository y modificar directamente la base de
 datos.
 
-```java title="src/test/java/madstodolist/EquipoServiceTest.java"
-package madstodolist;
+También debemos usar, tal y como hemos hecho en el resto de la aplicación, el
+patrón _Data Transfer Object_ y ambos métodos de servicio deben devolver un
+`EquipoData`.
 
-import madstodolist.model.Equipo;
-import madstodolist.service.EquipoService;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+```java title="src/test/java/madstodolist/service/EquipoServiceTest.java"
+package madstodolist.service;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
-
+import madstodolist.dto.EquipoData;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringBootTest
-@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
+@Sql(scripts = "/clean-db.sql")
 public class EquipoServiceTest {
 
     @Autowired
@@ -1192,8 +1193,10 @@ public class EquipoServiceTest {
 
     @Test
     public void crearRecuperarEquipo() {
-        Equipo equipo = equipoService.crearEquipo("Proyecto 1");
-        Equipo equipoBd = equipoService.recuperarEquipo(equipo.getId());
+        EquipoData equipo = equipoService.crearEquipo("Proyecto 1");
+        assertThat(equipo.getId()).isNotNull();
+
+        EquipoData equipoBd = equipoService.recuperarEquipo(equipo.getId());
         assertThat(equipoBd).isNotNull();
         assertThat(equipoBd.getNombre()).isEqualTo("Proyecto 1");
     }
@@ -1201,26 +1204,78 @@ public class EquipoServiceTest {
 ```
 
 Para que funcione correctamente el test tenemos que crear la clase
-`EquipoService` con los métodos `crearEquipo` y
-`recuperarEquipo`. Completa el código en los lugares indicados.
+`EquipoData` que define el _transfer object_. Por el momento, la definimos solo
+con los atributos `id` y `nombre`.
 
-```java title="src/test/java/madstodolist/EquipoServiceTest.java"
+```java title="src/main/java/madstodolist/dto/EquipoData.java"
+package madstodolist.dto;
+
+import java.util.Objects;
+
+public class EquipoData {
+    private Long id;
+    private String nombre;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EquipoData equipo = (EquipoData) o;
+        if (id != null && equipo.id != null)
+            // Si tenemos los ID, comparamos por ID
+            return Objects.equals(id, equipo.id);
+        // si no comparamos por campos obligatorios
+        return nombre.equals(equipo.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        // Generamos un hash basado en los campos obligatorios
+        return Objects.hash(nombre);
+    }
+}
+```
+
+Y ahora ya podemos crear la clase `EquipoService` con los métodos `crearEquipo`
+y `recuperarEquipo`. 
+
+Completa el código en los lugares indicados.
+
+```java title="src/main/java/madstodolist/service/EquipoService.java"
 package madstodolist.service;
 
+import madstodolist.dto.EquipoData;
 import madstodolist.model.Equipo;
-import madstodolist.model.EquipoRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import madstodolist.repository.EquipoRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EquipoService {
-    Logger logger = LoggerFactory.getLogger(EquipoService.class);
 
     @Autowired
     EquipoRepository equipoRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Transactional
     public Equipo crearEquipo(String nombre) {
@@ -1247,6 +1302,10 @@ base de datos.
 
 
 #### Séptimo test - Método de servicio para el listado de equipos ####
+
+Pendiente.
+
+<!--
 
 Añadimos el test que obliga a crear el método de servicio que recupera
 la lista de equipos existentes, ordenada por orden alfabético del
@@ -1276,8 +1335,13 @@ nombre del equipo:
 Escribe en el servicio el código estríctamente necesario para que
 pase el test. Haz un commit en la rama y súbelo a GitHub.
 
+-->
 
-#### Octavo test - Comprobación de relación lazy entre equipo y usuarios ####
+#### Octavo test - Comprobación de relación entre equipo y usuarios ####
+
+Pendiente.
+
+<!--
 
 Vamos a centrar este test en la forma de traer a memoria los objetos
 que participan en la relación `USUARIO-EQUIPO`. 
@@ -1349,9 +1413,13 @@ se intenta acceder a la colección de usuarios de un equipo recuperado:
 Comprueba si hay que modificar el código, haz un commit y súbelo a
 GitHub.
 
+-->
 
 #### Noveno test - Método de servicio para añadir un usuario a un equipo ####
 
+Pendiente.
+
+<!--
 Vamos a crear un test que nos obligue a implementar el método de
 servicio para añadir un usuario a un equipo. Para comprobar su
 funcionamiento deberemos implementar también el método de servicio
@@ -1384,7 +1452,13 @@ El test es el siguiente.
 Implementa los métodos de servicio necesarios para que el test pase
 correctamente. Haz un commit y súbelo a GitHub.
 
-#### Décimo test - Recuperación _eager_ de equipos ####
+-->
+
+#### Décimo test - Recuperación de equipos de un usuario ####
+
+Pendiente.
+
+<!--
 
 Y, por último, hacemos un test para que un usuario recupere de
 forma _eager_ sus equipos. Si recuperamos un usuario con cualquier
@@ -1417,6 +1491,8 @@ actualizada.
 El test fallará, porque debes de cambiar algo en la definición de la
 relación entre usuarios y equipos. Modifica el código para que el test
 pase, haz un commit y súbelo a GitHub.
+
+-->
 
 #### Cierre del _issue_ ####
 
@@ -1531,7 +1607,7 @@ Boot](https://github.com/domingogallardo/practicas-mads/blob/main/docs/01-intro-
 se puede ver pulsando el botón `Raw`. Verás el [texto Markdown](https://raw.githubusercontent.com/domingogallardo/practicas-mads/main/docs/01-intro-spring-boot/intro-spring-boot.md).
 
 - La práctica tiene una duración de 3 semanas y la fecha límite de
-  entrega es el martes 8 de noviembre.
+  entrega es el martes 7 de noviembre.
 - La parte obligatoria puntúa sobre 8 y la opcional sobre 2 puntos.
 - La calificación de la práctica tiene un peso de un 25% en la nota
   final de prácticas. 
