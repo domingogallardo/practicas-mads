@@ -401,9 +401,8 @@ especificado por el perfil específico.
     menú de configuraciones, duplicar la configuración `Application`,
     renombrándola por `Application PostgreSQL` y añadir en el campo
     `Active profiles` el nombre del perfil nuevo que acabamos de crear
-    `postgres`. Es posible que debas recargar el proyecto Maven para
-    actualizar las dependencias.
-
+    `postgres`. 
+    
     <img src="imagenes/intellij-run-postgres.png" width="650px"/>
 
 9. Cierra la aplicación. Paramos el contenedor con la base de datos de
@@ -437,6 +436,9 @@ especificado por el perfil específico.
     configuración de lanzamiento de test y añadiendo la variable de
     entorno `spring.profiles.active=postgres`. Podríamos, por ejemplo,
     llamar a esta configuración `Tests con PostgreSQL`.
+
+    Es posible que debas recargar el proyecto Maven para
+    actualizar las dependencias.
 
     <img src="imagenes/intellij-test-postgres.png" width="650px"/>
 
