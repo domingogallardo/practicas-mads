@@ -1144,11 +1144,11 @@ p`EquipoRepository`, definiendo el tipo devuelto como _List_. Spring
 Boot se encarga de construir automáticamente la implementación de este
 método.
 
-```diff title="EquipoRepository.java"
-+ import java.util.List;
+```java title="EquipoRepository.java"
+import java.util.List;
 
 public interface EquipoRepository extends CrudRepository<Equipo, Long> {
-+     public List<Equipo> findAll();
+    public List<Equipo> findAll();
 }
 
 ```
