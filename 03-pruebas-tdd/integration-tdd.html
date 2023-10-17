@@ -1656,6 +1656,8 @@ equipo a la colección de equipos del usuario.</p>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addUsuario</span><span class="p">(</span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Hay que actualiar ambas colecciones, porque</span>
+<span class="w">        </span><span class="c1">// JPA/Hibernate no lo hace automáticamente</span>
 <span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
 <span class="w">        </span><span class="n">usuario</span><span class="p">.</span><span class="na">getEquipos</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
