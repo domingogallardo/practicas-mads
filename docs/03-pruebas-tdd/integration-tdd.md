@@ -670,7 +670,7 @@ Actions`. Crea la rama `integracion-gh-actions`.
 
 En la segunda parte de la práctica desarrollaremos, usando TDD (_Test
 Driven Design_), una nueva _feature_ de la aplicación: la posibilidad
-de definir definir equipos a los que puedan pertenecer los usuarios.
+de definir definir **equipos** a los que puedan pertenecer los usuarios.
 
 Descomponemos la _feature_ en las siguientes historias de usuario.
 
@@ -776,18 +776,17 @@ implementar por ti mismo.
 El primer test es para crear la entidad `Equipo`. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo
 
-```java title="src/test/java/madstodolist/EquipoTest.java"
-package madstodolist;
+```java title="src/test/java/madstodolist/repository/EquipoTest.java"
+package madstodolist.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 
 @SpringBootTest
-@Sql(scripts = "/clean-db.sql", executionPhase = AFTER_TEST_METHOD)
+@Sql(scripts = "/clean-db.sql")
 public class EquipoTest {
 
     @Test
@@ -808,6 +807,7 @@ sección: _Primer commit - Clase Equipo_.
 ```
 $ git add .
 $ git commit -m "Primer commit - Clase Equipo"
+$ git push
 ```
 
 Crea el pull request para comprobar que el test pasa correctamente
@@ -838,8 +838,22 @@ servicio también habrá que usar esta anotación en cada método, tal y
 como se hace en las clases de servicio de `Tarea` y `Usuario`.
 
 ```java
+
+// ... Imports ya existentes
+
+// Añadimos estos imports necesarios
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+@SpringBootTest
+@Sql(scripts = "/clean-db.sql")
+public class EquipoTest {
+
     @Autowired
     private EquipoRepository equipoRepository;
+
+    // ... Test ya existente
 
     @Test
     @Transactional
@@ -847,6 +861,12 @@ como se hace en las clases de servicio de `Tarea` y `Usuario`.
         // GIVEN
         // Un equipo nuevo
         Equipo equipo = new Equipo("Proyecto P1");
+
+        // Probamos el constructor vacío, necesario para que funcione JPA/Hibernate
+        Equipo equipo = new Equipo();
+
+        // Creamos ya el equipo nuevo
+        equipo = new Equipo("Proyecto P1");
 
         // WHEN
         // Salvamos el equipo en la base de datos
@@ -861,6 +881,7 @@ como se hace en las clases de servicio de `Tarea` y `Usuario`.
         assertThat(equipoDB).isNotNull();
         assertThat(equipoDB.getNombre()).isEqualTo("Proyecto P1");
     }
+}
 ```
 
 Actualizamos también el fichero `clean-db.sql` para que se borre la
@@ -876,6 +897,12 @@ Escribe el código necesario para pase el test y haz un commit con
 el nombre del apartado como descripción. Súbelo a GitHub y comprueba
 en el pull request que el test pasa correctamente en el entorno de
 integración.
+
+```
+$ git add .
+$ git commit -m "Segundo commit - Añadir y buscar equipo en la base de datos"
+$ git push
+```
 
 #### Tercer test - Definición de igualdad entre equipos ####
 
@@ -985,69 +1012,100 @@ En `Equipo.java` definimos la tabla `equipo_usuario` en la que se va a
 guardar la relación, e indicamos el papel de cada una de sus dos
 columnas.
 
-También creamos el getter para obtener los usuarios. 
+También creamos el getter para obtener los usuarios.
 
-```diff title="src/main/java/madstodolist/model/Equipo.java"
-+    private String nombre;
-+    // Declaramos el tipo de recuperación como LAZY.
-+    // No haría falta porque es el tipo por defecto en una
-+    // relación a muchos.
-+    // Al recuperar un equipo NO SE RECUPERA AUTOMÁTICAMENTE
-+    // la lista de usuarios. Sólo se recupera cuando se accede al
-+    // atributo 'usuarios'; entonces se genera una query en la
-+    // BD que devuelve todos los usuarios del equipo y rellena el
-+    // atributo.
-+     
-+    @ManyToMany(fetch = FetchType.LAZY)
-+    @JoinTable(name = "equipo_usuario",
-+            joinColumns = { @JoinColumn(name = "fk_equipo") },
-+            inverseJoinColumns = {@JoinColumn(name = "fk_usuario")})
-+    Set<Usuario> usuarios = new HashSet<>();
+Y por último añadimos el método que actualiza ambos lados de la relación. El
+método debe añadir el usuario a la colección de usuarios del equipo y añadir el
+equipo a la colección de equipos del usuario.
 
-...
 
-    public void setId(Long id) {
-        this.id = id;
+```java title="src/main/java/madstodolist/model/Equipo.java"
+
+// ... resto de imports
+
+import java.util.Set;
+import java.util.HashSet;
+
+@Entity
+@Table(name = "equipos")
+public class Equipo implements Serializable {
+
+    // ...
+    
+    private String nombre;
+    
+    // Declaramos el tipo de recuperación como LAZY.
+    // No haría falta porque es el tipo por defecto en una
+    // relación a muchos.
+    // Al recuperar un equipo NO SE RECUPERA AUTOMÁTICAMENTE
+    // la lista de usuarios. Sólo se recupera cuando se accede al
+    // atributo 'usuarios'; entonces se genera una query en la
+    // BD que devuelve todos los usuarios del equipo y rellena el
+    // atributo.
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "equipo_usuario",
+            joinColumns = { @JoinColumn(name = "fk_equipo") },
+            inverseJoinColumns = {@JoinColumn(name = "fk_usuario")})
+    Set<Usuario> usuarios = new HashSet<>();
+
+    // ...
+
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
     }
 
-+    public Set<Usuario> getUsuarios() {
-+        return usuarios;
-+    }
-```
-
-En el fichero `Usuario.java` definimos la parte inversa de la
-relación. El `mappedBy` indica que la especificación de la tabla join
-está en el otro lado de la relación. Esta relación la definimos como
-`EAGER` porque el otro lado de la relación es `LAZY`. Al recuperar un
-usuario solo se van a traer a memoria la información de sus equipos.
-
-```diff title="src/main/java/madstodolist/model/Usuario.java"
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    Set<Tarea> tareas = new HashSet<>();
-
-+    @ManyToMany(mappedBy = "usuarios")
-+    Set<Equipo> equipos = new HashSet<>();
-
-...
-
-+    public Set<Equipo> getEquipos() {
-+        return equipos;
-+    }
-```
-
-Y por último añadimos en `Equipo.java` el método que actualiza ambos
-lados de la relación. Añade el usuario a la colección de usuarios del
-equipo y añade el equipo a la colección de equipos del usuario.
-
-```java
     public void addUsuario(Usuario usuario) {
         this.getUsuarios().add(usuario);
         usuario.getEquipos().add(this);
     }
+
+    // ...
+}
 ```
 
+En el fichero `Usuario.java` definimos la parte inversa de la relación. El
+`mappedBy` indica que la especificación de la tabla join está en el otro lado de
+la relación. Esta relación también es _lazy_ por defecto, al recuperar un
+usuario no se va a traer a memoria la información de sus equipos, hay que
+pedirla expresamente accediendo a la colección.
+
+```java title="src/main/java/madstodolist/model/Usuario.java"
+
+@Entity
+@Table(name = "usuarios")
+public class Usuario implements Serializable {
+
+    // ...
+
+    @OneToMany(mappedBy = "usuario")
+    Set<Tarea> tareas = new HashSet<>();
+
+    @ManyToMany(mappedBy = "usuarios")
+    Set<Equipo> equipos = new HashSet<>();
+
+    // ...
+
+    // Getters de las relaciones
+
+    public Set<Tarea> getTareas() {
+        return tareas;
+    }
+
+    public Set<Equipo> getEquipos() {
+        return equipos;
+    }
+
+    // ...
+
+}
+```
+
+
+
 También actualizamos el fichero de limpieza de datos al final de cada
-test, para añadir la nueva tabla `equipo_usuario`.
+test, para añadir la nueva tabla `equipo_usuario` que mantiene la relación entre
+equipos y usuarios.
 
 ```sql title="src/test/resources/clean-db.sql"
 DELETE FROM equipo_usuario;
