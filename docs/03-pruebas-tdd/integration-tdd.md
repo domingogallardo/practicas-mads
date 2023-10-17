@@ -229,8 +229,18 @@ el nombre del perfil. En nuestro caso definiremos los ficheros
 en `test`) para definir las configuraciones de ejecución y de test con
 PostgreSQL.
 
-Estos ficheros de configuración adicionales se cargan después de
-cargar la configuración por defecto definida en `application.properties`.
+Estos ficheros de configuración adicionales se cargan (cuando se lanza la
+aplicación con el perfil específico) después de cargar la configuración por
+defecto definida en `application.properties`. Recordemos que en este perfil por
+defecto se define el perfil como perfil activo `dev`:
+
+```
+# Activamos el perfil dev
+spring.profiles.active=dev
+```
+
+Cuando se lance un perfil específico, el perfil activo ya no será ese, sino el
+especificado por el perfil específico.
 
 ### Pasos a seguir ###
 
@@ -250,7 +260,6 @@ cargar la configuración por defecto definida en `application.properties`.
     spring.datasource.username=mads
     spring.datasource.password=mads
     spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-    spring.sql.init.mode=never
     ```
 
     Este va a ser el perfil que activemos para utilizar la conexión
@@ -259,16 +268,9 @@ cargar la configuración por defecto definida en `application.properties`.
     En este fichero de configuración se define la URL de conexión a la
     base de datos `mads`, su usuario (`mads`) y contraseña (`mads`) y
     el dialecto que se va a utilizar para trabajar desde JPA con la
-    base de datos (`org.hibernate.dialect.PostgreSQL9Dialect`).
-   
-    La propiedad `spring.sql.init.mode=never` indica
-    que no se debe cargar ningún fichero de datos inicial. Por esto,
-    el fichero `data.sql` no se va a cargar en la base de datos,
-    deberás registrar un usuario inicial para poder probar la
-    aplicación. La ventaja es que al trabajar con la base de datos
-    real todos los datos van a quedar grabados aunque se pare la
-    aplicación.
-    
+    base de datos (`org.hibernate.dialect.PostgreSQL9Dialect`). La base de datos
+    PostgreSQL debe estar funcionando en el puerto `5432` del `localhost`.
+
 3. Vamos ahora a añadir el perfil de test. Copia el siguiente fichero
   en `src/test/resources/application-postgres.properties`:
     
@@ -355,6 +357,11 @@ cargar la configuración por defecto definida en `application.properties`.
     Se activará el perfil `postgres` y se cargarán las preferencias de
     `src/main/resource/application.properties` y
     `src/main/resource/application-postgres.properties`.
+    
+    Al lanzarse la aplicación con el perfil activo `postgres` no se ejecutará el
+    servicio `InitDbService` que añade datos por defecto en la
+    aplicación. Ahora ya no tiene sentido trabajar con datos por defecto porque
+    los datos van a ser grabados en la base de datos real.
 
     Prueba a introducir datos en la aplicación y comprueba que se
     están guardando en la base de datos utilizando por ejemplo el
@@ -397,6 +404,7 @@ cargar la configuración por defecto definida en `application.properties`.
     `postgres`. Es posible que debas recargar el proyecto Maven para
     actualizar las dependencias.
 
+    <img src="imagenes/intellij-run-postgres.png" width="500px"/>
 
 9. Cierra la aplicación. Paramos el contenedor con la base de datos de
    desarrollo haciendo `docker container stop postgres-develop`:
