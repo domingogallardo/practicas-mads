@@ -1322,7 +1322,7 @@ postgres.</p>
 <h2 id="5-tdd">5. TDD<a class="headerlink" href="#5-tdd" title="Permanent link">&para;</a></h2>
 <p>En la segunda parte de la práctica desarrollaremos, usando TDD (<em>Test
 Driven Design</em>), una nueva <em>feature</em> de la aplicación: la posibilidad
-de definir definir equipos a los que puedan pertenecer los usuarios.</p>
+de definir definir <strong>equipos</strong> a los que puedan pertenecer los usuarios.</p>
 <p>Descomponemos la <em>feature</em> en las siguientes historias de usuario.</p>
 <ul>
 <li>008 Listado de equipos</li>
@@ -1415,17 +1415,16 @@ implementar por ti mismo. </p>
 <h4 id="primer-commit-clase-equipo">Primer commit - Clase <code>Equipo</code><a class="headerlink" href="#primer-commit-clase-equipo" title="Permanent link">&para;</a></h4>
 <p>El primer test es para crear la entidad <code>Equipo</code>. Por ahora sólo
 creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
-<div class="highlight"><span class="filename">src/test/java/madstodolist/EquipoTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist</span><span class="p">;</span>
+<div class="highlight"><span class="filename">src/test/java/madstodolist/repository/EquipoTest.java</span><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">madstodolist.repository</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.test.context.jdbc.Sql</span><span class="p">;</span>
 
 <span class="kn">import static</span><span class="w"> </span><span class="nn">org.assertj.core.api.Assertions.assertThat</span><span class="p">;</span>
-<span class="kn">import static</span><span class="w"> </span><span class="nn">org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD</span><span class="p">;</span>
 
 <span class="nd">@SpringBootTest</span>
-<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/clean-db.sql&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">executionPhase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AFTER_TEST_METHOD</span><span class="p">)</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/clean-db.sql&quot;</span><span class="p">)</span>
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EquipoTest</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Test</span>
@@ -1442,6 +1441,7 @@ remota. Pon como descripción del commit el mismo título de esta
 sección: <em>Primer commit - Clase Equipo</em>.</p>
 <div class="highlight"><pre><span></span><code>$ git add .
 $ git commit -m &quot;Primer commit - Clase Equipo&quot;
+$ git push
 </code></pre></div>
 <p>Crea el pull request para comprobar que el test pasa correctamente
 cuando se ejecuta sobre la base de datos Postgres. Liga el pull
@@ -1466,8 +1466,21 @@ anotación <code>@Transactional</code> siempre que trabajemos con clases
 se ejecuta en la misma transacción. Cuando escribamos el código del
 servicio también habrá que usar esta anotación en cada método, tal y
 como se hace en las clases de servicio de <code>Tarea</code> y <code>Usuario</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nd">@Autowired</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// ... Imports ya existentes</span>
+
+<span class="c1">// Añadimos estos imports necesarios</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.transaction.annotation.Transactional</span><span class="p">;</span>
+
+<span class="nd">@SpringBootTest</span>
+<span class="nd">@Sql</span><span class="p">(</span><span class="n">scripts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/clean-db.sql&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EquipoTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">EquipoRepository</span><span class="w"> </span><span class="n">equipoRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// ... Test ya existente</span>
 
 <span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="nd">@Transactional</span>
@@ -1475,6 +1488,12 @@ como se hace en las clases de servicio de <code>Tarea</code> y <code>Usuario</co
 <span class="w">        </span><span class="c1">// GIVEN</span>
 <span class="w">        </span><span class="c1">// Un equipo nuevo</span>
 <span class="w">        </span><span class="n">Equipo</span><span class="w"> </span><span class="n">equipo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Probamos el constructor vacío, necesario para que funcione JPA/Hibernate</span>
+<span class="w">        </span><span class="n">Equipo</span><span class="w"> </span><span class="n">equipo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Equipo</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// Creamos ya el equipo nuevo</span>
+<span class="w">        </span><span class="n">equipo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Equipo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
 
 <span class="w">        </span><span class="c1">// WHEN</span>
 <span class="w">        </span><span class="c1">// Salvamos el equipo en la base de datos</span>
@@ -1489,6 +1508,7 @@ como se hace en las clases de servicio de <code>Tarea</code> y <code>Usuario</co
 <span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">equipoDB</span><span class="p">).</span><span class="na">isNotNull</span><span class="p">();</span>
 <span class="w">        </span><span class="n">assertThat</span><span class="p">(</span><span class="n">equipoDB</span><span class="p">.</span><span class="na">getNombre</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">&quot;Proyecto P1&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Actualizamos también el fichero <code>clean-db.sql</code> para que se borre la
 tabla <code>equipos</code> al final de cada test.</p>
@@ -1500,6 +1520,10 @@ tabla <code>equipos</code> al final de cada test.</p>
 el nombre del apartado como descripción. Súbelo a GitHub y comprueba
 en el pull request que el test pasa correctamente en el entorno de
 integración.</p>
+<div class="highlight"><pre><span></span><code>$ git add .
+$ git commit -m &quot;Segundo commit - Añadir y buscar equipo en la base de datos&quot;
+$ git push
+</code></pre></div>
 <h4 id="tercer-test-definicion-de-igualdad-entre-equipos">Tercer test - Definición de igualdad entre equipos<a class="headerlink" href="#tercer-test-definicion-de-igualdad-entre-equipos" title="Permanent link">&para;</a></h4>
 <p>Ahora que hemos introducido el <code>id</code> del equipo escribimos un test
 para comprobar que dos equipos son iguales. Debes escribir el código
@@ -1593,60 +1617,88 @@ costosa, traería a memoria todos sus usuarios (con sus tareas incluidas).</p>
 <p>En <code>Equipo.java</code> definimos la tabla <code>equipo_usuario</code> en la que se va a
 guardar la relación, e indicamos el papel de cada una de sus dos
 columnas.</p>
-<p>También creamos el getter para obtener los usuarios. </p>
-<div class="highlight"><span class="filename">src/main/java/madstodolist/model/Equipo.java</span><pre><span></span><code><span class="gi">+    private String nombre;</span>
-<span class="gi">+    // Declaramos el tipo de recuperación como LAZY.</span>
-<span class="gi">+    // No haría falta porque es el tipo por defecto en una</span>
-<span class="gi">+    // relación a muchos.</span>
-<span class="gi">+    // Al recuperar un equipo NO SE RECUPERA AUTOMÁTICAMENTE</span>
-<span class="gi">+    // la lista de usuarios. Sólo se recupera cuando se accede al</span>
-<span class="gi">+    // atributo &#39;usuarios&#39;; entonces se genera una query en la</span>
-<span class="gi">+    // BD que devuelve todos los usuarios del equipo y rellena el</span>
-<span class="gi">+    // atributo.</span>
-<span class="gi">+     </span>
-<span class="gi">+    @ManyToMany(fetch = FetchType.LAZY)</span>
-<span class="gi">+    @JoinTable(name = &quot;equipo_usuario&quot;,</span>
-<span class="gi">+            joinColumns = { @JoinColumn(name = &quot;fk_equipo&quot;) },</span>
-<span class="gi">+            inverseJoinColumns = {@JoinColumn(name = &quot;fk_usuario&quot;)})</span>
-<span class="gi">+    Set&lt;Usuario&gt; usuarios = new HashSet&lt;&gt;();</span>
+<p>También creamos el getter para obtener los usuarios.</p>
+<p>Y por último añadimos el método que actualiza ambos lados de la relación. El
+método debe añadir el usuario a la colección de usuarios del equipo y añadir el
+equipo a la colección de equipos del usuario.</p>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/model/Equipo.java</span><pre><span></span><code><span class="c1">// ... resto de imports</span>
 
-...
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Set</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.HashSet</span><span class="p">;</span>
 
-<span class="w"> </span>   public void setId(Long id) {
-<span class="w"> </span>       this.id = id;
-<span class="w"> </span>   }
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;equipos&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Equipo</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Serializable</span><span class="w"> </span><span class="p">{</span>
 
-<span class="gi">+    public Set&lt;Usuario&gt; getUsuarios() {</span>
-<span class="gi">+        return usuarios;</span>
-<span class="gi">+    }</span>
-</code></pre></div>
-<p>En el fichero <code>Usuario.java</code> definimos la parte inversa de la
-relación. El <code>mappedBy</code> indica que la especificación de la tabla join
-está en el otro lado de la relación. Esta relación la definimos como
-<code>EAGER</code> porque el otro lado de la relación es <code>LAZY</code>. Al recuperar un
-usuario solo se van a traer a memoria la información de sus equipos.</p>
-<div class="highlight"><span class="filename">src/main/java/madstodolist/model/Usuario.java</span><pre><span></span><code><span class="w"> </span>   @OneToMany(mappedBy = &quot;usuario&quot;, fetch = FetchType.EAGER)
-<span class="w"> </span>   Set&lt;Tarea&gt; tareas = new HashSet&lt;&gt;();
+<span class="w">    </span><span class="c1">// ...</span>
 
-<span class="gi">+    @ManyToMany(mappedBy = &quot;usuarios&quot;)</span>
-<span class="gi">+    Set&lt;Equipo&gt; equipos = new HashSet&lt;&gt;();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">;</span>
 
-...
+<span class="w">    </span><span class="c1">// Declaramos el tipo de recuperación como LAZY.</span>
+<span class="w">    </span><span class="c1">// No haría falta porque es el tipo por defecto en una</span>
+<span class="w">    </span><span class="c1">// relación a muchos.</span>
+<span class="w">    </span><span class="c1">// Al recuperar un equipo NO SE RECUPERA AUTOMÁTICAMENTE</span>
+<span class="w">    </span><span class="c1">// la lista de usuarios. Sólo se recupera cuando se accede al</span>
+<span class="w">    </span><span class="c1">// atributo &#39;usuarios&#39;; entonces se genera una query en la</span>
+<span class="w">    </span><span class="c1">// BD que devuelve todos los usuarios del equipo y rellena el</span>
+<span class="w">    </span><span class="c1">// atributo.</span>
 
-<span class="gi">+    public Set&lt;Equipo&gt; getEquipos() {</span>
-<span class="gi">+        return equipos;</span>
-<span class="gi">+    }</span>
-</code></pre></div>
-<p>Y por último añadimos en <code>Equipo.java</code> el método que actualiza ambos
-lados de la relación. Añade el usuario a la colección de usuarios del
-equipo y añade el equipo a la colección de equipos del usuario.</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addUsuario</span><span class="p">(</span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@ManyToMany</span><span class="p">(</span><span class="n">fetch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FetchType</span><span class="p">.</span><span class="na">LAZY</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@JoinTable</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;equipo_usuario&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">joinColumns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nd">@JoinColumn</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fk_equipo&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">            </span><span class="n">inverseJoinColumns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nd">@JoinColumn</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fk_usuario&quot;</span><span class="p">)})</span>
+<span class="w">    </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span><span class="w"> </span><span class="n">usuarios</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// ...</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Usuario</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getUsuarios</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">usuarios</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addUsuario</span><span class="p">(</span><span class="n">Usuario</span><span class="w"> </span><span class="n">usuario</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">getUsuarios</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">usuario</span><span class="p">);</span>
 <span class="w">        </span><span class="n">usuario</span><span class="p">.</span><span class="na">getEquipos</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
 <span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>En el fichero <code>Usuario.java</code> definimos la parte inversa de la relación. El
+<code>mappedBy</code> indica que la especificación de la tabla join está en el otro lado de
+la relación. Esta relación también es <em>lazy</em> por defecto, al recuperar un
+usuario no se va a traer a memoria la información de sus equipos, hay que
+pedirla expresamente accediendo a la colección.</p>
+<div class="highlight"><span class="filename">src/main/java/madstodolist/model/Usuario.java</span><pre><span></span><code><span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;usuarios&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Usuario</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Serializable</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// ...</span>
+
+<span class="w">    </span><span class="nd">@OneToMany</span><span class="p">(</span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;usuario&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tareas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="nd">@ManyToMany</span><span class="p">(</span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;usuarios&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Equipo</span><span class="o">&gt;</span><span class="w"> </span><span class="n">equipos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// ...</span>
+
+<span class="w">    </span><span class="c1">// Getters de las relaciones</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Tarea</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getTareas</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Equipo</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getEquipos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">equipos</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// ...</span>
+
+<span class="p">}</span>
 </code></pre></div>
 <p>También actualizamos el fichero de limpieza de datos al final de cada
-test, para añadir la nueva tabla <code>equipo_usuario</code>.</p>
+test, para añadir la nueva tabla <code>equipo_usuario</code> que mantiene la relación entre
+equipos y usuarios.</p>
 <div class="highlight"><span class="filename">src/test/resources/clean-db.sql</span><pre><span></span><code><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">equipo_usuario</span><span class="p">;</span>
 <span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">tareas</span><span class="p">;</span>
 <span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">equipos</span><span class="p">;</span>
