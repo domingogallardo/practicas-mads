@@ -1728,11 +1728,11 @@ sea <em>List</em>.</p>
 p<code>EquipoRepository</code>, definiendo el tipo devuelto como <em>List</em>. Spring
 Boot se encarga de construir automáticamente la implementación de este
 método.</p>
-<div class="highlight"><span class="filename">EquipoRepository.java</span><pre><span></span><code><span class="gi">+ import java.util.List;</span>
+<div class="highlight"><span class="filename">EquipoRepository.java</span><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
 
-public interface EquipoRepository extends CrudRepository&lt;Equipo, Long&gt; {
-<span class="gi">+     public List&lt;Equipo&gt; findAll();</span>
-}
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">EquipoRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">CrudRepository</span><span class="o">&lt;</span><span class="n">Equipo</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Equipo</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findAll</span><span class="p">();</span>
+<span class="p">}</span>
 </code></pre></div>
 <h4 id="sexto-test-metodo-de-servicio-para-crear-y-recuperar-equipo">Sexto test - Método de servicio para crear y recuperar equipo<a class="headerlink" href="#sexto-test-metodo-de-servicio-para-crear-y-recuperar-equipo" title="Permanent link">&para;</a></h4>
 <p>¡Y por fin llegamos a la capa de servicio!</p>
