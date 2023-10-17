@@ -404,7 +404,7 @@ especificado por el perfil específico.
     `postgres`. Es posible que debas recargar el proyecto Maven para
     actualizar las dependencias.
 
-    <img src="imagenes/intellij-run-postgres.png" width="500px"/>
+    <img src="imagenes/intellij-run-postgres.png" width="650px"/>
 
 9. Cierra la aplicación. Paramos el contenedor con la base de datos de
    desarrollo haciendo `docker container stop postgres-develop`:
@@ -437,6 +437,8 @@ especificado por el perfil específico.
     configuración de lanzamiento de test y añadiendo la variable de
     entorno `spring.profiles.active=postgres`. Podríamos, por ejemplo,
     llamar a esta configuración `Tests con PostgreSQL`.
+
+    <img src="imagenes/intellij-test-postgres.png" width="650px"/>
 
 12. Dado que las configuraciones de test y de ejecución utilizan
     distintas bases de datos, debemos tener en funcionamiento la base
