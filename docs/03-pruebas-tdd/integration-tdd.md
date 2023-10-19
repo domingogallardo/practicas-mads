@@ -1152,7 +1152,7 @@ sea _List_.
 ```
 
 La solución consiste en añadir el método `findAll` en la interfaz
-p`EquipoRepository`, definiendo el tipo devuelto como _List_. Spring
+`EquipoRepository`, definiendo el tipo devuelto como _List_. Spring
 Boot se encarga de construir automáticamente la implementación de este
 método.
 
@@ -1336,7 +1336,7 @@ import java.util.List;
 
         // WHEN
         // Recuperamos los equipos
-        List<EquipoData> equipos = equipoService.findAllOrderedByName();
+        List<EquipoData> equipos = equipoService.findAllOrdenadoPorNombre();
 
         // THEN
         // Los equipos están ordenados por nombre
@@ -1355,7 +1355,7 @@ pase el test. Haz un commit en la rama y súbelo a GitHub.
 
 En este test vamos a construir dos métodos de servicio con un único test. Aunque
 pueda parecer de que estamos incumpliendo la norma de TDD de avanzar con
-pequeños pasos, ambos métodos están muy relacionados y es complicado
+pequeños pasos, ambos métodos están muy relacionados y sería complicado
 construirlos por separado.
 
 El test es el siguiente:
