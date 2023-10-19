@@ -802,7 +802,7 @@ código de más, sólo el código mínimo para que el test pase**.
 
 Haz un _commit_ que contenga el test y el código y súbelo a la rama
 remota. Pon como descripción del commit el mismo título de esta
-sección: _Primer commit - Clase Equipo_.
+sección: _Primer test - Clase Equipo_.
 
 ```
 $ git add .
@@ -1279,12 +1279,12 @@ public class EquipoService {
     private ModelMapper modelMapper;
 
     @Transactional
-    public Equipo crearEquipo(String nombre) {
+    public EquipoData crearEquipo(String nombre) {
         // Completar
     }
 
     @Transactional(readOnly = true)
-    public Equipo recuperarEquipo(Long id) {
+    public EquipoData recuperarEquipo(Long id) {
         // Completar
     }
 }
