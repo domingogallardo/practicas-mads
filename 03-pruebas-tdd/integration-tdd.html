@@ -1438,7 +1438,7 @@ creamos la clase Java, sin las anotaciones JPA. Un equipo</p>
 código de más, sólo el código mínimo para que el test pase</strong>. </p>
 <p>Haz un <em>commit</em> que contenga el test y el código y súbelo a la rama
 remota. Pon como descripción del commit el mismo título de esta
-sección: <em>Primer commit - Clase Equipo</em>.</p>
+sección: <em>Primer test - Clase Equipo</em>.</p>
 <div class="highlight"><pre><span></span><code>$ git add .
 $ git commit -m &quot;Primer test - Clase Equipo&quot;
 $ git push
@@ -1848,12 +1848,12 @@ y <code>recuperarEquipo</code>. </p>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ModelMapper</span><span class="w"> </span><span class="n">modelMapper</span><span class="p">;</span>
 
 <span class="w">    </span><span class="nd">@Transactional</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Equipo</span><span class="w"> </span><span class="nf">crearEquipo</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">EquipoData</span><span class="w"> </span><span class="nf">crearEquipo</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">nombre</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// Completar</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="nd">@Transactional</span><span class="p">(</span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Equipo</span><span class="w"> </span><span class="nf">recuperarEquipo</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">EquipoData</span><span class="w"> </span><span class="nf">recuperarEquipo</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// Completar</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
