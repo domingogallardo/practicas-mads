@@ -327,7 +327,8 @@ especificado por el perfil específico.
 5. Para lanzar la aplicación necesitarás un servidor PostgreSQL en el
    puerto 5432 con el usuario `mads`, la contraseña `mads` y la base
    de datos `mads`. Es muy sencillo descargarlo y ejecutarlo si tienes
-   instalado Docker. Ejecuta desde el terminal:
+   instalado Docker. Ejecuta desde el terminal un comando `docker run` para
+   poner en marcha la imagen `posgres:13`:
 
     ```
     docker run -d -p 5432:5432 --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
@@ -357,6 +358,14 @@ especificado por el perfil específico.
     Se activará el perfil `postgres` y se cargarán las preferencias de
     `src/main/resource/application.properties` y
     `src/main/resource/application-postgres.properties`.
+    
+    !!! Important "Cuidado si tienes otro postgres funcionando"
+        Si tienes instalado el servicio de postgres para otras
+        asignaturas la aplicación dará un error al lanzarse, porque se intentará
+        conectar al puerto 5432 y ahí no estará nuestra base de datos, sino la
+        base de datos de la otra asignatura. Asegúrate de detener el servicio de
+        postgres que tengas instalado en tu ordenador antes de lanzar el comando
+        `docker run` que pone en marcha nuestra imagen de posgres.
     
     Al lanzarse la aplicación con el perfil activo `postgres` no se ejecutará el
     servicio `InitDbService` que añade datos por defecto en la
