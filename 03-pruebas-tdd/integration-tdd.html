@@ -1741,7 +1741,7 @@ sea <em>List</em>.</p>
 <span class="w">    </span><span class="p">}</span>
 </code></pre></div>
 <p>La solución consiste en añadir el método <code>findAll</code> en la interfaz
-p<code>EquipoRepository</code>, definiendo el tipo devuelto como <em>List</em>. Spring
+<code>EquipoRepository</code>, definiendo el tipo devuelto como <em>List</em>. Spring
 Boot se encarga de construir automáticamente la implementación de este
 método.</p>
 <div class="highlight"><span class="filename">EquipoRepository.java</span><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
@@ -1899,7 +1899,7 @@ nombre del equipo:</p>
 
 <span class="w">        </span><span class="c1">// WHEN</span>
 <span class="w">        </span><span class="c1">// Recuperamos los equipos</span>
-<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">EquipoData</span><span class="o">&gt;</span><span class="w"> </span><span class="n">equipos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">equipoService</span><span class="p">.</span><span class="na">findAllOrderedByName</span><span class="p">();</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">EquipoData</span><span class="o">&gt;</span><span class="w"> </span><span class="n">equipos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">equipoService</span><span class="p">.</span><span class="na">findAllOrdenadoPorNombre</span><span class="p">();</span>
 
 <span class="w">        </span><span class="c1">// THEN</span>
 <span class="w">        </span><span class="c1">// Los equipos están ordenados por nombre</span>
@@ -1914,7 +1914,7 @@ pase el test. Haz un commit en la rama y súbelo a GitHub.</p>
 <h4 id="octavo-test-metodos-de-servicio-para-anadir-y-recuperar-usuarios-a-un-equipo">Octavo test - Métodos de servicio para añadir y recuperar usuarios a un equipo<a class="headerlink" href="#octavo-test-metodos-de-servicio-para-anadir-y-recuperar-usuarios-a-un-equipo" title="Permanent link">&para;</a></h4>
 <p>En este test vamos a construir dos métodos de servicio con un único test. Aunque
 pueda parecer de que estamos incumpliendo la norma de TDD de avanzar con
-pequeños pasos, ambos métodos están muy relacionados y es complicado
+pequeños pasos, ambos métodos están muy relacionados y sería complicado
 construirlos por separado.</p>
 <p>El test es el siguiente:</p>
 <div class="highlight"><span class="filename">src/test/java/madstodolist/Service/EquipoServiceTest.java</span><pre><span></span><code><span class="w">    </span><span class="nd">@Test</span>
