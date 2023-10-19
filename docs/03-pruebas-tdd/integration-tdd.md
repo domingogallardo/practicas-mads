@@ -446,10 +446,11 @@ especificado por el perfil específico.
     entorno `spring.profiles.active=postgres`. Podríamos, por ejemplo,
     llamar a esta configuración `Tests con PostgreSQL`.
 
-    Es posible que debas recargar el proyecto Maven para
-    actualizar las dependencias.
-
     <img src="imagenes/intellij-test-postgres.png" width="650px"/>
+
+    !!! Important "Recargar las dependencias Maven"
+        Si la ejecución de los tests desde IntelliJ produce un error prueba a
+        recargar las dependencias en el panel de Maven.
 
 12. Dado que las configuraciones de test y de ejecución utilizan
     distintas bases de datos, debemos tener en funcionamiento la base
