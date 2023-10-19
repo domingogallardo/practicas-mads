@@ -1028,7 +1028,8 @@ el perfil de ejecución.</p>
 <p>Para lanzar la aplicación necesitarás un servidor PostgreSQL en el
    puerto 5432 con el usuario <code>mads</code>, la contraseña <code>mads</code> y la base
    de datos <code>mads</code>. Es muy sencillo descargarlo y ejecutarlo si tienes
-   instalado Docker. Ejecuta desde el terminal:</p>
+   instalado Docker. Ejecuta desde el terminal un comando <code>docker run</code> para
+   poner en marcha la imagen <code>posgres:13</code>:</p>
 <div class="highlight"><pre><span></span><code>docker run -d -p 5432:5432 --name postgres-develop -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
 </code></pre></div>
 <p>Docker se descarga la imagen <code>postgres:13</code> y lanza el contenedor (una
@@ -1050,6 +1051,15 @@ $ docker container rm nombre o id de contenedor&gt; (elimina un contenedor)
 <p>Se activará el perfil <code>postgres</code> y se cargarán las preferencias de
 <code>src/main/resource/application.properties</code> y
 <code>src/main/resource/application-postgres.properties</code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Cuidado si tienes otro postgres funcionando</p>
+<p>Si tienes instalado el servicio de postgres para otras
+asignaturas la aplicación dará un error al lanzarse, porque se intentará
+conectar al puerto 5432 y ahí no estará nuestra base de datos, sino la
+base de datos de la otra asignatura. Asegúrate de detener el servicio de
+postgres que tengas instalado en tu ordenador antes de lanzar el comando
+<code>docker run</code> que pone en marcha nuestra imagen de posgres.</p>
+</div>
 <p>Al lanzarse la aplicación con el perfil activo <code>postgres</code> no se ejecutará el
 servicio <code>InitDbService</code> que añade datos por defecto en la
 aplicación. Ahora ya no tiene sentido trabajar con datos por defecto porque
