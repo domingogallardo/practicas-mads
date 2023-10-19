@@ -1124,9 +1124,12 @@ encuentra en la propia instalación de Docker.</p>
     configuración de lanzamiento de test y añadiendo la variable de
     entorno <code>spring.profiles.active=postgres</code>. Podríamos, por ejemplo,
     llamar a esta configuración <code>Tests con PostgreSQL</code>.</p>
-<p>Es posible que debas recargar el proyecto Maven para
-actualizar las dependencias.</p>
 <p><img src="imagenes/intellij-test-postgres.png" width="650px"/></p>
+<div class="admonition important">
+<p class="admonition-title">Recargar las dependencias Maven</p>
+<p>Si la ejecución de los tests desde IntelliJ produce un error prueba a
+recargar las dependencias en el panel de Maven.</p>
+</div>
 </li>
 <li>
 <p>Dado que las configuraciones de test y de ejecución utilizan
