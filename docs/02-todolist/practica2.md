@@ -5,10 +5,13 @@
 En práctica 2 vamos a trabajar sobre la aplicación inicial
 [domingogallardo/mads-todolist-inicial](https://github.com/domingogallardo/mads-todolist-inicial).
 
-Esta parte tendrá una duración de cuatro semanas. Deberás realizarla de
-forma individual, siguiendo las indicaciones que encontrarás en este
-documento. Tendrás que desarrollar código y trabajar en GitHub
-desarrollando _issues_, _pull requests_, _releases_ y actualizando los
+La duración de la práctica es de 4 semanas, la fecha límite de
+entrega es el día 17 de octubre y su puntuación es de 1 punto en la nota final
+de la asignatura.
+
+Deberás realizar la práctica de forma individual, siguiendo las indicaciones que
+encontrarás en este documento. Tendrás que desarrollar código y trabajar en
+GitHub desarrollando _issues_, _pull requests_, _releases_ y actualizando los
 tableros del proyecto (en Trello y en GitHub).
 
 Al igual que en la práctica 1 usaremos GitHub Classroom para crear un
@@ -27,6 +30,8 @@ elementos:
 Debes leer la [introducción a Spring
 Boot](../01-intro-spring-boot/intro-spring-boot.md) para entender los
 conceptos fundamentales del framework.
+
+
 
 ## 2. Aplicación inicial ##
 
@@ -3043,8 +3048,8 @@ Markdown](https://guides.github.com/features/mastering-markdown/).
 - La práctica tiene una duración de 4 semanas y debe estar terminada
   el martes 17 de octubre.
 - La parte obligatoria puntúa sobre 6 y la opcional sobre 4 puntos.
-- La calificación de la práctica tiene un peso de un 25% en la nota
-  final de prácticas.
+- La calificación de la práctica se corresponde con 10% de la nota
+  final de la asignatura.
 - Para realizar la entrega se debe subir a Moodle un ZIP que contenga
   todo el proyecto, incluyendo el directorio `.git` que contiene la
   historia Git. Para ello comprime tu directorio local del proyecto

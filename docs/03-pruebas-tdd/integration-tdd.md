@@ -15,8 +15,9 @@ En esta práctica 3 de la asignatura realizaremos dos tareas principales:
     apartados con el título `Pasos a seguir`. Ahí están
     especificadas las acciones que debes realizar en la práctica.
 
-La duración de la práctica es de 3 semanas y la fecha límite de
-entrega es el día 8 de noviembre.
+La duración de la práctica es de 3 semanas, la fecha límite de
+entrega es el día 7 de noviembre y su puntuación es de 1 punto en la nota final
+de la asignatura.
 
 ## 1. Desarrollo de la _release_ 1.2.0 ##
 
@@ -1314,15 +1315,18 @@ base de datos.
 
 #### Séptimo test - Método de servicio para el listado de equipos ####
 
-Pendiente.
-
-<!--
-
 Añadimos el test que obliga a crear el método de servicio que recupera
 la lista de equipos existentes, ordenada por orden alfabético del
 nombre del equipo:
 
-```java title="src/test/java/madstodolist/EquipoServiceTest.java"
+```java title="src/test/java/madstodolist/service/EquipoServiceTest.java"
+
+// ... imports
+
+import java.util.List;
+
+// ... public class EquipoServiceTest
+
     @Test
     public void listadoEquiposOrdenAlfabetico() {
         // GIVEN
@@ -1332,7 +1336,7 @@ nombre del equipo:
 
         // WHEN
         // Recuperamos los equipos
-        List<Equipo> equipos = equipoService.findAllOrderedByName();
+        List<EquipoData> equipos = equipoService.findAllOrderedByName();
 
         // THEN
         // Los equipos están ordenados por nombre
@@ -1346,164 +1350,137 @@ nombre del equipo:
 Escribe en el servicio el código estríctamente necesario para que
 pase el test. Haz un commit en la rama y súbelo a GitHub.
 
--->
 
-#### Octavo test - Comprobación de relación entre equipo y usuarios ####
+#### Octavo test - Métodos de servicio para añadir y recuperar usuarios a un equipo ####
 
-Pendiente.
+En este test vamos a construir dos métodos de servicio con un único test. Aunque
+pueda parecer de que estamos incumpliendo la norma de TDD de avanzar con
+pequeños pasos, ambos métodos están muy relacionados y es complicado
+construirlos por separado.
 
-<!--
+El test es el siguiente:
 
-Vamos a centrar este test en la forma de traer a memoria los objetos
-que participan en la relación `USUARIO-EQUIPO`. 
-
-En JPA hay dos formas de definir una relación a-muchos:
-
-- `EAGER`: Si una relación a-muchos es `EAGER`, cuando la clase
-  repository devuelve un objeto (ya sea al recuperarlo
-  individualmente, o en una consulta en la que se recupera una
-  colección), se obtienen también de la base de datos todos los
-  objetos con los que está relacionado. Por ejemplo, en la práctica
-  tenemos definida de esta forma la relación entre usuarios y tareas.
-
-- `LAZY`: Si una relación a-muchos es `LAZY`, cuando la clase
-  repository devuelve un objeto, no recupera de la base de datos los
-  objetos relacionados. Sólo lo hace cuando se accede a la colección
-  que contiene la relación. Entonces es cuando se realiza la consulta
-  a la base de datos y se traen estos objetos a memoria. Si estos
-  objetos tienen otras relaciones se traerán a memoria o no
-  dependiendo de si son `EAGER` o `LAZY`.
-  
-  Para que funcione la recuperación perezosa debe estar abierta la
-  conexión con la base de datos en el momento en que se accede a la
-  colección. Para ello es muy importante la etiqueta
-  `@Transactional`. Cuando ponemos esta etiqueta en los métodos de las
-  clases de servicio se garantiza que todo el método se realiza en una
-  única transacción. Por ello, al finalizar el método se cerrará la
-  conexión con la base de datos y el objeto que se devolverá al
-  _controller_ **estará desconectado de la base de datos**, por lo que
-  la recuperación perezosa no funcionará en el _controller_.
-
-En el caso de la relación USUARIO-EQUIPO hemos definido el siguiente
-diseño:
-
-- La relación entre un usuario y sus equipos será `EAGER`. Cuando
-  recuperamos un usuario, recuperaremos también la información de
-  todos los equipos en los que participa. Esta parte de la relación
-  está pendiente de implementar. Lo haremos más adelante.
-  
-- La relación entre un equipo y sus usuarios es `LAZY`. Esto es muy
-  importante. Si no lo hiciéramos así ¡podríamos fácilmente traernos a
-  memoria toda la base de datos!. Un equipo recuperaría todos sus
-  usuarios, que también pueden estar en otros equipos, que a su vez
-  también se traerían a memoria. 
-
-Vamos a comprobar que la relación entre equipos y usuarios es
-`LAZY`. Para ello debemos comprobar que se lanza una excepción cuando
-se intenta acceder a la colección de usuarios de un equipo recuperado:
-
-```java title="src/test/java/madstodolist/EquipoServiceTest.java"
+```java title="src/test/java/madstodolist/Service/EquipoServiceTest.java"
     @Test
-    public void accesoUsuariosGeneraExcepcion() {
-        // Given
-        // Un equipo en la base de datos
-        Equipo equipo = equipoService.crearEquipo("Proyecto 1");
-
-        // WHEN
-        // Se recupera el equipo
-        Equipo equipoBd = equipoService.recuperarEquipo(equipo.getId());
-
-        // THEN
-        // Se produce una excepción al intentar acceder a sus usuarios
-        assertThatThrownBy(() -> {
-            equipoBd.getUsuarios().size();
-        }).isInstanceOf(LazyInitializationException.class);
-    }
-```
-
-Comprueba si hay que modificar el código, haz un commit y súbelo a
-GitHub.
-
--->
-
-#### Noveno test - Método de servicio para añadir un usuario a un equipo ####
-
-Pendiente.
-
-<!--
-Vamos a crear un test que nos obligue a implementar el método de
-servicio para añadir un usuario a un equipo. Para comprobar su
-funcionamiento deberemos implementar también el método de servicio
-para recuperar los usuarios de un equipo.
-
-El test es el siguiente.
-
-```java title="src/test/java/madstodolist/EquipoServiceTest.java"
-    @Test
-    public void actualizarRecuperarUsuarioEquipo() {
+    public void añadirUsuarioAEquipo() {
         // GIVEN
-        // Un equipo creado en la base de datos y un usuario registrado
-        Equipo equipo = equipoService.crearEquipo("Proyecto 1");
-        Usuario usuario = new Usuario("user@ua");
+        // Un usuario y un equipo en la base de datos
+        UsuarioData usuario = new UsuarioData();
+        usuario.setEmail("user@ua");
         usuario.setPassword("123");
         usuario = usuarioService.registrar(usuario);
+        EquipoData equipo = equipoService.crearEquipo("Proyecto 1");
 
         // WHEN
-        // Añadimos el usuario al equipo y lo recuperamos
-        equipoService.addUsuarioEquipo(usuario.getId(), equipo.getId());
-        List<Usuario> usuarios = equipoService.usuariosEquipo(equipo.getId());
+        // Añadimos el usuario al equipo
+        equipoService.añadirUsuarioAEquipo(equipo.getId(), usuario.getId());
 
         // THEN
-        // El usuario se ha recuperado correctamente
+        // El usuario pertenece al equipo
+        List<UsuarioData> usuarios = equipoService.usuariosEquipo(equipo.getId());
         assertThat(usuarios).hasSize(1);
         assertThat(usuarios.get(0).getEmail()).isEqualTo("user@ua");
     }
 ```
 
-Implementa los métodos de servicio necesarios para que el test pase
-correctamente. Haz un commit y súbelo a GitHub.
+El código de la solución es muy sencillo. Para añadir un usuario a un equipo
+usamos el método implementado anteriormente `addUsuario` de la entidad
+`Equipo`. Y para recuperar todos los usuarios de un equipo usamos la colección
+de usuarios y la recorremos para obtener los DTOs, de una forma similar a cómo
+lo hicimos para recuperar la lista de tareas de un usuario:
 
--->
+```java title="src/main/java/madstodolist/service/EquipoService.java"
 
-#### Décimo test - Recuperación de equipos de un usuario ####
+    @Transactional
+    public void añadirUsuarioAEquipo(Long id, Long id1) {
+        Equipo equipo = equipoRepository.findById(id).orElse(null);
+        Usuario usuario = usuarioRepository.findById(id1).orElse(null);
+        equipo.addUsuario(usuario);
+    }
 
-Pendiente.
+    @Transactional(readOnly = true)
+    public List<UsuarioData> usuariosEquipo(Long id) {
+        Equipo equipo = equipoRepository.findById(id).orElse(null);
+        // Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.
+        return equipo.getUsuarios().stream()
+                .map(usuario -> modelMapper.map(usuario, UsuarioData.class))
+                .collect(Collectors.toList());
+    }
 
-<!--
+```
 
-Y, por último, hacemos un test para que un usuario recupere de
-forma _eager_ sus equipos. Si recuperamos un usuario con cualquier
-método de servicio (por ejemplo, `usuarioService.findById`), el
-usuario debe ser devuelto con la colección con sus equipos
-actualizada.
+Hacemos un commit en la rama y lo subimos a GitHub.
 
-```java title="src/test/java/madstodolist/EquipoServiceTest.java"
+#### Noveno test - Recuperación de equipos de un usuario ####
+
+Aunque no es estrictamente necesario para implementar la funcionalidad de listar
+los equipos, ya que estamos trabajando con la relación entre equipos y usuarios
+vamos a definir un método de servicio que obtenga el otro lado de la
+relación. Dado un usuario, queremos obtener todos sus equipos.
+
+Lo hacemos añadiendo también el en servicio `EquipoService` el método
+`equiposUsuario` con el siguiente test:
+
+```java title="src/main/java/madstodolist/service/EquipoService.java"
     @Test
-    public void comprobarRelacionUsuarioEquipos() {
+    public void recuperarEquiposDeUsuario() {
         // GIVEN
-        // Un equipo creado en la base de datos y un usuario registrado
-        Equipo equipo = equipoService.crearEquipo("Proyecto 1");
-        Usuario usuario = new Usuario("user@ua");
+        // Un usuario y dos equipos en la base de datos
+        UsuarioData usuario = new UsuarioData();
+        usuario.setEmail("user@ua");
         usuario.setPassword("123");
         usuario = usuarioService.registrar(usuario);
+        EquipoData equipo1 = equipoService.crearEquipo("Proyecto 1");
+        EquipoData equipo2 = equipoService.crearEquipo("Proyecto 2");
+        equipoService.añadirUsuarioAEquipo(equipo1.getId(), usuario.getId());
+        equipoService.añadirUsuarioAEquipo(equipo2.getId(), usuario.getId());
 
         // WHEN
-        // Añadimos el usuario al equipo y lo recuperamos
-        equipoService.addUsuarioEquipo(usuario.getId(), equipo.getId());
-        Usuario usuarioBD = usuarioService.findById(usuario.getId());
+        // Recuperamos los equipos del usuario
+        List<EquipoData> equipos = equipoService.equiposUsuario(usuario.getId());
 
         // THEN
-        // Se recuperan también los equipos del usuario,
-        // porque la relación entre usuarios y equipos es EAGER
-        assertThat(usuarioBD.getEquipos()).hasSize(1);
+        // El usuario pertenece a los dos equipos
+        assertThat(equipos).hasSize(2);
+        assertThat(equipos.get(0).getNombre()).isEqualTo("Proyecto 1");
+        assertThat(equipos.get(1).getNombre()).isEqualTo("Proyecto 2");
     }
 ```
 
-El test fallará, porque debes de cambiar algo en la definición de la
-relación entre usuarios y equipos. Modifica el código para que el test
-pase, haz un commit y súbelo a GitHub.
+Escribe en el servicio el código estríctamente necesario para que
+pase el test. Haz un commit en la rama y súbelo a GitHub.
 
--->
+#### Décimo test - Excepciones ####
+
+Por último, añadimos un test y el código necesario para obligar a que se lancen excepciones en
+los métodos de servicio cuando no existe el equipo o el usuario.
+
+El test es el siguiente:
+
+```java title="src/main/java/madstodolist/service/EquipoService.java"
+    @Test
+    public void comprobarExcepciones() {
+        // Comprobamos las excepciones lanzadas por los métodos
+        // recuperarEquipo, añadirUsuarioAEquipo, usuariosEquipo y equiposUsuario
+        assertThatThrownBy(() -> equipoService.recuperarEquipo(1L))
+                .isInstanceOf(EquipoServiceException.class);
+        assertThatThrownBy(() -> equipoService.añadirUsuarioAEquipo(1L, 1L))
+                .isInstanceOf(EquipoServiceException.class);
+        assertThatThrownBy(() -> equipoService.usuariosEquipo(1L))
+                .isInstanceOf(EquipoServiceException.class);
+        assertThatThrownBy(() -> equipoService.equiposUsuario(1L))
+                .isInstanceOf(EquipoServiceException.class);
+
+        // Creamos un equipo pero no un usuario y comprobamos que también se lanza una excepción
+        EquipoData equipo = equipoService.crearEquipo("Proyecto 1");
+        assertThatThrownBy(() -> equipoService.añadirUsuarioAEquipo(equipo.getId(), 1L))
+                .isInstanceOf(EquipoServiceException.class);
+    }
+```
+
+Escribe en el servicio el código necesario, haz un commit en la rama y súbelo a
+GitHub.
+
 
 #### Cierre del _issue_ ####
 
@@ -1620,8 +1597,8 @@ se puede ver pulsando el botón `Raw`. Verás el [texto Markdown](https://raw.gi
 - La práctica tiene una duración de 3 semanas y la fecha límite de
   entrega es el martes 7 de noviembre.
 - La parte obligatoria puntúa sobre 8 y la opcional sobre 2 puntos.
-- La calificación de la práctica tiene un peso de un 25% en la nota
-  final de prácticas. 
+- La calificación de la práctica se corresponde con 10% de la nota
+  final de la asignatura.
 - Para realizar la entrega se debe subir a Moodle un ZIP que contenga
   todo el proyecto, incluyendo el directorio `.git` que contiene la
   historia Git. Para ello comprime tu directorio local del proyecto

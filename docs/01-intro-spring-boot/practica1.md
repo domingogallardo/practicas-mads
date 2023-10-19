@@ -21,7 +21,12 @@ Los objetivos principales son:
   pequeñas modificaciones en la aplicación que usen un formulario.
 - Trabajar de forma regular, realizando pequeños commits que se deben
   subir al repositorio personal de la asignatura en GitHub.
-- Crear una aplicación desplegable usando Docker y publicar el contenedor en DockerHub
+- Crear una aplicación desplegable usando Docker y publicar el contenedor en
+  DockerHub
+  
+La duración de la práctica es de 1 semana, la fecha límite de
+entrega es el día 19 de septiembre y su puntuación es de 0,4 puntos en la nota final
+de la asignatura.
 
 ## 1. Instalación de software ##
 
@@ -681,8 +686,8 @@ asignatura.
 - La práctica tiene una duración de 1 semana y debe estar terminada
   el martes 19 de septiembre.
 
-- La calificación de la práctica tiene un peso de un 10% en la nota
-  final de prácticas.
+- La calificación de la práctica tiene un peso de un 4% en la nota
+  final de la asignatura.
 
 Para realizar la entrega debes hacer lo siguiente:
 
