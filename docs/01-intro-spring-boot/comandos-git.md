@@ -98,8 +98,18 @@ múltiples versiones (PDF, eBook, HTML y mobi).
     $ git commit -am "Mensaje"`
     ```
 
+- Deshacer un commit (sin perder los cambios que se han introducido en él):
+
+    ```
+    $ git reset HEAD^
+    ```
+    
+    Los ficheros modificados seguirán estando en el directorio, con las
+    modificaciones incluidas, pero fuera del área de _stage_. Para hacer un
+    nuevo commit hay que volver a añadirlos haciendo `add`.
+
 - Eliminar todos los cambios realizados en el directorio, volviendo al
-  último commit:
+  último commit (¡Peligroso: perdemos todos los cambios del último commit!)
   
     ```
     $ git reset --hard HEAD
@@ -110,6 +120,13 @@ múltiples versiones (PDF, eBook, HTML y mobi).
 
     ```
     $ git push
+    ```
+
+- Si hay commits en el repositorio remoto que queremos eliminar y cambiarlos por
+  los commits en el directorio local:
+  
+    ```
+    $ git push --force
     ```
 
 - Consultar los mensajes de los commits (toda la historia de la rama

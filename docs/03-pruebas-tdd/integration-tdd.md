@@ -1513,11 +1513,14 @@ implementado la anterior.
 nuevos equipos y añadirme y eliminarme de cualquiera de ellos para poder
 participar y dejar de participar en ellos.
 
+El método de servicio que tendrás que añadir en la fase de TDD es el de eliminar
+un usuario de un equipo.
+
 Los métodos de servicio para crear equipos o para añadir un usuario a
 un equipo ya han sido implementados en la historia anterior, por lo
-que puedes usar esta historia para mejorarlos. Por ejemplo, lanzar
-excepciones si la cadena del nombre es vacía o si no existe el usuario
-o el equipo.
+que puedes usar esta historia para mejorarlos. Por ejemplo, añadir nuevas
+excepciones si la cadena del nombre es vacía o si el usuario que se está
+añadiendo ya pertenece al equipo.
 
 !!! Important "Importante detalle de implementación"
     En una relación muchos-a-muchos como la que
