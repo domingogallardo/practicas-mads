@@ -543,8 +543,16 @@ dibujo muestra su funcionamiento:</p>
 </code></pre></div>
 </li>
 <li>
+<p>Deshacer un commit (sin perder los cambios que se han introducido en él):</p>
+<div class="highlight"><pre><span></span><code>$ git reset HEAD^
+</code></pre></div>
+<p>Los ficheros modificados seguirán estando en el directorio, con las
+modificaciones incluidas, pero fuera del área de <em>stage</em>. Para hacer un
+nuevo commit hay que volver a añadirlos haciendo <code>add</code>.</p>
+</li>
+<li>
 <p>Eliminar todos los cambios realizados en el directorio, volviendo al
-  último commit:</p>
+  último commit (¡Peligroso: perdemos todos los cambios del último commit!)</p>
 <div class="highlight"><pre><span></span><code>$ git reset --hard HEAD
 $ git clean -fd (si se ha añadido algún fichero)
 </code></pre></div>
@@ -552,6 +560,12 @@ $ git clean -fd (si se ha añadido algún fichero)
 <li>
 <p>Publicar los cambios en el repositorio remoto:</p>
 <div class="highlight"><pre><span></span><code>$ git push
+</code></pre></div>
+</li>
+<li>
+<p>Si hay commits en el repositorio remoto que queremos eliminar y cambiarlos por
+  los commits en el directorio local:</p>
+<div class="highlight"><pre><span></span><code>$ git push --force
 </code></pre></div>
 </li>
 <li>
