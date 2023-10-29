@@ -16,8 +16,7 @@ theme:
     language: es
     name: 'material'
     palette:
-        primary: 'Teal'
-        accent: 'Teal'
+        scheme: default
     font:
         text: 'Ubuntu' 
 #       text: 'Roboto'
