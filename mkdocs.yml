@@ -16,18 +16,16 @@ theme:
     language: es
     name: 'material'
     palette: 
+        primary: teal
+        accent: teal
         # Palette toggle for light mode
         - scheme: default
-          primary: teal
-          accent: teal
           toggle:
             icon: material/brightness-7 
             name: Dark mode
 
         # Palette toggle for dark mode
         - scheme: slate
-          primary: teal
-          accent: teal
           toggle:
             icon: material/brightness-4
             name: Light mode
