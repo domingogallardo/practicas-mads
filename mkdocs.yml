@@ -16,8 +16,6 @@ theme:
     language: es
     name: 'material'
     palette: 
-        primary: teal
-        accent: teal
         # Palette toggle for light mode
         - scheme: default
           toggle:
@@ -29,6 +27,8 @@ theme:
           toggle:
             icon: material/brightness-4
             name: Light mode
+        primary: teal
+        accent: teal
     font:
         text: 'Ubuntu' 
         code: 'Roboto Mono' 
