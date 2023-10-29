@@ -15,13 +15,24 @@ nav:
 theme:
     language: es
     name: 'material'
-    palette:
-        scheme: slate
-        primary: teal
-        accent: teal
+    palette: 
+        # Palette toggle for light mode
+        - scheme: default
+          primary: teal
+          accent: teal
+          toggle:
+            icon: material/brightness-7 
+            name: Dark mode
+
+        # Palette toggle for dark mode
+        - scheme: slate
+          primary: teal
+          accent: teal
+          toggle:
+            icon: material/brightness-4
+            name: Light mode
     font:
         text: 'Ubuntu' 
-#       text: 'Roboto'
         code: 'Roboto Mono' 
     logo: 'imagenes/logo.png'
 
