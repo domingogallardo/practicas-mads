@@ -17,6 +17,8 @@ theme:
     name: 'material'
     palette:
         scheme: slate
+        primary: teal
+        accent: teal
     font:
         text: 'Ubuntu' 
 #       text: 'Roboto'
