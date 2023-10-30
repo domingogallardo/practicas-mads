@@ -32,9 +32,10 @@ theme:
           icon: material/brightness-4
           name: Switch to light mode
     font:
-        text: 'Ubuntu' 
-        code: 'Roboto Mono' 
-    logo: logo
+      text: 'Ubuntu' 
+      code: 'Roboto Mono' 
+    icon:
+      logo: logo
 
 # Ponemos como idioma de búsqueda el inglés
 # para conseguir que busque correctamente
