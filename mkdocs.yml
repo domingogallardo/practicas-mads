@@ -34,7 +34,7 @@ theme:
     font:
         text: 'Ubuntu' 
         code: 'Roboto Mono' 
-    logo: 'imagenes/logo.png'
+    logo: logo
 
 # Ponemos como idioma de búsqueda el inglés
 # para conseguir que busque correctamente
