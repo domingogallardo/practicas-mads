@@ -18,17 +18,19 @@ theme:
     palette: 
         # Palette toggle for light mode
         - scheme: default
+          primary: teal
+          accent: teal
           toggle:
             icon: material/brightness-7 
-            name: Dark mode
+            name: Switch to dark mode
 
         # Palette toggle for dark mode
         - scheme: slate
+          primary: teal
+          accent: teal
           toggle:
             icon: material/brightness-4
-            name: Light mode
-        primary: teal
-        accent: teal
+            name: Switch to light mode
     font:
         text: 'Ubuntu' 
         code: 'Roboto Mono' 
