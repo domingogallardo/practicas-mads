@@ -1599,7 +1599,7 @@ Boot](https://github.com/domingogallardo/practicas-mads/blob/main/docs/01-intro-
 se puede ver pulsando el botón `Raw`. Verás el [texto Markdown](https://raw.githubusercontent.com/domingogallardo/practicas-mads/main/docs/01-intro-spring-boot/intro-spring-boot.md).
 
 - La práctica tiene una duración de 3 semanas y la fecha límite de
-  entrega es el martes 7 de noviembre.
+  entrega es el martes 7 de noviembre (**actualizado: martes 14 de noviembre**).
 - La parte obligatoria puntúa sobre 8 y la opcional sobre 2 puntos.
 - La calificación de la práctica se corresponde con 10% de la nota
   final de la asignatura.
