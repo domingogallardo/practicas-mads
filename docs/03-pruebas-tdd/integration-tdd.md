@@ -822,9 +822,10 @@ $ git push
 ```
 
 Crea el pull request para comprobar que el test pasa correctamente
-cuando se ejecuta sobre la base de datos Postgres. Liga el pull
-request con el issue, para que cuando se mezcle el PR se cierre el
-issue.
+cuando se ejecuta sobre la base de datos Postgres. Ponle como nombre el mismo
+nombre que el issue que estás resolviendo "Servicio y modelo listado de
+equipos". Y liga el pull request con el issue, para que cuando se mezcle el PR
+se cierre el issue.
 
 !!! Important "Importante"
     Debes incluir en el commit tanto el código del test como el código
