@@ -490,12 +490,12 @@ red. Desde el contenedor con la aplicación se accederá a la dirección
 comandos de docker para definir una red y para lanzar el contenedor de
 base de datos en esa dirección de la red.
 
-El contenedor de base de datos montará el directorio actual del host
-en el directorio `/mi-host` del contenedor. De esta forma, cualquier
-fichero que coloquemos en ese directorio del contenedor será visible
-en el directorio actual del host (y viceversa). Usaremos este
-directorio para guardar datos de la base de datos, como copias de
-seguridad o ficheros de migración.
+El contenedor de base de datos montará el directorio actual del host en el
+directorio `/mi-host` del contenedor. De esta forma este directorio será
+compartido y cualquier fichero que coloquemos en ese directorio del contenedor
+será visible en el directorio actual del host (y viceversa). Usaremos este
+directorio para guardar datos de la base de datos, como copias de seguridad o
+ficheros de migración.
 
 El contenedor de base de datos implementará la base de datos en
 producción. 
