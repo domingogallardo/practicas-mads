@@ -1235,12 +1235,12 @@ red. Desde el contenedor con la aplicación se accederá a la dirección
 <code>postgres:5432</code> para conectarse con la base de datos. Veremos los
 comandos de docker para definir una red y para lanzar el contenedor de
 base de datos en esa dirección de la red.</p>
-<p>El contenedor de base de datos montará el directorio actual del host
-en el directorio <code>/mi-host</code> del contenedor. De esta forma, cualquier
-fichero que coloquemos en ese directorio del contenedor será visible
-en el directorio actual del host (y viceversa). Usaremos este
-directorio para guardar datos de la base de datos, como copias de
-seguridad o ficheros de migración.</p>
+<p>El contenedor de base de datos montará el directorio actual del host en el
+directorio <code>/mi-host</code> del contenedor. De esta forma este directorio será
+compartido y cualquier fichero que coloquemos en ese directorio del contenedor
+será visible en el directorio actual del host (y viceversa). Usaremos este
+directorio para guardar datos de la base de datos, como copias de seguridad o
+ficheros de migración.</p>
 <p>El contenedor de base de datos implementará la base de datos en
 producción. </p>
 <div class="admonition note">
