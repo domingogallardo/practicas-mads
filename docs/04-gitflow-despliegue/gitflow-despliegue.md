@@ -415,9 +415,7 @@ Debéis hacer lo siguiente:
 2. Cambiad el fichero Dockerfile de la aplicación tal y como se indica en el listado
    anterior:
    
-    **Fichero `Dockerfile`**:
-
-    ```docker
+    ```docker title="./Dockerfile"
     FROM openjdk:8-jdk-alpine
     COPY target/*.jar app.jar
     ENTRYPOINT ["sh","-c","java -Djava.security.egd=file:/dev/urandom -jar /app.jar ${0} ${@}"]
