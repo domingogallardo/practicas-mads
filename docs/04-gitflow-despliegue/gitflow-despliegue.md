@@ -199,8 +199,6 @@ en repositorios y ramas remotas.
     $ (nueva-rama) git push
     ```
     
-    
-    
 - Comprobar el estado de las ramas locales:
 
     ```
@@ -270,6 +268,9 @@ en repositorios y ramas remotas.
     $ git push
     ```
 
+    Y el resto de compañeros deberán hacer un `git pull` para actualizar sus
+    ramas locales.
+    
 - Información de los repositorios remotos:
 
     ```
