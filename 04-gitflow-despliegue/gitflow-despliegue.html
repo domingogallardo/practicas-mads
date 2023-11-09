@@ -1172,8 +1172,7 @@ despliegue es lo que haré yo para corregir la práctica.</p>
 <li>
 <p>Cambiad el fichero Dockerfile de la aplicación tal y como se indica en el listado
    anterior:</p>
-<p><strong>Fichero <code>Dockerfile</code></strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">openjdk:8-jdk-alpine</span>
+<div class="highlight"><span class="filename">./Dockerfile</span><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">openjdk:8-jdk-alpine</span>
 <span class="k">COPY</span><span class="w"> </span>target/*.jar<span class="w"> </span>app.jar
 <span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;sh&quot;</span><span class="p">,</span><span class="s2">&quot;-c&quot;</span><span class="p">,</span><span class="s2">&quot;java -Djava.security.egd=file:/dev/urandom -jar /app.jar ${0} ${@}&quot;</span><span class="p">]</span>
 </code></pre></div>
