@@ -833,10 +833,13 @@ los miembros del equipo. Utilizaremos <em>GitHub Classroom</em> para crear el
 <h3 id="pasos-a-seguir">Pasos a seguir<a class="headerlink" href="#pasos-a-seguir" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
-<p>Debéis formar equipos de <strong>3 personas</strong>. Enviad los componentes al
-  foro de Moodle y os asignaré un nombre de equipo. Utilizad después
-  el enlace de GitHub Classroom que enviaré al foro de Moodle para
-  crear el equipo y apuntaros a él.</p>
+<p>Debéis formar equipos de <strong>3 personas</strong>. </p>
+<p>De forma excepcional, será posible crear equipos de 2 ó 4 personas. En esta
+práctica y en la siguiente se deberá adaptar la cantidad de trabajo y
+funcionalidades implementadas en función del número de personas del equipo.</p>
+<p>Enviad los componentes al foro de Moodle y os asignaré un nombre de
+equipo. Utilizad después el enlace de GitHub Classroom que enviaré al foro
+de Moodle para crear el equipo y apuntaros a él.</p>
 <p>El primero que use el enlace debe crear el repositorio,
 escribiendo el nombre del equipo, como se muestra en la siguiente
 imagen.</p>
@@ -882,7 +885,7 @@ cuanto a la gestión de los <em>issues</em> y tablero del proyecto cambiaremos
 lo siguiente:</p>
 <ul>
 <li><strong>Selección del <em>issue</em></strong>: Al pasar un <em>issue</em> de <code>To do</code>a <code>In
-  progress</code> se debe asignar un responsable del desarrollo del <em>issue</em>.</li>
+  progress</code> se debe <strong>asignar un responsable</strong> del desarrollo del <em>issue</em>.</li>
 <li><strong>Nueva rama con el <em>issue</em></strong>: El responsable seleccionado será el que abra una
   rama nueva para el desarrollo del ticket y la subirá a
   GitHub.</li>
@@ -892,15 +895,17 @@ lo siguiente:</p>
 <li><strong>Pull request</strong>: Cuando el ticket se ha terminado, el responsable
   abre un pull request en GitHub y pone la tarjeta en la columna
   <code>In pull request</code>.</li>
-<li><strong>Revisión de código</strong>: Los miembros del equipo revisan el código en
-  el pull request (consultar documentación en GitHub: <a href="https://help.github.com/articles/reviewing-proposed-changes-in-a-pull-request/">Reviewing
-  proposed changes in a pull
-  request</a>). Al
-  menos uno de los miembros del equipo deben dar el OK, añadiendo una
-  reacción. Debéis configurar la opción de GitHub que obliga a que
-  haya un <a href="https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/enabling-required-reviews-for-pull-requests">mínimo de revisores</a> en el pull request.</li>
-<li><strong>Integración del pull request</strong>: Cuando un miembro da el OK, el
-  responsable de la tarea integra el pull request.</li>
+<li>
+<p><strong>Revisión de código</strong>: Debéis configurar la opción de GitHub que obliga a que
+  haya un <a href="https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/enabling-required-reviews-for-pull-requests">mínimo de 1 revisor</a> en el pull request.</p>
+<p>Los miembros del equipo revisan el código en el pull request (consultar documentación en GitHub: <a href="https://help.github.com/articles/reviewing-proposed-changes-in-a-pull-request/">Reviewing
+  proposed changes in a pull  request</a>). Al
+  menos uno de los miembros del equipo debe <strong>dar el visto bueno al PR</strong>, añadiendo una reacción. </p>
+</li>
+<li>
+<p><strong>Integración del pull request</strong>: Cuando un miembro da el OK, el
+  responsable de la tarea integra el pull request.</p>
+</li>
 </ul>
 <p>Para implementar el trabajo en equipo será necesario trabajar sobre
 ramas remotas compartidas. A continuación explicamos con más detalle
@@ -910,17 +915,20 @@ algunos aspectos comandos de Git necesarios.</p>
 en repositorios y ramas remotas.</p>
 <ul>
 <li>
-<p>Subir una rama al repositorio remoto:</p>
+<p>Subir una rama al repositorio remoto (el responsable del issue):</p>
 <div class="highlight"><pre><span></span><code>$ git checkout -b nueva-rama
 $ git push -u origin nueva-rama
 </code></pre></div>
 </li>
 <li>
 <p>Descargar por primera vez una rama del repositorio remoto y moverse
-  a ella</p>
+  a ella (el resto de miembros del equipo):</p>
 <div class="highlight"><pre><span></span><code>$ (main) git pull
-$ (main) git branch -r (comprobamos las ramas remotas)
+   * [nueva rama] nueva-rama -&gt; origin/nueva-rama
+$ (main) git branch -r (comprobamos las ramas remotas asegurarnos)
 $ (main) git checkout nueva-rama 
+  rama &#39;nueva-rama&#39; configurada para rastrear &#39;origin/nueva-rama&#39;.
+  Cambiado a nueva rama &#39;nueva-rama&#39;
 $ (nueva-rama)
 </code></pre></div>
 </li>
@@ -930,17 +938,12 @@ $ (nueva-rama)
 $ (nueva-rama) git commit -m &quot;Mis cambios&quot;
 $ (nueva-rama) git push
 </code></pre></div>
-<p>Si somos nosotros los que hemos creado la rama, hay que
-configurarla para que funcione correctamente el <code>git push</code>
-haciendo:</p>
-<div class="highlight"><pre><span></span><code>$ (nueva-rama) git push -u origin nueva-rama
-</code></pre></div>
 <p>Si algún compañero ha subido cambios a la rama remota que tenemos
 pendientes de descargar, al hacer un <code>git push</code> tendremos un
 error en el que nos indica que debemos hacer antes un <code>git pull</code>:</p>
 <div class="highlight"><pre><span></span><code>% (nueva-rama) git push
 To https://github.com/domingogallardo/prueba-clase.git
-! [rejected]        prueba2 -&gt; prueba2 (fetch first)
+! [rejected]        nueva-rama -&gt; nueva-rama (fetch first)
 error: falló el push de algunas referencias a &#39;https://github.com/domingogallardo/prueba-clase.git&#39;
 ayuda: Actualizaciones fueron rechazadas porque el remoto contiene trabajo que
 ayuda: no existe localmente. Esto es causado usualmente por otro repositorio
@@ -969,12 +972,11 @@ primera opción, que no se haga un rebase sino un merge:</p>
 <div class="highlight"><pre><span></span><code>$ (nueva-rama) git config pull.rebase false
 </code></pre></div>
 <p>Ahora ya funciona el <code>git pull</code> (hará un merge de la rama remota
-con la rama local):
-n
+con la rama local):</p>
 <div class="highlight"><pre><span></span><code>$ (nueva-rama) git pull
 (aparecerá un editor en el que tenemos que especificar el mensaje
 del commit de merge, grabar y salir)
-</code></pre></div></p>
+</code></pre></div>
 <p>Y ahora ya podemos hacer <code>push</code>. Se subirán nuestros cambios y el
 commit de merge:</p>
 <div class="highlight"><pre><span></span><code>$ (nueva-rama) git push
@@ -1006,6 +1008,39 @@ pull</code>) no modifica los repositorios locales, sino que actualiza
 las ramas <em>remote tracking</em>.</p>
 </li>
 <li>
+<p>Comprobar cambios remotos: podemos comprobar si algún compañero ha subido
+  algún commit a alguna rama, y comprobar esos cambios antes de hacer un <code>merge</code>:</p>
+<div class="highlight"><pre><span></span><code>$ (main) git fetch --all
+   * Los cambios se descargan a las ramas locales origin/nueva-rama
+$ (main) git diff nueva-rama origin/nueva-rama
+$ (main) git checkout nueva-rama
+$ (nueva-rama) git merge origin/nueva-rama
+</code></pre></div>
+</li>
+<li>
+<p>Solución de conflictos en un <em>merge</em>:</p>
+<p>Supongamos que hay un conflicto al mezclar los cambios remotos del compañero
+en la nueva rama (haciendo <code>git pull</code> o <code>git merge</code>). Git detectará el
+conflicto, modificará los ficheros en conflicto y deberemos editarlos para
+quedarnos con los cambios deseados:</p>
+<div class="highlight"><pre><span></span><code>$ (nueva-rama) git pull (o git merge origin/nueva-rama)
+  CONFLICTO (contenido): Conflicto de fusión en README.md
+  Fusión automática falló; arregle los conflictos y luego realice un commit con el resultado.
+$ git status
+  Tienes rutas no fusionadas.
+  (arregla los conflictos y ejecuta &quot;git commit&quot;
+  (usa &quot;git merge --abort&quot; para abortar la fusion)
+
+  Rutas no fusionadas:
+     (usa &quot;git add &lt;archivo&gt;...&quot; para marcar una resolución)
+     modificados por ambos:  README.md
+# Editamos los ficheros en conflicto y nos quedamos con los cambios deseados
+$ git add .
+$ git commit -m &quot;Arreglado conflicto&quot;
+$ git push
+</code></pre></div>
+</li>
+<li>
 <p>Información de los repositorios remotos:</p>
 <div class="highlight"><pre><span></span><code>$ git remote show origin
 </code></pre></div>
@@ -1035,11 +1070,9 @@ $ git merge main
 </li>
 <li>
 <p>Solución de conflictos en un <em>pull request</em>:</p>
-<p>Recordamos lo que hemos visto en teoría sobre la solución de
-conflictos detectados en un <em>pull request</em>.</p>
-<p>Supongamos que hay un conflicto entre la nueva rama y
-<code>main</code>. GitHub detectará el conflicto en la página de <em>pull
-request</em>. Para arreglar el conflicto:</p>
+<p>Supongamos que en un <em>pull request</em> GitHub detecta un conflicto entre la
+nueva rama y la rama <code>main</code>. En lugar de resolver el conflicto en GitHub es
+recomendable hacerlo en el repositorio local:</p>
 <div class="highlight"><pre><span></span><code>$ git checkout main
 $ git pull
 $ git checkout nueva-rama
@@ -1080,14 +1113,21 @@ $ git push
   autores de la aplicación.</p>
 </li>
 <li>
+<p>Cread un conflicto entre commits de dos miembros del equipo. Cambiar los dos
+   la misma línea del fichero, haced commit (llamadlo "Provocando un conflicto")
+   e intentad subir los commits a la rama. El último que lo haga no podrá,
+   tendrá que hacer un <code>pull</code> y se generará un conflicto. Resolved el conflicto
+   y subir el fichero corregido.</p>
+</li>
+<li>
 <p>Cread el pull request en GitHub, poniendo como responsable del PR al
   mismo responsable del <em>issue</em>.</p>
 </li>
 <li>
-<p>Provocad un conflicto y arregladlo. Para ello se debe añadir un
+<p>Provocad otro conflicto y arregladlo. Para ello se debe añadir un
   commit en <code>main</code> que entre en conflicto con los cambios realizados
-  en la rama. Después se arreglará el conflicto y se subirá la
-  solución al pull request.</p>
+  en la rama. Podéis añadir el commit editando directamente el fichero en
+  GitHub. Arreglad el conflicto tal y como se explica en el apartado anterior.</p>
 </li>
 <li>
 <p>Por último, revisad el código, aceptadlo e integrad el PR en
@@ -1139,11 +1179,10 @@ despliegue es lo que haré yo para corregir la práctica.</p>
 </code></pre></div>
 </li>
 <li>
-<p>Modificad el fichero con el perfil <code>postgres</code> de ejecución para
+<p>Modificad el fichero en el directorio <code>main</code> con el perfil <code>postgres</code> para
    incluir la opción de usar variables de entorno, al igual que
    hicimos en el perfil <code>postgres</code> de test.</p>
-<p><strong>Fichero <code>src/main/resources/application-postgres.properties</code></strong>:</p>
-<div class="highlight"><pre><span></span><code>POSTGRES_HOST=localhost
+<div class="highlight"><span class="filename">src/main/resources/application-postgres.properties</span><pre><span></span><code>POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 DB_USER=mads
 DB_PASSWD=mads
@@ -1151,7 +1190,6 @@ spring.datasource.url=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/mads
 spring.datasource.username=${DB_USER}
 spring.datasource.password=${DB_PASSWD}
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-spring.sql.init.mode=never
 </code></pre></div>
 </li>
 <li>
@@ -1301,8 +1339,8 @@ $ docker start db-equipo
 <h2 id="6-perfil-de-produccion-y-mantenimiento-de-la-base-de-datos-de-produccion">6. Perfil de producción y mantenimiento de la base de datos de producción<a class="headerlink" href="#6-perfil-de-produccion-y-mantenimiento-de-la-base-de-datos-de-produccion" title="Permanent link">&para;</a></h2>
 <h3 id="perfil-de-produccion">Perfil de producción<a class="headerlink" href="#perfil-de-produccion" title="Permanent link">&para;</a></h3>
 <p>Una vez que vamos a trabajar en producción con una base de datos, esta
-base de datos será un elemento clave de la aplicación. No debemos,
-bajo ningún concepto, perder datos que se hayan introducido en ella,
+base de datos será un elemento clave de la aplicación. No debemos
+bajo ningún concepto perder datos que se hayan introducido en ella,
 ya que son datos de nuestros usuarios y clientes.</p>
 <p>Es imprescindible para ello cambiar el modo con el que la aplicación
 construye las tablas de la base de datos. Sabemos que nuestra
@@ -1496,8 +1534,8 @@ $ mv schema-1.2.0.sql sql
     exactamente la misma configuración del perfil postgres, excepto la
     propiedad <code>spring.jpa.hibernate.ddl-auto</code> que tiene el valor
     <code>validate</code>.</p>
-<p><strong>Fichero <code>/src/main/resources/application-postgres-prod.properties</code></strong>:</p>
-<div class="highlight"><pre><span></span><code>POSTGRES_HOST=localhost
+<p><strong>Fichero ``</strong>:</p>
+<div class="highlight"><span class="filename">/src/main/resources/application-postgres-prod.properties</span><pre><span></span><code>POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 DB_USER=mads
 DB_PASSWD=mads
@@ -1505,9 +1543,8 @@ spring.datasource.url=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/mads
 spring.datasource.username=${DB_USER}
 spring.datasource.password=${DB_PASSWD}
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
-spring.sql.init.mode=never
-<span class="hll">spring.jpa.hibernate.ddl-auto=validate
-</span></code></pre></div>
+spring.jpa.hibernate.ddl-auto=validate
+</code></pre></div>
 </li>
 <li>
 <p>Probamos en local que el perfil funciona correctamente, lanzándolo:</p>
@@ -1702,7 +1739,7 @@ que deberéis incluir:</p>
 <p>Entrega:</p>
 <ul>
 <li>La práctica tiene una duración de 2 semanas y debe estar terminada
-  el martes 22 de noviembre.</li>
+  el martes 28 de noviembre.</li>
 <li>La calificación de la práctica tiene un peso de un 15% en la nota
   final de prácticas.</li>
 <li>Para realizar la entrega <strong>uno de los miembros del equipo</strong> debe subir a
