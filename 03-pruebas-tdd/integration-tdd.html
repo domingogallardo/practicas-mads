@@ -1053,16 +1053,6 @@ el perfil de ejecución.</p>
 </span><span class="hll"><span class="w">         </span><span class="nt">&lt;/dependency&gt;</span>
 </span><span class="w">         </span><span class="nt">&lt;dependency&gt;</span>
 <span class="w">             </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
-
-<span class="w">        </span>...
-
-<span class="w">            </span><span class="nt">&lt;plugin&gt;</span>
-<span class="w">                </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
-<span class="w">                </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
-<span class="hll"><span class="w">                </span><span class="nt">&lt;configuration&gt;</span>
-</span><span class="hll"><span class="w">                    </span><span class="nt">&lt;profiles&gt;</span>${profiles}<span class="nt">&lt;/profiles&gt;</span>
-</span><span class="hll"><span class="w">                </span><span class="nt">&lt;/configuration&gt;</span>
-</span><span class="w">            </span><span class="nt">&lt;/plugin&gt;</span>
 </code></pre></div>
 </li>
 <li>
@@ -1087,7 +1077,7 @@ $ docker container rm nombre o id de contenedor&gt; (elimina un contenedor)
 </li>
 <li>
 <p>Arranca la aplicación con el siguiente comando:</p>
-<div class="highlight"><pre><span></span><code>./mvnw spring-boot:run -D profiles=postgres
+<div class="highlight"><pre><span></span><code>./mvnw spring-boot:run -Dspring-boot.run.profiles=postgres
 </code></pre></div>
 <p>Se activará el perfil <code>postgres</code> y se cargarán las preferencias de
 <code>src/main/resource/application.properties</code> y
