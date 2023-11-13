@@ -313,16 +313,6 @@ especificado por el perfil específico.
              </dependency>
              <dependency>
                  <groupId>org.springframework.boot</groupId>
-
-            ...
-            
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <configuration>
-                        <profiles>${profiles}</profiles>
-                    </configuration>
-                </plugin>
     ```
 
 5. Para lanzar la aplicación necesitarás un servidor PostgreSQL en el
@@ -353,7 +343,7 @@ especificado por el perfil específico.
 6. Arranca la aplicación con el siguiente comando:
 
     ```
-    ./mvnw spring-boot:run -D profiles=postgres
+    ./mvnw spring-boot:run -Dspring-boot.run.profiles=postgres
     ```
 
     Se activará el perfil `postgres` y se cargarán las preferencias de
