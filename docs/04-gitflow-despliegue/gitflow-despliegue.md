@@ -53,7 +53,8 @@ _team_ y el repositorio.
 
 - Una vez creado el repositorio debéis crear en él un tablero para
   gestionar las tarjetas con los _issues_ y los pull
-  requests. Creadlos con las mismas columnas que en las prácticas 2 y 3.
+  requests. Ponedle como nombre el nombre del equipo y creadlo con las mismas
+  columnas que en las prácticas 2 y 3.
 
 - Escoged el proyecto que vais a usar como punto de partida de estas
   dos últimas prácticas de entre los proyectos de los miembros del
