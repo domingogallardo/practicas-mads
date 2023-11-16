@@ -68,7 +68,7 @@ _team_ y el repositorio.
     $ git push -u origin main
     ```
     Por último, los otros miembros del equipo deberán clonar el
-    repositorio para que los tres podáis trabajar con él en local.
+    repositorio para que todos podáis trabajar con él en local.
 
 - Cambiad el nombre del proyecto (en el fichero `POM.xml` y en el
   `about.html` a `todolist-equipo-XX`.
@@ -950,9 +950,9 @@ mientras que nosotros las integramos haciendo un pull request.
   repositorios locales. Esta rama pasará a ser la de desarrollo
   principal.
 
-2. Cread tres _issues_ distintos, simulando tres nuevas
-  funcionalidades. Deben ser issues sencillos, que no cuesten
-  demasiado de implementar (mejorar algún defecto de la aplicación,
+2. Cread dos, tres o cuatro _issues_ (dependiendo del número de personas de
+  vuestro grupo) distintos, simulando nuevas funcionalidades. Deben ser issues
+  sencillos, que no cuesten demasiado de implementar (mejorar algún defecto de la aplicación,
   cambiar algún elemento de alguna de las vistas, o algo
   similar). **Uno de los cambios debe afectar a alguna entidad**, por
   ejemplo añadir un campo de descripción a los equipos y actualizar
