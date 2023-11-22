@@ -1019,7 +1019,7 @@ $ (nueva-rama) git merge origin/nueva-rama
 </code></pre></div>
 </li>
 <li>
-<p>Solución de conflictos en un <em>merge</em>:</p>
+<p>Solución de conflictos en un <em>merge</em> o <em>pull</em> en la nueva rama:</p>
 <p>Supongamos que hay un conflicto al mezclar los cambios remotos del compañero
 en la nueva rama (haciendo <code>git pull</code> o <code>git merge</code>). Git detectará el
 conflicto, modificará los ficheros en conflicto y deberemos editarlos para
@@ -1027,7 +1027,7 @@ quedarnos con los cambios deseados:</p>
 <div class="highlight"><pre><span></span><code>$ (nueva-rama) git pull (o git merge origin/nueva-rama)
   CONFLICTO (contenido): Conflicto de fusión en README.md
   Fusión automática falló; arregle los conflictos y luego realice un commit con el resultado.
-$ git status
+$ (nueva-rama) git status
   Tienes rutas no fusionadas.
   (arregla los conflictos y ejecuta &quot;git commit&quot;
   (usa &quot;git merge --abort&quot; para abortar la fusion)
@@ -1036,9 +1036,9 @@ $ git status
      (usa &quot;git add &lt;archivo&gt;...&quot; para marcar una resolución)
      modificados por ambos:  README.md
 # Editamos los ficheros en conflicto y nos quedamos con los cambios deseados
-$ git add .
-$ git commit -m &quot;Arreglado conflicto&quot;
-$ git push
+$ (nueva-rama) git add .
+$ (nueva-rama) git commit -m &quot;Arreglado conflicto&quot;
+$ (nueva-rama) git push
 </code></pre></div>
 <p>Y el resto de compañeros deberán hacer un <code>git pull</code> para actualizar sus
 ramas locales.</p>
@@ -1077,11 +1077,11 @@ $ git merge main
 nueva rama y la rama <code>main</code>. En lugar de resolver el conflicto en GitHub es
 recomendable hacerlo en el repositorio local:</p>
 <div class="highlight"><pre><span></span><code>$ git checkout main
-$ git pull
-$ git checkout nueva-rama
-$ git merge main
+$ (main) git pull
+$ (main) git checkout nueva-rama
+$ (nueva-rama) git merge main
 # arreglar el conflicto
-$ git push
+$ (nueva-rama) git push
 # ya se puede hacer el merge en GitHub
 </code></pre></div>
 </li>
