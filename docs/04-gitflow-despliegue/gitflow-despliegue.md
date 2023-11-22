@@ -811,7 +811,7 @@ spring.jpa.hibernate.ddl-auto=validate
    
     ```
     $ docker run -d -p 5432:5432 -v ${PWD}:/mi-host --name db-equipo -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
-    $ ./mvnw spring-boot:run -D profiles=postgres
+    $ ./mvnw spring-boot:run -D spring-boot.run.profiles=postgres
     ```
 
 3. Al lanzar la aplicación se habrá creado en la base de datos el
@@ -865,7 +865,7 @@ spring.jpa.hibernate.ddl-auto=validate
 7. Probamos en local que el perfil funciona correctamente, lanzándolo:
 
     ```
-    $ ./mvnw spring-boot:run -D profiles=postgres-prod
+    $ ./mvnw spring-boot:run -D spring-boot.run.profiles=postgres-prod
     ```
 
     Probamos que realmente valida el esquema de datos, en lugar de
@@ -882,7 +882,7 @@ spring.jpa.hibernate.ddl-auto=validate
     obtendremos un error:
     
     ```
-    $ ./mvnw spring-boot:run -D profiles=postgres-prod
+    $ ./mvnw spring-boot:run -D spring-boot.run.profiles=postgres-prod
     org.springframework.beans.factory.BeanCreationException: Error
     creating bean with name 'entityManagerFactory' defined in class
     path resource  [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: 
