@@ -1500,7 +1500,7 @@ $ git push -u origin esquema-datos
    sobre la base de datos. Previamente hemos lanzado el contenedor postgres
    montando el directorio actual en su directorio <code>/mi-host/</code>:</p>
 <div class="highlight"><pre><span></span><code>$ docker run -d -p 5432:5432 -v ${PWD}:/mi-host --name db-equipo -e POSTGRES_USER=mads -e POSTGRES_PASSWORD=mads -e POSTGRES_DB=mads postgres:13
-$ ./mvnw spring-boot:run -D profiles=postgres
+$ ./mvnw spring-boot:run -D spring-boot.run.profiles=postgres
 </code></pre></div>
 </li>
 <li>
@@ -1550,7 +1550,7 @@ spring.jpa.hibernate.ddl-auto=validate
 </li>
 <li>
 <p>Probamos en local que el perfil funciona correctamente, lanzándolo:</p>
-<div class="highlight"><pre><span></span><code>$ ./mvnw spring-boot:run -D profiles=postgres-prod
+<div class="highlight"><pre><span></span><code>$ ./mvnw spring-boot:run -D spring-boot.run.profiles=postgres-prod
 </code></pre></div>
 <p>Probamos que realmente valida el esquema de datos, en lugar de
 actualizarlo. Para ello, paramos y borramos el contenedor postgres
@@ -1561,7 +1561,7 @@ $ docker run -d -p 5432:5432 -v ${PWD}:/mi-host --name db-equipo -e POSTGRES_USE
 </code></pre></div>
 <p>Si ahora lanzamos la aplicación en modo <code>postgres-prod</code>
 obtendremos un error:</p>
-<p><div class="highlight"><pre><span></span><code>$ ./mvnw spring-boot:run -D profiles=postgres-prod
+<p><div class="highlight"><pre><span></span><code>$ ./mvnw spring-boot:run -D spring-boot.run.profiles=postgres-prod
 org.springframework.beans.factory.BeanCreationException: Error
 creating bean with name &#39;entityManagerFactory&#39; defined in class
 path resource  [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: 
