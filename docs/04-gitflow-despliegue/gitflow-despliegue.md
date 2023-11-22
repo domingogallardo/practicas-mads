@@ -244,7 +244,7 @@ en repositorios y ramas remotas.
     $ (nueva-rama) git merge origin/nueva-rama
     ```
 
-- Solución de conflictos en un _merge_:
+- Solución de conflictos en un _merge_ o _pull_ en la nueva rama:
 
     Supongamos que hay un conflicto al mezclar los cambios remotos del compañero
     en la nueva rama (haciendo `git pull` o `git merge`). Git detectará el
@@ -255,7 +255,7 @@ en repositorios y ramas remotas.
     $ (nueva-rama) git pull (o git merge origin/nueva-rama)
       CONFLICTO (contenido): Conflicto de fusión en README.md
       Fusión automática falló; arregle los conflictos y luego realice un commit con el resultado.
-    $ git status
+    $ (nueva-rama) git status
       Tienes rutas no fusionadas.
       (arregla los conflictos y ejecuta "git commit"
       (usa "git merge --abort" para abortar la fusion)
@@ -264,9 +264,9 @@ en repositorios y ramas remotas.
          (usa "git add <archivo>..." para marcar una resolución)
          modificados por ambos:  README.md
     # Editamos los ficheros en conflicto y nos quedamos con los cambios deseados
-    $ git add .
-    $ git commit -m "Arreglado conflicto"
-    $ git push
+    $ (nueva-rama) git add .
+    $ (nueva-rama) git commit -m "Arreglado conflicto"
+    $ (nueva-rama) git push
     ```
 
     Y el resto de compañeros deberán hacer un `git pull` para actualizar sus
@@ -316,11 +316,11 @@ en repositorios y ramas remotas.
     
     ```
     $ git checkout main
-    $ git pull
-    $ git checkout nueva-rama
-    $ git merge main
+    $ (main) git pull
+    $ (main) git checkout nueva-rama
+    $ (nueva-rama) git merge main
     # arreglar el conflicto
-    $ git push
+    $ (nueva-rama) git push
     # ya se puede hacer el merge en GitHub
     ```
 
