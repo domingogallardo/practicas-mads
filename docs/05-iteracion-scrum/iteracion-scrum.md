@@ -5,7 +5,7 @@
 En esta práctica seguiremos trabajando con los mismos equipos y
 proyecto que en la práctica 4.
 
-Durante las 4 semanas de la práctica el equipo realizará una iteración
+Durante las semanas de la práctica el equipo realizará una iteración
 para desarrollar un sprint completo de Scrum con el que obtener un
 incremento de la aplicación `TodoList`. Usaremos el mismo flujo de
 trabajo de la práctica 4 para desarrollar sobre la rama `develop`:
@@ -32,8 +32,7 @@ la aplicación resultante en una demostración en clase.
 
 Tenemos que diseñar, como **responsables del producto** (_Product
 Owners_), las próximas funcionalidades a implementar en la
-aplicación. Las desarrollaremos en las 4 semanas que durará esta
-práctica 5.
+aplicación. Las refinaremos y desarrollaremos durante el resto de la práctica.
 
 Deberéis reuniros y pensar en cómo hacer el producto más interesante
 para los usuarios. Pensad que queréis poner la aplicación en
@@ -51,7 +50,7 @@ más importantes).
 Tenéis que poneros **en el lugar de los usuarios** y pensar en
 funcionalidades que les puedan ser útiles, resolver algún problema. No
 es cuestión de añadir funcionalidades porque sí, sino que tenéis que
-intentar hacer en 4 semanas un producto lo más coherente y útil
+intentar hacer en pocas semanas un producto lo más coherente y útil
 posible. 
 
 El resultado será un tablero Trello con columnas denominadas _Backlog
@@ -76,16 +75,21 @@ coherencia y usabilidad.
 - Haced una reunión en la que reviséis el [tablero
 Trelllo](https://trello.com/b/Q35xhgzo/todolist-mads) con ejemplos de
 funcionalidades de cursos pasados y la aplicación web
-[todoist](https://todoist.com/features). Debéis seleccionar las que
-vais a incorporar a vuestra aplicación y estimar su dificultad. Sólo
-podréis definir funcionalidades de tamaño de 1 y 2 puntos. Si alguna
-funcionalidad es mayor, deberéis descomponerla en otras más pequeñas.
+[todoist](https://todoist.com/features). Usad esas funcionalidades como ejemplo,
+podéis proponer vosotros nuevas funcionalidades. Debéis definir las que
+vais a incorporar a vuestra aplicación y estimar su dificultad. Tenéis que pensar en
+funcionalidades que puedan ser útiles y, sobre todo, definir un producto
+coherente, fácil de usar y que puede representar un _mínimo producto viable_.
+
+    En cuanto a la estimación de la dificultad o tamaño de la funcionalidad,
+    sólo podréis definir funcionalidades de tamaño de 1 y 2 puntos. Si alguna
+    funcionalidad es mayor, deberéis descomponerla en otras más pequeñas. 
 
     Los puntos indican un tamaño relativo. Si estimáis una historia de
     usuario en 2 puntos es porque pensáis que tardaréis el doble en
     terminarla que otra de 1 punto.
 
-    Para estimar la dificultad podéis usar _planning pocker_: se
+    Para estimar el tamaño podéis usar _planning pocker_: se
     explica la funcionalidad y cada miembro del equipo elige un
     número: 1, 2, más de 2. Se enseñan simultáneamente y se explican
     las diferencias. El hecho de que haya diferencias normalmente se
@@ -104,7 +108,7 @@ funcionalidad es mayor, deberéis descomponerla en otras más pequeñas.
     Seleccionad las historias que penséis que hacen un producto
     atractivo, coherente y útil para el usuario. Ordenad las historias
     según su valor. Para estimar el valor podéis hacer algo similar al
-    _planning pocker_ pero usando los números 1, 2 y 3 como forma de
+    _planning pocker_ pero usando los números 1 y 2 como forma de
     identificar la utilidad o valor de cada historia.
 
 - Cread un tablero Trello y poned un enlace a él en el README del
@@ -329,7 +333,8 @@ incluir en el directorio `sql` del repositorio.
 
 ## Entrega y evaluación
 
-La práctica tiene una duración de 4 semanas.
+La práctica tiene una duración de 4 semanas (por motivos de calendario se ha
+modificado a 3 semanas)
 
 - Se realizará una **revisión del sprint** de 15 minutos en las
   **clases de prácticas y teoría del 20 de diciembre**. La revisión
