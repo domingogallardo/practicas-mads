@@ -372,7 +372,8 @@ modificado a 3 semanas)
           (número de pull requests cada semana, por ejemplo).
         - **Informe sobre las sesiones de pair programming**: breve informe de
           cada sesión de pair programming explicando cómo se ha desarrollado la
-          sesión y vuestra impresión personal de la práctica.
+          sesión y vuestra impresión personal de la práctica de pair programming
+          después de haberla probado.
         - **Resultado de la retrospectiva**: qué ha ido bien en el
           sprint y qué se podría mejorar en el siguiente sprint.
     - El repositorio GitHub deberá incluir el tablero con el backlog
