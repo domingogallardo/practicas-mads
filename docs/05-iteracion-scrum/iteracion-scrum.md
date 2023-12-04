@@ -163,7 +163,7 @@ usuario: `Backlog`, `Seleccionadas`, `En marcha`, `En prueba` y `Terminadas`.
 | **Backlog**    | Estimado el tamaño de la historia y pendiente de elaborar detalles.                              |
 | **Seleccionadas**  | Se están elaborando todos los detalles de la historia (página Google Docs).                         |
 | **En marcha**  | Se ha abierto el primer _issue_ en GitHub y el equipo ha comenzado a desarrollar la historia.    |
-| **En prueba**  | La historia está completamente integrada en `develop` (todos sus PR se han mezclado en la rama). En la tarjeta se debe añadir un enlace al commit en la rama develop en el que podamos compilar la aplicación y probar la historia. |
+| **En prueba**  | La historia está completamente integrada en `develop` (todos sus PR se han mezclado en la rama). En la tarjeta se debe añadir un enlace al commit en la rama `develop` en el que podamos compilar la aplicación y probar completamente todas las condiciones de satisfacción la historia. |
 | **Terminadas** | Se han comprobado las condiciones de satisfacción de la historia.         |
 
 
