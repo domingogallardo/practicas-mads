@@ -353,7 +353,7 @@ modificado a 3 semanas)
         código** al proyecto. El tiempo restante hasta el 11 de enero
         es para que terminéis la documentación.
 
-- En la fecha límite del **12 de enero** deberá entregar la práctica y
+- En la fecha límite del **25 de enero** deberá entregar la práctica y
   tener disponible:
     - Directorio `doc` en el repositorio del proyecto en el que se
       incluirá un documento PDF con la memoria de la
@@ -387,7 +387,6 @@ modificado a 3 semanas)
 La calificación de la práctica tiene un peso de un 25% en la nota
 final de prácticas (1 punto en la nota final).
 
-
 La evaluación se basará en: 
 
 - Desarrollo continuo de los issues
@@ -399,11 +398,11 @@ La evaluación se basará en:
   menor calidad y/o cantidad que el del resto, se penalizará su
   calificación
 
-A la nota anterior se le sumará una **puntación extra de hasta 0,5
+<!-- A la nota anterior se le sumará una **puntación extra de hasta 0,5
 puntos** en la nota final que se basará en la demostración realizada,
 las funcionalidades implementadas, su coherencia y usabilidad. 
 
 Al final de la sesión de presentaciones se publicará esta puntuación
 extra, que se sumará directamente a la nota final de la asignatura de
 todos los miembros de los equipos.
-
+-->
