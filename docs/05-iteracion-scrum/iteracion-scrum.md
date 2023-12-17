@@ -350,11 +350,11 @@ modificado a 3 semanas)
         En la fecha de la presentación debe estar completo el nuevo
         release 1.4.0 del proyecto y debe estar puesto en
         producción. Después de la presentación **no podréis añadir más
-        código** al proyecto. El tiempo restante hasta el 11 de enero
+        código** al proyecto. El tiempo restante hasta el 25 de enero
         es para que terminéis la documentación.
 
-- En la fecha límite del **25 de enero** deberá entregar la práctica y
-  tener disponible:
+- En la fecha límite del **25 de enero** (podéis entregarlo antes) deberá
+  terminarse la documentación y tener disponible:
     - Directorio `doc` en el repositorio del proyecto en el que se
       incluirá un documento PDF con la memoria de la
       práctica y un PDF con las diapositivas presentadas en la
