@@ -356,26 +356,31 @@ modificado a 3 semanas)
 - En la fecha límite del **25 de enero** (podéis entregarlo antes) deberá
   terminarse la documentación y tener disponible:
     - Directorio `doc` en el repositorio del proyecto en el que se
-      incluirá un documento PDF con la memoria de la
-      práctica y un PDF con las diapositivas presentadas en la
-      demo. En la memoria de la práctica se incluirá:
-        - **Sprint Backlog**: historias de usuario escogidas para el
-          sprint (copiar la descripción, las condiciones de
-          satisfacción y el borrador de interfaz de usuario tal y
-          como aparecen en los documentos subidos a GoogleDocs).
-        - **Funcionalidades implementadas**: breve descripción para el
+      incluirá la documentación de la práctica y un PDF con las diapositivas
+      presentadas en la demo.
+      
+      En la documentación de la práctica debéis incluir un PDF con todo el
+      **Sprint Backlog**: las historias de usuario escogidas para el sprint, su
+      descripción, condiciones de satisfacción y el borrador inicial de interfaz 
+      de usuario tal y como aparecen en los documentos subidos a GoogleDocs.
+          
+      Además del backlog, debéis documentar en el PDF anterior, o en un fichero
+      markdown:
+      
+      - **Funcionalidades implementadas**: breve descripción para el
           usuario y breve descripción técnica.
-        - **Puesta en producción**: script de migración de la base de
+      - **Puesta en producción**: script de migración de la base de
           datos y breve informe de la puesta en producción.
-        - **Informe sobre la evolución del desarrollo**: instantáneas
+      - **Informe sobre la evolución del desarrollo**: instantáneas
           de los tableros y alguna métrica o gráfica sobre el desarrollo
           (número de pull requests cada semana, por ejemplo).
-        - **Informe sobre las sesiones de pair programming**: breve informe de
+      - **Informe sobre las sesiones de pair programming**: breve informe de
           cada sesión de pair programming explicando cómo se ha desarrollado la
           sesión y vuestra impresión personal de la práctica de pair programming
           después de haberla probado.
-        - **Resultado de la retrospectiva**: qué ha ido bien en el
+      - **Resultado de la retrospectiva**: qué ha ido bien en el
           sprint y qué se podría mejorar en el siguiente sprint.
+          
     - El repositorio GitHub deberá incluir el tablero con el backlog
       del sprint con los issues completados.
     - El tablero de Trello deberá incluir el backlog del producto con
