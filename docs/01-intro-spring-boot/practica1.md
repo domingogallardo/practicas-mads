@@ -12,7 +12,8 @@ https://classroom.github.com/help/upgrade-your-organization
 
 # Práctica 1: Primera aplicación con Spring Boot#
 
-En esta práctica tendremos un primer contacto con Spring Boot, Git y Docker.
+En esta práctica tendremos un primer contacto con Spring Boot, Git y
+Docker. Será una práctica de una semana.
 
 Los objetivos principales son:
 
